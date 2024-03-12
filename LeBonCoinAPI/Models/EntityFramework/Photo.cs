@@ -12,11 +12,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public int IdPhoto { get; set; }
 
         [Key]
-        [Column("pho_idannonce")]
+        [Column("ann_idannonce")]
         public int IdAnnonce { get; set; }
 
         [Key]
-        [Column("pho_idprofil")]
+        [Column("pro_idprofil")]
         public int IdProfil { get; set; }
 
 
