@@ -9,11 +9,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         [Key]
         [Column("tyl_id")]
-        public int IdLogement { get; set; }
+        public int IdTypeLogement { get; set; }
 
 
         [Required]
         [Column("tyl_libelle")]
+        [StringLength(50)]
         public string Libelle { get; set; } = null!;
     }
 }
