@@ -4,16 +4,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LeBonCoinAPI.Models.EntityFramework
 {
-    [Table("t_j_profilavis_pra")]
-    public class ProfilAvis
+    [Table("t_e_proprietaire_prp")]
+    public class Proprietaire
     {
         [Key]
-        [Column("avi_id")]
-        public int IdAvis { get; set; }
+        [Column("prp_id")]
+        public int IdProprietaire { get; set; }
 
         [Key]
         [Column("pro_id")]
-        public int IdProfil;
-
+        public int IdProfil { get; set; }
     }
 }

@@ -8,17 +8,17 @@ namespace LeBonCoinAPI.Models.EntityFramework
     public class Entreprise
     {
         [Key]
-        [Column("ent_identreprise")]
+        [Column("ent_id")]
         public int IdEntreprise { get; set; }
 
         [Key]
-        [Column("ent_idcu")]
+        [Column("cut_id")]
         public int IdCu { get; set; }
 
         [Required]
         [Column("ent_siret")]
         [StringLength(14)]
-        public string siret { get; set; } = null!;
+        public string Siret { get; set; } = null!;
 
         [Column("ent_nom")]
         [StringLength(50)]

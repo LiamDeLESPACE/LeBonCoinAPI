@@ -8,15 +8,15 @@ namespace LeBonCoinAPI.Models.EntityFramework
     public class Photo
     {
         [Key]
-        [Column("pho_idphoto")]
+        [Column("pho_id")]
         public int IdPhoto { get; set; }
 
         [Key]
-        [Column("pho_idannonce")]
+        [Column("ann_id")]
         public int IdAnnonce { get; set; }
 
         [Key]
-        [Column("pho_idprofil")]
+        [Column("pro_id")]
         public int IdProfil { get; set; }
 
 

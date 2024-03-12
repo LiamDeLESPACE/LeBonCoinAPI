@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace LeBonCoinAPI.Models.EntityFramework
 {
@@ -8,11 +9,15 @@ namespace LeBonCoinAPI.Models.EntityFramework
     public class Favoris
     {
         [Key]
-        [Column("fav_idprofil")]
+        [Column("pro_id")]
         public int Idprofil { get; set; }
 
         [Key]
-        [Column("fav_idannonce")]
-        public int IdAnnonce;
+        [Column("ann_id")]
+        public int IdAnnonce { get; set; }
+
+        [ForeignKey(nameof(IdAnnonce))]
+        [InverseProperty(nameof(Annonce.Fav))]
+        public virtual Annonce AnnonceFavoris { get; set; } = null!;
     }
 }

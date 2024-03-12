@@ -54,5 +54,10 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [ForeignKey(nameof(CalendrierId))]
         [InverseProperty(nameof(Calendrier.CalendrierAnnonce))]
         public virtual Calendrier AnnonceCalendrier { get; set; } = null!;
+
+        [InverseProperty(nameof(Favoris.AnnonceFavoris))]
+        public virtual ICollection<FormulaireChatbot> Fav { get; set; }
+
+        //liam bite xd
     }
 }
