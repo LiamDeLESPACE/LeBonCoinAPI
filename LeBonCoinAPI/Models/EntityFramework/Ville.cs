@@ -16,10 +16,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("vil_iddepartement")]
         public int IdDepartement { get; set; }
 
+        [Required]
         [Column("vil_nom")]
         [StringLength(100)]
         public string Nom { get; set; } = null!;
 
+        [Required]
         [Column("vil_codepostal")]
         [StringLength(5)]
         public string CodePostal { get; set; } = null!;

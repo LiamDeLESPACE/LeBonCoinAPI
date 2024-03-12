@@ -8,19 +8,19 @@ namespace LeBonCoinAPI.Models.EntityFramework
     public class CompteUtilisateur
     {
         [Key]
-        [Column("cut_idcu")]
+        [Column("cut_id")]
         public int IdCu { get; set; }
 
         [Key]
-        [Column("cut_idparticulier")]
+        [Column("par_id")]
         public int IdParticulier { get; set; }
 
         [Key]
-        [Column("cut_identreprise")]
+        [Column("ent_id")]
         public int IdEntreprise { get; set; }
 
         [Key]
-        [Column("cut_codeetatcompteutilisateur")]
+        [Column("eta_codeetatcompteutilisateur")]
         public int CodeEtatCompteUtilisateur { get; set; }
 
         [Required]

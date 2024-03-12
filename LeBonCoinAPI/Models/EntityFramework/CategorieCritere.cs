@@ -9,7 +9,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
     public class CategorieCritere
     {
         [Key]
-        [Column("ccr_idcategoriecritere")]
+        [Column("ccr_id")]
         public int IdCategorieCritere { get; set; }
 
         [Required]
