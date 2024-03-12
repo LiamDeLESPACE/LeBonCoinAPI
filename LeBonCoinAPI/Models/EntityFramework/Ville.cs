@@ -13,7 +13,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public string CodeInsee { get; set; } = null!;
 
         [Key]
-        [Column("vil_iddepartement")]
+        [Column("dep_id")]
         public int IdDepartement { get; set; }
 
         [Required]

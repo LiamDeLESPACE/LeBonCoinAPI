@@ -12,7 +12,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public int IdParticulier { get; set; }
 
         [Key]
-        [Column("par_idcu")]
+        [Column("cut_id")]
         public int IdCu { get; set; }
 
         [Column("par_nom")]

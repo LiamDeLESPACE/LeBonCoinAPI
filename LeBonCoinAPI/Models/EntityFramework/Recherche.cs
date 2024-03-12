@@ -8,21 +8,21 @@ namespace LeBonCoinAPI.Models.EntityFramework
     public class Recherche
     {
         [Key]
-        [Column("rch_idrecherche")]
+        [Column("rch_id")]
         public int IdRecherche { get; set; }
 
 
         [Key]
-        [Column("rch_idcapacitevoyageur")]
+        [Column("cvo_id")]
         public int IdCapaciteVoyageur { get; set; }
 
         [Key]
-        [Column("rch_idprofil")]
+        [Column("pro_id")]
         public int IdProfil { get; set; }
 
 
         [Required]
-        [Column("rch_codeinsee")]
+        [Column("vil_codeinsee")]
         public string CodeInsee { get; set; } = null!;
     }
 }

@@ -8,11 +8,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
     public class Locataire
     {
         [Key]
-        [Column("loc_idlocataire")]
+        [Column("loc_id")]
         public int IdLocataire { get; set; }
 
         [Key]
-        [Column("loc_idprofil")]
+        [Column("pro_id")]
         public int IdProfil { get; set; }
     }
 }

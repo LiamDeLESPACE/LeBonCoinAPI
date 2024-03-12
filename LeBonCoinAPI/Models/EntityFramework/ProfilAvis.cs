@@ -8,11 +8,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
     public class ProfilAvis
     {
         [Key]
-        [Column("pra_idavis")]
+        [Column("avi_id")]
         public int IdAvis { get; set; }
 
         [Key]
-        [Column("pra_idprofil")]
+        [Column("pro_id")]
         public int IdProfil;
 
     }
