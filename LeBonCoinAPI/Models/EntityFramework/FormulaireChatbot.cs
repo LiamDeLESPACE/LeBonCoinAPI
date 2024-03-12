@@ -11,7 +11,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public int FormulaireChatbotId { get; set; }
 
         [Required]
-        [Column("fcb_actionid")]
+        [Column("act_id")]
         public int ActionId { get; set; }
 
         [Column("fcb_nom")]
@@ -22,13 +22,15 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("fcb_mail")]
         [EmailAddress]
         [StringLength(100, MinimumLength = 10, ErrorMessage = "Le nombre de caractère d'un email doit être compris entre 10 et 100 caractères.")]
-        public string? Mail { get; set; }
+        public string Mail { get; set; } = null!;
 
         [Column("fcb_telephone")]
         [StringLength(10)]
         [RegularExpression(@"^0[0-9]{9}$", ErrorMessage = "Le telephone doit contenir 10 chiffres")]
         public string? Telephone { get; set; }
-        //non fini
+
+        [Column("fcb_question")]
+        public string? Question { get; set; }
 
         [ForeignKey(nameof(ActionId))]
         [InverseProperty(nameof(Action.FormulairesChatbot))]
