@@ -28,7 +28,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [StringLength(10)]
         [RegularExpression(@"^0[0-9]{9}$", ErrorMessage = "Le telephone doit contenir 10 chiffres")]
         public string? Telephone { get; set; }
-        //non fini
+
+        [Column("fcb_question")]
+        public string? Question { get; set; }
 
         [ForeignKey(nameof(ActionId))]
         [InverseProperty(nameof(Action.FormulairesChatbot))]
