@@ -41,5 +41,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("pro_recommandation")]
         public bool Recommandation { get; set; }
+
+        [InverseProperty(nameof(ProfilAvis.AvisProfil))]
+        public virtual ICollection<ProfilAvis> Avis { get; set; }
     }
 }

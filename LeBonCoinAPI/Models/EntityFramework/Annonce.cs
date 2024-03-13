@@ -61,11 +61,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         //Favoris
         [InverseProperty(nameof(Favoris.AnnonceFavoris))]
-        public virtual ICollection<FormulaireChatbot> Fav { get; set; }
+        public virtual ICollection<Favoris> Fav { get; set; }
 
         //AnnonceAvis
         [InverseProperty(nameof(AnnonceAvis.AvisAnnoces))]
-        public virtual ICollection<FormulaireChatbot> Avis { get; set; }
+        public virtual ICollection<AnnonceAvis> Avis { get; set; }
 
         //TypeLogement
         [ForeignKey(nameof(TypelogementId))]
