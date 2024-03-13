@@ -18,5 +18,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [InverseProperty(nameof(ReferenceCarteBancaire.LocataireReferent))]
         public virtual ICollection<ReferenceCarteBancaire> ReferencesCarteLocataire { get; set; }
+
+        [InverseProperty(nameof(Incident.LocataireSignalant))]
+        public virtual ICollection<Incident> SignalementLocataire { get; set; }
     }
 }
