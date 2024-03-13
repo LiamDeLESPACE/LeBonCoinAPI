@@ -38,5 +38,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [InverseProperty(nameof(Profil.CompteUti))]
         public virtual ICollection<Profil> Compte { get; set; }
+
+        [ForeignKey(nameof(IdParticulier))]
+        [InverseProperty(nameof(Particulier.CompteUtilisateurParticulier))]
+        public virtual Particulier ParticulierCompteUtilisateur { get; set; } = null!;
     }
 }
