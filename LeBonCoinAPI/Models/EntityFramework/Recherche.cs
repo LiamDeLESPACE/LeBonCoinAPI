@@ -23,6 +23,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Required]
         [Column("vil_codeinsee")]
+        [RegularExpression(@"^[0-9]{5}$", ErrorMessage = "Le code insee doit contenir 5 chiffres")]
         public string CodeInsee { get; set; } = null!;
     }
 }
