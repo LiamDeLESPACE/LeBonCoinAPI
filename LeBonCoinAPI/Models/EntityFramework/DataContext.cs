@@ -23,6 +23,38 @@ namespace LeBonCoinAPI.Models.EntityFramework
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Modèle builder
+            
+            modelBuilder.Entity<Action>(entity =>
+            {
+                entity.HasKey(e => e.ActionId)
+                    .HasName("action_act_pkey");
+
+                entity.Property(e => e.Libelle).HasMaxLength(50);
+
+                entity.HasMany(d => d.FormulairesChatbot)
+                    .WithOne(p => p.ActionFormulaire)
+                    .HasForeignKey(d => d.FormulaireChatbotId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_act_for");
+            });
+
+            modelBuilder.Entity<Adresse>(entity =>
+            {
+                entity.HasKey(e => e.AdresseId)
+                    .HasName("adresse_adr_pkey");
+
+                entity.Property(e => e.CodeInsee).IsFixedLength();
+                entity.Property(e => e.Rue).HasMaxLength(100);
+                entity.Property(e => e.Numero);
+                entity.Property(e => e.Pays).HasMaxLength(50);
+
+                /*entity.HasMany(d => d.VilleDeLAdresse)
+                    .WithOne(p => p.ActionFormulaire)
+                    .HasForeignKey(d => d.FormulaireChatbotId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_act_for");*/
+            });
+
             /*
             modelBuilder.Entity<Etudiant>(entity =>
             {
