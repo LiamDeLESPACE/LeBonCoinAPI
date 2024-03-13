@@ -44,5 +44,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [InverseProperty(nameof(ProfilAvis.AvisProfil))]
         public virtual ICollection<ProfilAvis> Avis { get; set; }
+
+        [ForeignKey(nameof(IdAdresse))]
+        [InverseProperty(nameof(Adresse.Adresses))]
+        public virtual Adresse Adr { get; set; } = null!;
     }
 }
