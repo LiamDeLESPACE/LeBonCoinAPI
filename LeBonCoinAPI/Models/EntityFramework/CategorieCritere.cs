@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 
 namespace LeBonCoinAPI.Models.EntityFramework
@@ -16,5 +17,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("ccr_libelle")]
         [StringLength(50)]
         public string Libelle { get; set; } = null!;
+
+        [InverseProperty(nameof(Critere.CategorieCriteres))]
+        public virtual ICollection<Critere> CriteresCategorie { get; set; }
+
     }
 }
