@@ -1,12 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace LeBonCoinAPI.Models.EntityFramework
 {
     [Table("t_e_profil_pro")]
     public class Profil
     {
+        public Profil()
+        {
+            Avis = new HashSet<ProfilAvis>();
+        }
+
         [Key]
         [Column("pro_id")]
         public int IdProfil { get; set; }
@@ -42,7 +48,30 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("pro_recommandation")]
         public bool Recommandation { get; set; }
 
-        [InverseProperty(nameof(ProfilAvis.IdProfil))]
-        public virtual ICollection<Avis> ProfilCorrespondant { get; set; }
+        //ProfilAvis
+        [InverseProperty(nameof(ProfilAvis.AvisProfil))]
+        public virtual ICollection<ProfilAvis> Avis { get; set; }
+
+        //Adresse
+        [ForeignKey(nameof(IdAdresse))]
+        [InverseProperty(nameof(Adresse.Adresses))]
+        public virtual Adresse Adr { get; set; } = null!;
+
+        //CompteUtilisateur
+        [ForeignKey(nameof(IdCu))]
+        [InverseProperty(nameof(CompteUtilisateur.Compte))]
+        public virtual Adresse CompteUti { get; set; } = null!;
+
+        //proprietaire
+        [ForeignKey(nameof(IdProprietaire))]
+        [InverseProperty(nameof(Proprietaire.ProprietaireProfile))]
+        public virtual Adresse Proprio { get; set; } = null!;
+
+        //Locataire
+        [ForeignKey(nameof(IdLocataire))]
+        [InverseProperty(nameof(Locataire.Locataires))]
+        public virtual Adresse LocataireProfile { get; set; } = null!;
+
+
     }
 }
