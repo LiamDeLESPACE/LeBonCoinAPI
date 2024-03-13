@@ -34,7 +34,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public virtual ICollection<Incident> SignalementsLocataire { get; set; }
 
         //Profil
-        [InverseProperty(nameof(Profil.LocataireProfile))]
+        [InverseProperty(nameof(Profil.LocataireProfil))]
         public virtual ICollection<Profil> ProfilsLocataire { get; set; }
 
         //Reservation
