@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace LeBonCoinAPI.Models.EntityFramework
 {
@@ -14,5 +15,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Key]
         [Column("pro_id")]
         public int IdProfil { get; set; }
+
+        [InverseProperty(nameof(ReferenceCarteBancaire.LocataireReferent))]
+        public virtual ICollection<ReferenceCarteBancaire> ReferencesCarteLocataire { get; set; }
     }
 }
