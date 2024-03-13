@@ -14,14 +14,18 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Key]
         [Column("tyr_id")]
-        public int IdTypeReglement { get; set; }
+        public int TypeReglementId { get; set; }
 
         [Key]
         [Column("res_id")]
-        public int IdReservation { get; set; }
+        public int ReservationId { get; set; }
 
-        [ForeignKey(nameof(IdTypeReglement))]
+        [ForeignKey(nameof(TypeReglementId))]
         [InverseProperty(nameof(TypeReglement.ReglementsDuType))]
         public virtual TypeReglement TypeDeReglement { get; set; } = null!;
+
+        [ForeignKey(nameof(ReservationId))]
+        [InverseProperty(nameof(Reservation.ReglementsDeLaReservation))]
+        public virtual Reservation ReservationsReglement { get; set; } = null!;
     }
 }
