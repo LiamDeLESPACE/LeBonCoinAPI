@@ -7,25 +7,36 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_e_photo_pho")]
     public class Photo
     {
+        public Photo()
+        {
+            
+        }
         [Key]
         [Column("pho_id")]
-        public int IdPhoto { get; set; }
+        public int PhotoId { get; set; }
 
-        [Key]
         [Column("ann_id")]
-        public int IdAnnonce { get; set; }
+        public int AnnonceId { get; set; }
 
-        [Key]
         [Column("pro_id")]
-        public int IdProfil { get; set; }
+        public int ProfilId { get; set; }
 
 
         [Required]
         [Column("pho_donneephoto")]
         public string DonneePhoto { get; set; } = null!;
 
-        //profil
+        //Profil
+        [ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.PhotosProfil))]
-        public virtual ICollection<Profil> Photos { get; set; }
+        public virtual Profil PhotoProfil { get; set; }
+
+        //Annonce
+        [ForeignKey(nameof(AnnonceId))]
+        [InverseProperty(nameof(Annonce.PhotosAnnonce))]
+        public virtual Annonce PhotoAnnonce { get; set; }
+
+
+
     }
 }
