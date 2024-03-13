@@ -10,7 +10,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public CapaciteVoyageur()
         {
-            RecherchesCapacite = new HashSet<Recherche>();
+            RecherchesCapaciteVoyageur = new HashSet<Recherche>();
             AnnoncesCapacite = new HashSet<Annonce>();
         }
 
