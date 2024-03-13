@@ -38,5 +38,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("par_pseudo")]
         [StringLength(50)]
         public string Pseudo { get; set; } = null!;
+
+        [ForeignKey(nameof(IdCu))]
+        [InverseProperty(nameof(CompteUtilisateur.ParticulierCompteUtilisateur))]
+        public virtual CompteUtilisateur CompteUtilisateurParticulier { get; set; } = null!;
     }
 }
