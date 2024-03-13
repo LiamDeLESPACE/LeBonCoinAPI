@@ -48,13 +48,13 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("pro_recommandation")]
         public bool Recommandation { get; set; }
 
-        //Avis
+        //Avis despose par
         [InverseProperty(nameof(Avis.ProfilAvi))]
         public virtual ICollection<Avis> AvisDepose { get; set; }
 
-        //ProfilAvis
-        [InverseProperty(nameof(ProfilAvis.AvisProfil))]
-        public virtual ICollection<ProfilAvis> Avis { get; set; }
+        //Avis recu
+        [InverseProperty(nameof(ProfilAvis.ProfilAvi))]
+        public virtual ICollection<ProfilAvis> AvisRecus { get; set; }
 
         //Recherche
         [InverseProperty(nameof(Recherche.ProfilDeLaRecherche))]
@@ -80,8 +80,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         //Locataire
         [ForeignKey(nameof(IdLocataire))]
-        [InverseProperty(nameof(Locataire.Locataires))]
-        public virtual Locataire LocataireProfile { get; set; } = null!;
+        [InverseProperty(nameof(Locataire.ProfilsLocataire))]
+        public virtual Locataire LocataireProfil { get; set; } = null!;
 
         //Photo
         [ForeignKey(nameof(IdPhoto))]
