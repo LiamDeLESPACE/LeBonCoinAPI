@@ -30,5 +30,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("res_nombrevoyageur")]
         public int NombreVoyageur { get; set; }
+
+        [ForeignKey(nameof(IdAnnonce))]
+        [InverseProperty(nameof(Annonce.ReservationsAnnonce))]
+        public virtual Annonce AnnonceReservation { get; set; } = null!;
     }
 }
