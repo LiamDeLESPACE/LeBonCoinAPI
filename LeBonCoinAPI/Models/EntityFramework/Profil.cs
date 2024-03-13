@@ -67,6 +67,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Proprietaire.ProprietaireProfile))]
         public virtual Proprietaire Proprio { get; set; } = null!;
 
+        [InverseProperty(nameof(Proprietaire.ProfilProprio))]
+        public virtual ICollection<Proprietaire> ProprioProfil { get; set; }
+
         //Locataire
         [ForeignKey(nameof(IdLocataire))]
         [InverseProperty(nameof(Locataire.Locataires))]
