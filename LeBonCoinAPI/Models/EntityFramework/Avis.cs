@@ -31,7 +31,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public int Note { get; set; }
 
         //Avis
-        [ForeignKey(nameof(ProfilId))]
+        [ForeignKey(nameof(IdProfil))]
         [InverseProperty(nameof(Profil.AvisDepose))]
         public virtual Profil ProfilAvi { get; set; } = null!;
 
