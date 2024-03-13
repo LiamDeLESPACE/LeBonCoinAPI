@@ -1,12 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace LeBonCoinAPI.Models.EntityFramework
 {
     [Table("t_e_profil_pro")]
     public class Profil
     {
+        public Profil()
+        {
+            Avis = new HashSet<ProfilAvis>();
+        }
+
         [Key]
         [Column("pro_id")]
         public int IdProfil { get; set; }
