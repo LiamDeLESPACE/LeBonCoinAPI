@@ -1,12 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace LeBonCoinAPI.Models.EntityFramework
 {
     [Table("t_e_adresse_adr")]
     public class Adresse
     {
+        public Adresse()
+        {
+            Adresses = new HashSet<Profil>();
+        }
         [Key]
         [Column("adr_id")]
         public int IdAdresse { get; set; }
