@@ -51,12 +51,24 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("ann_etoile")]
         public int Etoile { get; set; }
 
+
+        //calendrier
         [ForeignKey(nameof(CalendrierId))]
         [InverseProperty(nameof(Calendrier.CalendrierAnnonce))]
         public virtual Calendrier AnnonceCalendrier { get; set; } = null!;
 
+        //Favoris
         [InverseProperty(nameof(Favoris.AnnonceFavoris))]
         public virtual ICollection<FormulaireChatbot> Fav { get; set; }
+
+        //AnnonceAvis
+        [InverseProperty(nameof(AnnonceAvis.AvisAnnoces))]
+        public virtual ICollection<FormulaireChatbot> Avis { get; set; }
+
+        //TypeLogement
+        [ForeignKey(nameof(TypelogementId))]
+        [InverseProperty(nameof(TypeLogement.TypesLo))]
+        public virtual TypeLogement TypesLogements { get; set; } = null!;
 
         //liam bite xd
     }

@@ -16,5 +16,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("tyl_libelle")]
         [StringLength(50)]
         public string Libelle { get; set; } = null!;
+
+        [InverseProperty(nameof(Annonce.TypesLogements))]
+        public virtual ICollection<FormulaireChatbot> TypesLo { get; set; }
     }
 }
