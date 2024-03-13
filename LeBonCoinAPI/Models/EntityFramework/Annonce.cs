@@ -94,5 +94,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Reservation.AnnonceReservation))]
         public virtual ICollection<Reservation> ReservationsAnnonce { get; set; }
 
+        //Capacite Voyageur
+        [ForeignKey(nameof(CapacitevoyageurId))]
+        [InverseProperty(nameof(CapaciteVoyageur.AnnoncesCapacite))]
+        public virtual CapaciteVoyageur CapaciteAnnonce { get; set; } = null!;
     }
 }

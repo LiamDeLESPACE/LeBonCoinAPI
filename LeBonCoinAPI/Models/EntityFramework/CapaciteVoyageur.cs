@@ -11,6 +11,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public CapaciteVoyageur()
         {
             RecherchesCapaciteVoyageur = new HashSet<Recherche>();
+            AnnoncesCapacite = new HashSet<Annonce>();
         }
 
         [Key]
@@ -41,6 +42,10 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [InverseProperty(nameof(Recherche.CapaciteVoyageurDeLaRecherche))]
         public virtual ICollection<Recherche> RecherchesCapaciteVoyageur { get; set; }
+
+
+        [InverseProperty(nameof(Annonce.CapaciteAnnonce))]
+        public virtual ICollection<Annonce> AnnoncesCapacite { get; set; }
 
     }
 }

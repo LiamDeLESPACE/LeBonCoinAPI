@@ -1,3 +1,7 @@
+using LeBonCoinAPI.Models.EntityFramework;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace LeBonCoinAPI
 {
     public class Program
@@ -12,6 +16,8 @@ namespace LeBonCoinAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql( "Server=localhost; port=5432; Database=sae; uid=postgres; password=postgres;"));
 
             var app = builder.Build();
 
