@@ -20,7 +20,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [ForeignKey(nameof(CritereId))]
         [InverseProperty(nameof(Critere.ContientsCritere))]
-        public virtual Annonce CritereContient { get; set; } = null!;
+        public virtual Critere CritereContient { get; set; } = null!;
 
     }
 }
