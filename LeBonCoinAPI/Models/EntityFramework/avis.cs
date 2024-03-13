@@ -27,6 +27,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Required]
         [Column("avi_note")]
+        [RegularExpression(@"^[1-5]{1}$", ErrorMessage = "La note s doit être un chiffre compris entre 1 et 5.")]
         public int Note { get; set; }
     }
 }
