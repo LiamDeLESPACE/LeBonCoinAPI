@@ -23,5 +23,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("pho_donneephoto")]
         public string DonneePhoto { get; set; } = null!;
+
+        //profil
+        [InverseProperty(nameof(Profil.PhotosProfil))]
+        public virtual ICollection<Profil> Photos { get; set; }
     }
 }
