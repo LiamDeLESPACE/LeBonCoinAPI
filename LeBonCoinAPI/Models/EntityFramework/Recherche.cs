@@ -43,9 +43,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Ville.RecherchesVille))]
         public virtual Ville VilleDeLaRecherche { get; set; } = null!;
 
-        [ForeignKey(nameof(FilmId))]
-        [InverseProperty(nameof(Film.NotesFilm))]
-        public virtual Film FilmNote { get; set; } = null!;
+        [ForeignKey(nameof(IdProfil))]
+        [InverseProperty(nameof(Profil.RecherchesProfil))]
+        public virtual Profil ProfilDeLaRecherche { get; set; } = null!;
 
     }
 }
