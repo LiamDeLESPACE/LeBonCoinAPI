@@ -9,15 +9,15 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         [Key]
         [Column("inc_id")]
-        public int IdIncident { get; set; }
+        public int IncidentId { get; set; }
 
         [Key]
         [Column("loc_id")]
-        public int IdLocataire { get; set; }
+        public int LocataireId { get; set; }
 
         [Key]
         [Column("res_id")]
-        public int IdReservation { get; set; }
+        public int ReservationId { get; set; }
 
         [Required]
         [Column("inc_description")]
@@ -30,8 +30,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("inc_codeetat")]
         public int CodeEtat { get; set; }
 
-        [ForeignKey(nameof(IdLocataire))]
+        [ForeignKey(nameof(LocataireId))]
         [InverseProperty(nameof(Locataire.SignalementsLocataire))]
         public virtual Locataire LocataireSignalant { get; set; } = null!;
+
+        [ForeignKey(nameof(LocataireId))]
+        [InverseProperty(nameof(Reservation.SignalementsReservation))]
+        public virtual Reservation ReservationSignale { get; set; } = null!;
     }
 }

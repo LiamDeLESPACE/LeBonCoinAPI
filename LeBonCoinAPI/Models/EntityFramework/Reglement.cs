@@ -26,6 +26,6 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [ForeignKey(nameof(ReservationId))]
         [InverseProperty(nameof(Reservation.ReglementsDeLaReservation))]
-        public virtual Reservation ReservationsReglement { get; set; } = null!;
+        public virtual Reservation ReservationReglement { get; set; } = null!;
     }
 }

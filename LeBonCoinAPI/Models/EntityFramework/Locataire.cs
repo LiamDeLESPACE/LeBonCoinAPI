@@ -19,11 +19,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Key]
         [Column("loc_id")]
-        public int IdLocataire { get; set; }
+        public int LocataireId { get; set; }
 
         [Key]
         [Column("pro_id")]
-        public int IdProfil { get; set; }
+        public int ProfilId { get; set; }
 
         //ReferenceCarteBancaire
         [InverseProperty(nameof(ReferenceCarteBancaire.LocataireReferent))]

@@ -10,6 +10,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public Reservation()
         {
             ReglementsDeLaReservation = new HashSet<Reglement>();
+            SignalementsReservation = new HashSet<Incident>();
         }
 
         [Key]
@@ -44,7 +45,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Locataire.ReservationsLocataire))]
         public virtual Locataire LocataireReservation { get; set; } = null!;
 
-        [InverseProperty(nameof(Reglement.ReservationsReglement))]
+        [InverseProperty(nameof(Reglement.ReservationReglement))]
         public virtual ICollection<Reglement> ReglementsDeLaReservation { get; set; }
+
+        [InverseProperty(nameof(Incident.ReservationSignale))]
+        public virtual ICollection<Incident> SignalementsReservation { get; set; }
+
     }
 }
