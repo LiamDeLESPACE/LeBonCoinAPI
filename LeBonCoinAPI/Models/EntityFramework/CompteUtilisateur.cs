@@ -9,15 +9,15 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         [Key]
         [Column("cut_id")]
-        public int IdCu { get; set; }
+        public int CompteUtilisateurId { get; set; }
 
         [Key]
         [Column("par_id")]
-        public int IdParticulier { get; set; }
+        public int ParticulierId { get; set; }
 
         [Key]
         [Column("ent_id")]
-        public int IdEntreprise { get; set; }
+        public int EntrepriseId { get; set; }
 
         [Key]
         [Column("eta_codeetatcompteutilisateur")]
@@ -39,8 +39,19 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Profil.CompteUti))]
         public virtual ICollection<Profil> Compte { get; set; }
 
-        [ForeignKey(nameof(IdParticulier))]
-        [InverseProperty(nameof(Particulier.CompteUtilisateurParticulier))]
-        public virtual Particulier ParticulierCompteUtilisateur { get; set; } = null!;
+        //EtatCompte
+        [ForeignKey(nameof(CodeEtatCompteUtilisateur))]
+        [InverseProperty(nameof(EtatCompte.CompteUtilisateursEtatCompte))]
+        public virtual EtatCompte EtatCompteUtilisateur { get; set; } = null!;
+
+        //Particulier
+        [ForeignKey(nameof(ParticulierId))]
+        [InverseProperty(nameof(Particulier.CompteUtilisateursEtatCompte))]
+        public virtual Particulier EtatCompteUtilisateur { get; set; } = null!;
+
+        //Entreprise
+        [ForeignKey(nameof(EntrepriseId))]
+        [InverseProperty(nameof(Entreprise.CompteUtilisateursEtatCompte))]
+        public virtual Entreprise EtatCompteUtilisateur { get; set; } = null!;
     }
 }

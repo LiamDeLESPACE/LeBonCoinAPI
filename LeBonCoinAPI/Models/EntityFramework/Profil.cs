@@ -23,7 +23,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Key]
         [Column("cut_id")]
-        public int IdCu { get; set; }
+        public int CompteUtilisateurId { get; set; }
 
         [Key]
         [Column("loc_id")]
@@ -66,7 +66,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public virtual Adresse Adr { get; set; } = null!;
 
         //CompteUtilisateur
-        [ForeignKey(nameof(IdCu))]
+        [ForeignKey(nameof(CompteUtilisateurId))]
         [InverseProperty(nameof(CompteUtilisateur.Compte))]
         public virtual CompteUtilisateur CompteUti { get; set; } = null!;
 
