@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LeBonCoinAPI.Models.EntityFramework
@@ -49,6 +50,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public string? Description { get; set; }
 
         [Column("ann_etoile")]
+        [RegularExpression(@"^[0-5]{1}$", ErrorMessage = "Le nombre d'étoiles doit être un chiffre compris entre 0 et 5.")]
         public int Etoile { get; set; }
 
         [ForeignKey(nameof(CalendrierId))]
@@ -58,6 +60,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Favoris.AnnonceFavoris))]
         public virtual ICollection<FormulaireChatbot> Fav { get; set; }
 
-        //liam bite xd
+        [InverseProperty(nameof(Contient.AnnonceContient))]
+        public virtual ICollection<Contient> ContientsAnnonce { get; set; }
+
     }
 }
