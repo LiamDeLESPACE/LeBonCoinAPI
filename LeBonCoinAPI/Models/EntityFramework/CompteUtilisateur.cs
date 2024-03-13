@@ -35,5 +35,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("cut_telephoneverifier")]
         public bool TelephoneVerifier { get; set; }
+
+        [InverseProperty(nameof(Profil.CompteUti))]
+        public virtual ICollection<Profil> Compte { get; set; }
     }
 }
