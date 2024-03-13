@@ -7,17 +7,22 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_e_reservation_res")]
     public class Reservation
     {
+        public Reservation()
+        {
+            ReglementsDeLaReservation = new HashSet<Reglement>();
+        }
+
         [Key]
         [Column("res_id")]
-        public int IdReservation { get; set; }
+        public int ReservationId { get; set; }
 
         [Key]
         [Column("ann_id")]
-        public int IdAnnonce { get; set; }
+        public int AnnonceId { get; set; }
 
         [Key]
         [Column("loc_id")]
-        public int IdLocataire { get; set; }
+        public int LocataireId { get; set; }
 
         [Required]
         [Column("res_datearrivee")]
@@ -31,8 +36,15 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("res_nombrevoyageur")]
         public int NombreVoyageur { get; set; }
 
-        [ForeignKey(nameof(IdAnnonce))]
+        [ForeignKey(nameof(AnnonceId))]
         [InverseProperty(nameof(Annonce.ReservationsAnnonce))]
         public virtual Annonce AnnonceReservation { get; set; } = null!;
+
+        [ForeignKey(nameof(LocataireId))]
+        [InverseProperty(nameof(Locataire.ReservationsLocataire))]
+        public virtual Locataire LocataireReservation { get; set; } = null!;
+
+        [InverseProperty(nameof(Reglement.ReservationsReglement))]
+        public virtual ICollection<Reglement> ReglementsDeLaReservation { get; set; }
     }
 }

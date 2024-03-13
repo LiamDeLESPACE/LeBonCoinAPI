@@ -13,7 +13,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         }
         [Key]
         [Column("tyr_id")]
-        public int IdTypeReglement { get; set; }
+        public int TypeReglementId { get; set; }
 
         [Required]
         [Column("tyr_libelle")]
