@@ -15,7 +15,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("pro_id")]
         public int IdProfil { get; set; }
 
+        //Annonce
         [InverseProperty(nameof(Annonce.Proprietaires))]
         public virtual ICollection<Annonce> Proprio { get; set; }
+
+        //Profil
+        [InverseProperty(nameof(Profil.Proprio))]
+        public virtual ICollection<Profil> Proprietaires { get; set; }
     }
 }
