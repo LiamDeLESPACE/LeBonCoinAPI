@@ -15,5 +15,13 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("pro_id")]
         public int IdProfil;
 
+        [ForeignKey(nameof(IdAvis))]
+        [InverseProperty(nameof(Avis.AvisProfil))]
+        public virtual ICollection<Avis> AvisProfil { get; set; } = null!;
+
+        [ForeignKey(nameof(IdProfil))]
+        [InverseProperty(nameof(Profil.ProfilCorrespondant))]
+        public virtual ICollection<Profil> ProfilCorrespondant { get; set; } = null!;
+
     }
 }
