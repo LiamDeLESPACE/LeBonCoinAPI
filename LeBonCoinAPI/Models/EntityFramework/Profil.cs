@@ -64,7 +64,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         //proprietaire
         [ForeignKey(nameof(IdProprietaire))]
-        [InverseProperty(nameof(Proprietaire.Proprietaires))]
+        [InverseProperty(nameof(Proprietaire.ProprietaireProfile))]
         public virtual Adresse Proprio { get; set; } = null!;
 
 
