@@ -7,6 +7,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_e_typelogement_tyl")]
     public class TypeLogement
     {
+        public TypeLogement()
+        {
+            TypesLo = new HashSet<Annonce>();
+            ChercheTypesLogements = new HashSet<ChercherTypeLogement>();
+        }
+
         [Key]
         [Column("tyl_id")]
         public int IdTypeLogement { get; set; }

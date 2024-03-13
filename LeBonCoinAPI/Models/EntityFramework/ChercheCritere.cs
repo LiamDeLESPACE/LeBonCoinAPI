@@ -20,7 +20,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public virtual Critere CritereCherche { get; set; } = null!;
 
         [ForeignKey(nameof(IdRecherche))]
-        [InverseProperty(nameof(Recherche.ChercheCritereDeLaCherche))]
+        [InverseProperty(nameof(Recherche.ChercheCriteresRecherche))]
         public virtual Recherche RechercheDuCritereCherche { get; set; } = null!;
 
     }
