@@ -21,7 +21,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Key]
         [Column("dep_id")]
-        public int IdDepartement { get; set; }
+        public int DepartementId { get; set; }
 
         [Required]
         [Column("vil_nom")]
@@ -33,7 +33,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [StringLength(5)]
         public string CodePostal { get; set; } = null!;
 
-        [ForeignKey(nameof(IdDepartement))]
+        [ForeignKey(nameof(DepartementId))]
         [InverseProperty(nameof(Departement.VillesDepartement))]
         public virtual Departement DepartementDeLaVille { get; set; } = null!;
 

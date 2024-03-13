@@ -9,11 +9,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         [Key]
         [Column("avi_id")]
-        public int IdAvis { get; set; }
+        public int AvisId { get; set; }
 
         [Key]
         [Column("pro_id")]
-        public int IdProfil { get; set; }
+        public int ProfilId { get; set; }
 
 
 
@@ -30,7 +30,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [RegularExpression(@"^[1-5]{1}$", ErrorMessage = "La note s doit être un chiffre compris entre 1 et 5.")]
         public int Note { get; set; }
 
-        [InverseProperty(nameof(ProfilAvis.IdAvis))]
+        [ForeignKey(nameof(ProfilId))]
+        [InverseProperty(nameof(Profil.AvisDepose))]
+        public virtual Profil ProfilAvi { get; set; } = null!;
+
+        [InverseProperty(nameof(Avis.IdAvis))]
         public virtual ICollection<Avis> AvisProfil { get; set; }
     }
 }

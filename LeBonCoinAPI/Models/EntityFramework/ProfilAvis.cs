@@ -9,17 +9,17 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         [Key]
         [Column("avi_id")]
-        public int IdAvis { get; set; }
+        public int AvisId { get; set; }
 
         [Key]
         [Column("pro_id")]
-        public int IdProfil;
+        public int ProfilId;
 
-        [ForeignKey(nameof(IdAvis))]
+        [ForeignKey(nameof(AvisId))]
         [InverseProperty(nameof(Avis.AvisProfil))]
         public virtual ICollection<Avis> AvisProfil { get; set; } = null!;
 
-        [ForeignKey(nameof(IdProfil))]
+        [ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.ProfilCorrespondant))]
         public virtual ICollection<Profil> ProfilCorrespondant { get; set; } = null!;
 

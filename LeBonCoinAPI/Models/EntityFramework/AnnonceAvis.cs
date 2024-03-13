@@ -8,14 +8,14 @@ namespace LeBonCoinAPI.Models.EntityFramework
     public class AnnonceAvis
     {
         [Key]
-        [Column("anv_idavis")]
-        public int IdAvis { get; set; }
+        [Column("anv_id")]
+        public int AvisId { get; set; }
 
         [Key]
-        [Column("anv_idannonce")]
-        public int IdAnnonce;
+        [Column("ann_id")]
+        public int AnnonceId;
 
-        [ForeignKey(nameof(IdAnnonce))]
+        [ForeignKey(nameof(AnnonceId))]
         [InverseProperty(nameof(Annonce.Avis))]
         public virtual Annonce AvisAnnoces { get; set; } = null!;
 

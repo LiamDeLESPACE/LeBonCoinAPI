@@ -14,7 +14,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         }
         [Key]
         [Column("adr_id")]
-        public int IdAdresse { get; set; }
+        public int AdresseId { get; set; }
 
         [Key]
         [Column("vil_codeinsee")]
