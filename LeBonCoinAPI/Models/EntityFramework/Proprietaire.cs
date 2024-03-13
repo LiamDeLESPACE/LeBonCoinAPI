@@ -22,5 +22,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Profil
         [InverseProperty(nameof(Profil.Proprio))]
         public virtual ICollection<Profil> ProprietaireProfile { get; set; }
+
+        [ForeignKey(nameof(IdProfil))]
+        [InverseProperty(nameof(Profil.ProprioProfil))]
+        public virtual Profil ProfilProprio { get; set; } = null!;
     }
 }

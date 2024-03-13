@@ -36,8 +36,16 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public virtual ICollection<ChercheCritere> ChercheCritereDeLaCherche { get; set; }
 
         [ForeignKey(nameof(IdCapaciteVoyageur))]
-        [InverseProperty(nameof(CapaciteVoyageur.RecherchesCapacite))]
-        public virtual CapaciteVoyageur CapaciteRecherche { get; set; } = null!;
+        [InverseProperty(nameof(CapaciteVoyageur.RecherchesCapaciteVoyageur))]
+        public virtual CapaciteVoyageur CapaciteVoyageurDeLaRecherche { get; set; } = null!;
+
+        [ForeignKey(nameof(CodeInsee))]
+        [InverseProperty(nameof(Ville.RecherchesVille))]
+        public virtual Ville VilleDeLaRecherche { get; set; } = null!;
+
+        [ForeignKey(nameof(IdProfil))]
+        [InverseProperty(nameof(Profil.RecherchesProfil))]
+        public virtual Profil ProfilDeLaRecherche { get; set; } = null!;
 
     }
 }

@@ -40,8 +40,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [RegularExpression(@"^[1-99]{1}$", ErrorMessage = "La nombre d'adulte doit être un chiffre compris entre 1 et 99.")]
         public int NbAnimaux { get; set; }
 
-        [InverseProperty(nameof(Recherche.CapaciteRecherche))]
-        public virtual ICollection<Recherche> RecherchesCapacite { get; set; }
+        [InverseProperty(nameof(Recherche.CapaciteVoyageurDeLaRecherche))]
+        public virtual ICollection<Recherche> RecherchesCapaciteVoyageur { get; set; }
+
 
         [InverseProperty(nameof(Annonce.CapaciteAnnonce))]
         public virtual ICollection<Annonce> AnnoncesCapacite { get; set; }

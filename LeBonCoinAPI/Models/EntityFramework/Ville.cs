@@ -1,12 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace LeBonCoinAPI.Models.EntityFramework
 {
     [Table("t_e_ville_vil")]
     public class Ville
     {
+        public Ville()
+        {
+            RecherchesVille = new HashSet<Recherche>();
+        }
+
         [Key]
         [Column("vil_codeinsee")]
         [StringLength(11)]
@@ -29,6 +35,10 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [ForeignKey(nameof(IdDepartement))]
         [InverseProperty(nameof(Departement.VillesDepartement))]
         public virtual Departement DepartementDeLaVille { get; set; } = null!;
+
+        [InverseProperty(nameof(Recherche.VilleDeLaRecherche))]
+        public virtual ICollection<Recherche> RecherchesVille { get; set; }
+
 
     }
 }

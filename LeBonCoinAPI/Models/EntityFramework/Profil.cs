@@ -52,6 +52,10 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(ProfilAvis.AvisProfil))]
         public virtual ICollection<ProfilAvis> Avis { get; set; }
 
+        //Recherche
+        [InverseProperty(nameof(Recherche.ProfilDeLaRecherche))]
+        public virtual ICollection<Recherche> RecherchesProfil { get; set; }
+
         //Adresse
         [ForeignKey(nameof(IdAdresse))]
         [InverseProperty(nameof(Adresse.Adresses))]
@@ -66,6 +70,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [ForeignKey(nameof(IdProprietaire))]
         [InverseProperty(nameof(Proprietaire.ProprietaireProfile))]
         public virtual Proprietaire Proprio { get; set; } = null!;
+
+        [InverseProperty(nameof(Proprietaire.ProfilProprio))]
+        public virtual ICollection<Proprietaire> ProprioProfil { get; set; }
 
         //Locataire
         [ForeignKey(nameof(IdLocataire))]
