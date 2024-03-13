@@ -15,5 +15,14 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Key]
         [Column("ctl_idrecherche")]
         public int IdRecherche { get; set; }
+
+        [ForeignKey(nameof(FilmId))]
+        [InverseProperty(nameof(Film.NotesFilm))]
+        public virtual Film FilmNote { get; set; } = null!;
+
+        [ForeignKey(nameof(IdTypeLogement))]
+        [InverseProperty(nameof(TypeLogement.ChercheTypesLogements))]
+        public virtual TypeLogement TypeLogementRecherche { get; set; } = null!;
+
     }
 }

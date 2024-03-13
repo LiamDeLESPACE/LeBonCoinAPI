@@ -19,5 +19,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [InverseProperty(nameof(Annonce.TypesLogements))]
         public virtual ICollection<Annonce> TypesLo { get; set; }
+
+        [InverseProperty(nameof(ChercherTypeLogement.TypeLogementRecherche))]
+        public virtual ICollection<ChercherTypeLogement> ChercheTypesLogements { get; set; }
     }
 }
