@@ -72,6 +72,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(TypeLogement.TypesLo))]
         public virtual TypeLogement TypesLogements { get; set; } = null!;
 
+        //Proprietaire
+        [ForeignKey(nameof(ProprietaireId))]
+        [InverseProperty(nameof(Proprietaire.Proprio))]
+        public virtual Proprietaire Proprietaires { get; set; } = null!;
+
+        //liam bite xd
         [InverseProperty(nameof(Contient.AnnonceContient))]
         public virtual ICollection<Contient> ContientsAnnonce { get; set; }
 
