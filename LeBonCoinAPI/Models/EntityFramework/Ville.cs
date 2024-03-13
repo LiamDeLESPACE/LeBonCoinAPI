@@ -11,6 +11,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public Ville()
         {
             RecherchesVille = new HashSet<Recherche>();
+            AdressesVille = new HashSet<Adresse>();
         }
 
         [Key]
@@ -39,6 +40,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Recherche.VilleDeLaRecherche))]
         public virtual ICollection<Recherche> RecherchesVille { get; set; }
 
+        [InverseProperty(nameof(Adresse.VilleDeLAdresse))]
+        public virtual ICollection<Adresse> AdressesVille { get; set; }
 
     }
 }

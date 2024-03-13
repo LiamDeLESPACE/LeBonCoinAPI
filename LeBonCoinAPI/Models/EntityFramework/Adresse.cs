@@ -38,5 +38,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Profil.Adr))]
         public virtual ICollection<Profil> Adresses { get; set; }
 
+        [ForeignKey(nameof(CodeInsee))]
+        [InverseProperty(nameof(Ville.AdressesVille))]
+        public virtual Ville VilleDeLAdresse { get; set; } = null!;
+
     }
 }
