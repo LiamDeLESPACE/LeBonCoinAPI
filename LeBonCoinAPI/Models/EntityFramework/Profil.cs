@@ -42,11 +42,20 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("pro_recommandation")]
         public bool Recommandation { get; set; }
 
+        //ProfilAvis
         [InverseProperty(nameof(ProfilAvis.AvisProfil))]
         public virtual ICollection<ProfilAvis> Avis { get; set; }
 
+        //Adresse
         [ForeignKey(nameof(IdAdresse))]
         [InverseProperty(nameof(Adresse.Adresses))]
         public virtual Adresse Adr { get; set; } = null!;
+
+        //CompteUtilisateur
+        [ForeignKey(nameof(IdCu))]
+        [InverseProperty(nameof(CompteUtilisateur.Compte))]
+        public virtual Adresse CompteUti { get; set; } = null!;
+
+
     }
 }
