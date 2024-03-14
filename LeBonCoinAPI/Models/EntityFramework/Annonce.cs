@@ -9,10 +9,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public Annonce()
         {
-            Fav = new HashSet<Favoris>();
+            FavorisAnnonce = new HashSet<Favoris>();
             AvisAnnonce = new HashSet<AnnonceAvis>();
             ContientsAnnonce = new HashSet<Contient>();
             ReservationsAnnonce = new HashSet<Reservation>();
+            PhotosAnnonce = new HashSet<Photo>();
 
         }
 
@@ -70,7 +71,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         //Favoris
         [InverseProperty(nameof(Favoris.AnnonceFavoris))]
-        public virtual ICollection<Favoris> Fav { get; set; }
+        public virtual ICollection<Favoris> FavorisAnnonce { get; set; }
 
         //AnnonceAvis
         [InverseProperty(nameof(AnnonceAvis.AnnonceAvi))]
