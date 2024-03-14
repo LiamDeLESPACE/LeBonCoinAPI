@@ -83,8 +83,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         //Proprietaire
         [ForeignKey(nameof(ProprietaireId))]
-        [InverseProperty(nameof(Proprietaire.Proprio))]
-        public virtual Proprietaire Proprietaires { get; set; } = null!;
+        [InverseProperty(nameof(Proprietaire.AnnoncesProprietaire))]
+        public virtual Proprietaire ProprietaireAnnonce { get; set; } = null!;
 
         //Contient
         [InverseProperty(nameof(Contient.AnnonceContient))]

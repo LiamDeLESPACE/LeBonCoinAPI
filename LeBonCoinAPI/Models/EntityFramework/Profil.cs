@@ -13,7 +13,6 @@ namespace LeBonCoinAPI.Models.EntityFramework
             AvisDepose = new HashSet<Avis>();
             AvisRecus = new HashSet<ProfilAvis>();
             RecherchesProfil = new HashSet<Recherche>();
-            ProprioProfil = new HashSet<Proprietaire>();
             PhotosProfil = new HashSet<Photo>();
         }
 
@@ -76,11 +75,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         //proprietaire
         [ForeignKey(nameof(ProprietaireId))]
-        [InverseProperty(nameof(Proprietaire.ProprietaireProfile))]
-        public virtual Proprietaire Proprio { get; set; } = null!;
-
-        [InverseProperty(nameof(Proprietaire.ProfilProprio))]
-        public virtual ICollection<Proprietaire> ProprioProfil { get; set; }
+        [InverseProperty(nameof(Proprietaire.ProfilProprietaire))]
+        public virtual Proprietaire ProprietaireProfil { get; set; } = null!;
 
         //Locataire
         [ForeignKey(nameof(LocataireId))]
