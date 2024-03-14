@@ -11,7 +11,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public Recherche()
         {
             CriteresDeLaRecherche = new HashSet<ChercheCritere>();
-            ChercheTypesLogementsRecherche = new HashSet<ChercherTypeLogement>();
+            TypesLogementsDeLaRecherche = new HashSet<ChercherTypeLogement>();
         }
 
         [Key]
@@ -38,8 +38,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public virtual ICollection<ChercheCritere> CriteresDeLaRecherche { get; set; }
 
         //ChercheTypeLogement
-        [InverseProperty(nameof(ChercherTypeLogement.RechercheDuChercheTypeLogement))]
-        public virtual ICollection<ChercherTypeLogement> ChercheTypesLogementsRecherche { get; set; }
+        [InverseProperty(nameof(ChercherTypeLogement.RechercheDuTypeLogement))]
+        public virtual ICollection<ChercherTypeLogement> TypesLogementsDeLaRecherche { get; set; }
 
         
         //CapaciteVoyageur
