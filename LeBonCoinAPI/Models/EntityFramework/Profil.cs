@@ -14,7 +14,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
             AvisRecus = new HashSet<ProfilAvis>();
             RecherchesProfil = new HashSet<Recherche>();
             ProprioProfil = new HashSet<Proprietaire>();
-
+            PhotosProfil = new HashSet<Photo>();
         }
 
         [Key]
@@ -66,13 +66,13 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         //Adresse
         [ForeignKey(nameof(AdresseId))]
-        [InverseProperty(nameof(Adresse.Adresses))]
-        public virtual Adresse Adr { get; set; } = null!;
+        [InverseProperty(nameof(Adresse.ProfilsAdresse))]
+        public virtual Adresse AdresseProfil { get; set; } = null!;
 
         //CompteUtilisateur
         [ForeignKey(nameof(CompteUtilisateurId))]
-        [InverseProperty(nameof(CompteUtilisateur.Compte))]
-        public virtual CompteUtilisateur CompteUti { get; set; } = null!;
+        [InverseProperty(nameof(CompteUtilisateur.ProfilsCompteUtilisateur))]
+        public virtual CompteUtilisateur CompteUtilisateurProfil { get; set; } = null!;
 
         //proprietaire
         [ForeignKey(nameof(ProprietaireId))]
