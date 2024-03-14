@@ -48,11 +48,35 @@ namespace LeBonCoinAPI.Models.EntityFramework
                 entity.Property(e => e.Numero);
                 entity.Property(e => e.Pays).HasMaxLength(50);
 
-                /*entity.HasMany(d => d.VilleDeLAdresse)
-                    .WithOne(p => p.ActionFormulaire)
-                    .HasForeignKey(d => d.FormulaireChatbotId)
+                entity.HasOne(d => d.VilleDeLAdresse)
+                    .WithMany(p => p.AdressesVille)
+                    .HasForeignKey(d => d.CodeInsee)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_act_for");*/
+                    .HasConstraintName("fk_adr_vil");
+            });
+
+            modelBuilder.Entity<Annonce>(entity =>
+            {
+                entity.HasKey(e => e.AnnonceId)
+                    .HasName("annonce_ann_pkey");
+
+                entity.Property(e => e.ProprietaireId);
+                entity.Property(e => e.CalendrierId);
+                entity.Property(e => e.TypelogementId);
+                entity.Property(e => e.CapacitevoyageurId);
+                entity.Property(e => e.AdresseId);
+                entity.Property(e => e.Titre).HasMaxLength(100);
+                entity.Property(e => e.DureeMinimumSejour);
+                entity.Property(e => e.EstActive);
+                entity.Property(e => e.DatePublication);
+                entity.Property(e => e.Description);
+                entity.Property(e => e.Etoile);
+
+                entity.HasOne(d => d.VilleDeLAdresse)
+                    .WithMany(p => p.AdressesVille)
+                    .HasForeignKey(d => d.CodeInsee)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_adr_vil");
             });
 
             /*

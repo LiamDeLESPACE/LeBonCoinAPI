@@ -1,6 +1,9 @@
 using LeBonCoinAPI.Models.EntityFramework;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace LeBonCoinAPI
 {
@@ -19,6 +22,24 @@ namespace LeBonCoinAPI
 
             builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql( "Server=localhost; port=5432; Database=sae; uid=postgres; password=postgres;"));
 
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                 .AddJwtBearer(options =>
+                 {
+                     options.RequireHttpsMetadata = false;
+                     options.SaveToken = true;
+                     options.TokenValidationParameters = new TokenValidationParameters
+                     {
+                         ValidateIssuer = true,
+                         ValidateAudience = true,
+                         ValidateLifetime = true,
+                         ValidateIssuerSigningKey = true,
+                         ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                         ValidAudience = builder.Configuration["Jwt:Audience"],
+                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"])),
+                         ClockSkew = TimeSpan.Zero
+                     };
+                 });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -27,6 +48,9 @@ namespace LeBonCoinAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseHttpsRedirection();
 
