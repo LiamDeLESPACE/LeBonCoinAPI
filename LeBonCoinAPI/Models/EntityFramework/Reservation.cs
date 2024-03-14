@@ -37,17 +37,21 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("res_nombrevoyageur")]
         public int NombreVoyageur { get; set; }
 
+        //Annonce
         [ForeignKey(nameof(AnnonceId))]
         [InverseProperty(nameof(Annonce.ReservationsAnnonce))]
         public virtual Annonce AnnonceReservation { get; set; } = null!;
 
+        //Locataire
         [ForeignKey(nameof(LocataireId))]
         [InverseProperty(nameof(Locataire.ReservationsLocataire))]
         public virtual Locataire LocataireReservation { get; set; } = null!;
 
+        //Reglement
         [InverseProperty(nameof(Reglement.ReservationReglement))]
         public virtual ICollection<Reglement> ReglementsDeLaReservation { get; set; }
 
+        //Incident
         [InverseProperty(nameof(Incident.ReservationSignale))]
         public virtual ICollection<Incident> SignalementsReservation { get; set; }
 

@@ -20,6 +20,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [StringLength(40)]
         public string? Libelle { get; set; }
 
+        //CompteUtilisateur
         [InverseProperty(nameof(CompteUtilisateur.EtatCompteUtilisateur))]
         public virtual ICollection<CompteUtilisateur> CompteUtilisateursEtatCompte { get; set; }
     }

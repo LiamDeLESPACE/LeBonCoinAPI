@@ -32,6 +32,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("fcb_question")]
         public string? Question { get; set; }
 
+        //Action
         [ForeignKey(nameof(ActionId))]
         [InverseProperty(nameof(Action.FormulairesChatbot))]
         public virtual Action ActionFormulaire { get; set; } = null!;

@@ -33,13 +33,16 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [StringLength(5)]
         public string CodePostal { get; set; } = null!;
 
+        //Departement
         [ForeignKey(nameof(DepartementId))]
         [InverseProperty(nameof(Departement.VillesDepartement))]
         public virtual Departement DepartementDeLaVille { get; set; } = null!;
 
+        //Recherche
         [InverseProperty(nameof(Recherche.VilleDeLaRecherche))]
         public virtual ICollection<Recherche> RecherchesVille { get; set; }
 
+        //Adresse
         [InverseProperty(nameof(Adresse.VilleDeLAdresse))]
         public virtual ICollection<Adresse> AdressesVille { get; set; }
 

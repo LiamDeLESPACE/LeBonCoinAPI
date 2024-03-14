@@ -19,6 +19,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [StringLength(50)]
         public string? Libelle { get; set; }
 
+        //FormulaireChatBot
         [InverseProperty(nameof(FormulaireChatbot.ActionFormulaire))]
         public virtual ICollection<FormulaireChatbot> FormulairesChatbot { get; set; }
 

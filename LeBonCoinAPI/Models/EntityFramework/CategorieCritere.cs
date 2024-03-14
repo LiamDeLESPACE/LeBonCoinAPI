@@ -23,6 +23,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [StringLength(50)]
         public string Libelle { get; set; } = null!;
 
+        //Critere
         [InverseProperty(nameof(Critere.CategorieDuCritere))]
         public virtual ICollection<Critere> CriteresCategorie { get; set; }
 

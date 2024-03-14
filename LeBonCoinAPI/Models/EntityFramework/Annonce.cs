@@ -63,10 +63,10 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public int Etoile { get; set; }
 
 
-        //calendrier
+        //Calendrier
         [ForeignKey(nameof(CalendrierId))]
-        [InverseProperty(nameof(Calendrier.CalendrierAnnonce))]
-        public virtual Calendrier AnnonceCalendrier { get; set; } = null!;
+        [InverseProperty(nameof(Calendrier.AnnoncesCalendrier))]
+        public virtual Calendrier CalendrierAnnonce { get; set; } = null!;
 
         //Favoris
         [InverseProperty(nameof(Favoris.AnnonceFavoris))]
@@ -94,7 +94,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Reservation.AnnonceReservation))]
         public virtual ICollection<Reservation> ReservationsAnnonce { get; set; }
 
-        //Capacite Voyageur
+        //CapaciteVoyageur
         [ForeignKey(nameof(CapacitevoyageurId))]
         [InverseProperty(nameof(CapaciteVoyageur.AnnoncesCapacite))]
         public virtual CapaciteVoyageur CapaciteAnnonce { get; set; } = null!;

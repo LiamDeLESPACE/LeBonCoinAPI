@@ -35,9 +35,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [StringLength(50)]
         public string Pays { get; set; } = null!;
 
+        //Profil
         [InverseProperty(nameof(Profil.Adr))]
         public virtual ICollection<Profil> Adresses { get; set; }
 
+        //Ville
         [ForeignKey(nameof(CodeInsee))]
         [InverseProperty(nameof(Ville.AdressesVille))]
         public virtual Ville VilleDeLAdresse { get; set; } = null!;

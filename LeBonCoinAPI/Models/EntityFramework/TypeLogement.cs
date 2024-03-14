@@ -23,9 +23,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [StringLength(50)]
         public string Libelle { get; set; } = null!;
 
+        //Annonce
         [InverseProperty(nameof(Annonce.TypesLogements))]
         public virtual ICollection<Annonce> TypesLo { get; set; }
 
+        //ChercherTypeLogement
         [InverseProperty(nameof(ChercherTypeLogement.TypeLogementRecherche))]
         public virtual ICollection<ChercherTypeLogement> ChercheTypesLogements { get; set; }
     }

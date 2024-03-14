@@ -16,6 +16,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("ann_id")]
         public int IdAnnonce { get; set; }
 
+        //Annonce
         [ForeignKey(nameof(IdAnnonce))]
         [InverseProperty(nameof(Annonce.Fav))]
         public virtual Annonce AnnonceFavoris { get; set; } = null!;

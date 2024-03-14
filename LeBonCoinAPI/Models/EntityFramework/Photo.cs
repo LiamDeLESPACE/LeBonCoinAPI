@@ -21,7 +21,6 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("pro_id")]
         public int ProfilId { get; set; }
 
-
         [Required]
         [Column("pho_donneephoto")]
         public string DonneePhoto { get; set; } = null!;
