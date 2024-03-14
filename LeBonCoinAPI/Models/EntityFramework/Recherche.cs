@@ -34,7 +34,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public string CodeInsee { get; set; } = null!;
 
         //ChercheCritere
-        [InverseProperty(nameof(ChercheCritere.RechercheDuCritereCherche))]
+        [InverseProperty(nameof(ChercheCritere.RechercheDuCritere))]
         public virtual ICollection<ChercheCritere> CriteresDeLaRecherche { get; set; }
 
         //ChercheTypeLogement
