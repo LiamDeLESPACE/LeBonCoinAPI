@@ -29,6 +29,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [StringLength(50)]
         public string? SecteurActivite { get; set; }
 
+        //CompteUtilisateur
         [InverseProperty(nameof(CompteUtilisateur.EntrepriseCompteUtilisateur))]
         public virtual ICollection<CompteUtilisateur> CompteUtilisateursEntreprise { get; set; }
 

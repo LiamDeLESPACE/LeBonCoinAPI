@@ -7,6 +7,10 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_e_compteutilisateur_cut")]
     public class CompteUtilisateur
     {
+        public CompteUtilisateur()
+        {
+            ProfilsCompteUtilisateur = new HashSet<Profil>();
+        }
         [Key]
         [Column("cut_id")]
         public int CompteUtilisateurId { get; set; }
@@ -36,8 +40,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("cut_telephoneverifier")]
         public bool TelephoneVerifier { get; set; }
 
-        [InverseProperty(nameof(Profil.CompteUti))]
-        public virtual ICollection<Profil> Compte { get; set; }
+        //Profil
+        [InverseProperty(nameof(Profil.CompteUtilisateurProfil))]
+        public virtual ICollection<Profil> ProfilsCompteUtilisateur { get; set; }
 
         //EtatCompte
         [ForeignKey(nameof(CodeEtatCompteUtilisateur))]

@@ -10,7 +10,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public Adresse()
         {
-            Adresses = new HashSet<Profil>();
+            ProfilsAdresse = new HashSet<Profil>();
+            VilleAdresse = new HashSet<Ville>();
         }
         [Key]
         [Column("adr_id")]
@@ -35,12 +36,14 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [StringLength(50)]
         public string Pays { get; set; } = null!;
 
-        [InverseProperty(nameof(Profil.Adr))]
-        public virtual ICollection<Profil> Adresses { get; set; }
+        //Profil
+        [InverseProperty(nameof(Profil.AdresseProfil))]
+        public virtual ICollection<Profil> ProfilsAdresse { get; set; }
 
+        //Ville
         [ForeignKey(nameof(CodeInsee))]
         [InverseProperty(nameof(Ville.AdressesVille))]
-        public virtual Ville VilleDeLAdresse { get; set; } = null!;
+        public virtual Ville VilleAdresse { get; set; } = null!;
 
     }
 }

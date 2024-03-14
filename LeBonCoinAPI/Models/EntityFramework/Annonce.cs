@@ -9,10 +9,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public Annonce()
         {
-            Fav = new HashSet<Favoris>();
+            FavorisAnnonce = new HashSet<Favoris>();
             AvisAnnonce = new HashSet<AnnonceAvis>();
             ContientsAnnonce = new HashSet<Contient>();
             ReservationsAnnonce = new HashSet<Reservation>();
+            PhotosAnnonce = new HashSet<Photo>();
 
         }
 
@@ -63,14 +64,14 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public int Etoile { get; set; }
 
 
-        //calendrier
+        //Calendrier
         [ForeignKey(nameof(CalendrierId))]
-        [InverseProperty(nameof(Calendrier.CalendrierAnnonce))]
-        public virtual Calendrier AnnonceCalendrier { get; set; } = null!;
+        [InverseProperty(nameof(Calendrier.AnnoncesCalendrier))]
+        public virtual Calendrier CalendrierAnnonce { get; set; } = null!;
 
         //Favoris
         [InverseProperty(nameof(Favoris.AnnonceFavoris))]
-        public virtual ICollection<Favoris> Fav { get; set; }
+        public virtual ICollection<Favoris> FavorisAnnonce { get; set; }
 
         //AnnonceAvis
         [InverseProperty(nameof(AnnonceAvis.AnnonceAvi))]
@@ -83,8 +84,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         //Proprietaire
         [ForeignKey(nameof(ProprietaireId))]
-        [InverseProperty(nameof(Proprietaire.Proprio))]
-        public virtual Proprietaire Proprietaires { get; set; } = null!;
+        [InverseProperty(nameof(Proprietaire.AnnoncesProprietaire))]
+        public virtual Proprietaire ProprietaireAnnonce { get; set; } = null!;
 
         //Contient
         [InverseProperty(nameof(Contient.AnnonceContient))]
@@ -94,7 +95,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Reservation.AnnonceReservation))]
         public virtual ICollection<Reservation> ReservationsAnnonce { get; set; }
 
-        //Capacite Voyageur
+        //CapaciteVoyageur
         [ForeignKey(nameof(CapacitevoyageurId))]
         [InverseProperty(nameof(CapaciteVoyageur.AnnoncesCapacite))]
         public virtual CapaciteVoyageur CapaciteAnnonce { get; set; } = null!;

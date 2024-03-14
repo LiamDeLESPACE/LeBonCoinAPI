@@ -10,21 +10,19 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public Calendrier()
         {
             DatesCalendrier = new HashSet<Datec>();
+            AnnoncesCalendrier = new HashSet<Annonce>();
         }
 
         [Key]
         [Column("cln_id")]
         public int CalendrierId { get; set; }
 
-        [Required]
-        [Column("ann_id")]
-        public int AnnonceId { get; set; }
-
+        //DateC
         [InverseProperty(nameof(Datec.CalendrierDate))]
         public virtual ICollection<Datec> DatesCalendrier { get; set; }
 
-        [ForeignKey(nameof(AnnonceId))]
-        [InverseProperty(nameof(Annonce.AnnonceCalendrier))]
-        public virtual Annonce CalendrierAnnonce { get; set; } = null!;
+        //Annonce
+        [InverseProperty(nameof(Annonce.CalendrierAnnonce))]
+        public virtual ICollection<Annonce> AnnoncesCalendrier { get; set; }
     }
 }

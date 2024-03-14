@@ -20,6 +20,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("dtc_codeetat")]
         public bool CodeEtat { get; set; }
 
+        //Calendrier
         [ForeignKey(nameof(CalendrierId))]
         [InverseProperty(nameof(Calendrier.DatesCalendrier))]
         public virtual Calendrier CalendrierDate { get; set; } = null!;

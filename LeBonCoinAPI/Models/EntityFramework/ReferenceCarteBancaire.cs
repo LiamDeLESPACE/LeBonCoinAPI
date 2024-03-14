@@ -43,6 +43,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("rcb_estconcervee")]
         public bool EstConcervee { get; set; }
 
+        //Locataire
         [ForeignKey(nameof(LocataireId))]
         [InverseProperty(nameof(Locataire.ReferencesCarteLocataire))]
         public virtual Locataire LocataireReferent { get; set; } = null!;
