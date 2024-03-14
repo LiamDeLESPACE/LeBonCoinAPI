@@ -9,7 +9,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public TypeReglement()
         {
-            ReglementsDuType = new HashSet<Reglement>();
+            ReglementsDeType = new HashSet<Reglement>();
         }
         [Key]
         [Column("tyr_id")]
@@ -22,6 +22,6 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         //Reglement
         [InverseProperty(nameof(Reglement.TypeDeReglement))]
-        public virtual ICollection<Reglement> ReglementsDuType { get; set; }
+        public virtual ICollection<Reglement> ReglementsDeType { get; set; }
     }
 }
