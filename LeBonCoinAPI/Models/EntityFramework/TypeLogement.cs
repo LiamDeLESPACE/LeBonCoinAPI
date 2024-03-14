@@ -9,7 +9,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public TypeLogement()
         {
-            TypesLo = new HashSet<Annonce>();
+            AnnoncesTypeLogement = new HashSet<Annonce>();
             ChercheTypesLogements = new HashSet<ChercherTypeLogement>();
         }
 
