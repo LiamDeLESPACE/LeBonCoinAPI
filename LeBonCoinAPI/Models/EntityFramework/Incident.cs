@@ -36,7 +36,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public virtual Locataire LocataireSignalant { get; set; } = null!;
 
         //Reservation
-        [ForeignKey(nameof(LocataireId))]
+        [ForeignKey(nameof(ReservationId))]
         [InverseProperty(nameof(Reservation.SignalementsReservation))]
         public virtual Reservation ReservationSignale { get; set; } = null!;
     }
