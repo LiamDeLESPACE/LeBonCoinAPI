@@ -9,7 +9,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public EtatCompte()
         {
-            CompteUtilisateursEtatCompte = new HashSet<CompteUtilisateur>();
+            ComptesUtilisateursEtatCompte = new HashSet<CompteUtilisateur>();
         }
 
         [Key]        
@@ -21,7 +21,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public string? Libelle { get; set; }
 
         //CompteUtilisateur
-        [InverseProperty(nameof(CompteUtilisateur.EtatCompteUtilisateur))]
-        public virtual ICollection<CompteUtilisateur> CompteUtilisateursEtatCompte { get; set; }
+        [InverseProperty(nameof(CompteUtilisateur.EtatCompteDuCompteUtilisateur))]
+        public virtual ICollection<CompteUtilisateur> ComptesUtilisateursEtatCompte { get; set; }
     }
 }

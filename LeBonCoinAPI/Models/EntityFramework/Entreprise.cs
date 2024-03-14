@@ -9,7 +9,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public Entreprise()
         {
-            CompteUtilisateursEntreprise = new HashSet<CompteUtilisateur>();
+            ComptesUtilisateursEntreprise = new HashSet<CompteUtilisateur>();
         }
 
         [Key]
@@ -31,7 +31,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         //CompteUtilisateur
         [InverseProperty(nameof(CompteUtilisateur.EntrepriseCompteUtilisateur))]
-        public virtual ICollection<CompteUtilisateur> CompteUtilisateursEntreprise { get; set; }
+        public virtual ICollection<CompteUtilisateur> ComptesUtilisateursEntreprise { get; set; }
 
     }
 }

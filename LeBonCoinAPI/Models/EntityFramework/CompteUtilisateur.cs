@@ -46,17 +46,17 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         //EtatCompte
         [ForeignKey(nameof(CodeEtatCompteUtilisateur))]
-        [InverseProperty(nameof(EtatCompte.CompteUtilisateursEtatCompte))]
-        public virtual EtatCompte EtatCompteUtilisateur { get; set; } = null!;
+        [InverseProperty(nameof(EtatCompte.ComptesUtilisateursEtatCompte))]
+        public virtual EtatCompte EtatCompteDuCompteUtilisateur { get; set; } = null!;
 
         //Particulier
         [ForeignKey(nameof(ParticulierId))]
-        [InverseProperty(nameof(Particulier.CompteUtilisateursParticulier))]
-        public virtual Particulier ParticulierCompteUtilisateur { get; set; } = null!;
+        [InverseProperty(nameof(Particulier.ComptesUtilisateursParticulier))]
+        public virtual Particulier ParticulierCompteUtilisateur { get; set; }
 
         //Entreprise
         [ForeignKey(nameof(EntrepriseId))]
-        [InverseProperty(nameof(Entreprise.CompteUtilisateursEntreprise))]
-        public virtual Entreprise EntrepriseCompteUtilisateur { get; set; } = null!;
+        [InverseProperty(nameof(Entreprise.ComptesUtilisateursEntreprise))]
+        public virtual Entreprise EntrepriseCompteUtilisateur { get; set; }
     }
 }
