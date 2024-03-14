@@ -11,8 +11,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public DateTime? Date { get; set; }
 
         [Required]
-        [Column("cln_id")]
-        public int CalendrierId { get; set; }
+        [Column("ann_id")]
+        public int AnnonceId { get; set; }
 
         [Column("dtc_prix")]
         public float? Prix { get; set; }
@@ -20,8 +20,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("dtc_codeetat")]
         public bool CodeEtat { get; set; }
 
-        [ForeignKey(nameof(CalendrierId))]
-        [InverseProperty(nameof(Calendrier.DatesCalendrier))]
-        public virtual Calendrier CalendrierDate { get; set; } = null!;
+        [ForeignKey(nameof(AnnonceId))]
+        [InverseProperty(nameof(Annonce.AnnonceId))]
+        public virtual Annonce DateAnnonce { get; set; } = null!;
     }
 }

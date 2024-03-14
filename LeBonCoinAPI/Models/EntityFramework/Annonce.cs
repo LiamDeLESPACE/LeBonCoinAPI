@@ -24,8 +24,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("prp_id")]
         public int ProprietaireId { get; set; }
 
-        [Column("cln_id")]
-        public int CalendrierId { get; set; }
+        [Column("dat_id")]
+        public DateTime DatecId { get; set; }
 
         [Required]
         [Column("tyl_id")]
@@ -59,15 +59,15 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public string? Description { get; set; }
 
         [Column("ann_etoile")]
-        [RegularExpression(@"^[0-5]{1}$", ErrorMessage = "Le nombre d'étoiles doit être un chiffre compris entre 0 et 5.")]
+        [Range(0,5)]
         public int Etoile { get; set; }
 
 
-        //calendrier
-        [ForeignKey(nameof(CalendrierId))]
-        [InverseProperty(nameof(Calendrier.CalendrierAnnonce))]
-        public virtual Calendrier AnnonceCalendrier { get; set; } = null!;
-
+        //Date
+        [ForeignKey(nameof(DatecId))]
+        [InverseProperty(nameof(Datec.DateAnnonce))]
+        public virtual Datec AnnonceDate { get; set; } = null!;
+        
         //Favoris
         [InverseProperty(nameof(Favoris.AnnonceFavoris))]
         public virtual ICollection<Favoris> Fav { get; set; }
