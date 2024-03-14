@@ -31,7 +31,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
                 entity.Property(e => e.Libelle).HasMaxLength(50);
 
-                entity.HasMany(d => d.FormulairesChatbot)
+                entity.HasMany(d => d.FormulairesChatbotAction)
                     .WithOne(p => p.ActionFormulaire)
                     .HasForeignKey(d => d.FormulaireChatbotId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -48,7 +48,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
                 entity.Property(e => e.Numero);
                 entity.Property(e => e.Pays).HasMaxLength(50);
 
-                entity.HasOne(d => d.VilleDeLAdresse)
+                entity.HasOne(d => d.VilleAdresse)
                     .WithMany(p => p.AdressesVille)
                     .HasForeignKey(d => d.CodeInsee)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -72,7 +72,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
                 entity.Property(e => e.Description);
                 entity.Property(e => e.Etoile);
 
-                entity.HasOne(d => d.VilleDeLAdresse)
+                entity.HasOne(d => d.VilleAdresse)
                     .WithMany(p => p.AdressesVille)
                     .HasForeignKey(d => d.CodeInsee)
                     .OnDelete(DeleteBehavior.ClientSetNull)
