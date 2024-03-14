@@ -9,19 +9,21 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         [Key]
         [Column("cri_id")]
-        public int IdCritere { get; set; }
+        public int CritereId { get; set; }
 
         [Key]
         [Column("rch_id")]
-        public int IdRecherche { get; set; }
+        public int RechercheId { get; set; }
+
 
         //Critere
-        [ForeignKey(nameof(IdCritere))]
+        [ForeignKey(nameof(CritereId))]
         [InverseProperty(nameof(Critere.ChercheCriteres))]
         public virtual Critere CritereCherche { get; set; } = null!;
 
+
         //Recherche
-        [ForeignKey(nameof(IdRecherche))]
+        [ForeignKey(nameof(RechercheId))]
         [InverseProperty(nameof(Recherche.ChercheCriteresRecherche))]
         public virtual Recherche RechercheDuCritereCherche { get; set; } = null!;
 

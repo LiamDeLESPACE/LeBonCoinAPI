@@ -16,16 +16,16 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Key]
         [Column("rch_id")]
-        public int IdRecherche { get; set; }
+        public int RechercheId { get; set; }
 
 
         [Key]
         [Column("cvo_id")]
-        public int IdCapaciteVoyageur { get; set; }
+        public int CapaciteVoyageurId { get; set; }
 
         [Key]
         [Column("pro_id")]
-        public int IdProfil { get; set; }
+        public int ProfilId { get; set; }
 
 
         [Required]
@@ -41,8 +41,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(ChercherTypeLogement.RechercheDuChercheTypeLogement))]
         public virtual ICollection<ChercherTypeLogement> ChercheTypesLogementsRecherche { get; set; }
 
+        
         //CapaciteVoyageur
-        [ForeignKey(nameof(IdCapaciteVoyageur))]
+        [ForeignKey(nameof(CapaciteVoyageurId))]
         [InverseProperty(nameof(CapaciteVoyageur.RecherchesCapaciteVoyageur))]
         public virtual CapaciteVoyageur CapaciteVoyageurDeLaRecherche { get; set; } = null!;
 
@@ -51,8 +52,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Ville.RecherchesVille))]
         public virtual Ville VilleDeLaRecherche { get; set; } = null!;
 
+
         //Profil
-        [ForeignKey(nameof(IdProfil))]
+        [ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.RecherchesProfil))]
         public virtual Profil ProfilDeLaRecherche { get; set; } = null!;
 

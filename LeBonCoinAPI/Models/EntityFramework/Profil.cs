@@ -19,11 +19,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Key]
         [Column("pro_id")]
-        public int IdProfil { get; set; }
+        public int ProfilId { get; set; }
 
         [Key]
         [Column("prp_id")]
-        public int IdProprietaire { get; set; }
+        public int ProprietaireId { get; set; }
 
         [Key]
         [Column("cut_id")]
@@ -31,15 +31,15 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Key]
         [Column("loc_id")]
-        public int IdLocataire { get; set; }
+        public int LocataireId { get; set; }
 
         [Key]
         [Column("adr_id")]
-        public int IdAdresse { get; set; }
+        public int AdresseId { get; set; }
 
         [Key]
         [Column("pho_id")]
-        public int IdPhoto { get; set; }
+        public int PhotoId { get; set; }
 
         [Column("pro_tempsreponse")]
         public int TempsReponse { get; set; }
@@ -65,7 +65,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public virtual ICollection<Recherche> RecherchesProfil { get; set; }
 
         //Adresse
-        [ForeignKey(nameof(IdAdresse))]
+        [ForeignKey(nameof(AdresseId))]
         [InverseProperty(nameof(Adresse.Adresses))]
         public virtual Adresse Adr { get; set; } = null!;
 
@@ -75,7 +75,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public virtual CompteUtilisateur CompteUti { get; set; } = null!;
 
         //proprietaire
-        [ForeignKey(nameof(IdProprietaire))]
+        [ForeignKey(nameof(ProprietaireId))]
         [InverseProperty(nameof(Proprietaire.ProprietaireProfile))]
         public virtual Proprietaire Proprio { get; set; } = null!;
 
@@ -83,7 +83,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public virtual ICollection<Proprietaire> ProprioProfil { get; set; }
 
         //Locataire
-        [ForeignKey(nameof(IdLocataire))]
+        [ForeignKey(nameof(LocataireId))]
         [InverseProperty(nameof(Locataire.ProfilsLocataire))]
         public virtual Locataire LocataireProfil { get; set; } = null!;
 

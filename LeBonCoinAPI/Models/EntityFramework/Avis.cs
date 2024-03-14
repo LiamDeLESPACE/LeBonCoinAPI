@@ -7,6 +7,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_e_avis_avi")]
     public class Avis
     {
+        public Avis()
+        {
+            AvisTypeAnnonceAvis = new HashSet<AnnonceAvis>();
+            AvisTypeProfilAvis = new HashSet<ProfilAvis>();
+        }
         [Key]
         [Column("avi_id")]
         public int AvisId { get; set; }
@@ -30,14 +35,18 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [RegularExpression(@"^[1-5]{1}$", ErrorMessage = "La note s doit être un chiffre compris entre 1 et 5.")]
         public int Note { get; set; }
 
-        //Profil
+        //Profil de l'Avis
         [ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.AvisDepose))]
         public virtual Profil ProfilAvi { get; set; } = null!;
 
-        //ProfilAvis
+        //liste ProfilAvis
         [InverseProperty(nameof(ProfilAvis.AviAvisProfil))]
         public virtual ICollection<ProfilAvis> AvisTypeProfilAvis { get; set; }
+
+        //liste AnnonceAvis
+        [InverseProperty(nameof(AnnonceAvis.AviAvisAnnonce))]
+        public virtual ICollection<AnnonceAvis> AvisTypeAnnonceAvis { get; set; }
 
 
     }

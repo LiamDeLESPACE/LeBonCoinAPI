@@ -16,7 +16,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Key]
         [Column("cvo_idcapacitevoyageur")]
-        public int IdCapaciteVoyageur { get; set; }
+        public int CapaciteVoyageurId { get; set; }
 
 
         [Required]

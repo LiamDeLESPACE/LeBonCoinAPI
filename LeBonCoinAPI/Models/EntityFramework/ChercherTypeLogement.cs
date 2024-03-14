@@ -9,12 +9,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         [Key]
         [Column("ctl_idtypelogement")]
-        public int IdTypeLogement { get; set; }
+        public int TypeLogementId { get; set; }
 
 
         [Key]
         [Column("ctl_idrecherche")]
-        public int IdRecherche { get; set; }
+        public int RechercheId { get; set; }
 
         //Recherche
         [ForeignKey(nameof(IdRecherche))]
