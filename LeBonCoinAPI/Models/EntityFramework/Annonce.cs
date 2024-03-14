@@ -74,7 +74,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public virtual ICollection<Favoris> FavorisAnnonce { get; set; }
 
         //AnnonceAvis
-        [InverseProperty(nameof(AnnonceAvis.AnnonceAvi))]
+        [InverseProperty(nameof(AnnonceAvis.AnnonceAvisAnnonce))]
         public virtual ICollection<AnnonceAvis> AvisAnnonce { get; set; }
 
         //TypeLogement

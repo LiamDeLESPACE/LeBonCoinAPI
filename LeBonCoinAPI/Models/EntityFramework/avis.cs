@@ -9,8 +9,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public Avis()
         {
-            AvisTypeAnnonceAvis = new HashSet<AnnonceAvis>();
-            AvisTypeProfilAvis = new HashSet<ProfilAvis>();
+            AnnoncesAvis = new HashSet<AnnonceAvis>();
+            ProfilsAvis = new HashSet<ProfilAvis>();
         }
         [Key]
         [Column("avi_id")]
@@ -38,15 +38,15 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Profil de l'Avis
         [ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.AvisDepose))]
-        public virtual Profil ProfilAvi { get; set; } = null!;
+        public virtual Profil ProfilDeLAvis { get; set; } = null!;
 
         //liste ProfilAvis
-        [InverseProperty(nameof(ProfilAvis.AviAvisProfil))]
-        public virtual ICollection<ProfilAvis> AvisTypeProfilAvis { get; set; }
+        [InverseProperty(nameof(ProfilAvis.AvisProfil))]
+        public virtual ICollection<ProfilAvis> ProfilsAvis { get; set; }
 
         //liste AnnonceAvis
-        [InverseProperty(nameof(AnnonceAvis.AviAvisAnnonce))]
-        public virtual ICollection<AnnonceAvis> AvisTypeAnnonceAvis { get; set; }
+        [InverseProperty(nameof(AnnonceAvis.AvisAnnonceAvis))]
+        public virtual ICollection<AnnonceAvis> AnnoncesAvis { get; set; }
 
 
     }

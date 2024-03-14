@@ -18,12 +18,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Annonce lié
         [ForeignKey(nameof(AnnonceId))]
         [InverseProperty(nameof(Annonce.AvisAnnonce))]
-        public virtual Annonce AnnonceAvi { get; set; } = null!;
+        public virtual Annonce AnnonceAvisAnnonce { get; set; } = null!;
 
         //Avis lié
         [ForeignKey(nameof(AvisId))]
-        [InverseProperty(nameof(Avis.AvisTypeAnnonceAvis))]
-        public virtual Avis AviAvisAnnonce { get; set; } = null!;
+        [InverseProperty(nameof(Avis.AnnoncesAvis))]
+        public virtual Avis AvisAnnonceAvis { get; set; } = null!;
 
     }
 }

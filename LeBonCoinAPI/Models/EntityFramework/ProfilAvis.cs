@@ -17,8 +17,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         //Avis
         [ForeignKey(nameof(AvisId))]
-        [InverseProperty(nameof(Avis.AvisTypeProfilAvis))]
-        public virtual Avis AviAvisProfil { get; set; } = null!;
+        [InverseProperty(nameof(Avis.ProfilsAvis))]
+        public virtual Avis AvisProfil { get; set; } = null!;
 
         //Profil
         [ForeignKey(nameof(ProfilId))]

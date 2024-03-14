@@ -52,7 +52,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public bool Recommandation { get; set; }
 
         //Avis despose par
-        [InverseProperty(nameof(Avis.ProfilAvi))]
+        [InverseProperty(nameof(Avis.ProfilDeLAvis))]
         public virtual ICollection<Avis> AvisDepose { get; set; }
 
         //Avis recu
