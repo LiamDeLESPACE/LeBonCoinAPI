@@ -11,6 +11,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public Adresse()
         {
             ProfilsAdresse = new HashSet<Profil>();
+            VilleAdresse = new HashSet<Ville>();
         }
         [Key]
         [Column("adr_id")]
@@ -42,7 +43,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Ville
         [ForeignKey(nameof(CodeInsee))]
         [InverseProperty(nameof(Ville.AdressesVille))]
-        public virtual Ville VilleDeLAdresse { get; set; } = null!;
+        public virtual Ville VilleAdresse { get; set; } = null!;
 
     }
 }

@@ -39,11 +39,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public virtual Departement DepartementVille { get; set; } = null!;
 
         //Recherche
-        [InverseProperty(nameof(Recherche.VilleDeLaRecherche))]
+        [InverseProperty(nameof(Recherche.VilleRecherche))]
         public virtual ICollection<Recherche> RecherchesVille { get; set; }
 
         //Adresse
-        [InverseProperty(nameof(Adresse.VilleDeLAdresse))]
+        [InverseProperty(nameof(Adresse.VilleAdresse))]
         public virtual ICollection<Adresse> AdressesVille { get; set; }
 
     }

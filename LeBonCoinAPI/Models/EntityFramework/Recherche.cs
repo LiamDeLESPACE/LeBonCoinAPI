@@ -50,7 +50,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Vile
         [ForeignKey(nameof(CodeInsee))]
         [InverseProperty(nameof(Ville.RecherchesVille))]
-        public virtual Ville VilleDeLaRecherche { get; set; } = null!;
+        public virtual Ville VilleRecherche { get; set; } = null!;
 
 
         //Profil
