@@ -60,7 +60,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public virtual ICollection<ProfilAvis> AvisRecus { get; set; }
 
         //Recherche
-        [InverseProperty(nameof(Recherche.ProfilDeLaRecherche))]
+        [InverseProperty(nameof(Recherche.ProfilRecherche))]
         public virtual ICollection<Recherche> RecherchesProfil { get; set; }
 
         //Adresse

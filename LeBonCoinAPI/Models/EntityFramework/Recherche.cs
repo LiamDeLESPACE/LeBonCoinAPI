@@ -56,7 +56,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Profil
         [ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.RecherchesProfil))]
-        public virtual Profil ProfilDeLaRecherche { get; set; } = null!;
+        public virtual Profil ProfilRecherche { get; set; } = null!;
 
     }
 }
