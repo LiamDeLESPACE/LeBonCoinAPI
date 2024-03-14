@@ -16,8 +16,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         //Annonce
         [ForeignKey(nameof(AnnonceId))]
-        [InverseProperty(nameof(Annonce.ContientsAnnonce))]
-        public virtual Annonce AnnonceContient { get; set; } = null!;
+        [InverseProperty(nameof(Annonce.CriteresAnnonce))]
+        public virtual Annonce AnnonceCritere { get; set; } = null!;
 
         //Critere
         [ForeignKey(nameof(CritereId))]
