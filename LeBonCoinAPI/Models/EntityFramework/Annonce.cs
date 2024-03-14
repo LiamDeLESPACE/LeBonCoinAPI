@@ -103,5 +103,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Photo
         [InverseProperty(nameof(Photo.PhotoAnnonce))]
         public virtual ICollection<Photo> PhotosAnnonce { get; set; }
+
+        //Adresse
+        [ForeignKey(nameof(AdresseId))]
+        [InverseProperty(nameof(Adresse.AnnoncesAdresse))]
+        public virtual Adresse AdresseAnnonce { get; set; } = null!;
+
     }
 }

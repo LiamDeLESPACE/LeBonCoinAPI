@@ -67,7 +67,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Adresse
         [ForeignKey(nameof(AdresseId))]
         [InverseProperty(nameof(Adresse.ProfilsAdresse))]
-        public virtual Adresse AdresseProfil { get; set; } = null!;
+        public virtual Adresse AdresseProfil { get; set; }
 
         //CompteUtilisateur
         [ForeignKey(nameof(CompteUtilisateurId))]
