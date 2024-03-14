@@ -43,17 +43,100 @@ namespace LeBonCoinAPI.Models.EntityFramework
                 entity.HasKey(e => e.AdresseId)
                     .HasName("adresse_adr_pkey");
 
+                entity.HasKey(e => e.CodeInsee)
+                 .HasName("codeinsee_adr_pkey");
+
                 entity.Property(e => e.CodeInsee).IsFixedLength();
                 entity.Property(e => e.Rue).HasMaxLength(100);
                 entity.Property(e => e.Numero);
                 entity.Property(e => e.Pays).HasMaxLength(50);
 
-                /*entity.HasMany(d => d.VilleDeLAdresse)
-                    .WithOne(p => p.ActionFormulaire)
-                    .HasForeignKey(d => d.FormulaireChatbotId)
+                entity.HasMany(d => d.Adresses)
+                    .WithOne(p => p.Adr)
+                    .HasForeignKey(d => d.ProfilId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_act_for");*/
+                    .HasConstraintName("fk_adr_adresses");
             });
+
+            modelBuilder.Entity<Annonce>(entity =>
+            {
+                entity.HasKey(e => e.AnnonceId)
+                    .HasName("annonce_ann_pkey");
+
+                entity.Property(e => e.Etoile)
+                .HasCheckConstraint("chk_ann_etoile", @"^[0-5]{1}$");
+
+                entity.HasMany(d => d.Fav)
+                   .WithOne(p => p.AnnonceFavoris)
+                   .HasForeignKey(d => d.ProfilId)
+                   .OnDelete(DeleteBehavior.ClientSetNull)
+                   .HasConstraintName("fk_ann_annoncefav")
+
+                entity.HasMany(d => d.AvisAnnonce)
+                   .WithOne(p => p.AnnonceAvi)
+                   .HasForeignKey(d => d.AnnonceId)
+                   .OnDelete(DeleteBehavior.ClientSetNull)
+                   .HasConstraintName("fk_ann_annonceavis")
+
+                entity.HasMany(d => d.ContientsAnnonce)
+                   .WithOne(p => p.AnnonceContient)
+                   .HasForeignKey(d => d.AnnonceId)
+                   .OnDelete(DeleteBehavior.ClientSetNull)
+                   .HasConstraintName("fk_ann_contientannonce")
+
+                    entity.HasMany(d => d.ReservationsAnnonce)
+                   .WithOne(p => p.AnnonceReservation)
+                   .HasForeignKey(d => d.ReservationId)
+                   .OnDelete(DeleteBehavior.ClientSetNull)
+                   .HasConstraintName("fk_ann_reservationsannonce")
+
+                 entity.HasMany(d => d.PhotosAnnonce)
+                   .WithOne(p => p.PhotoAnnonce)
+                   .HasForeignKey(d => d.PhotoId)
+                   .OnDelete(DeleteBehavior.ClientSetNull)
+                   .HasConstraintName("fk_ann_photosannonce")
+
+
+            });
+
+            modelBuilder.Entity<AnnonceAvis>(entity =>
+            {
+                entity.HasKey(e => e.AvisId)
+                    .HasName("avis_anv_pkey");
+
+                entity.HasKey(e => e.AnnonceId)
+                .HasName("annonce_anv_pkey");
+
+
+              
+            });
+
+            modelBuilder.Entity<Avis>(entity =>
+            {
+                entity.HasKey(e => e.AvisId)
+                    .HasName("avsi_avi_pkey");
+
+                entity.HasKey(e => e.ProfilId)
+                   .HasName("profil_avi_pkey");
+
+                entity.Property(e => e.Titre).HasMaxLength(100);
+
+                entity.Property(e => e.Note)
+               .HasCheckConstraint("chk_avi_note", @"^[1-5]{1}$");
+
+                entity.HasMany(d => d.AvisTypeProfilAvis)
+                    .WithOne(p => p.AviAvisProfil)
+                    .HasForeignKey(d => d.ProfilId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_avi_avistypeprofilavis");
+
+                entity.HasMany(d => d.AvisTypeAnnonceAvis)
+                   .WithOne(p => p.AviAvisAnnonce)
+                   .HasForeignKey(d => d.AnnonceId)
+                   .OnDelete(DeleteBehavior.ClientSetNull)
+                   .HasConstraintName("fk_avi_avistypeannonceavis");
+            });
+
 
             /*
             modelBuilder.Entity<Etudiant>(entity =>
