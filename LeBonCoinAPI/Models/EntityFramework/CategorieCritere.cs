@@ -16,13 +16,14 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Key]
         [Column("ccr_id")]
-        public int IdCategorieCritere { get; set; }
+        public int CategorieCritereId { get; set; }
 
         [Required]
         [Column("ccr_libelle")]
         [StringLength(50)]
         public string Libelle { get; set; } = null!;
 
+        //Critere
         [InverseProperty(nameof(Critere.CategorieDuCritere))]
         public virtual ICollection<Critere> CriteresCategorie { get; set; }
 

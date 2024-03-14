@@ -9,7 +9,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public Action()
         {
-            FormulairesChatbot = new HashSet<FormulaireChatbot>();
+            FormulairesChatbotAction = new HashSet<FormulaireChatbot>();
         }
         [Key]
         [Column("act_id")]
@@ -19,8 +19,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [StringLength(50)]
         public string? Libelle { get; set; }
 
+        //FormulaireChatBot
         [InverseProperty(nameof(FormulaireChatbot.ActionFormulaire))]
-        public virtual ICollection<FormulaireChatbot> FormulairesChatbot { get; set; }
+        public virtual ICollection<FormulaireChatbot> FormulairesChatbotAction { get; set; }
 
     }
 }

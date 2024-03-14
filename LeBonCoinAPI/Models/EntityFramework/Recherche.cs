@@ -10,22 +10,22 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public Recherche()
         {
-            ChercheCriteresRecherche = new HashSet<ChercheCritere>();
+            CriteresDeLaRecherche = new HashSet<ChercheCritere>();
             ChercheTypesLogementsRecherche = new HashSet<ChercherTypeLogement>();
         }
 
         [Key]
         [Column("rch_id")]
-        public int IdRecherche { get; set; }
+        public int RechercheId { get; set; }
 
 
         [Key]
         [Column("cvo_id")]
-        public int IdCapaciteVoyageur { get; set; }
+        public int CapaciteVoyageurId { get; set; }
 
         [Key]
         [Column("pro_id")]
-        public int IdProfil { get; set; }
+        public int ProfilId { get; set; }
 
 
         [Required]
@@ -33,21 +33,28 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [RegularExpression(@"^[0-9]{5}$", ErrorMessage = "Le code insee doit contenir 5 chiffres")]
         public string CodeInsee { get; set; } = null!;
 
+        //ChercheCritere
         [InverseProperty(nameof(ChercheCritere.RechercheDuCritereCherche))]
-        public virtual ICollection<ChercheCritere> ChercheCriteresRecherche { get; set; }
+        public virtual ICollection<ChercheCritere> CriteresDeLaRecherche { get; set; }
 
+        //ChercheTypeLogement
         [InverseProperty(nameof(ChercherTypeLogement.RechercheDuChercheTypeLogement))]
         public virtual ICollection<ChercherTypeLogement> ChercheTypesLogementsRecherche { get; set; }
 
-        [ForeignKey(nameof(IdCapaciteVoyageur))]
+        
+        //CapaciteVoyageur
+        [ForeignKey(nameof(CapaciteVoyageurId))]
         [InverseProperty(nameof(CapaciteVoyageur.RecherchesCapaciteVoyageur))]
         public virtual CapaciteVoyageur CapaciteVoyageurDeLaRecherche { get; set; } = null!;
 
+        //Vile
         [ForeignKey(nameof(CodeInsee))]
         [InverseProperty(nameof(Ville.RecherchesVille))]
-        public virtual Ville VilleDeLaRecherche { get; set; } = null!;
+        public virtual Ville VilleRecherche { get; set; } = null!;
 
-        [ForeignKey(nameof(IdProfil))]
+
+        //Profil
+        [ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.RecherchesProfil))]
         public virtual Profil ProfilDeLaRecherche { get; set; } = null!;
 

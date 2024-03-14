@@ -11,30 +11,33 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public Critere()
         {
             ContientsCritere = new HashSet<Contient>();
-            ChercheCriteres = new HashSet<ChercheCritere>();
+            RecherchesDuCritere = new HashSet<ChercheCritere>();
         }
 
         [Key]
         [Column("cri_idcritere")]
-        public int IdCritere { get; set; }
+        public int CritereId { get; set; }
 
         [Key]
         [Column("ccr_idcategoriecritere")]
-        public int IdCategorieCritere { get; set; }
+        public int CategorieCritereId { get; set; }
 
         [Required]
         [Column("cri_libellecritere")]
         public string libellecritere { get; set; } = null!;
 
+        //Contient
         [InverseProperty(nameof(Contient.CritereContient))]
         public virtual ICollection<Contient> ContientsCritere { get; set; }
 
-        [ForeignKey(nameof(IdCategorieCritere))]
+        //CategorieCritere
+        [ForeignKey(nameof(CategorieCritereId))]
         [InverseProperty(nameof(CategorieCritere.CriteresCategorie))]
         public virtual CategorieCritere CategorieDuCritere { get; set; } = null!;
 
+        //ChercheCritere
         [InverseProperty(nameof(ChercheCritere.CritereCherche))]
-        public virtual ICollection<ChercheCritere> ChercheCriteres { get; set; }
+        public virtual ICollection<ChercheCritere> RecherchesDuCritere { get; set; }
 
     }
 }

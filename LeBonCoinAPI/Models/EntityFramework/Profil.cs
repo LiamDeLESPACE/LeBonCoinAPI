@@ -13,17 +13,17 @@ namespace LeBonCoinAPI.Models.EntityFramework
             AvisDepose = new HashSet<Avis>();
             AvisRecus = new HashSet<ProfilAvis>();
             RecherchesProfil = new HashSet<Recherche>();
-            ProprioProfil = new HashSet<Proprietaire>();
-
+            PhotosProfil = new HashSet<Photo>();
+            FavorisProfil = new HashSet<Favoris>();
         }
 
         [Key]
         [Column("pro_id")]
-        public int IdProfil { get; set; }
+        public int ProfilId { get; set; }
 
         [Key]
         [Column("prp_id")]
-        public int IdProprietaire { get; set; }
+        public int ProprietaireId { get; set; }
 
         [Key]
         [Column("cut_id")]
@@ -31,15 +31,15 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Key]
         [Column("loc_id")]
-        public int IdLocataire { get; set; }
+        public int LocataireId { get; set; }
 
         [Key]
         [Column("adr_id")]
-        public int IdAdresse { get; set; }
+        public int AdresseId { get; set; }
 
         [Key]
         [Column("pho_id")]
-        public int IdPhoto { get; set; }
+        public int PhotoId { get; set; }
 
         [Column("pro_tempsreponse")]
         public int TempsReponse { get; set; }
@@ -65,30 +65,31 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public virtual ICollection<Recherche> RecherchesProfil { get; set; }
 
         //Adresse
-        [ForeignKey(nameof(IdAdresse))]
-        [InverseProperty(nameof(Adresse.Adresses))]
-        public virtual Adresse Adr { get; set; } = null!;
+        [ForeignKey(nameof(AdresseId))]
+        [InverseProperty(nameof(Adresse.ProfilsAdresse))]
+        public virtual Adresse AdresseProfil { get; set; } = null!;
 
         //CompteUtilisateur
         [ForeignKey(nameof(CompteUtilisateurId))]
-        [InverseProperty(nameof(CompteUtilisateur.Compte))]
-        public virtual CompteUtilisateur CompteUti { get; set; } = null!;
+        [InverseProperty(nameof(CompteUtilisateur.ProfilsCompteUtilisateur))]
+        public virtual CompteUtilisateur CompteUtilisateurProfil { get; set; } = null!;
 
         //proprietaire
-        [ForeignKey(nameof(IdProprietaire))]
-        [InverseProperty(nameof(Proprietaire.ProprietaireProfile))]
-        public virtual Proprietaire Proprio { get; set; } = null!;
-
-        [InverseProperty(nameof(Proprietaire.ProfilProprio))]
-        public virtual ICollection<Proprietaire> ProprioProfil { get; set; }
+        [ForeignKey(nameof(ProprietaireId))]
+        [InverseProperty(nameof(Proprietaire.ProfilProprietaire))]
+        public virtual Proprietaire ProprietaireProfil { get; set; } = null!;
 
         //Locataire
-        [ForeignKey(nameof(IdLocataire))]
+        [ForeignKey(nameof(LocataireId))]
         [InverseProperty(nameof(Locataire.ProfilsLocataire))]
         public virtual Locataire LocataireProfil { get; set; } = null!;
 
         //Photo
         [InverseProperty(nameof(Photo.PhotoProfil))]
         public virtual ICollection<Photo> PhotosProfil { get; set; }
+
+        //Favoris
+        [InverseProperty(nameof(Favoris.ProfilFavoris))]
+        public virtual ICollection<Favoris> FavorisProfil { get; set; }
     }
 }

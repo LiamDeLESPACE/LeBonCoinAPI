@@ -30,10 +30,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("inc_codeetat")]
         public int CodeEtat { get; set; }
 
+        //Locataire
         [ForeignKey(nameof(LocataireId))]
         [InverseProperty(nameof(Locataire.SignalementsLocataire))]
         public virtual Locataire LocataireSignalant { get; set; } = null!;
 
+        //Reservation
         [ForeignKey(nameof(LocataireId))]
         [InverseProperty(nameof(Reservation.SignalementsReservation))]
         public virtual Reservation ReservationSignale { get; set; } = null!;

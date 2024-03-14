@@ -9,10 +9,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public Annonce()
         {
-            Fav = new HashSet<Favoris>();
-            Avis = new HashSet<AnnonceAvis>();
+            FavorisAnnonce = new HashSet<Favoris>();
+            AvisAnnonce = new HashSet<AnnonceAvis>();
             ContientsAnnonce = new HashSet<Contient>();
             ReservationsAnnonce = new HashSet<Reservation>();
+            PhotosAnnonce = new HashSet<Photo>();
 
         }
 
@@ -70,11 +71,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
         
         //Favoris
         [InverseProperty(nameof(Favoris.AnnonceFavoris))]
-        public virtual ICollection<Favoris> Fav { get; set; }
+        public virtual ICollection<Favoris> FavorisAnnonce { get; set; }
 
         //AnnonceAvis
-        [InverseProperty(nameof(AnnonceAvis.AvisAnnoces))]
-        public virtual ICollection<AnnonceAvis> Avis { get; set; }
+        [InverseProperty(nameof(AnnonceAvis.AnnonceAvi))]
+        public virtual ICollection<AnnonceAvis> AvisAnnonce { get; set; }
 
         //TypeLogement
         [ForeignKey(nameof(TypelogementId))]
@@ -83,8 +84,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         //Proprietaire
         [ForeignKey(nameof(ProprietaireId))]
-        [InverseProperty(nameof(Proprietaire.Proprio))]
-        public virtual Proprietaire Proprietaires { get; set; } = null!;
+        [InverseProperty(nameof(Proprietaire.AnnoncesProprietaire))]
+        public virtual Proprietaire ProprietaireAnnonce { get; set; } = null!;
 
         //Contient
         [InverseProperty(nameof(Contient.AnnonceContient))]
@@ -94,7 +95,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Reservation.AnnonceReservation))]
         public virtual ICollection<Reservation> ReservationsAnnonce { get; set; }
 
-        //Capacite Voyageur
+        //CapaciteVoyageur
         [ForeignKey(nameof(CapacitevoyageurId))]
         [InverseProperty(nameof(CapaciteVoyageur.AnnoncesCapacite))]
         public virtual CapaciteVoyageur CapaciteAnnonce { get; set; } = null!;

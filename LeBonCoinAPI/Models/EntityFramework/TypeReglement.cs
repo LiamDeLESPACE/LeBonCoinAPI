@@ -20,6 +20,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [StringLength(50)]
         public string Libelle { get; set; } = null!;
 
+        //Reglement
         [InverseProperty(nameof(Reglement.TypeDeReglement))]
         public virtual ICollection<Reglement> ReglementsDuType { get; set; }
     }

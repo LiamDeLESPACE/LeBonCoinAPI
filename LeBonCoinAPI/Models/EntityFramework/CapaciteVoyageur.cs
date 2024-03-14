@@ -16,7 +16,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Key]
         [Column("cvo_idcapacitevoyageur")]
-        public int IdCapaciteVoyageur { get; set; }
+        public int CapaciteVoyageurId { get; set; }
 
 
         [Required]
@@ -40,10 +40,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [RegularExpression(@"^[1-99]{1}$", ErrorMessage = "La nombre d'adulte doit être un chiffre compris entre 1 et 99.")]
         public int NbAnimaux { get; set; }
 
+        //Recherche
         [InverseProperty(nameof(Recherche.CapaciteVoyageurDeLaRecherche))]
         public virtual ICollection<Recherche> RecherchesCapaciteVoyageur { get; set; }
 
-
+        //Annonce
         [InverseProperty(nameof(Annonce.CapaciteAnnonce))]
         public virtual ICollection<Annonce> AnnoncesCapacite { get; set; }
 
