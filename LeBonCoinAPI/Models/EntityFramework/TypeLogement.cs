@@ -15,7 +15,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Key]
         [Column("tyl_id")]
-        public int IdTypeLogement { get; set; }
+        public int TypeLogementId { get; set; }
 
 
         [Required]

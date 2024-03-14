@@ -9,11 +9,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         [Key]
         [Column("cri_id")]
-        public int IdCritere { get; set; }
+        public int CritereId { get; set; }
 
         [Key]
         [Column("rch_id")]
-        public int IdRecherche { get; set; }
+        public int RechercheId { get; set; }
 
         [ForeignKey(nameof(IdCritere))]
         [InverseProperty(nameof(Critere.ChercheCriteres))]

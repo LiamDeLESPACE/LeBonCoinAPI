@@ -16,11 +16,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Key]
         [Column("cri_idcritere")]
-        public int IdCritere { get; set; }
+        public int CritereId { get; set; }
 
         [Key]
         [Column("ccr_idcategoriecritere")]
-        public int IdCategorieCritere { get; set; }
+        public int CategorieCritereId { get; set; }
 
         [Required]
         [Column("cri_libellecritere")]
@@ -29,7 +29,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Contient.CritereContient))]
         public virtual ICollection<Contient> ContientsCritere { get; set; }
 
-        [ForeignKey(nameof(IdCategorieCritere))]
+        [ForeignKey(nameof(CategorieCritereId))]
         [InverseProperty(nameof(CategorieCritere.CriteresCategorie))]
         public virtual CategorieCritere CategorieDuCritere { get; set; } = null!;
 
