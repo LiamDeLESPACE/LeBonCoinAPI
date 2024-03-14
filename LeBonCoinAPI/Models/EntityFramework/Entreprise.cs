@@ -7,6 +7,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_e_entreprise_ent")]
     public class Entreprise
     {
+        public Entreprise()
+        {
+            CompteUtilisateursEntreprise = new HashSet<CompteUtilisateur>();
+        }
+
         [Key]
         [Column("ent_id")]
         public int EntrepriseId { get; set; }
@@ -23,5 +28,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("ent_secteuractivite")]
         [StringLength(50)]
         public string? SecteurActivite { get; set; }
+
+        [InverseProperty(nameof(CompteUtilisateur.EntrepriseCompteUtilisateur))]
+        public virtual ICollection<CompteUtilisateur> CompteUtilisateursEntreprise { get; set; }
+
     }
 }

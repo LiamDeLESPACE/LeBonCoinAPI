@@ -7,6 +7,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_e_particulier_par")]
     public class Particulier
     {
+        public Particulier()
+        {
+            CompteUtilisateursParticulier = new HashSet<CompteUtilisateur>();
+        }
+
         [Key]
         [Column("par_idparticulier")]
         public int ParticulierId { get; set; }
@@ -34,6 +39,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("par_pseudo")]
         [StringLength(50)]
         public string Pseudo { get; set; } = null!;
+
+        [InverseProperty(nameof(CompteUtilisateur.ParticulierCompteUtilisateur))]
+        public virtual ICollection<CompteUtilisateur> CompteUtilisateursParticulier { get; set; }
 
     }
 }
