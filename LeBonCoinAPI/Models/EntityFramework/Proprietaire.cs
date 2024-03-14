@@ -10,6 +10,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public Proprietaire()
         {
             ProfilProprietaire = new HashSet<Profil>();
+            AnnoncesProprietaire = new HashSet<Annonce>();
         }
         [Key]
         [Column("prp_id")]
