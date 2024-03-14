@@ -73,15 +73,15 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(CompteUtilisateur.ProfilsCompteUtilisateur))]
         public virtual CompteUtilisateur CompteUtilisateurProfil { get; set; } = null!;
 
-        //proprietaire
+        //Proprietaire
         [ForeignKey(nameof(ProprietaireId))]
-        [InverseProperty(nameof(Proprietaire.ProfilProprietaire))]
-        public virtual Proprietaire ProprietaireProfil { get; set; } = null!;
+        [InverseProperty(nameof(Proprietaire.ProfilsProprietaire))]
+        public virtual Proprietaire ProprietaireProfil { get; set; }
 
         //Locataire
         [ForeignKey(nameof(LocataireId))]
         [InverseProperty(nameof(Locataire.ProfilsLocataire))]
-        public virtual Locataire LocataireProfil { get; set; } = null!;
+        public virtual Locataire LocataireProfil { get; set; }
 
         //Favoris
         [InverseProperty(nameof(Favoris.ProfilFavoris))]

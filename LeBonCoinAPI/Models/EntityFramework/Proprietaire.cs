@@ -9,7 +9,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public Proprietaire()
         {
-            ProfilProprietaire = new HashSet<Profil>();
+            ProfilsProprietaire = new HashSet<Profil>();
             AnnoncesProprietaire = new HashSet<Annonce>();
         }
         [Key]
@@ -22,7 +22,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         //Profil
         [InverseProperty(nameof(Profil.ProprietaireProfil))]
-        public virtual ICollection<Profil> ProfilProprietaire { get; set; }
+        public virtual ICollection<Profil> ProfilsProprietaire { get; set; }
 
     }
 }
