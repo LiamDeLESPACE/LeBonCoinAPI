@@ -9,7 +9,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public TypeLogement()
         {
-            TypesLo = new HashSet<Annonce>();
+            AnnoncesTypeLogement = new HashSet<Annonce>();
             ChercheTypesLogements = new HashSet<ChercherTypeLogement>();
         }
 
@@ -24,8 +24,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public string Libelle { get; set; } = null!;
 
         //Annonce
-        [InverseProperty(nameof(Annonce.TypesLogements))]
-        public virtual ICollection<Annonce> TypesLo { get; set; }
+        [InverseProperty(nameof(Annonce.TypeLogementAnnonce))]
+        public virtual ICollection<Annonce> AnnoncesTypeLogement { get; set; }
 
         //ChercherTypeLogement
         [InverseProperty(nameof(ChercherTypeLogement.TypeLogementRecherche))]
