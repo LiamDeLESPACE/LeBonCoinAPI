@@ -9,7 +9,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public Photo()
         {
-            
+            ProfilsPhoto = new HashSet<Profil>();
         }
         [Key]
         [Column("pho_id")]
@@ -18,22 +18,18 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("ann_id")]
         public int AnnonceId { get; set; }
 
-        [Column("pro_id")]
-        public int ProfilId { get; set; }
-
         [Required]
         [Column("pho_donneephoto")]
         public string DonneePhoto { get; set; } = null!;
 
         //Profil
-        [ForeignKey(nameof(ProfilId))]
-        [InverseProperty(nameof(Profil.PhotosProfil))]
-        public virtual Profil PhotoProfil { get; set; }
+        [InverseProperty(nameof(Profil.PhotoProfil))]
+        public virtual ICollection<Profil> ProfilsPhoto { get; set; }
 
         //Annonce
         [ForeignKey(nameof(AnnonceId))]
         [InverseProperty(nameof(Annonce.PhotosAnnonce))]
-        public virtual Annonce PhotoAnnonce { get; set; }
+        public virtual Annonce AnnoncePhoto { get; set; }
 
 
 

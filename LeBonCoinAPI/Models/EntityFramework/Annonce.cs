@@ -101,7 +101,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public virtual CapaciteVoyageur CapaciteVoyageurAnnonce { get; set; } = null!;
 
         //Photo
-        [InverseProperty(nameof(Photo.PhotoAnnonce))]
+        [InverseProperty(nameof(Photo.AnnoncePhoto))]
         public virtual ICollection<Photo> PhotosAnnonce { get; set; }
 
         //Adresse
