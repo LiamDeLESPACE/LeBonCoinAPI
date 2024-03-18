@@ -21,7 +21,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public bool CodeEtat { get; set; }
 
         [ForeignKey(nameof(AnnonceId))]
-        [InverseProperty(nameof(Annonce.AnnonceId))]
-        public virtual Annonce DateAnnonce { get; set; } = null!;
+        [InverseProperty(nameof(Annonce.DatesAnnonce))]
+        public virtual Annonce AnnonceDate { get; set; } = null!;
     }
 }

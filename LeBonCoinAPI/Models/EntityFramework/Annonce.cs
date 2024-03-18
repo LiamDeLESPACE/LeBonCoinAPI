@@ -14,6 +14,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
             CriteresAnnonce = new HashSet<Contient>();
             ReservationsAnnonce = new HashSet<Reservation>();
             PhotosAnnonce = new HashSet<Photo>();
+            DatesAnnonce = new HashSet<Datec>();
 
         }
 
@@ -24,9 +25,6 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("prp_id")]
         public int ProprietaireId { get; set; }
-
-        [Column("dat_id")]
-        public DateTime DatecId { get; set; }
 
         [Required]
         [Column("tyl_id")]
@@ -65,10 +63,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
 
         //Date
-        [ForeignKey(nameof(DatecId))]
-        [InverseProperty(nameof(Datec.DateAnnonce))]
-        public virtual Datec AnnonceDate { get; set; } = null!;
-        
+        [InverseProperty(nameof(Datec.AnnonceDate))]
+        public virtual ICollection<Datec> DatesAnnonce { get; set; }
+
         //Favoris
         [InverseProperty(nameof(Favoris.AnnonceFavoris))]
         public virtual ICollection<Favoris> FavorisAnnonce { get; set; }
