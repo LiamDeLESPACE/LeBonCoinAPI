@@ -78,6 +78,16 @@ namespace LeBonCoinAPI.Models.EntityFramework
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_adr_vil");
             });
+            modelBuilder.Entity<AnnonceAvis>(entity =>
+            {
+                entity.HasKey(e => e.AvisId)
+                    .HasName("avis_anv_pkey");
+
+                entity.HasKey(e => e.AnnonceId)
+                    .HasName("annonce_anv_pkey");
+
+                
+            });
 
             /*
             modelBuilder.Entity<Etudiant>(entity =>
