@@ -89,6 +89,16 @@ namespace LeBonCoinAPI.Models.EntityFramework
                 
             });
 
+            modelBuilder.Entity<CapaciteVoyageur>(entity =>
+            {
+                entity.HasKey(e => e.CapaciteVoyageurId)
+                    .HasName("capacitevoyageur_cvo_pkey");
+
+            
+
+
+            });
+
             /*
             modelBuilder.Entity<Etudiant>(entity =>
             {
