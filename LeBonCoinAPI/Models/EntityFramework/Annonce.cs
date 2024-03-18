@@ -28,19 +28,20 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Required]
         [Column("tyl_id")]
-        public int TypelogementId { get; set; }
+        public int TypeLogementId { get; set; }
 
         [Required]
         [Column("cpv_id")]
-        public int CapacitevoyageurId { get; set; }
+        public int CapaciteVoyageurId { get; set; }
 
         [Required]
         [Column("adr_id")]
         public int AdresseId { get; set; }
 
+        [Required]
         [Column("ann_titre")]
         [StringLength(100)]
-        public string? Titre { get; set; }
+        public string Titre { get; set; } = null!;
 
         [Required]
         [Column("ann_dureeminimumsejour")]
@@ -52,10 +53,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Required]
         [Column("ann_datepublication", TypeName = "date")]
-        public DateTime? DatePublication { get; set; }
+        public DateTime DatePublication { get; set; }
 
+        [Required]
         [Column("ann_description")]
-        public string? Description { get; set; }
+        public string Description { get; set; } = null!;
 
         [Column("ann_etoile")]
         [Range(0,5)]
@@ -75,7 +77,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public virtual ICollection<AnnonceAvis> AvisAnnonce { get; set; }
 
         //TypeLogement
-        [ForeignKey(nameof(TypelogementId))]
+        [ForeignKey(nameof(TypeLogementId))]
         [InverseProperty(nameof(TypeLogement.AnnoncesTypeLogement))]
         public virtual TypeLogement TypeLogementAnnonce { get; set; } = null!;
 
@@ -93,7 +95,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public virtual ICollection<Reservation> ReservationsAnnonce { get; set; }
 
         //CapaciteVoyageur
-        [ForeignKey(nameof(CapacitevoyageurId))]
+        [ForeignKey(nameof(CapaciteVoyageurId))]
         [InverseProperty(nameof(CapaciteVoyageur.AnnoncesCapaciteVoyageur))]
         public virtual CapaciteVoyageur CapaciteVoyageurAnnonce { get; set; } = null!;
 
