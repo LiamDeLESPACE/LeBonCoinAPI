@@ -1,3 +1,4 @@
+using LeBonCoinAPI.Models.Auth;
 using LeBonCoinAPI.Models.EntityFramework;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,11 @@ namespace LeBonCoinAPI
                          ClockSkew = TimeSpan.Zero
                      };
                  });
+
+            builder.Services.AddAuthorization(config =>
+            {
+                config.AddPolicy(Policies.User, Policies.UserPolicy());
+            });
 
             var app = builder.Build();
 

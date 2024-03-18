@@ -7,6 +7,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_e_compteutilisateur_cut")]
     public class CompteUtilisateur
     {
+        private string jwt;
+
         public CompteUtilisateur()
         {
             ProfilsCompteUtilisateur = new HashSet<Profil>();
