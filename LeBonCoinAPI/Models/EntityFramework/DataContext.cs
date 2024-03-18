@@ -61,9 +61,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
                     .HasName("annonce_ann_pkey");
 
                 entity.Property(e => e.ProprietaireId);
-                entity.Property(e => e.CalendrierId);
-                entity.Property(e => e.TypelogementId);
-                entity.Property(e => e.CapacitevoyageurId);
+                entity.Property(e => e.TypeLogementId);
+                entity.Property(e => e.CapaciteVoyageurId);
                 entity.Property(e => e.AdresseId);
                 entity.Property(e => e.Titre).HasMaxLength(100);
                 entity.Property(e => e.DureeMinimumSejour);
