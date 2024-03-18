@@ -61,7 +61,6 @@ namespace LeBonCoinAPI.Models.EntityFramework
                     .HasName("annonce_ann_pkey");
 
                 entity.Property(e => e.ProprietaireId);
-                entity.Property(e => e.CalendrierId);
                 entity.Property(e => e.TypelogementId);
                 entity.Property(e => e.CapacitevoyageurId);
                 entity.Property(e => e.AdresseId);
@@ -72,9 +71,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
                 entity.Property(e => e.Description);
                 entity.Property(e => e.Etoile);
 
-                entity.HasOne(d => d.VilleAdresse)
-                    .WithMany(p => p.AdressesVille)
-                    .HasForeignKey(d => d.CodeInsee)
+                entity.HasOne(d => d.AdresseAnnonce)
+                    .WithMany(p => p.AnnoncesAdresse)
+                    .HasForeignKey(d => d.AnnonceId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_adr_vil");
             });
