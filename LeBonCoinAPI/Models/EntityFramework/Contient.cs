@@ -7,7 +7,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
     public class Contient
     {
         [Key]
-        [Column("cri_idcritere")]
+        [Column("cri_id")]
         public int CritereId { get; set; }
 
         [Key]

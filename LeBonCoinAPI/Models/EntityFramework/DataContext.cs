@@ -93,7 +93,18 @@ namespace LeBonCoinAPI.Models.EntityFramework
                 entity.HasKey(e => e.CapaciteVoyageurId)
                     .HasName("capacitevoyageur_cvo_pkey");
 
-            
+                entity.Property(e => e.NbAdulte)
+                    .HasCheckConstraint("chk_NbAdulte_range", "cvo_nbadultes >= 0 AND cvo_nbadultes <= 99");
+
+                entity.Property(e => e.NbEnfants)
+                  .HasCheckConstraint("chk_NbEnfants_range", "cvo_nbenfants >= 0 AND cvo_nbenfants <= 99");
+
+
+                entity.Property(e => e.NbBebes)
+                  .HasCheckConstraint("chk_NbBebes_range", "cvo_nbBebes >= 0 AND cvo_nbBebes <= 99");
+
+                entity.Property(e => e.NbAnimaux)
+                 .HasCheckConstraint("chk_NbAnimaux_range", "cvo_nbAnimaux >= 0 AND cvo_nbAnimaux <= 99");
 
 
             });
