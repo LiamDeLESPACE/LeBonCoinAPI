@@ -24,7 +24,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         {
             //Modèle builder
             
-            modelBuilder.Entity<Action>(entity =>
+            /*modelBuilder.Entity<Action>(entity =>
             {
                 entity.HasKey(e => e.ActionId)
                     .HasName("action_act_pkey");
@@ -109,7 +109,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
             });
 
-            /*
+            
             modelBuilder.Entity<Etudiant>(entity =>
             {
                 entity.HasKey(e => e.EtudiantId)
