@@ -17,24 +17,19 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("adr_id")]
         public int AdresseId { get; set; }
 
-        [Key]
+        [Required]
         [Column("vil_codeinsee")]
         [StringLength(11)]
-        public string CodeInsee { get; set; } = null!;
+        public string CodeInsee { get; set; }
 
         [Required]
         [Column("adr_rue")]
         [StringLength(100)]
-        public string Rue { get; set; } = null!;
+        public string Rue { get; set; }
 
         [Required]
         [Column("adr_numero")]
         public int Numero { get; set; }
-
-        [Required]
-        [Column("adr_pays")]
-        [StringLength(50)]
-        public string Pays { get; set; } = null!;
 
         //Profil
         [InverseProperty(nameof(Profil.AdresseProfil))]

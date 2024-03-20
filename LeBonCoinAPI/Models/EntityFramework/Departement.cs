@@ -15,7 +15,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Key]
         [Column("dep_code")]
-        public int DepartementCode { get; set; }
+        public string DepartementCode { get; set; }
 
         [Required]
         [Column("dep_nom")]
