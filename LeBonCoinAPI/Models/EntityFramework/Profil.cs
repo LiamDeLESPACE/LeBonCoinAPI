@@ -19,6 +19,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
             SignalementsProfil = new HashSet<Signale>();
             AnnoncesProfil = new HashSet<Annonce>();
             FavorisProfil = new HashSet<Favoris>();
+            AvisProfil = new HashSet<Avis>();
         }
 
         [Key]
@@ -74,6 +75,10 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Annonce
         [InverseProperty(nameof(Annonce.ProfilAnnonce))]
         public virtual ICollection<Annonce> AnnoncesProfil { get; set; }
+
+        //Avis
+        [InverseProperty(nameof(Avis.ProfilAvis))]
+        public virtual ICollection<Avis> AvisProfil { get; set; }
 
         //Adresse
         [ForeignKey(nameof(ProfilId))]
