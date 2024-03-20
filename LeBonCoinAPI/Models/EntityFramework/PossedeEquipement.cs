@@ -1,7 +1,27 @@
-﻿namespace LeBonCoinAPI.Models.EntityFramework
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+
+namespace LeBonCoinAPI.Models.EntityFramework
 {
+    [Table("t_j_possedeequipement_peq")]
     public class PossedeEquipement
     {
+        [Key]
+        [Column("ann_id")]
+        public int AnnonceId { get; set; }
 
+        [Key]
+        [Column("equ_id")]
+        public int EquipementId { get; set; }
+
+        [ForeignKey(nameof(AnnonceId))]
+        [InverseProperty(nameof(Annonce.EquipementsPossedesAnnonce))]
+        public virtual Annonce AnnonceEquipementPossede { get; set; } = null!;
+
+        [ForeignKey(nameof(EquipementId))]
+        [InverseProperty(nameof(Equipement.EquipementsPossedesDesEquipement))]
+        public virtual Equipement EquipementPossede { get; set; } = null!;
     }
 }
