@@ -31,5 +31,6 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("adm_email")]
         [StringLength(100)]
         public string? Email { get; set; }
+
     }
 }
