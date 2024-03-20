@@ -22,7 +22,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public string NomSecteur { get; set; }
 
         //Entreprises
-        [InverseProperty(nameof(Entreprise.SecteurEntreprise))]
+        [InverseProperty(nameof(Entreprise.SecteurActiviteEntreprise))]
         public virtual ICollection<Entreprise> EntreprisesSecteurActivite{ get; set; }
     }
 }

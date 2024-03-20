@@ -18,7 +18,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Required]
         [Column("adr_id")]
-        public string AdresseId { get; set; }
+        public int AdresseId { get; set; }
 
         [Required]
         [Column("prf_hashmdp")]
@@ -29,6 +29,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [RegularExpression(@"^0[0-9]{9}$", ErrorMessage = "Le telephone doit contenir 10 chiffres")]
         public string? Telephone { get; set; }
 
+        [Required]
         [Column("prt_email")]
         [StringLength(100)]
         public string? Email { get; set; }
@@ -48,5 +49,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("prt_datenaissance", TypeName = "date")]
         public DateTime? DateNaissance { get; set; }
 
+        //Profil
+        [ForeignKey(nameof(ProfilId))]
+        [InverseProperty(nameof(Profil.ParticuliersProfil))]
+        public virtual Profil ProfilParticulier { get; set; } = null!;
     }
 }

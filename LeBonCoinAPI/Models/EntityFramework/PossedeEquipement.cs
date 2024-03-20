@@ -7,6 +7,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_j_possedeequipement_peq")]
     public class PossedeEquipement
     {
+        public PossedeEquipement()
+        {
+            
+        }
+
         [Key]
         [Column("ann_id")]
         public int AnnonceId { get; set; }

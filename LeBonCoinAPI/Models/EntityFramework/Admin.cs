@@ -6,13 +6,18 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_e_admin_adm")]
     public class Admin : Profil
     {
+        public Admin()
+        {
+            
+        }
+
         [Key]
         [Column("prf_id")]
         public int ProfilId { get; set; }
 
         [Required]
         [Column("adr_id")]
-        public string AdresseId { get; set; }
+        public int AdresseId { get; set; }
 
         [Required]
         [Column("prf_hashmdp")]
@@ -32,5 +37,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [StringLength(100)]
         public string? Email { get; set; }
 
+        //Profil
+        [ForeignKey(nameof(ProfilId))]
+        [InverseProperty(nameof(Profil.AdminsProfil))]
+        public virtual Profil ProfilAdmin { get; set; } = null!;
     }
 }
