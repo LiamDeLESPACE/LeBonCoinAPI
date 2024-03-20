@@ -60,8 +60,20 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Range(0,5)]
         public int Etoile { get; set; }
 
+        //PossedeEquipement
         [InverseProperty(nameof(PossedeEquipement.AnnonceEquipementPossede))]
         public virtual ICollection<PossedeEquipement> EquipementsPossedesAnnonce { get; set; }
+
+        //Adresse
+        [ForeignKey(nameof(AdresseId))]
+        [InverseProperty(nameof(Adresse.AnnoncesAdresse))]
+        public virtual Adresse AdresseAnnonce { get; set; } = null!;
+
+        //TypeLogement
+        [ForeignKey(nameof(TypeLogementId))]
+        [InverseProperty(nameof(TypeLogement.AnnoncesTypeLogement))]
+        public virtual TypeLogement TypeLogementAnnonce { get; set; } = null!;
+
 
     }
 }

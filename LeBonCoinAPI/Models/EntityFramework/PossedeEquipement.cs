@@ -16,10 +16,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("equ_id")]
         public int EquipementId { get; set; }
 
+        //Annonce
         [ForeignKey(nameof(AnnonceId))]
         [InverseProperty(nameof(Annonce.EquipementsPossedesAnnonce))]
         public virtual Annonce AnnonceEquipementPossede { get; set; } = null!;
 
+        //Equipement
         [ForeignKey(nameof(EquipementId))]
         [InverseProperty(nameof(Equipement.EquipementsPossedesDesEquipement))]
         public virtual Equipement EquipementPossede { get; set; } = null!;

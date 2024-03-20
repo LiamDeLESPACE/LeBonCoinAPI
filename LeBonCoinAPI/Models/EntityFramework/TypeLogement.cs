@@ -10,25 +10,20 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public TypeLogement()
         {
             AnnoncesTypeLogement = new HashSet<Annonce>();
-            RecherchesTypeLogement = new HashSet<ChercherTypeLogement>();
         }
 
         [Key]
         [Column("tyl_id")]
         public int TypeLogementId { get; set; }
 
-
         [Required]
-        [Column("tyl_libelle")]
+        [Column("tyl_nom")]
         [StringLength(50)]
-        public string Libelle { get; set; } = null!;
+        public string Nom { get; set; }
 
         //Annonce
         [InverseProperty(nameof(Annonce.TypeLogementAnnonce))]
         public virtual ICollection<Annonce> AnnoncesTypeLogement { get; set; }
 
-        //ChercherTypeLogement
-        [InverseProperty(nameof(ChercherTypeLogement.TypeLogementRecherche))]
-        public virtual ICollection<ChercherTypeLogement> RecherchesTypeLogement { get; set; }
     }
 }
