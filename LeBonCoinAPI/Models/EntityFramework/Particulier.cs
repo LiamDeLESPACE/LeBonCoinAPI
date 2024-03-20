@@ -4,45 +4,49 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LeBonCoinAPI.Models.EntityFramework
 {
-    [Table("t_e_particulier_par")]
-    public class Particulier
+    [Table("t_e_particulier_prt")]
+    public class Particulier : Profil
     {
         public Particulier()
         {
-            ComptesUtilisateursParticulier = new HashSet<CompteUtilisateur>();
+          
         }
 
         [Key]
-        [Column("par_id")]
-        public int ParticulierId { get; set; }
+        [Column("prf_id")]
+        public int ProfilId { get; set; }
 
-        [Column("par_nom")]
+        [Required]
+        [Column("adr_id")]
+        public string? AdresseId { get; set; }
+
+        [Required]
+        [Column("prf_hashmdp")]
+        public string? HashMotDePasse { get; set; }
+
+        [Column("prf_telephone")]
+        [StringLength(10)]
+        [RegularExpression(@"^0[0-9]{9}$", ErrorMessage = "Le telephone doit contenir 10 chiffres")]
+        public string? Telephone { get; set; }
+
+        [Column("prt_email")]
+        [StringLength(100)]
+        public string? Email { get; set; }
+
+        [Column("prt_civilite")]
+        [StringLength(1)]
+        public string? Civilite { get; set; }
+
+        [Column("prt_nom")]
         [StringLength(50)]
         public string? Nom { get; set; }
 
-        [Column("par_prenom")]
+        [Column("prt_prenom")]
         [StringLength(50)]
         public string? Prenom { get; set; }
 
-        [Column("par_datenaissance", TypeName = "date")]
+        [Column("prt_datenaissance", TypeName = "date")]
         public DateTime? DateNaissance { get; set; }
-
-        [Column("par_sexe")]
-        [StringLength(1)]
-        public string? Sexe { get; set; }
-
-        [Column("par_mail")]
-        [StringLength(100)]
-        public string? Mail { get; set; }
-
-        [Required]
-        [Column("par_pseudo")]
-        [StringLength(50)]
-        public string Pseudo { get; set; } = null!;
-
-        //CompteUtilisateur
-        [InverseProperty(nameof(CompteUtilisateur.ParticulierCompteUtilisateur))]
-        public virtual ICollection<CompteUtilisateur> ComptesUtilisateursParticulier { get; set; }
 
     }
 }
