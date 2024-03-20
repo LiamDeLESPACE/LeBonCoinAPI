@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,12 +10,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public Annonce()
         {
-            FavorisAnnonce = new HashSet<Favoris>();
-            AvisAnnonce = new HashSet<AnnonceAvis>();
-            CriteresAnnonce = new HashSet<Contient>();
-            ReservationsAnnonce = new HashSet<Reservation>();
-            PhotosAnnonce = new HashSet<Photo>();
-            DatesAnnonce = new HashSet<Datec>();
+            EquipementsPossedesAnnonce = new HashSet<PossedeEquipement>();
+
 
         }
 
@@ -63,50 +60,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Range(0,5)]
         public int Etoile { get; set; }
 
-
-        //Date
-        [InverseProperty(nameof(Datec.AnnonceDate))]
-        public virtual ICollection<Datec> DatesAnnonce { get; set; }
-
-        //Favoris
-        [InverseProperty(nameof(Favoris.AnnonceFavoris))]
-        public virtual ICollection<Favoris> FavorisAnnonce { get; set; }
-
-        //AnnonceAvis
-        [InverseProperty(nameof(AnnonceAvis.AnnonceAvisAnnonce))]
-        public virtual ICollection<AnnonceAvis> AvisAnnonce { get; set; }
-
-        //TypeLogement
-        [ForeignKey(nameof(TypeLogementId))]
-        [InverseProperty(nameof(TypeLogement.AnnoncesTypeLogement))]
-        public virtual TypeLogement TypeLogementAnnonce { get; set; } = null!;
-
-        //Proprietaire
-        [ForeignKey(nameof(ProprietaireId))]
-        [InverseProperty(nameof(Proprietaire.AnnoncesProprietaire))]
-        public virtual Proprietaire ProprietaireAnnonce { get; set; } = null!;
-
-        //Contient
-        [InverseProperty(nameof(Contient.AnnonceCritere))]
-        public virtual ICollection<Contient> CriteresAnnonce { get; set; }
-
-        //Reservation
-        [InverseProperty(nameof(Reservation.AnnonceReservation))]
-        public virtual ICollection<Reservation> ReservationsAnnonce { get; set; }
-
-        //CapaciteVoyageur
-        [ForeignKey(nameof(CapaciteVoyageurId))]
-        [InverseProperty(nameof(CapaciteVoyageur.AnnoncesCapaciteVoyageur))]
-        public virtual CapaciteVoyageur CapaciteVoyageurAnnonce { get; set; } = null!;
-
-        //Photo
-        [InverseProperty(nameof(Photo.AnnoncePhoto))]
-        public virtual ICollection<Photo> PhotosAnnonce { get; set; }
-
-        //Adresse
-        [ForeignKey(nameof(AdresseId))]
-        [InverseProperty(nameof(Adresse.AnnoncesAdresse))]
-        public virtual Adresse AdresseAnnonce { get; set; } = null!;
+        [InverseProperty(nameof(PossedeEquipement.AnnonceEquipementPossede))]
+        public virtual ICollection<PossedeEquipement> EquipementsPossedesAnnonce { get; set; }
 
     }
 }
