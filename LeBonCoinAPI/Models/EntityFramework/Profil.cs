@@ -10,7 +10,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public Profil()
         {
-
+            CartesBancairesProfil = new HashSet<CarteBancaire>();
         }
 
         [Key]
@@ -29,6 +29,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [StringLength(10)]
         [RegularExpression(@"^0[0-9]{9}$", ErrorMessage = "Le telephone doit contenir 10 chiffres")]
         public string? Telephone { get; set; }
+
+
+        //CarteBancaire
+        [InverseProperty(nameof(CarteBancaire.ProfilCarteBancaire))]
+        public virtual ICollection<CarteBancaire> CartesBancairesProfil { get; set; }
 
         //Adresse
         [ForeignKey(nameof(ProfilId))]
