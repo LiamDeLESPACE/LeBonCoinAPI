@@ -29,5 +29,10 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [StringLength(10)]
         [RegularExpression(@"^0[0-9]{9}$", ErrorMessage = "Le telephone doit contenir 10 chiffres")]
         public string? Telephone { get; set; }
+
+        //Adresse
+        [ForeignKey(nameof(ProfilId))]
+        [InverseProperty(nameof(Adresse.ProfilsAdresse))]
+        public virtual Profil AdresseProfil { get; set; } = null!;
     }
 }
