@@ -20,33 +20,29 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public int AnnonceId { get; set; }
 
         [Required]
-        [Column("prp_id")]
-        public int ProprietaireId { get; set; }
+        [Column("adr_id")]
+        public int AdresseId { get; set; }
 
         [Required]
         [Column("tyl_id")]
         public int TypeLogementId { get; set; }
 
         [Required]
-        [Column("cpv_id")]
-        public int CapaciteVoyageurId { get; set; }
-
-        [Required]
-        [Column("adr_id")]
-        public int AdresseId { get; set; }
+        [Column("prf_id")]
+        public int ProfilId { get; set; }
 
         [Required]
         [Column("ann_titre")]
         [StringLength(100)]
-        public string Titre { get; set; } = null!;
+        public string Titre { get; set; }
 
         [Required]
         [Column("ann_dureeminimumsejour")]
         public int DureeMinimumSejour { get; set; }
 
         [Required]
-        [Column("ann_estactive")]
-        public bool EstActive { get; set; }
+        [Column("ann_active")]
+        public bool Active { get; set; }
 
         [Required]
         [Column("ann_datepublication", TypeName = "date")]
@@ -54,11 +50,24 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Required]
         [Column("ann_description")]
-        public string Description { get; set; } = null!;
+        public string Description { get; set; }
 
         [Column("ann_etoile")]
         [Range(0,5)]
         public int Etoile { get; set; }
+
+        [Required]
+        [Column("ann_nombrepersonnesmax")]
+        public int NombrePersonnesMax { get; set; }
+
+        [Required]
+        [Column("ann_prixparnuit")]
+        public double PrixParNuit { get; set; }
+
+        [Required]
+        [Column("ann_nombrechambres")]
+        public int NombreChambres { get; set; }
+
 
         //PossedeEquipement
         [InverseProperty(nameof(PossedeEquipement.AnnonceEquipementPossede))]
@@ -74,6 +83,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(TypeLogement.AnnoncesTypeLogement))]
         public virtual TypeLogement TypeLogementAnnonce { get; set; } = null!;
 
-
+        //Profil
+        [ForeignKey(nameof(ProfilId))]
+        [InverseProperty(nameof(Profil.AnnoncesProfil))]
+        public virtual Profil ProfilAnnonce { get; set; } = null!;
     }
 }
