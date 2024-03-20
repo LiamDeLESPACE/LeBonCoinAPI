@@ -11,8 +11,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public Annonce()
         {
             EquipementsPossedesAnnonce = new HashSet<PossedeEquipement>();
-
-
+            SignalementsAnnonce = new HashSet<Signale>();
         }
 
         [Key]
@@ -72,6 +71,10 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //PossedeEquipement
         [InverseProperty(nameof(PossedeEquipement.AnnonceEquipementPossede))]
         public virtual ICollection<PossedeEquipement> EquipementsPossedesAnnonce { get; set; }
+
+        //Signale
+        [InverseProperty(nameof(Signale.AnnonceSignalement))]
+        public virtual ICollection<Signale> SignalementsAnnonce { get; set; }
 
         //Adresse
         [ForeignKey(nameof(AdresseId))]

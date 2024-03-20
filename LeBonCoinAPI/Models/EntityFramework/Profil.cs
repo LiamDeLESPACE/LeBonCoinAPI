@@ -15,6 +15,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
             ParticuliersProfil = new HashSet<Particulier>();
             AdminsProfil = new HashSet<Admin>();
             PhotosProfil = new HashSet<Photo>();
+            SignalementsProfil = new HashSet<Signale>();
+            AnnoncesProfil = new HashSet<Annonce>();
         }
 
         [Key]
@@ -23,7 +25,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Required]
         [Column("adr_id")]
-        public string AdresseId { get; set; }
+        public int AdresseId { get; set; }
 
         [Required]
         [Column("prf_hashmdp")]
@@ -55,9 +57,17 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Photo.ProfilPhoto))]
         public virtual ICollection<Photo> PhotosProfil { get; set; }
 
+        //Signale
+        [InverseProperty(nameof(Signale.ProfilSignalement))]
+        public virtual ICollection<Signale> SignalementsProfil { get; set; }
+
+        //Annonce
+        [InverseProperty(nameof(Annonce.ProfilAnnonce))]
+        public virtual ICollection<Annonce> AnnoncesProfil { get; set; }
+
         //Adresse
         [ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Adresse.ProfilsAdresse))]
-        public virtual Profil AdresseProfil { get; set; } = null!;
+        public virtual Adresse AdresseProfil { get; set; } = null!;
     }
 }
