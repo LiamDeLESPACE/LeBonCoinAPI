@@ -10,20 +10,20 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public Reservation()
         {
             ReglementsReservation = new HashSet<Reglement>();
-            SignalementsReservation = new HashSet<Incident>();
+            
         }
 
         [Key]
         [Column("res_id")]
         public int ReservationId { get; set; }
 
-        [Key]
+        [Required]
         [Column("ann_id")]
         public int AnnonceId { get; set; }
 
-        [Key]
-        [Column("loc_id")]
-        public int LocataireId { get; set; }
+        [Required]
+        [Column("prf_id")]
+        public int ProfilId { get; set; }
 
         [Required]
         [Column("res_datearrivee")]
@@ -37,23 +37,35 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("res_nombrevoyageur")]
         public int NombreVoyageur { get; set; }
 
-        //Annonce
-        [ForeignKey(nameof(AnnonceId))]
-        [InverseProperty(nameof(Annonce.ReservationsAnnonce))]
-        public virtual Annonce AnnonceReservation { get; set; } = null!;
+        [Required]
+        [Column("res_nom")]
+        [StringLength(50)]
+        public string? Nom { get; set; }
 
-        //Locataire
-        [ForeignKey(nameof(LocataireId))]
-        [InverseProperty(nameof(Locataire.ReservationsLocataire))]
-        public virtual Locataire LocataireReservation { get; set; } = null!;
+        [Required]
+        [Column("res_prenom")]
+        [StringLength(50)]
+        public string? Prenom { get; set; }
+
+        [Required]
+        [Column("res_telephone")]
+        [StringLength(10)]
+        [RegularExpression(@"^0[0-9]{9}$", ErrorMessage = "Le telephone doit contenir 10 chiffres")]
+        public string? Telephone { get; set; }
+
 
         //Reglement
         [InverseProperty(nameof(Reglement.ReservationReglement))]
         public virtual ICollection<Reglement> ReglementsReservation { get; set; }
 
-        //Incident
-        [InverseProperty(nameof(Incident.ReservationSignale))]
-        public virtual ICollection<Incident> SignalementsReservation { get; set; }
+        //Profil
+        [ForeignKey(nameof(ProfilId))]
+        [InverseProperty(nameof(Profil.ReservationsProfil))]
+        public virtual Profil ProfilReservation { get; set; } = null!;
 
+        //Annonce
+        [ForeignKey(nameof(AnnonceId))]
+        [InverseProperty(nameof(Annonce.ReservationsAnnonce))]
+        public virtual Annonce AnnonceReservation { get; set; } = null!;
     }
 }

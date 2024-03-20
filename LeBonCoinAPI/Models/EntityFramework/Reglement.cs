@@ -3,27 +3,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LeBonCoinAPI.Models.EntityFramework
 {
-    [Table("t_j_reglement_rgl")]
+    [Table("t_e_reglement_rgl")]
     public class Reglement
     {
+        public Reglement()
+        {
+            
+        }
 
         [Key]
-        [Column("rgl_numtransaction")]
+        [Column("rgl_id")]
         [StringLength(50)]
-        public string? NumeroTransaction { get; set; }
+        public string? ReglementId { get; set; }
 
-        [Key]
-        [Column("tyr_id")]
-        public int TypeReglementId { get; set; }
-
-        [Key]
+        [Required]
         [Column("res_id")]
         public int ReservationId { get; set; }
 
-        //TypeReglement
-        [ForeignKey(nameof(TypeReglementId))]
-        [InverseProperty(nameof(TypeReglement.ReglementsDeType))]
-        public virtual TypeReglement TypeDeReglement { get; set; } = null!;
 
         //Reservation
         [ForeignKey(nameof(ReservationId))]
