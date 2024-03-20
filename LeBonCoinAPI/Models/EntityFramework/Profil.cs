@@ -19,11 +19,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Required]
         [Column("adr_id")]
-        public string? AdresseId { get; set; }
+        public string AdresseId { get; set; }
 
         [Required]
         [Column("prf_hashmdp")]
-        public string? HashMotDePasse { get; set; }
+        public string HashMotDePasse { get; set; }
 
         [Column("prf_telephone")]
         [StringLength(10)]
