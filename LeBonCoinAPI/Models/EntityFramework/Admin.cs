@@ -11,7 +11,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
             
         }
 
-        [Key]
+        /*[Key]
         [Column("prf_id")]
         public int ProfilId { get; set; }
 
@@ -26,7 +26,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("prf_telephone")]
         [StringLength(10)]
         [RegularExpression(@"^0[0-9]{9}$", ErrorMessage = "Le telephone doit contenir 10 chiffres")]
-        public string? Telephone { get; set; }
+        public string? Telephone { get; set; }*/
 
         [Required]
         [Column("adm_service")]

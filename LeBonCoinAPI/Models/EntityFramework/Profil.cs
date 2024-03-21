@@ -11,8 +11,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public Profil()
         {
             CartesBancairesProfil = new HashSet<CarteBancaire>();
-            EntreprisesProfil = new HashSet<Entreprise>();
-            ParticuliersProfil = new HashSet<Particulier>();
+            //EntreprisesProfil = new HashSet<Entreprise>();
+            //ParticuliersProfil = new HashSet<Particulier>();
             AdminsProfil = new HashSet<Admin>();
             PhotosProfil = new HashSet<Photo>();
             ReservationsProfil = new HashSet<Reservation>();
@@ -44,13 +44,13 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(CarteBancaire.ProfilCarteBancaire))]
         public virtual ICollection<CarteBancaire> CartesBancairesProfil { get; set; }
 
-        //Entreprise
+        /*//Entreprise
         [InverseProperty(nameof(Entreprise.ProfilEntreprise))]
         public virtual ICollection<Entreprise> EntreprisesProfil { get; set; }
 
         //Particulier
         [InverseProperty(nameof(Particulier.ProfilParticulier))]
-        public virtual ICollection<Particulier> ParticuliersProfil { get; set; }
+        public virtual ICollection<Particulier> ParticuliersProfil { get; set; }*/
 
         //Admin
         [InverseProperty(nameof(Admin.ProfilAdmin))]
