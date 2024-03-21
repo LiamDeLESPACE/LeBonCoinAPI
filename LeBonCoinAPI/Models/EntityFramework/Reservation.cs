@@ -58,7 +58,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Reglement.ReservationReglement))]
         public virtual ICollection<Reglement> ReglementsReservation { get; set; }
 
-        //Avis
+        //Commentaire
         [InverseProperty(nameof(Commentaire.ReservationCommentaire))]
         public virtual ICollection<Commentaire> CommentairesReservation { get; set; }
         

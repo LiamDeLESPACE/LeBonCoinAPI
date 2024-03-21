@@ -75,7 +75,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Adresse.ProfilsAdresse))]
         public virtual Adresse AdresseProfil { get; set; } = null!;
 
-        //Avis
+        //Commentaire
         [InverseProperty(nameof(Commentaire.ProfilCommentaire))]
         public virtual ICollection<Commentaire> CommentairesProfil { get; set; }
 
