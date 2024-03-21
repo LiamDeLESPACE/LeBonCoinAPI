@@ -21,6 +21,10 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public int ProfilId { get; set; }
 
         [Required]
+        [Column("ann_id")]
+        public int AnnonceId { get; set; }
+
+        [Required]
         [Column("pho_url")]
         public string URL { get; set; }
 
@@ -29,6 +33,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.PhotosProfil))]
         public virtual Profil ProfilPhoto { get; set; }
+
+        //Profil
+        [ForeignKey(nameof(AnnonceId))]
+        [InverseProperty(nameof(Annonce.PhotosAnnonce))]
+        public virtual Annonce AnnoncePhoto { get; set; }
 
 
 
