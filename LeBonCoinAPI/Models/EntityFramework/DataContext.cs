@@ -42,7 +42,205 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           
+            modelBuilder.Entity<Admin>(entity =>
+            {
+                entity.HasKey(e => e.ProfilId)
+                    .HasName("pk_adm");                
+
+                entity.HasIndex(e => e.ProfilId, "adm_pk")
+                    .IsUnique();
+
+                entity.Property(e => e.ProfilId)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Telephone)
+                    .IsFixedLength();
+            });
+
+            modelBuilder.Entity<Adresse>(entity =>
+            {
+                entity.HasKey(e => e.AdresseId)
+                    .HasName("pk_adr");                
+
+                entity.HasIndex(e => e.AdresseId, "adr_pk")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.CodeInsee, "fk_adr_vil");
+
+                entity.Property(e => e.AdresseId)
+                    .ValueGeneratedNever();                    
+
+                entity.Property(e => e.CodeInsee)    
+                    .IsFixedLength();
+
+                entity.HasOne(d => d.VilleAdresse)
+                    .WithMany(p => p.AdressesVille)
+                    .HasForeignKey(d => d.CodeInsee)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_adr_vil");
+            });
+
+            modelBuilder.Entity<Annonce>(entity =>
+            {
+                entity.HasKey(e => e.AnnonceId)
+                    .HasName("pk_ann");
+
+                entity.HasIndex(e => e.AnnonceId, "ann_pk")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.TypeLogementId, "fk_ann_tyl");
+
+                entity.HasIndex(e => e.ProfilId, "fk_ann_prf");
+
+                entity.HasIndex(e => e.AdresseId, "fk_ann_adr");
+
+                entity.Property(e => e.AnnonceId)
+                    .ValueGeneratedNever();
+
+                entity.HasOne(d => d.AdresseAnnonce)
+                    .WithMany(p => p.AnnoncesAdresse)
+                    .HasForeignKey(d => d.AdresseId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_ann_adr");
+
+                entity.HasOne(d => d.TypeLogementAnnonce)
+                    .WithMany(p => p.AnnoncesTypeLogement)
+                    .HasForeignKey(d => d.TypeLogementId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_ann_tyl");
+
+                entity.HasOne(d => d.ProfilAnnonce)
+                    .WithMany(p => p.AnnoncesProfil)
+                    .HasForeignKey(d => d.ProfilId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_ann_prf");
+            });
+
+            modelBuilder.Entity<Commentaire>(entity =>
+            {
+                entity.HasKey(e => new { e.ProfilId, e.ReservationId })
+                    .HasName("pk_cmt");
+
+                entity.HasIndex(e => e.ReservationId, "fk_cmt_res")
+                    .IsUnique();
+                
+                entity.HasIndex(e => e.ProfilId, "fk_cmt_prf")
+                    .IsUnique();
+
+                entity.HasOne(d => d.ReservationCommentaire)
+                    .WithMany(p => p.CommentairesReservation)
+                    .HasForeignKey(d => d.ReservationId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_cmt_res");
+
+                entity.HasOne(d => d.ProfilCommentaire)
+                    .WithMany(p => p.CommentairesProfil)
+                    .HasForeignKey(d => d.ProfilId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_cmt_prf");
+            });
+
+            modelBuilder.Entity<CarteBancaire>(entity =>
+            {
+                entity.HasKey(e => e.CarteId)
+                    .HasName("pk_cab");
+
+                entity.HasIndex(e => e.CarteId, "cab_pk")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.ProfilId, "fk_cab_prf");
+
+                entity.Property(e => e.CarteId)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Numero)
+                    .IsFixedLength();
+
+                entity.HasOne(d => d.ProfilCarteBancaire)
+                    .WithMany(p => p.CartesBancairesProfil)
+                    .HasForeignKey(d => d.ProfilId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_cmt_prf");
+            });
+
+            modelBuilder.Entity<Departement>(entity =>
+            {
+                entity.HasKey(e => e.DepartementCode)
+                    .HasName("pk_dep");
+
+                entity.HasIndex(e => e.DepartementCode, "dep_pk")
+                    .IsUnique();
+            });
+
+            modelBuilder.Entity<Entreprise>(entity =>
+            {
+                entity.HasKey(e => e.ProfilId)
+                    .HasName("pk_ent");
+
+                entity.HasIndex(e => e.ProfilId, "ent_pk")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.SecteurId, "fk_ent_sct");
+
+                entity.Property(e => e.ProfilId)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Siret)
+                    .IsFixedLength();
+
+                entity.Property(e => e.Telephone)
+                    .IsFixedLength();
+
+                entity.HasOne(d => d.SecteurActiviteEntreprise)
+                   .WithMany(p => p.EntreprisesSecteurActivite)
+                   .HasForeignKey(d => d.SecteurId)
+                   .OnDelete(DeleteBehavior.Restrict)
+                   .HasConstraintName("fk_ent_sct");
+            });
+
+            modelBuilder.Entity<Equipement>(entity =>
+            {
+                entity.HasKey(e => e.EquipementId)
+                    .HasName("pk_equ");
+
+                entity.HasIndex(e => e.EquipementId, "equ_pk")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.TypeEquipementId, "fk_equ_tye");
+
+                entity.Property(e => e.EquipementId)
+                    .ValueGeneratedNever();
+
+                entity.HasOne(d => d.TypeEquipementEquipement)
+                   .WithMany(p => p.EquipementsTypeEquipement)
+                   .HasForeignKey(d => d.TypeEquipementId)
+                   .OnDelete(DeleteBehavior.Restrict)
+                   .HasConstraintName("fk_equ_tye");
+            });
+
+            modelBuilder.Entity<Favoris>(entity =>
+            {
+                entity.HasKey(e => new { e.AnnonceId, e.ProfilId })
+                    .HasName("pk_fav");
+
+                entity.HasIndex(e => e.ProfilId, "fk_fav_prf")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.AnnonceId, "fk_fav_ann")
+                    .IsUnique();
+
+                entity.HasOne(d => d.ProfilFavoris)
+                    .WithMany(p => p.FavorisProfil)
+                    .HasForeignKey(d => d.ProfilId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_fav_prf");
+
+                entity.HasOne(d => d.AnnonceFavoris)
+                    .WithMany(p => p.FavorisAnnonce)
+                    .HasForeignKey(d => d.AnnonceId)
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .HasConstraintName("fk_fav_ann");
+            });
 
             OnModelCreatingPartial(modelBuilder);
         }
