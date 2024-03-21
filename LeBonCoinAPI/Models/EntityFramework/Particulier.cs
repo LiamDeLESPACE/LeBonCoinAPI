@@ -31,10 +31,6 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Column("prt_datenaissance", TypeName = "date")]
         public DateTime? DateNaissance { get; set; }
-
-        /*//Profil
-        [ForeignKey(nameof(ProfilId))]
-        [InverseProperty(nameof(Profil.ParticuliersProfil))]
-        public virtual Profil ProfilParticulier { get; set; } = null!;*/
+        
     }
 }
