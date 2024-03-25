@@ -124,11 +124,6 @@ namespace LeBonCoinAPI.Models.EntityFramework
                 entity.HasCheckConstraint("ck_ann_prixparnuit", "ann_prixparnuit > 0");
                 entity.HasCheckConstraint("ck_ann_nombrechambres", "ann_nombrechambres > 0");
 
-
-                entity.HasCheckConstraint(
-                        "ck_ann_active",
-                        "`ann_active` = 'FALSE' or `ann_active` = 'TRUE'");
-
                 entity.HasCheckConstraint("ck_ann_dureeminimumsejour", "ann_dureeminimumsejour > 0");
                 entity.HasCheckConstraint("ck_ann_nombrepersonnesmax", "ann_nombrepersonnesmax > 0");
                 entity.Property(e => e.DatePublication).HasDefaultValueSql("now()");
