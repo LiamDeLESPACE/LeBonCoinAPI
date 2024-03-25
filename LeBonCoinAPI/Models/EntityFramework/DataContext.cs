@@ -31,27 +31,19 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public virtual DbSet<TypeEquipement> TypeEquipements { get; set; } = null!;
         public virtual DbSet<Ville> Villes { get; set; } = null!;
 
-        //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //        {
-        //            if (!optionsBuilder.IsConfigured)
-        //            {
-        //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        //                optionsBuilder.UseNpgsql("Server=localhost;port=5432;Database=FilmRatingsDB; uid=postgres; password=postgres;");
-        //            }
-        //        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+        #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseNpgsql("Server=localhost;port=5432;Database=LeBonCoinAPI; uid=postgres; password=postgres;");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Admin>(entity =>
             {
-                entity.HasKey(e => e.ProfilId)
-                    .HasName("pk_adm");                
-
-                entity.HasIndex(e => e.ProfilId, "adm_pk")
-                    .IsUnique();
-
-                entity.Property(e => e.ProfilId)
-                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Telephone)
                     .IsFixedLength();
@@ -190,16 +182,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
             modelBuilder.Entity<Entreprise>(entity =>
             {
-                entity.HasKey(e => e.ProfilId)
-                    .HasName("pk_ent");
-
-                entity.HasIndex(e => e.ProfilId, "ent_pk")
-                    .IsUnique();
-
+         
                 entity.HasIndex(e => e.SecteurId, "fk_ent_sct");
-
-                entity.Property(e => e.ProfilId)
-                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Siret)
                     .IsFixedLength();
@@ -260,17 +244,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
             modelBuilder.Entity<Particulier>(entity =>
             {
-                entity.HasKey(e => e.ProfilId)
-                    .HasName("pk_prt");
-
-                entity.HasIndex(e => e.ProfilId, "prt_pk")
-                    .IsUnique();
 
                 entity.Property(e => e.Telephone)
                     .IsFixedLength();
-
-                entity.Property(e => e.ProfilId)
-                    .ValueGeneratedNever();
 
                 entity.HasIndex(e => e.Email)
                     .IsUnique();
@@ -287,7 +263,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
                 entity.HasIndex(e => e.ProfilId, "fk_pho_prf");
 
-                entity.HasIndex(e => e.AnnoncePhoto, "fk_pho_ann");
+                entity.HasIndex(e => e.AnnonceId, "fk_pho_ann");
 
                 entity.HasIndex(e => e.PhotoId, "pho_pk")
                     .IsUnique();

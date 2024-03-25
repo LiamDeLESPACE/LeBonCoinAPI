@@ -14,6 +14,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
             ReservationsAnnonce = new HashSet<Reservation>();
             SignalementsAnnonce = new HashSet<Signale>();
             FavorisAnnonce = new HashSet<Favoris>();
+            PhotosAnnonce = new HashSet<Photo>();
         }
 
         [Key]

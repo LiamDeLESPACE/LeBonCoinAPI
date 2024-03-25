@@ -34,7 +34,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Profil.PhotosProfil))]
         public virtual Profil ProfilPhoto { get; set; }
 
-        //Profil
+        //Annonce
         [ForeignKey(nameof(AnnonceId))]
         [InverseProperty(nameof(Annonce.PhotosAnnonce))]
         public virtual Annonce AnnoncePhoto { get; set; }
