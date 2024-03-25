@@ -42,11 +42,24 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.Entity<Admin>(entity =>
             {
 
                 entity.Property(e => e.Telephone)
                     .IsFixedLength();
+
+                entity.Property(b=>b.ProfilId)
+                .HasColumnName("prf_id");
+
+                entity.Property(b => b.AdresseId)
+                .HasColumnName("adr_id");
+
+                entity.Property(b => b.HashMotDePasse)
+                .HasColumnName("prf_hashmdp");
+
+                entity.Property(b => b.Telephone)
+                .HasColumnName("prf_telephone");
 
                 entity.HasCheckConstraint("ck_adm_email", "adm_email like '%_@__%.__%'");
             });
@@ -73,7 +86,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_adr_vil");
 
-                entity.HasCheckConstraint("ck_adr_adressenum", "adr_adressenum between 0 and 1000");
+                entity.HasCheckConstraint("ck_adr_numero", "adr_numero between 0 and 1000");
             });
 
             modelBuilder.Entity<Annonce>(entity =>
@@ -190,6 +203,17 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
                 entity.Property(e => e.Telephone)
                     .IsFixedLength();
+                entity.Property(b => b.ProfilId)
+                   .HasColumnName("prf_id");
+
+                entity.Property(b => b.AdresseId)
+                    .HasColumnName("adr_id");
+
+                entity.Property(b => b.HashMotDePasse)
+                    .HasColumnName("prf_hashmdp");
+
+                entity.Property(b => b.Telephone)
+                    .HasColumnName("prf_telephone");
 
                 entity.HasOne(d => d.SecteurActiviteEntreprise)
                    .WithMany(p => p.EntreprisesSecteurActivite)
@@ -251,6 +275,17 @@ namespace LeBonCoinAPI.Models.EntityFramework
                 entity.HasIndex(e => e.Email)
                     .IsUnique();
 
+                entity.Property(b=>b.ProfilId)
+                    .HasColumnName("prf_id");
+
+                entity.Property(b => b.AdresseId)
+                    .HasColumnName("adr_id");
+
+                entity.Property(b => b.HashMotDePasse)
+                    .HasColumnName("prf_hashmdp");
+
+                entity.Property(b => b.Telephone)
+                .HasColumnName("prf_telephone");
                 entity.HasCheckConstraint("ck_prt_email", "prt_email like '%_@__%.__%'");
                 entity.HasCheckConstraint("ck_prt_civilite", "prt_civilite in ('H', 'F')");
 
@@ -267,9 +302,6 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
                 entity.HasIndex(e => e.PhotoId, "pho_pk")
                     .IsUnique();
-
-                entity.Property(e => e.PhotoId)
-                    .ValueGeneratedNever();
 
                 entity.HasOne(d => d.ProfilPhoto)
                     .WithMany(p => p.PhotosProfil)
@@ -317,11 +349,22 @@ namespace LeBonCoinAPI.Models.EntityFramework
                 entity.HasIndex(e => e.ProfilId, "prf_pk")
                     .IsUnique();
 
-                entity.Property(e => e.ProfilId)
-                    .ValueGeneratedNever();
-
                 entity.Property(e => e.Telephone)
                     .IsFixedLength();
+
+                entity.Property(b=>b.ProfilId)
+                    .HasColumnName("prf_id");
+
+                entity.Property(b => b.AdresseId)
+                    .HasColumnName("adr_id");
+
+                entity.Property(b => b.HashMotDePasse)
+                    .HasColumnName("prf_hashmdp");
+
+                entity.Property(b => b.Telephone)
+                    .HasColumnName("prf_telephone");
+
+                entity.Property("Discriminator");
 
                 entity.HasOne(d => d.AdresseProfil)
                     .WithMany(p => p.ProfilsAdresse)
