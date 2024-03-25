@@ -19,7 +19,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Required]
         [Column("vil_codeinsee")]
-        [StringLength(11)]
+        [StringLength(5)]
         public string CodeInsee { get; set; }
 
         [Required]

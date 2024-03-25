@@ -15,11 +15,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Key]
         [Column("vil_codeinsee")]
-        [StringLength(11)]
+        [StringLength(5)]
         public string CodeInsee { get; set; }
 
         [Required]
         [Column("dep_code")]
+        [StringLength(3)]
         public int DepartementCode { get; set; }
 
         [Required]

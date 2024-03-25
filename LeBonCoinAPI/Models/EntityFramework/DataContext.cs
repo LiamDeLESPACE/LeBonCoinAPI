@@ -78,6 +78,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
                     .HasForeignKey(d => d.CodeInsee)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_adr_vil");
+
+                entity.HasCheckConstraint("ck_adr_adressenum", "adr_adressenum between 0 and 1000");
             });
 
             modelBuilder.Entity<Annonce>(entity =>
@@ -114,6 +116,14 @@ namespace LeBonCoinAPI.Models.EntityFramework
                     .HasForeignKey(d => d.ProfilId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_ann_prf");
+
+                entity.HasCheckConstraint(
+                        "ck_ann_active",
+                        "`ann_active` = 'FALSE' or `ann_active` = 'TRUE'");
+
+                entity.HasCheckConstraint("ck_ann_dureeminimumsejour", "ann_dureeminimumsejour > 0");
+                entity.HasCheckConstraint("ck_ann_nombrepersonnesmax", "ann_nombrepersonnesma > 0");
+                entity.Property(e => e.DatePublication).HasDefaultValueSql("now()");
             });
 
             modelBuilder.Entity<Commentaire>(entity =>
@@ -170,6 +180,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
                 entity.HasIndex(e => e.DepartementCode, "dep_pk")
                     .IsUnique();
+
+                entity.Property(e => e.DepartementCode)
+                    .IsFixedLength();
             });
 
             modelBuilder.Entity<Entreprise>(entity =>
@@ -374,6 +387,10 @@ namespace LeBonCoinAPI.Models.EntityFramework
                     .HasForeignKey(d => d.AnnonceId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_res_ann");
+
+                entity.HasCheckConstraint("ck_res_nombrevoyageur", "res_nombrevoyageur > 0");
+                entity.Property(e => e.DateArrivee).HasDefaultValueSql("now()");
+                entity.Property(e => e.DateDepart).HasDefaultValueSql("now()+1");
             });
 
             modelBuilder.Entity<SecteurActivite>(entity =>
