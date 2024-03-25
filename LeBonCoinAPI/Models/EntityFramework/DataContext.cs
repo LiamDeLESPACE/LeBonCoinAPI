@@ -55,6 +55,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
                 entity.Property(e => e.Telephone)
                     .IsFixedLength();
+
+                entity.HasCheckConstraint("ck_adm_email", "adm_email like '%_@__%.__%'");
             });
 
             modelBuilder.Entity<Adresse>(entity =>
@@ -116,6 +118,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
                     .HasForeignKey(d => d.ProfilId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_ann_prf");
+
+                entity.HasCheckConstraint("ck_ann_active", "ann_active in ('FALSE', 'TRUE')");
+                entity.HasCheckConstraint("ck_ann_etoile", "ann_etoile > 0 AND ann_etoile <= 5");
+                entity.HasCheckConstraint("ck_ann_prixparnuit", "ann_prixparnuit > 0");
+                entity.HasCheckConstraint("ck_ann_nombrechambres", "ann_nombrechambres > 0");
+
 
                 entity.HasCheckConstraint(
                         "ck_ann_active",
@@ -268,6 +276,13 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
                 entity.Property(e => e.ProfilId)
                     .ValueGeneratedNever();
+
+                entity.HasIndex(e => e.Email)
+                    .IsUnique();
+
+                entity.HasCheckConstraint("ck_prt_email", "prt_email like '%_@__%.__%'");
+                entity.HasCheckConstraint("ck_prt_civilite", "prt_civilite in ('H', 'F')");
+
             });
 
             modelBuilder.Entity<Photo>(entity =>
@@ -342,6 +357,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
                     .HasForeignKey(d => d.AdresseId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_prf_adr");
+
+                entity.HasCheckConstraint("ck_prf_telephone", "prf_telephone LIKE ('06%') or prf_telephone LIKE ('07%')OR prf_telephone IS NULL");
+
             });
 
             modelBuilder.Entity<Reglement>(entity =>
@@ -391,6 +409,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
                 entity.HasCheckConstraint("ck_res_nombrevoyageur", "res_nombrevoyageur > 0");
                 entity.Property(e => e.DateArrivee).HasDefaultValueSql("now()");
                 entity.Property(e => e.DateDepart).HasDefaultValueSql("now()+1");
+
+                entity.HasCheckConstraint("ck_res_telephone", "res_telephone LIKE ('06%') or res_telephone LIKE ('07%')OR res_telephone IS NULL");
+
             });
 
             modelBuilder.Entity<SecteurActivite>(entity =>
@@ -451,6 +472,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
                 entity.Property(e => e.TypeEquipementId)
                     .ValueGeneratedNever();
+
+                entity.HasCheckConstraint("ck_tye_nom", "tye_nom in ('Equipements', 'Extérieur', 'Services et Accessibilité')");
+
             });
 
             modelBuilder.Entity<Ville>(entity =>
