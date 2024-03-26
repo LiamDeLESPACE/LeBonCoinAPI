@@ -18,11 +18,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("cab_numero")]
         [StringLength(16)]
-        public string Numero { get; set; }
+        public string Numero { get; set; } = null!;
 
         //Profil
-        [ForeignKey(nameof(ProfilId))]
+        /*[ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.CartesBancairesProfil))]
-        public virtual Profil ProfilCarteBancaire { get; set; } = null!;
+        public virtual Profil ProfilCarteBancaire { get; set; } = null!;*/
     }
 }

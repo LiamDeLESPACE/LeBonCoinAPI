@@ -17,16 +17,16 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Required]
         [Column("cmt_contenu")]
-        public string Contenu { get; set; }
+        public string Contenu { get; set; } = null!;
 
         //Profil
-        [ForeignKey(nameof(ProfilId))]
+        /*[ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.CommentairesProfil))]
-        public virtual Profil ProfilCommentaire { get; set; }
+        public virtual Profil ProfilCommentaire { get; set; } = null!;
 
         //Reservation
         [ForeignKey(nameof(ReservationId))]
         [InverseProperty(nameof(Reservation.CommentairesReservation))]
-        public virtual Reservation ReservationCommentaire { get; set; }
+        public virtual Reservation ReservationCommentaire { get; set; } = null!;*/
     }
 }

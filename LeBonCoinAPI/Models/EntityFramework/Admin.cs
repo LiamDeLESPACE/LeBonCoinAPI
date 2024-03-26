@@ -31,11 +31,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("adm_service")]
         [StringLength(50)]
-        public string Service { get; set; }
+        public string Service { get; set; } = null!;
 
+        [Required]
         [Column("adm_email")]
         [StringLength(100)]
-        public string? Email { get; set; }
-        
+        public string Email { get; set; } = null!;
+
     }
 }

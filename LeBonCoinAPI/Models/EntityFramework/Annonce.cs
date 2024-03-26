@@ -10,11 +10,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public Annonce()
         {
-            EquipementsPossedesAnnonce = new HashSet<PossedeEquipement>();
+            /*EquipementsPossedesAnnonce = new HashSet<PossedeEquipement>();
             ReservationsAnnonce = new HashSet<Reservation>();
             SignalementsAnnonce = new HashSet<Signale>();
             FavorisAnnonce = new HashSet<Favoris>();
-            PhotosAnnonce = new HashSet<Photo>();
+            PhotosAnnonce = new HashSet<Photo>();*/
         }
 
         [Key]
@@ -36,9 +36,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("ann_titre")]
         [StringLength(100)]
-        public string Titre { get; set; }
+        public string Titre { get; set; } = null!;
 
-        [Required]
+
         [Column("ann_dureeminimumsejour")]
         public int DureeMinimumSejour { get; set; }
 
@@ -50,15 +50,15 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("ann_datepublication", TypeName = "date")]
         public DateTime DatePublication { get; set; }
 
-        [Required]
+
         [Column("ann_description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Column("ann_etoile")]
         [Range(0,5)]
         public int Etoile { get; set; }
 
-        [Required]
+
         [Column("ann_nombrepersonnesmax")]
         public int NombrePersonnesMax { get; set; }
 
@@ -66,13 +66,13 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("ann_prixparnuit")]
         public double PrixParNuit { get; set; }
 
-        [Required]
+
         [Column("ann_nombrechambres")]
         public int NombreChambres { get; set; }
 
 
         //PossedeEquipement
-        [InverseProperty(nameof(PossedeEquipement.AnnonceEquipementPossede))]
+        /*[InverseProperty(nameof(PossedeEquipement.AnnonceEquipementPossede))]
         public virtual ICollection<PossedeEquipement> EquipementsPossedesAnnonce { get; set; }
 
         //Reservation
@@ -92,7 +92,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public virtual ICollection<Photo> PhotosAnnonce { get; set; }
 
         //Adresse
-        [ForeignKey(nameof(AdresseId))]
+        /*[ForeignKey(nameof(AdresseId))]
         [InverseProperty(nameof(Adresse.AnnoncesAdresse))]
         public virtual Adresse AdresseAnnonce { get; set; } = null!;
 
@@ -104,6 +104,6 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Profil
         [ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.AnnoncesProfil))]
-        public virtual Profil ProfilAnnonce { get; set; } = null!;
+        public virtual Profil ProfilAnnonce { get; set; } = null!;*/
     }
 }

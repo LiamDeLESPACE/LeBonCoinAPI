@@ -36,17 +36,17 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("ent_siret")]
         [StringLength(14)]
-        public string Siret { get; set; }
+        public string Siret { get; set; } = null!;
 
-        [Required]
+
         [Column("ent_nom")]
         [StringLength(100)]
         public string? Nom { get; set; }
 
         //Secteur Activite
-        [ForeignKey(nameof(SecteurId))]
+        /*[ForeignKey(nameof(SecteurId))]
         [InverseProperty(nameof(SecteurActivite.EntreprisesSecteurActivite))]
-        public virtual SecteurActivite SecteurActiviteEntreprise { get; set; } = null!;
+        public virtual SecteurActivite SecteurActiviteEntreprise { get; set; } = null!;*/
 
         /*
         //Profil

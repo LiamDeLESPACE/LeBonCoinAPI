@@ -26,18 +26,18 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Required]
         [Column("pho_url")]
-        public string URL { get; set; }
+        public string URL { get; set; } = null!;
 
 
         //Profil
-        [ForeignKey(nameof(ProfilId))]
+        /*[ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.PhotosProfil))]
-        public virtual Profil ProfilPhoto { get; set; }
+        public virtual Profil ProfilPhoto { get; set; } = null!;
 
         //Annonce
         [ForeignKey(nameof(AnnonceId))]
         [InverseProperty(nameof(Annonce.PhotosAnnonce))]
-        public virtual Annonce AnnoncePhoto { get; set; }
+        public virtual Annonce AnnoncePhoto { get; set; } = null!;*/
 
 
 

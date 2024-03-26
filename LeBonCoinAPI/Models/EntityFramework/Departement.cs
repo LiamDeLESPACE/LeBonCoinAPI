@@ -10,13 +10,13 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public Departement()
         {
-            VillesDepartement = new HashSet<Ville>();
+            //VillesDepartement = new HashSet<Ville>();
         }
 
         [Key]
         [Column("dep_code")]
         [StringLength(3)]
-        public string DepartementCode { get; set; }
+        public string DepartementCode { get; set; } = null!;
 
         [Required]
         [Column("dep_nom")]
@@ -24,8 +24,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public string Nom { get; set; } = null!;
 
         //Ville
-        [InverseProperty(nameof(Ville.DepartementVille))]
-        public virtual ICollection<Ville> VillesDepartement { get; set; }
+        /*[InverseProperty(nameof(Ville.DepartementVille))]
+        public virtual ICollection<Ville> VillesDepartement { get; set; }*/
 
     }
 }

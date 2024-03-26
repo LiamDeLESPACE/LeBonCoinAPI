@@ -13,8 +13,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Key]
         [Column("rgl_id")]
-        [StringLength(50)]
-        public string? ReglementId { get; set; }
+        public string ReglementId { get; set; } = null!;
 
         [Required]
         [Column("res_id")]
@@ -22,8 +21,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
 
         //Reservation
-        [ForeignKey(nameof(ReservationId))]
+        /*[ForeignKey(nameof(ReservationId))]
         [InverseProperty(nameof(Reservation.ReglementsReservation))]
-        public virtual Reservation ReservationReglement { get; set; } = null!;
+        public virtual Reservation ReservationReglement { get; set; } = null!;*/
     }
 }

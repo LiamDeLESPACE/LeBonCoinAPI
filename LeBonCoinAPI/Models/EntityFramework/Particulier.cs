@@ -32,7 +32,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("prt_email")]
         [StringLength(100)]
-        public string? Email { get; set; }
+        public string Email { get; set; } = null!;
 
         [Column("prt_civilite")]
         [StringLength(1)]

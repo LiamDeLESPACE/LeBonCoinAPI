@@ -10,37 +10,37 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public Ville()
         {            
-            AdressesVille = new HashSet<Adresse>();
+            /*AdressesVille = new HashSet<Adresse>();*/
         }
 
         [Key]
         [Column("vil_codeinsee")]
         [StringLength(5)]
-        public string CodeInsee { get; set; }
+        public string CodeInsee { get; set; } = null!;
 
         [Required]
         [Column("dep_code")]
         [StringLength(3)]
-        public string DepartementCode { get; set; }
+        public string DepartementCode { get; set; } = null!;
 
         [Required]
         [Column("vil_nom")]
         [StringLength(100)]
-        public string Nom { get; set; }
+        public string Nom { get; set; } = null!;
 
         [Required]
         [Column("vil_codepostal")]
         [StringLength(5)]
-        public string CodePostal { get; set; }
+        public string CodePostal { get; set; } = null!;
 
         //Departement
-        [ForeignKey(nameof(DepartementCode))]
+        /*[ForeignKey(nameof(DepartementCode))]
         [InverseProperty(nameof(Departement.VillesDepartement))]
         public virtual Departement DepartementVille { get; set; } = null!;
 
         //Adresse
         [InverseProperty(nameof(Adresse.VilleAdresse))]
-        public virtual ICollection<Adresse> AdressesVille { get; set; }
+        public virtual ICollection<Adresse> AdressesVille { get; set; }*/
 
     }
 }

@@ -5,18 +5,18 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace LeBonCoinAPI.Models.EntityFramework
 {
-    [Table("t_e_profil_prf")]
+    //[Table("t_e_profil_prf")]
     public abstract class Profil
     {
         public Profil()
         {
-            CartesBancairesProfil = new HashSet<CarteBancaire>();
+            /*CartesBancairesProfil = new HashSet<CarteBancaire>();
             PhotosProfil = new HashSet<Photo>();
             ReservationsProfil = new HashSet<Reservation>();
             SignalementsProfil = new HashSet<Signale>();
             AnnoncesProfil = new HashSet<Annonce>();
             FavorisProfil = new HashSet<Favoris>();
-            CommentairesProfil = new HashSet<Commentaire>();
+            CommentairesProfil = new HashSet<Commentaire>();*/
         }
 
         [Key]
@@ -29,19 +29,19 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Required]
         [Column("prf_hashmdp")]
-        public string HashMotDePasse { get; set; }
+        public string HashMotDePasse { get; set; } = null!;
 
         [Column("prf_telephone")]
         [StringLength(10)]
         [RegularExpression(@"^0[0-9]{9}$", ErrorMessage = "Le telephone doit contenir 10 chiffres")]
         public string? Telephone { get; set; }
 
-
-        //CarteBancaire
+        
+        /*//CarteBancaire
         [InverseProperty(nameof(CarteBancaire.ProfilCarteBancaire))]
         public virtual ICollection<CarteBancaire> CartesBancairesProfil { get; set; }
 
-        /*//Entreprise
+        //Entreprise
         [InverseProperty(nameof(Entreprise.ProfilEntreprise))]
         public virtual ICollection<Entreprise> EntreprisesProfil { get; set; }
 
@@ -51,7 +51,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
 
         //Photo
-        [InverseProperty(nameof(Photo.ProfilPhoto))]
+        /*[InverseProperty(nameof(Photo.ProfilPhoto))]
         public virtual ICollection<Photo> PhotosProfil { get; set; }
 
         //Reservation
@@ -77,7 +77,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         //Commentaire
         [InverseProperty(nameof(Commentaire.ProfilCommentaire))]
-        public virtual ICollection<Commentaire> CommentairesProfil { get; set; }
+        public virtual ICollection<Commentaire> CommentairesProfil { get; set; }*/
 
     }
 }
