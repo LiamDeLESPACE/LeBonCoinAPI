@@ -42,6 +42,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Admin>().UseTpcMappingStrategy();
+            modelBuilder.Entity<Entreprise>().UseTpcMappingStrategy();
+            modelBuilder.Entity<Particulier>().UseTpcMappingStrategy();
 
             modelBuilder.Entity<Admin>(entity =>
             {
@@ -339,42 +342,44 @@ namespace LeBonCoinAPI.Models.EntityFramework
                     .HasConstraintName("fk_peq_equ");
             });
 
-            modelBuilder.Entity<Profil>(entity =>
-            {
-                entity.HasKey(e => e.ProfilId)
-                    .HasName("pk_prf");
+            
+            //modelBuilder.Entity<Profil>(entity =>
+            //{
 
-                entity.HasIndex(e => e.AdresseId, "fk_prf_adr");
+            //    entity.HasKey(e => e.ProfilId)
+            //        .HasName("pk_prf");
 
-                entity.HasIndex(e => e.ProfilId, "prf_pk")
-                    .IsUnique();
+            //    entity.HasIndex(e => e.AdresseId, "fk_prf_adr");
 
-                entity.Property(e => e.Telephone)
-                    .IsFixedLength();
+            //    entity.HasIndex(e => e.ProfilId, "prf_pk")
+            //        .IsUnique();
 
-                entity.Property(b=>b.ProfilId)
-                    .HasColumnName("prf_id");
+            //    entity.Property(e => e.Telephone)
+            //        .IsFixedLength();
 
-                entity.Property(b => b.AdresseId)
-                    .HasColumnName("adr_id");
+            //    entity.Property(b=>b.ProfilId)
+            //        .HasColumnName("prf_id");
 
-                entity.Property(b => b.HashMotDePasse)
-                    .HasColumnName("prf_hashmdp");
+            //    entity.Property(b => b.AdresseId)
+            //        .HasColumnName("adr_id");
 
-                entity.Property(b => b.Telephone)
-                    .HasColumnName("prf_telephone");
+            //    entity.Property(b => b.HashMotDePasse)
+            //        .HasColumnName("prf_hashmdp");
 
-                entity.Property("Discriminator");
+            //    entity.Property(b => b.Telephone)
+            //        .HasColumnName("prf_telephone");
 
-                entity.HasOne(d => d.AdresseProfil)
-                    .WithMany(p => p.ProfilsAdresse)
-                    .HasForeignKey(d => d.AdresseId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_prf_adr");
+            //    entity.Property("Discriminator");
 
-                entity.HasCheckConstraint("ck_prf_telephone", "prf_telephone LIKE ('06%') or prf_telephone LIKE ('07%')OR prf_telephone IS NULL");
+            //    entity.HasOne(d => d.AdresseProfil)
+            //        .WithMany(p => p.ProfilsAdresse)
+            //        .HasForeignKey(d => d.AdresseId)
+            //        .OnDelete(DeleteBehavior.Restrict)
+            //        .HasConstraintName("fk_prf_adr");
 
-            });
+            //    entity.HasCheckConstraint("ck_prf_telephone", "prf_telephone LIKE ('06%') or prf_telephone LIKE ('07%')OR prf_telephone IS NULL");
+
+            //});
 
             modelBuilder.Entity<Reglement>(entity =>
             {
