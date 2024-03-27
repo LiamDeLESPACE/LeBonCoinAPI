@@ -3,6 +3,7 @@ using System;
 using LeBonCoinAPI.Models.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LeBonCoinAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240327073257_ville-Departement-Adresse-FKs")]
+    partial class villeDepartementAdresseFKs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,10 +120,6 @@ namespace LeBonCoinAPI.Migrations
 
                     b.HasKey("AnnonceId");
 
-                    b.HasIndex("AdresseId");
-
-                    b.HasIndex("TypeLogementId");
-
                     b.ToTable("t_e_annonce_ann");
                 });
 
@@ -207,8 +206,6 @@ namespace LeBonCoinAPI.Migrations
 
                     b.HasKey("EquipementId");
 
-                    b.HasIndex("TypeEquipementId");
-
                     b.ToTable("t_e_equipement_equ");
                 });
 
@@ -251,8 +248,6 @@ namespace LeBonCoinAPI.Migrations
 
                     b.HasKey("PhotoId");
 
-                    b.HasIndex("AnnonceId");
-
                     b.ToTable("t_e_photo_pho");
                 });
 
@@ -267,8 +262,6 @@ namespace LeBonCoinAPI.Migrations
                         .HasColumnName("equ_id");
 
                     b.HasKey("AnnonceId", "EquipementId");
-
-                    b.HasIndex("EquipementId");
 
                     b.ToTable("t_j_possedeequipement_peq");
                 });
@@ -516,8 +509,6 @@ namespace LeBonCoinAPI.Migrations
                         .HasColumnType("character varying(14)")
                         .HasColumnName("ent_siret");
 
-                    b.HasIndex("SecteurId");
-
                     b.ToTable("t_e_entreprise_ent");
                 });
 
@@ -564,66 +555,6 @@ namespace LeBonCoinAPI.Migrations
                     b.Navigation("VilleAdresse");
                 });
 
-            modelBuilder.Entity("LeBonCoinAPI.Models.EntityFramework.Annonce", b =>
-                {
-                    b.HasOne("LeBonCoinAPI.Models.EntityFramework.Adresse", "AdresseAnnonce")
-                        .WithMany("AnnoncesAdresse")
-                        .HasForeignKey("AdresseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LeBonCoinAPI.Models.EntityFramework.TypeLogement", "TypeLogementAnnonce")
-                        .WithMany("AnnoncesTypeLogement")
-                        .HasForeignKey("TypeLogementId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AdresseAnnonce");
-
-                    b.Navigation("TypeLogementAnnonce");
-                });
-
-            modelBuilder.Entity("LeBonCoinAPI.Models.EntityFramework.Equipement", b =>
-                {
-                    b.HasOne("LeBonCoinAPI.Models.EntityFramework.TypeEquipement", "TypeEquipementEquipement")
-                        .WithMany("EquipementsTypeEquipement")
-                        .HasForeignKey("TypeEquipementId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TypeEquipementEquipement");
-                });
-
-            modelBuilder.Entity("LeBonCoinAPI.Models.EntityFramework.Photo", b =>
-                {
-                    b.HasOne("LeBonCoinAPI.Models.EntityFramework.Annonce", "AnnoncePhoto")
-                        .WithMany("PhotosAnnonce")
-                        .HasForeignKey("AnnonceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AnnoncePhoto");
-                });
-
-            modelBuilder.Entity("LeBonCoinAPI.Models.EntityFramework.PossedeEquipement", b =>
-                {
-                    b.HasOne("LeBonCoinAPI.Models.EntityFramework.Annonce", "AnnonceEquipementPossede")
-                        .WithMany("EquipementsPossedesAnnonce")
-                        .HasForeignKey("AnnonceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LeBonCoinAPI.Models.EntityFramework.Equipement", "EquipementPossede")
-                        .WithMany("EquipementsPossedesDesEquipement")
-                        .HasForeignKey("EquipementId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AnnonceEquipementPossede");
-
-                    b.Navigation("EquipementPossede");
-                });
-
             modelBuilder.Entity("LeBonCoinAPI.Models.EntityFramework.Ville", b =>
                 {
                     b.HasOne("LeBonCoinAPI.Models.EntityFramework.Departement", "DepartementVille")
@@ -635,52 +566,9 @@ namespace LeBonCoinAPI.Migrations
                     b.Navigation("DepartementVille");
                 });
 
-            modelBuilder.Entity("LeBonCoinAPI.Models.EntityFramework.Entreprise", b =>
-                {
-                    b.HasOne("LeBonCoinAPI.Models.EntityFramework.SecteurActivite", "SecteurActiviteEntreprise")
-                        .WithMany("EntreprisesSecteurActivite")
-                        .HasForeignKey("SecteurId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SecteurActiviteEntreprise");
-                });
-
-            modelBuilder.Entity("LeBonCoinAPI.Models.EntityFramework.Adresse", b =>
-                {
-                    b.Navigation("AnnoncesAdresse");
-                });
-
-            modelBuilder.Entity("LeBonCoinAPI.Models.EntityFramework.Annonce", b =>
-                {
-                    b.Navigation("EquipementsPossedesAnnonce");
-
-                    b.Navigation("PhotosAnnonce");
-                });
-
             modelBuilder.Entity("LeBonCoinAPI.Models.EntityFramework.Departement", b =>
                 {
                     b.Navigation("VillesDepartement");
-                });
-
-            modelBuilder.Entity("LeBonCoinAPI.Models.EntityFramework.Equipement", b =>
-                {
-                    b.Navigation("EquipementsPossedesDesEquipement");
-                });
-
-            modelBuilder.Entity("LeBonCoinAPI.Models.EntityFramework.SecteurActivite", b =>
-                {
-                    b.Navigation("EntreprisesSecteurActivite");
-                });
-
-            modelBuilder.Entity("LeBonCoinAPI.Models.EntityFramework.TypeEquipement", b =>
-                {
-                    b.Navigation("EquipementsTypeEquipement");
-                });
-
-            modelBuilder.Entity("LeBonCoinAPI.Models.EntityFramework.TypeLogement", b =>
-                {
-                    b.Navigation("AnnoncesTypeLogement");
                 });
 
             modelBuilder.Entity("LeBonCoinAPI.Models.EntityFramework.Ville", b =>

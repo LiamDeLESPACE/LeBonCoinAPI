@@ -10,7 +10,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public TypeEquipement()
         {
-            //EquipementsTypeEquipement = new HashSet<Equipement>();
+            EquipementsTypeEquipement = new HashSet<Equipement>();
         }
         [Key]
         [Column("tye_id")]
@@ -22,8 +22,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public string Nom { get; set; } = null!;
 
         //Equipement
-        /*[InverseProperty(nameof(Equipement.TypeEquipementEquipement))]
-        public virtual ICollection<Equipement> EquipementsTypeEquipement { get; set; }*/
+        [InverseProperty(nameof(Equipement.TypeEquipementEquipement))]
+        public virtual ICollection<Equipement> EquipementsTypeEquipement { get; set; }
 
     }
 }

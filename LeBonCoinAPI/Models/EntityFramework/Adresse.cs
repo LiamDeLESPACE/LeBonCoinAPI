@@ -33,7 +33,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         //Profil
         /*[InverseProperty(nameof(Profil.AdresseProfil))]
-        public virtual ICollection<Profil> ProfilsAdresse { get; set; }
+        public virtual ICollection<Profil> ProfilsAdresse { get; set; }*/
 
         //Annonce
         [InverseProperty(nameof(Annonce.AdresseAnnonce))]
@@ -42,7 +42,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Ville
         [ForeignKey(nameof(CodeInsee))]
         [InverseProperty(nameof(Ville.AdressesVille))]
-        public virtual Ville VilleAdresse { get; set; } = null!;*/
+        public virtual Ville VilleAdresse { get; set; } = null!;
 
     }
 }

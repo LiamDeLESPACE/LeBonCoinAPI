@@ -10,11 +10,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public Annonce()
         {
-            /*EquipementsPossedesAnnonce = new HashSet<PossedeEquipement>();
-            ReservationsAnnonce = new HashSet<Reservation>();
-            SignalementsAnnonce = new HashSet<Signale>();
-            FavorisAnnonce = new HashSet<Favoris>();
-            PhotosAnnonce = new HashSet<Photo>();*/
+            EquipementsPossedesAnnonce = new HashSet<PossedeEquipement>();
+            //ReservationsAnnonce = new HashSet<Reservation>();
+            //SignalementsAnnonce = new HashSet<Signale>();
+            //FavorisAnnonce = new HashSet<Favoris>();
+            //PhotosAnnonce = new HashSet<Photo>();
         }
 
         [Key]
@@ -72,11 +72,16 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
 
         //PossedeEquipement
-        /*[InverseProperty(nameof(PossedeEquipement.AnnonceEquipementPossede))]
+        [InverseProperty(nameof(PossedeEquipement.AnnonceEquipementPossede))]
         public virtual ICollection<PossedeEquipement> EquipementsPossedesAnnonce { get; set; }
 
+        //TypeLogement
+        [ForeignKey(nameof(TypeLogementId))]
+        [InverseProperty(nameof(TypeLogement.AnnoncesTypeLogement))]
+        public virtual TypeLogement TypeLogementAnnonce { get; set; } = null!;
+
         //Reservation
-        [InverseProperty(nameof(Reservation.AnnonceReservation))]
+        /*[InverseProperty(nameof(Reservation.AnnonceReservation))]
         public virtual ICollection<Reservation> ReservationsAnnonce { get; set; }
 
         //Signale
@@ -85,24 +90,19 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         //Favoris
         [InverseProperty(nameof(Favoris.AnnonceFavoris))]
-        public virtual ICollection<Favoris> FavorisAnnonce { get; set; }
+        public virtual ICollection<Favoris> FavorisAnnonce { get; set; }*/
 
         //Photo
         [InverseProperty(nameof(Photo.AnnoncePhoto))]
         public virtual ICollection<Photo> PhotosAnnonce { get; set; }
 
         //Adresse
-        /*[ForeignKey(nameof(AdresseId))]
+        [ForeignKey(nameof(AdresseId))]
         [InverseProperty(nameof(Adresse.AnnoncesAdresse))]
         public virtual Adresse AdresseAnnonce { get; set; } = null!;
 
-        //TypeLogement
-        [ForeignKey(nameof(TypeLogementId))]
-        [InverseProperty(nameof(TypeLogement.AnnoncesTypeLogement))]
-        public virtual TypeLogement TypeLogementAnnonce { get; set; } = null!;
-
         //Profil
-        [ForeignKey(nameof(ProfilId))]
+        /*[ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.AnnoncesProfil))]
         public virtual Profil ProfilAnnonce { get; set; } = null!;*/
     }

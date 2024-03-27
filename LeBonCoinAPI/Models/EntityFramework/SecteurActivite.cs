@@ -10,7 +10,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public SecteurActivite()
         {
-            //EntreprisesSecteurActivite = new HashSet<Entreprise>();
+            EntreprisesSecteurActivite = new HashSet<Entreprise>();
         }
         [Key]
         [Column("sct_id")]
@@ -22,7 +22,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public string NomSecteur { get; set; } = null!;
 
         //Entreprises
-       /* [InverseProperty(nameof(Entreprise.SecteurActiviteEntreprise))]
-        public virtual ICollection<Entreprise> EntreprisesSecteurActivite{ get; set; }*/
+        [InverseProperty(nameof(Entreprise.SecteurActiviteEntreprise))]
+        public virtual ICollection<Entreprise> EntreprisesSecteurActivite{ get; set; }
     }
 }

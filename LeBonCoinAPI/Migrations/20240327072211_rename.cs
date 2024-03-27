@@ -7,111 +7,13 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LeBonCoinAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class Marre : Migration
+    public partial class rename : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateSequence(
                 name: "ProfilSequence");
-
-            migrationBuilder.CreateTable(
-                name: "Admin",
-                columns: table => new
-                {
-                    prfid = table.Column<int>(name: "prf_id", type: "integer", nullable: false, defaultValueSql: "nextval('\"ProfilSequence\"')"),
-                    adrid = table.Column<int>(name: "adr_id", type: "integer", nullable: false),
-                    prfhashmdp = table.Column<string>(name: "prf_hashmdp", type: "text", nullable: false),
-                    prftelephone = table.Column<string>(name: "prf_telephone", type: "character varying(10)", maxLength: 10, nullable: true),
-                    admservice = table.Column<string>(name: "adm_service", type: "character varying(50)", maxLength: 50, nullable: false),
-                    admemail = table.Column<string>(name: "adm_email", type: "character varying(100)", maxLength: 100, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Admin", x => x.prfid);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Adresse",
-                columns: table => new
-                {
-                    adrid = table.Column<int>(name: "adr_id", type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    vilcodeinsee = table.Column<string>(name: "vil_codeinsee", type: "character varying(5)", maxLength: 5, nullable: false),
-                    adrrue = table.Column<string>(name: "adr_rue", type: "character varying(100)", maxLength: 100, nullable: false),
-                    adrnumero = table.Column<int>(name: "adr_numero", type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Adresse", x => x.adrid);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Annonce",
-                columns: table => new
-                {
-                    annid = table.Column<int>(name: "ann_id", type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    adrid = table.Column<int>(name: "adr_id", type: "integer", nullable: false),
-                    tylid = table.Column<int>(name: "tyl_id", type: "integer", nullable: false),
-                    prfid = table.Column<int>(name: "prf_id", type: "integer", nullable: false),
-                    anntitre = table.Column<string>(name: "ann_titre", type: "character varying(100)", maxLength: 100, nullable: false),
-                    anndureeminimumsejour = table.Column<int>(name: "ann_dureeminimumsejour", type: "integer", nullable: false),
-                    annactive = table.Column<bool>(name: "ann_active", type: "boolean", nullable: false),
-                    anndatepublication = table.Column<DateTime>(name: "ann_datepublication", type: "date", nullable: false),
-                    anndescription = table.Column<string>(name: "ann_description", type: "text", nullable: true),
-                    annetoile = table.Column<int>(name: "ann_etoile", type: "integer", nullable: false),
-                    annnombrepersonnesmax = table.Column<int>(name: "ann_nombrepersonnesmax", type: "integer", nullable: false),
-                    annprixparnuit = table.Column<double>(name: "ann_prixparnuit", type: "double precision", nullable: false),
-                    annnombrechambres = table.Column<int>(name: "ann_nombrechambres", type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Annonce", x => x.annid);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CarteBancaire",
-                columns: table => new
-                {
-                    cabid = table.Column<int>(name: "cab_id", type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    prfid = table.Column<int>(name: "prf_id", type: "integer", nullable: false),
-                    cabnumero = table.Column<string>(name: "cab_numero", type: "character varying(16)", maxLength: 16, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CarteBancaire", x => x.cabid);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Departement",
-                columns: table => new
-                {
-                    depcode = table.Column<string>(name: "dep_code", type: "character varying(3)", maxLength: 3, nullable: false),
-                    depnom = table.Column<string>(name: "dep_nom", type: "character varying(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Departement", x => x.depcode);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Entreprise",
-                columns: table => new
-                {
-                    prfid = table.Column<int>(name: "prf_id", type: "integer", nullable: false, defaultValueSql: "nextval('\"ProfilSequence\"')"),
-                    adrid = table.Column<int>(name: "adr_id", type: "integer", nullable: false),
-                    prfhashmdp = table.Column<string>(name: "prf_hashmdp", type: "text", nullable: false),
-                    prftelephone = table.Column<string>(name: "prf_telephone", type: "character varying(10)", maxLength: 10, nullable: true),
-                    sctid = table.Column<int>(name: "sct_id", type: "integer", nullable: false),
-                    entsiret = table.Column<string>(name: "ent_siret", type: "character varying(14)", maxLength: 14, nullable: false),
-                    entnom = table.Column<string>(name: "ent_nom", type: "character varying(100)", maxLength: 100, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Entreprise", x => x.prfid);
-                });
 
             migrationBuilder.CreateTable(
                 name: "Equipement",
@@ -204,6 +106,104 @@ namespace LeBonCoinAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SecteurActivite", x => x.sctid);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "t_e_admin_adm",
+                columns: table => new
+                {
+                    prfid = table.Column<int>(name: "prf_id", type: "integer", nullable: false, defaultValueSql: "nextval('\"ProfilSequence\"')"),
+                    adrid = table.Column<int>(name: "adr_id", type: "integer", nullable: false),
+                    prfhashmdp = table.Column<string>(name: "prf_hashmdp", type: "text", nullable: false),
+                    prftelephone = table.Column<string>(name: "prf_telephone", type: "character varying(10)", maxLength: 10, nullable: true),
+                    admservice = table.Column<string>(name: "adm_service", type: "character varying(50)", maxLength: 50, nullable: false),
+                    admemail = table.Column<string>(name: "adm_email", type: "character varying(100)", maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_e_admin_adm", x => x.prfid);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "t_e_adresse_adr",
+                columns: table => new
+                {
+                    adrid = table.Column<int>(name: "adr_id", type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    vilcodeinsee = table.Column<string>(name: "vil_codeinsee", type: "character varying(5)", maxLength: 5, nullable: false),
+                    adrrue = table.Column<string>(name: "adr_rue", type: "character varying(100)", maxLength: 100, nullable: false),
+                    adrnumero = table.Column<int>(name: "adr_numero", type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_e_adresse_adr", x => x.adrid);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "t_e_annonce_ann",
+                columns: table => new
+                {
+                    annid = table.Column<int>(name: "ann_id", type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    adrid = table.Column<int>(name: "adr_id", type: "integer", nullable: false),
+                    tylid = table.Column<int>(name: "tyl_id", type: "integer", nullable: false),
+                    prfid = table.Column<int>(name: "prf_id", type: "integer", nullable: false),
+                    anntitre = table.Column<string>(name: "ann_titre", type: "character varying(100)", maxLength: 100, nullable: false),
+                    anndureeminimumsejour = table.Column<int>(name: "ann_dureeminimumsejour", type: "integer", nullable: false),
+                    annactive = table.Column<bool>(name: "ann_active", type: "boolean", nullable: false),
+                    anndatepublication = table.Column<DateTime>(name: "ann_datepublication", type: "date", nullable: false),
+                    anndescription = table.Column<string>(name: "ann_description", type: "text", nullable: true),
+                    annetoile = table.Column<int>(name: "ann_etoile", type: "integer", nullable: false),
+                    annnombrepersonnesmax = table.Column<int>(name: "ann_nombrepersonnesmax", type: "integer", nullable: false),
+                    annprixparnuit = table.Column<double>(name: "ann_prixparnuit", type: "double precision", nullable: false),
+                    annnombrechambres = table.Column<int>(name: "ann_nombrechambres", type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_e_annonce_ann", x => x.annid);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "t_e_cartebancaire_cab",
+                columns: table => new
+                {
+                    cabid = table.Column<int>(name: "cab_id", type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    prfid = table.Column<int>(name: "prf_id", type: "integer", nullable: false),
+                    cabnumero = table.Column<string>(name: "cab_numero", type: "character varying(16)", maxLength: 16, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_e_cartebancaire_cab", x => x.cabid);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "t_e_departement_dep",
+                columns: table => new
+                {
+                    depcode = table.Column<string>(name: "dep_code", type: "character varying(3)", maxLength: 3, nullable: false),
+                    depnom = table.Column<string>(name: "dep_nom", type: "character varying(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_e_departement_dep", x => x.depcode);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "t_e_entreprise_ent",
+                columns: table => new
+                {
+                    prfid = table.Column<int>(name: "prf_id", type: "integer", nullable: false, defaultValueSql: "nextval('\"ProfilSequence\"')"),
+                    adrid = table.Column<int>(name: "adr_id", type: "integer", nullable: false),
+                    prfhashmdp = table.Column<string>(name: "prf_hashmdp", type: "text", nullable: false),
+                    prftelephone = table.Column<string>(name: "prf_telephone", type: "character varying(10)", maxLength: 10, nullable: true),
+                    sctid = table.Column<int>(name: "sct_id", type: "integer", nullable: false),
+                    entsiret = table.Column<string>(name: "ent_siret", type: "character varying(14)", maxLength: 14, nullable: false),
+                    entnom = table.Column<string>(name: "ent_nom", type: "character varying(100)", maxLength: 100, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_e_entreprise_ent", x => x.prfid);
                 });
 
             migrationBuilder.CreateTable(
@@ -300,24 +300,6 @@ namespace LeBonCoinAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Admin");
-
-            migrationBuilder.DropTable(
-                name: "Adresse");
-
-            migrationBuilder.DropTable(
-                name: "Annonce");
-
-            migrationBuilder.DropTable(
-                name: "CarteBancaire");
-
-            migrationBuilder.DropTable(
-                name: "Departement");
-
-            migrationBuilder.DropTable(
-                name: "Entreprise");
-
-            migrationBuilder.DropTable(
                 name: "Equipement");
 
             migrationBuilder.DropTable(
@@ -334,6 +316,24 @@ namespace LeBonCoinAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "SecteurActivite");
+
+            migrationBuilder.DropTable(
+                name: "t_e_admin_adm");
+
+            migrationBuilder.DropTable(
+                name: "t_e_adresse_adr");
+
+            migrationBuilder.DropTable(
+                name: "t_e_annonce_ann");
+
+            migrationBuilder.DropTable(
+                name: "t_e_cartebancaire_cab");
+
+            migrationBuilder.DropTable(
+                name: "t_e_departement_dep");
+
+            migrationBuilder.DropTable(
+                name: "t_e_entreprise_ent");
 
             migrationBuilder.DropTable(
                 name: "t_j_commentaire_cmt");
