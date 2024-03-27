@@ -22,13 +22,13 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
 
         //Annonce
-        /*[ForeignKey(nameof(AnnonceId))]
+        [ForeignKey(nameof(AnnonceId))]
         [InverseProperty(nameof(Annonce.FavorisAnnonce))]
         public virtual Annonce AnnonceFavoris { get; set; } = null!;
 
         //Profil
         [ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.FavorisProfil))]
-        public virtual Profil ProfilFavoris { get; set; } = null!;*/
+        public virtual Profil ProfilFavoris { get; set; } = null!;
     }
 }

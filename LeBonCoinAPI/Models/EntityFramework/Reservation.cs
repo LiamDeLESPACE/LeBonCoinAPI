@@ -9,8 +9,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public Reservation()
         {
-            /*ReglementsReservation = new HashSet<Reglement>();
-            CommentairesReservation = new HashSet<Commentaire>();*/
+            ReglementsReservation = new HashSet<Reglement>();
+            CommentairesReservation = new HashSet<Commentaire>();
         }
 
         [Key]
@@ -55,7 +55,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
 
         //Reglement
-        /*[InverseProperty(nameof(Reglement.ReservationReglement))]
+        [InverseProperty(nameof(Reglement.ReservationReglement))]
         public virtual ICollection<Reglement> ReglementsReservation { get; set; }
 
         //Commentaire
@@ -70,6 +70,6 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Annonce
         [ForeignKey(nameof(AnnonceId))]
         [InverseProperty(nameof(Annonce.ReservationsAnnonce))]
-        public virtual Annonce AnnonceReservation { get; set; } = null!;*/
+        public virtual Annonce AnnonceReservation { get; set; } = null!;
     }
 }

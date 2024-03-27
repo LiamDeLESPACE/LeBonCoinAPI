@@ -10,22 +10,22 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public Profil()
         {
-            /*CartesBancairesProfil = new HashSet<CarteBancaire>();
-            PhotosProfil = new HashSet<Photo>();
-            ReservationsProfil = new HashSet<Reservation>();
-            SignalementsProfil = new HashSet<Signale>();
-            AnnoncesProfil = new HashSet<Annonce>();
-            FavorisProfil = new HashSet<Favoris>();
-            CommentairesProfil = new HashSet<Commentaire>();*/
+            CartesBancairesProfil = new HashSet<CarteBancaire>();
+            //PhotosProfil = new HashSet<Photo>();
+            //ReservationsProfil = new HashSet<Reservation>();
+            //SignalementsProfil = new HashSet<Signale>();
+            //AnnoncesProfil = new HashSet<Annonce>();
+            //FavorisProfil = new HashSet<Favoris>();
+            //CommentairesProfil = new HashSet<Commentaire>();
         }
 
         [Key]
         [Column("prf_id")]
         public int ProfilId { get; set; }
 
-        [Required]
+
         [Column("adr_id")]
-        public int AdresseId { get; set; }
+        public int? AdresseId { get; set; }
 
         [Required]
         [Column("prf_hashmdp")]
@@ -37,9 +37,14 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public string? Telephone { get; set; }
 
         
-        /*//CarteBancaire
+        //CarteBancaire
         [InverseProperty(nameof(CarteBancaire.ProfilCarteBancaire))]
         public virtual ICollection<CarteBancaire> CartesBancairesProfil { get; set; }
+
+        //Adresse
+        /*[ForeignKey(nameof(ProfilId))]
+        [InverseProperty(nameof(Adresse.ProfilsAdresse))]
+        public Adresse AdresseProfil { get; set; } 
 
         //Entreprise
         [InverseProperty(nameof(Entreprise.ProfilEntreprise))]
@@ -51,7 +56,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
 
         //Photo
-        /*[InverseProperty(nameof(Photo.ProfilPhoto))]
+        [InverseProperty(nameof(Photo.ProfilPhoto))]
         public virtual ICollection<Photo> PhotosProfil { get; set; }
 
         //Reservation
@@ -70,14 +75,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Annonce.ProfilAnnonce))]
         public virtual ICollection<Annonce> AnnoncesProfil { get; set; }
 
-        //Adresse
-        [ForeignKey(nameof(ProfilId))]
-        [InverseProperty(nameof(Adresse.ProfilsAdresse))]
-        public virtual Adresse AdresseProfil { get; set; } = null!;
-
         //Commentaire
         [InverseProperty(nameof(Commentaire.ProfilCommentaire))]
-        public virtual ICollection<Commentaire> CommentairesProfil { get; set; }*/
+        public virtual ICollection<Commentaire> CommentairesProfil { get; set; }
 
     }
 }

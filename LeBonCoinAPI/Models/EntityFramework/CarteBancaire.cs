@@ -21,8 +21,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public string Numero { get; set; } = null!;
 
         //Profil
-        /*[ForeignKey(nameof(ProfilId))]
+        [ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.CartesBancairesProfil))]
-        public virtual Profil ProfilCarteBancaire { get; set; } = null!;*/
+        public virtual Profil ProfilCarteBancaire { get; set; } = null!;
     }
 }

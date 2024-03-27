@@ -81,7 +81,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public virtual TypeLogement TypeLogementAnnonce { get; set; } = null!;
 
         //Reservation
-        /*[InverseProperty(nameof(Reservation.AnnonceReservation))]
+        [InverseProperty(nameof(Reservation.AnnonceReservation))]
         public virtual ICollection<Reservation> ReservationsAnnonce { get; set; }
 
         //Signale
@@ -90,7 +90,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         //Favoris
         [InverseProperty(nameof(Favoris.AnnonceFavoris))]
-        public virtual ICollection<Favoris> FavorisAnnonce { get; set; }*/
+        public virtual ICollection<Favoris> FavorisAnnonce { get; set; }
 
         //Photo
         [InverseProperty(nameof(Photo.AnnoncePhoto))]
@@ -102,8 +102,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public virtual Adresse AdresseAnnonce { get; set; } = null!;
 
         //Profil
-        /*[ForeignKey(nameof(ProfilId))]
+        [ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.AnnoncesProfil))]
-        public virtual Profil ProfilAnnonce { get; set; } = null!;*/
+        public virtual Profil ProfilAnnonce { get; set; } = null!;
     }
 }

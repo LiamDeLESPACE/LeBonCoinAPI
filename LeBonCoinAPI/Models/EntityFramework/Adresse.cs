@@ -10,8 +10,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public Adresse()
         {
-            /*ProfilsAdresse = new HashSet<Profil>();
-            AnnoncesAdresse = new HashSet<Annonce>();*/
+            //ProfilsAdresse = new HashSet<Profil>();
+            AnnoncesAdresse = new HashSet<Annonce>();
         }
         [Key]
         [Column("adr_id")]
