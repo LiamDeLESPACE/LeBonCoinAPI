@@ -43,7 +43,8 @@ namespace LeBonCoinAPI
 
             builder.Services.AddAuthorization(config =>
             {
-                config.AddPolicy(Policies.User, Policies.UserPolicy());
+                config.AddPolicy(Policies.admin, Policies.AdminPolicy());
+                config.AddPolicy(Policies.particulier, Policies.ParticulierPolicy());
             });
 
             var app = builder.Build();
