@@ -7,6 +7,13 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_j_commentaire_cmt")]
     public class Commentaire
     {
+        public Commentaire(int profilId, int reservationId, string contenu)
+        {
+            ProfilId = profilId;
+            ReservationId = reservationId;
+            Contenu = contenu;
+        }
+
         [Key]
         [Column("prf_id")]
         public int ProfilId { get; set; }

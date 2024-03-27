@@ -8,14 +8,42 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_e_annonce_ann")]
     public class Annonce
     {
-        public Annonce()
+        public Annonce(int idadresse, int idtypelogement, int idprofil, string titre, bool active, double prixnuitee)
         {
             EquipementsPossedesAnnonce = new HashSet<PossedeEquipement>();
             ReservationsAnnonce = new HashSet<Reservation>();
             SignalementsAnnonce = new HashSet<Signale>();
             FavorisAnnonce = new HashSet<Favoris>();
             PhotosAnnonce = new HashSet<Photo>();
+            AdresseId = idadresse;
+            TypeLogementId = idtypelogement;
+            ProfilId = idprofil;
+            Titre = titre;
+            Active = active;
+            PrixParNuit = prixnuitee;
         }
+
+
+        public Annonce(int adresseId, int typeLogementId, int profilId, string titre, int dureeMinimumSejour, bool active, 
+            DateTime datePublication, string? description, int etoile, int nombrePersonnesMax, double prixParNuit, int nombreChambres) 
+            : this(adresseId, typeLogementId, profilId, titre, active, prixParNuit)
+        {
+            DureeMinimumSejour = dureeMinimumSejour;
+            DatePublication = datePublication;
+            Description = description;
+            Etoile = etoile;
+            NombrePersonnesMax = nombrePersonnesMax;
+            NombreChambres = nombreChambres;
+        }
+
+        public Annonce(int adresseId, int typeLogementId, int profilId, string titre, int dureeMinimumSejour, bool active, 
+            string? description, int etoile, int nombrePersonnesMax, double prixParNuit, int nombreChambres) 
+            : this(adresseId, typeLogementId, profilId, titre, dureeMinimumSejour, active, DateTime.Today, description, etoile, nombrePersonnesMax, prixParNuit, nombreChambres)
+        {
+
+        }
+        
+
 
         [Key]
         [Column("ann_id")]
