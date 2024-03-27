@@ -5,18 +5,18 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace LeBonCoinAPI.Models.EntityFramework
 {
-    //[Table("t_e_profil_prf")]
+
     public abstract class Profil
     {
         public Profil()
         {
             CartesBancairesProfil = new HashSet<CarteBancaire>();
-            //PhotosProfil = new HashSet<Photo>();
-            //ReservationsProfil = new HashSet<Reservation>();
-            //SignalementsProfil = new HashSet<Signale>();
-            //AnnoncesProfil = new HashSet<Annonce>();
-            //FavorisProfil = new HashSet<Favoris>();
-            //CommentairesProfil = new HashSet<Commentaire>();
+            PhotosProfil = new HashSet<Photo>();
+            ReservationsProfil = new HashSet<Reservation>();
+            SignalementsProfil = new HashSet<Signale>();
+            AnnoncesProfil = new HashSet<Annonce>();
+            FavorisProfil = new HashSet<Favoris>();
+            CommentairesProfil = new HashSet<Commentaire>();
         }
 
         [Key]
@@ -29,7 +29,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Required]
         [Column("prf_hashmdp")]
-        public string HashMotDePasse { get; set; } = null!;
+        public string HashMotDePasse { get; set; }
 
         [Column("prf_telephone")]
         [StringLength(10)]
@@ -44,16 +44,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Adresse
         /*[ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Adresse.ProfilsAdresse))]
-        public Adresse AdresseProfil { get; set; } 
-
-        //Entreprise
-        [InverseProperty(nameof(Entreprise.ProfilEntreprise))]
-        public virtual ICollection<Entreprise> EntreprisesProfil { get; set; }
-
-        //Particulier
-        [InverseProperty(nameof(Particulier.ProfilParticulier))]
-        public virtual ICollection<Particulier> ParticuliersProfil { get; set; }*/
-
+        public Adresse? AdresseProfil { get; set; } */
 
         //Photo
         [InverseProperty(nameof(Photo.ProfilPhoto))]

@@ -11,10 +11,10 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public Annonce()
         {
             EquipementsPossedesAnnonce = new HashSet<PossedeEquipement>();
-            //ReservationsAnnonce = new HashSet<Reservation>();
-            //SignalementsAnnonce = new HashSet<Signale>();
-            //FavorisAnnonce = new HashSet<Favoris>();
-            //PhotosAnnonce = new HashSet<Photo>();
+            ReservationsAnnonce = new HashSet<Reservation>();
+            SignalementsAnnonce = new HashSet<Signale>();
+            FavorisAnnonce = new HashSet<Favoris>();
+            PhotosAnnonce = new HashSet<Photo>();
         }
 
         [Key]
@@ -36,7 +36,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("ann_titre")]
         [StringLength(100)]
-        public string Titre { get; set; } = null!;
+        public string Titre { get; set; }
 
 
         [Column("ann_dureeminimumsejour")]

@@ -20,12 +20,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("vil_codeinsee")]
         [StringLength(5)]
-        public string CodeInsee { get; set; } = null!;
+        public string CodeInsee { get; set; }
 
         [Required]
         [Column("adr_rue")]
         [StringLength(100)]
-        public string Rue { get; set; } = null!;
+        public string Rue { get; set; }
 
         [Required]
         [Column("adr_numero")]

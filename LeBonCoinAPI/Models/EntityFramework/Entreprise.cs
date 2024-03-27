@@ -19,7 +19,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("ent_siret")]
         [StringLength(14)]
-        public string Siret { get; set; } = null!;
+        public string Siret { get; set; }
 
 
         [Column("ent_nom")]

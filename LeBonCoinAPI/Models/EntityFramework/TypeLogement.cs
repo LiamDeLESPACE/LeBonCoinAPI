@@ -19,7 +19,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("tyl_nom")]
         [StringLength(50)]
-        public string Nom { get; set; } = null!;
+        public string Nom { get; set; }
 
         //Annonce
         [InverseProperty(nameof(Annonce.TypeLogementAnnonce))]

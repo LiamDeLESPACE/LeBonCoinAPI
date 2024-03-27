@@ -10,28 +10,28 @@ namespace LeBonCoinAPI.Models.EntityFramework
     {
         public Ville()
         {            
-            /*AdressesVille = new HashSet<Adresse>();*/
+            AdressesVille = new HashSet<Adresse>();
         }
 
         [Key]
         [Column("vil_codeinsee")]
         [StringLength(5)]
-        public string CodeInsee { get; set; } = null!;
+        public string CodeInsee { get; set; }
 
         [Required]
         [Column("dep_code")]
         [StringLength(3)]
-        public string DepartementCode { get; set; } = null!;
+        public string DepartementCode { get; set; }
 
         [Required]
         [Column("vil_nom")]
         [StringLength(100)]
-        public string Nom { get; set; } = null!;
+        public string Nom { get; set; }
 
         [Required]
         [Column("vil_codepostal")]
         [StringLength(5)]
-        public string CodePostal { get; set; } = null!;
+        public string CodePostal { get; set; }
 
         //Departement
         [ForeignKey(nameof(DepartementCode))]

@@ -19,7 +19,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("tye_nom")]
         [StringLength(50)]
-        public string Nom { get; set; } = null!;
+        public string Nom { get; set; }
 
         //Equipement
         [InverseProperty(nameof(Equipement.TypeEquipementEquipement))]

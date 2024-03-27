@@ -24,7 +24,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("equ_nom")]
         [StringLength(50)]
-        public string Nom { get; set; } = null!;
+        public string Nom { get; set; }
 
         //PossedeEquipement
         [InverseProperty(nameof(PossedeEquipement.EquipementPossede))]

@@ -19,7 +19,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("sct_nomsecteur")]
         [StringLength(50)]
-        public string NomSecteur { get; set; } = null!;
+        public string NomSecteur { get; set; }
 
         //Entreprises
         [InverseProperty(nameof(Entreprise.SecteurActiviteEntreprise))]

@@ -26,7 +26,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Required]
         [Column("pho_url")]
-        public string URL { get; set; } = null!;
+        public string URL { get; set; }
 
 
         //Profil

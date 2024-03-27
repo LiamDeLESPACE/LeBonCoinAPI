@@ -17,7 +17,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Required]
         [Column("cmt_contenu")]
-        public string Contenu { get; set; } = null!;
+        public string Contenu { get; set; }
 
         //Profil
         [ForeignKey(nameof(ProfilId))]

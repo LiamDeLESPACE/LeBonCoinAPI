@@ -18,7 +18,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("cab_numero")]
         [StringLength(16)]
-        public string Numero { get; set; } = null!;
+        public string Numero { get; set; }
 
         //Profil
         [ForeignKey(nameof(ProfilId))]
