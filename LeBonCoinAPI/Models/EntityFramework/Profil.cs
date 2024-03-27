@@ -8,7 +8,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
     public abstract class Profil
     {
-        public Profil()
+        public Profil(string hashPassword)
         {
             CartesBancairesProfil = new HashSet<CarteBancaire>();
             PhotosProfil = new HashSet<Photo>();
@@ -17,15 +17,20 @@ namespace LeBonCoinAPI.Models.EntityFramework
             AnnoncesProfil = new HashSet<Annonce>();
             FavorisProfil = new HashSet<Favoris>();
             CommentairesProfil = new HashSet<Commentaire>();
+            HashMotDePasse = hashPassword;
+        }
+
+        #warning a delete rapidement une fois les filles fixées
+        public Profil() { }
+
+        public Profil(string hashPassword, string telephone) : this(hashPassword)
+        {
+            Telephone = telephone;
         }
 
         [Key]
         [Column("prf_id")]
         public int ProfilId { get; set; }
-
-
-        [Column("adr_id")]
-        public int? AdresseId { get; set; }
 
         [Required]
         [Column("prf_hashmdp")]
@@ -40,11 +45,6 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //CarteBancaire
         [InverseProperty(nameof(CarteBancaire.ProfilCarteBancaire))]
         public virtual ICollection<CarteBancaire> CartesBancairesProfil { get; set; }
-
-        //Adresse
-        /*[ForeignKey(nameof(ProfilId))]
-        [InverseProperty(nameof(Adresse.ProfilsAdresse))]
-        public Adresse? AdresseProfil { get; set; } */
 
         //Photo
         [InverseProperty(nameof(Photo.ProfilPhoto))]

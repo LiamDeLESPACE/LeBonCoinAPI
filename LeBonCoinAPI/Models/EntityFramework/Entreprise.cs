@@ -7,9 +7,23 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_e_entreprise_ent")]
     public class Entreprise : Profil
     {
-        public Entreprise()
+        public Entreprise(int secteurId, string siret, int adresseId, string hashMdp) : base(hashMdp)
         {
+            SecteurId = secteurId;
+            Siret = siret;
+            AdresseId = adresseId;
+        }
 
+        public Entreprise(int secteurId, string siret, int adresseId, string hashMdp, string telephone) : base(hashMdp, telephone)
+        {
+            SecteurId = secteurId;
+            Siret = siret;
+            AdresseId = adresseId;
+        }
+
+        public Entreprise(int secteurId, string siret, int adresseId, string hashMdp, string nom, string telephone): this(secteurId, siret, adresseId, hashMdp, telephone) 
+        {
+            Nom = nom;
         }
 
         [Required]
@@ -18,8 +32,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Required]
         [Column("ent_siret")]
-        [MinLength(14)]
-        [MaxLength(14)]
+        [StringLength(14)]
+        [RegularExpression("^[0-9]{14}$", ErrorMessage = "Un SIRET contient 14 chiffres (9 chiffres du SIREN + 5 chiffres de l'etablissement)")]
         public string Siret { get; set; }
 
         [Required]
