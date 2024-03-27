@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeBonCoinAPI", "LeBonCoinAPI\LeBonCoinAPI.csproj", "{034653C6-C7B9-4BC7-A1E1-E4352D74C9EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeBonCoinAPI", "LeBonCoinAPI\LeBonCoinAPI.csproj", "{034653C6-C7B9-4BC7-A1E1-E4352D74C9EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeBonCoinAPITests", "LeBonCoinAPITests\LeBonCoinAPITests.csproj", "{99C190BF-0E00-428A-B3FA-AA57D516E81E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{034653C6-C7B9-4BC7-A1E1-E4352D74C9EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{034653C6-C7B9-4BC7-A1E1-E4352D74C9EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{034653C6-C7B9-4BC7-A1E1-E4352D74C9EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99C190BF-0E00-428A-B3FA-AA57D516E81E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99C190BF-0E00-428A-B3FA-AA57D516E81E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99C190BF-0E00-428A-B3FA-AA57D516E81E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99C190BF-0E00-428A-B3FA-AA57D516E81E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

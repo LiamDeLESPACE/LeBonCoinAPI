@@ -7,6 +7,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_e_cartebancaire_cab")]
     public class CarteBancaire
     {
+        public CarteBancaire(int profilId, string numCarte)
+        {
+            ProfilId = profilId;
+            Numero = numCarte;
+        }
+
         [Key]
         [Column("cab_id")]
         public int CarteId { get; set; }
@@ -18,6 +24,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("cab_numero")]
         [StringLength(16)]
+        [RegularExpression("^[0-9]{16}$", ErrorMessage = "Un numéro de carte compte 16 chiffres")]
         public string Numero { get; set; }
 
         //Profil
