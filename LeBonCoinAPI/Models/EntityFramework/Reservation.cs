@@ -26,11 +26,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public int ProfilId { get; set; }
 
         [Required]
-        [Column("res_datearrivee")]
+        [Column("res_datearrivee", TypeName = "date")]
         public DateTime DateArrivee { get; set; }
 
         [Required]
-        [Column("res_datedepart")]
+        [Column("res_datedepart", TypeName = "date")]
         public DateTime DateDepart { get; set; }
 
         [Required]
