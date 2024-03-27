@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace LeBonCoinAPI.Models.EntityFramework
 {
-    [Table("t_e_profil_prf")]
+
     public abstract class Profil
     {
         public Profil()
@@ -23,9 +23,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("prf_id")]
         public int ProfilId { get; set; }
 
-        [Required]
+
         [Column("adr_id")]
-        public int AdresseId { get; set; }
+        public int? AdresseId { get; set; }
 
         [Required]
         [Column("prf_hashmdp")]
@@ -36,19 +36,15 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [RegularExpression(@"^0[0-9]{9}$", ErrorMessage = "Le telephone doit contenir 10 chiffres")]
         public string? Telephone { get; set; }
 
-
+        
         //CarteBancaire
         [InverseProperty(nameof(CarteBancaire.ProfilCarteBancaire))]
         public virtual ICollection<CarteBancaire> CartesBancairesProfil { get; set; }
 
-        /*//Entreprise
-        [InverseProperty(nameof(Entreprise.ProfilEntreprise))]
-        public virtual ICollection<Entreprise> EntreprisesProfil { get; set; }
-
-        //Particulier
-        [InverseProperty(nameof(Particulier.ProfilParticulier))]
-        public virtual ICollection<Particulier> ParticuliersProfil { get; set; }*/
-
+        //Adresse
+        /*[ForeignKey(nameof(ProfilId))]
+        [InverseProperty(nameof(Adresse.ProfilsAdresse))]
+        public Adresse? AdresseProfil { get; set; } */
 
         //Photo
         [InverseProperty(nameof(Photo.ProfilPhoto))]
@@ -69,11 +65,6 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Annonce
         [InverseProperty(nameof(Annonce.ProfilAnnonce))]
         public virtual ICollection<Annonce> AnnoncesProfil { get; set; }
-
-        //Adresse
-        [ForeignKey(nameof(ProfilId))]
-        [InverseProperty(nameof(Adresse.ProfilsAdresse))]
-        public virtual Adresse AdresseProfil { get; set; } = null!;
 
         //Commentaire
         [InverseProperty(nameof(Commentaire.ProfilCommentaire))]

@@ -38,7 +38,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [StringLength(100)]
         public string Titre { get; set; }
 
-        [Required]
+
         [Column("ann_dureeminimumsejour")]
         public int DureeMinimumSejour { get; set; }
 
@@ -50,15 +50,15 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("ann_datepublication", TypeName = "date")]
         public DateTime DatePublication { get; set; }
 
-        [Required]
+
         [Column("ann_description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Column("ann_etoile")]
         [Range(0,5)]
         public int Etoile { get; set; }
 
-        [Required]
+
         [Column("ann_nombrepersonnesmax")]
         public int NombrePersonnesMax { get; set; }
 
@@ -66,7 +66,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Column("ann_prixparnuit")]
         public double PrixParNuit { get; set; }
 
-        [Required]
+
         [Column("ann_nombrechambres")]
         public int NombreChambres { get; set; }
 
@@ -74,6 +74,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //PossedeEquipement
         [InverseProperty(nameof(PossedeEquipement.AnnonceEquipementPossede))]
         public virtual ICollection<PossedeEquipement> EquipementsPossedesAnnonce { get; set; }
+
+        //TypeLogement
+        [ForeignKey(nameof(TypeLogementId))]
+        [InverseProperty(nameof(TypeLogement.AnnoncesTypeLogement))]
+        public virtual TypeLogement TypeLogementAnnonce { get; set; } = null!;
 
         //Reservation
         [InverseProperty(nameof(Reservation.AnnonceReservation))]
@@ -95,11 +100,6 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [ForeignKey(nameof(AdresseId))]
         [InverseProperty(nameof(Adresse.AnnoncesAdresse))]
         public virtual Adresse AdresseAnnonce { get; set; } = null!;
-
-        //TypeLogement
-        [ForeignKey(nameof(TypeLogementId))]
-        [InverseProperty(nameof(TypeLogement.AnnoncesTypeLogement))]
-        public virtual TypeLogement TypeLogementAnnonce { get; set; } = null!;
 
         //Profil
         [ForeignKey(nameof(ProfilId))]

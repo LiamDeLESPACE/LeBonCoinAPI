@@ -36,23 +36,20 @@ namespace LeBonCoinAPI.Models.EntityFramework
             if (!optionsBuilder.IsConfigured)
             {
         #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseNpgsql("Server=localhost;port=5432;Database=LeBonCoinAPI; uid=postgres; password=postgres;");
+                optionsBuilder.UseNpgsql("Server=localhost; port=5432; Database=sae; uid=postgres; password=postgres;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Admin>().UseTpcMappingStrategy();
-            modelBuilder.Entity<Entreprise>().UseTpcMappingStrategy();
-            modelBuilder.Entity<Particulier>().UseTpcMappingStrategy();
 
-            modelBuilder.Entity<Admin>(entity =>
+            /*modelBuilder.Entity<Admin>(entity =>
             {
 
                 entity.Property(e => e.Telephone)
                     .IsFixedLength();
 
-                entity.Property(b=>b.ProfilId)
+                entity.Property(b => b.ProfilId)
                 .HasColumnName("prf_id");
 
                 entity.Property(b => b.AdresseId)
@@ -64,10 +61,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
                 entity.Property(b => b.Telephone)
                 .HasColumnName("prf_telephone");
 
-                entity.HasCheckConstraint("ck_adm_email", "adm_email like '%_@__%.__%'");
-            });
+                //entity.HasCheckConstraint("ck_adm_email", "adm_email like '%_@__%.__%'");
+            });*/
 
-            modelBuilder.Entity<Adresse>(entity =>
+            modelBuilder.Entity<Admin>().ToTable(t => t.HasCheckConstraint("ck_adm_email", "adm_email like '%_@__%.__%'"));
+
+            modelBuilder.Entity<Adresse>(/*entity =>
             {
                 entity.HasKey(e => e.AdresseId)
                     .HasName("pk_adr");                
@@ -90,9 +89,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
                     .HasConstraintName("fk_adr_vil");
 
                 entity.HasCheckConstraint("ck_adr_numero", "adr_numero between 0 and 1000");
-            });
+            }*/);
 
-            modelBuilder.Entity<Annonce>(entity =>
+            modelBuilder.Entity<Annonce>(/*entity =>
             {
                 entity.HasKey(e => e.AnnonceId)
                     .HasName("pk_ann");
@@ -106,8 +105,6 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
                 entity.HasIndex(e => e.AdresseId, "fk_ann_adr");
 
-                entity.Property(e => e.AnnonceId)
-                    .ValueGeneratedNever();
 
                 entity.HasOne(d => d.AdresseAnnonce)
                     .WithMany(p => p.AnnoncesAdresse)
@@ -135,11 +132,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
                 entity.HasCheckConstraint("ck_ann_dureeminimumsejour", "ann_dureeminimumsejour > 0");
                 entity.HasCheckConstraint("ck_ann_nombrepersonnesmax", "ann_nombrepersonnesmax > 0");
                 entity.Property(e => e.DatePublication).HasDefaultValueSql("now()");
-            });
+            }*/);
 
             modelBuilder.Entity<Commentaire>(entity =>
             {
-                entity.HasKey(e => new { e.ProfilId, e.ReservationId })
+                entity.HasKey(e => new { e.ProfilId, e.ReservationId });/*
                     .HasName("pk_cmt");
 
                 entity.HasIndex(e => e.ReservationId, "fk_cmt_res")
@@ -158,10 +155,10 @@ namespace LeBonCoinAPI.Models.EntityFramework
                     .WithMany(p => p.CommentairesProfil)
                     .HasForeignKey(d => d.ProfilId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_cmt_prf");
+                    .HasConstraintName("fk_cmt_prf");*/
             });
 
-            modelBuilder.Entity<CarteBancaire>(entity =>
+            modelBuilder.Entity<CarteBancaire>(/*entity =>
             {
                 entity.HasKey(e => e.CarteId)
                     .HasName("pk_cab");
@@ -171,9 +168,6 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
                 entity.HasIndex(e => e.ProfilId, "fk_cab_prf");
 
-                entity.Property(e => e.CarteId)
-                    .ValueGeneratedNever();
-
                 entity.Property(e => e.Numero)
                     .IsFixedLength();
 
@@ -182,9 +176,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
                     .HasForeignKey(d => d.ProfilId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_cmt_prf");
-            });
+            }*/);
 
-            modelBuilder.Entity<Departement>(entity =>
+            modelBuilder.Entity<Departement>(/*entity =>
             {
                 entity.HasKey(e => e.DepartementCode)
                     .HasName("pk_dep");
@@ -194,9 +188,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
                 entity.Property(e => e.DepartementCode)
                     .IsFixedLength();
-            });
+            }*/);
 
-            modelBuilder.Entity<Entreprise>(entity =>
+            /*modelBuilder.Entity<Entreprise>(entity =>
             {
          
                 entity.HasIndex(e => e.SecteurId, "fk_ent_sct");
@@ -223,9 +217,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
                    .HasForeignKey(d => d.SecteurId)
                    .OnDelete(DeleteBehavior.Restrict)
                    .HasConstraintName("fk_ent_sct");
-            });
+            });*/
 
-            modelBuilder.Entity<Equipement>(entity =>
+            modelBuilder.Entity<Entreprise>();
+
+            modelBuilder.Entity<Equipement>(/*entity =>
             {
                 entity.HasKey(e => e.EquipementId)
                     .HasName("pk_equ");
@@ -235,19 +231,16 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
                 entity.HasIndex(e => e.TypeEquipementId, "fk_equ_tye");
 
-                entity.Property(e => e.EquipementId)
-                    .ValueGeneratedNever();
-
                 entity.HasOne(d => d.TypeEquipementEquipement)
                    .WithMany(p => p.EquipementsTypeEquipement)
                    .HasForeignKey(d => d.TypeEquipementId)
                    .OnDelete(DeleteBehavior.Restrict)
                    .HasConstraintName("fk_equ_tye");
-            });
+            }*/);
 
             modelBuilder.Entity<Favoris>(entity =>
             {
-                entity.HasKey(e => new { e.AnnonceId, e.ProfilId })
+                entity.HasKey(e => new { e.AnnonceId, e.ProfilId });/*
                     .HasName("pk_fav");
 
                 entity.HasIndex(e => e.ProfilId, "fk_fav_prf")
@@ -266,10 +259,10 @@ namespace LeBonCoinAPI.Models.EntityFramework
                     .WithMany(p => p.FavorisAnnonce)
                     .HasForeignKey(d => d.AnnonceId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_fav_ann");
+                    .HasConstraintName("fk_fav_ann");*/
             });
 
-            modelBuilder.Entity<Particulier>(entity =>
+            /*modelBuilder.Entity<Particulier>(entity =>
             {
 
                 entity.Property(e => e.Telephone)
@@ -292,9 +285,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
                 entity.HasCheckConstraint("ck_prt_email", "prt_email like '%_@__%.__%'");
                 entity.HasCheckConstraint("ck_prt_civilite", "prt_civilite in ('H', 'F')");
 
-            });
+            });*/
 
-            modelBuilder.Entity<Photo>(entity =>
+            modelBuilder.Entity<Particulier>();
+
+
+            modelBuilder.Entity<Photo>(/*entity =>
             {
                 entity.HasKey(e => e.PhotoId)
                     .HasName("pk_pho");
@@ -318,11 +314,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_pho_ann");
 
-            });
+            }*/);
 
             modelBuilder.Entity<PossedeEquipement>(entity =>
             {
-                entity.HasKey(e => new { e.AnnonceId, e.EquipementId })
+                entity.HasKey(e => new { e.AnnonceId, e.EquipementId });/*
                     .HasName("pk_peq");
 
                 entity.HasIndex(e => e.EquipementId, "fk_peq_equ").IsUnique();
@@ -339,10 +335,10 @@ namespace LeBonCoinAPI.Models.EntityFramework
                     .WithMany(p => p.EquipementsPossedesDesEquipement)
                     .HasForeignKey(d => d.EquipementId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_peq_equ");
+                    .HasConstraintName("fk_peq_equ");*/
             });
 
-            
+
             //modelBuilder.Entity<Profil>(entity =>
             //{
 
@@ -357,7 +353,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
             //    entity.Property(e => e.Telephone)
             //        .IsFixedLength();
 
-            //    entity.Property(b=>b.ProfilId)
+            //    entity.Property(b => b.ProfilId)
             //        .HasColumnName("prf_id");
 
             //    entity.Property(b => b.AdresseId)
@@ -381,7 +377,10 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
             //});
 
-            modelBuilder.Entity<Reglement>(entity =>
+            modelBuilder.Entity<Profil>().UseTpcMappingStrategy();
+
+
+            modelBuilder.Entity<Reglement>(/*entity =>
             {
                 entity.HasKey(e => e.ReglementId)
                     .HasName("pk_rgl");
@@ -399,9 +398,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
                     .HasForeignKey(d => d.ReservationId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_rgl_res");
-            });
+            }*/);
 
-            modelBuilder.Entity<Reservation>(entity =>
+            modelBuilder.Entity<Reservation>(/*entity =>
             {
                 entity.HasKey(e => e.ReservationId)
                     .HasName("pk_res");
@@ -412,9 +411,6 @@ namespace LeBonCoinAPI.Models.EntityFramework
                     .IsUnique();
 
                 entity.HasIndex(e => e.ProfilId, "res_fk");
-
-                entity.Property(e => e.ReservationId)
-                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Telephone)
                     .IsFixedLength();
@@ -431,9 +427,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
                 entity.HasCheckConstraint("ck_res_telephone", "res_telephone LIKE ('06%') or res_telephone LIKE ('07%')OR res_telephone IS NULL");
 
-            });
+            }*/);
 
-            modelBuilder.Entity<SecteurActivite>(entity =>
+            modelBuilder.Entity<SecteurActivite>(/*entity =>
             {
                 entity.HasKey(e => e.SecteurId)
                     .HasName("pk_sct");
@@ -441,13 +437,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
                 entity.HasIndex(e => e.SecteurId, "sct_pk")
                     .IsUnique();
 
-                entity.Property(e => e.SecteurId)
-                    .ValueGeneratedNever();
-            });
+            }*/);
 
             modelBuilder.Entity<Signale>(entity =>
             {
-                entity.HasKey(e => new { e.ProfilId, e.AnnonceId })
+                entity.HasKey(e => new { e.ProfilId, e.AnnonceId });/*
                     .HasName("pk_sig");
 
                 entity.HasIndex(e => e.AnnonceId, "fk_sig_ann")
@@ -466,10 +460,10 @@ namespace LeBonCoinAPI.Models.EntityFramework
                     .WithMany(p => p.SignalementsProfil)
                     .HasForeignKey(d => d.ProfilId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_sig_prf");
+                    .HasConstraintName("fk_sig_prf");*/
             });
 
-            modelBuilder.Entity<TypeLogement>(entity =>
+            modelBuilder.Entity<TypeLogement>(/*entity =>
             {
                 entity.HasKey(e => e.TypeLogementId)
                     .HasName("pk_tyl");
@@ -477,11 +471,9 @@ namespace LeBonCoinAPI.Models.EntityFramework
                 entity.HasIndex(e => e.TypeLogementId, "tyl_pk")
                     .IsUnique();
 
-                entity.Property(e => e.TypeLogementId)
-                    .ValueGeneratedNever();
-            });
+            }*/);
 
-            modelBuilder.Entity<TypeEquipement>(entity =>
+            modelBuilder.Entity<TypeEquipement>(/*entity =>
             {
                 entity.HasKey(e => e.TypeEquipementId)
                     .HasName("pk_tye");
@@ -489,14 +481,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
                 entity.HasIndex(e => e.TypeEquipementId, "tye_pk")
                     .IsUnique();
 
-                entity.Property(e => e.TypeEquipementId)
-                    .ValueGeneratedNever();
 
                 entity.HasCheckConstraint("ck_tye_nom", "tye_nom in ('Equipements', 'Extérieur', 'Services et Accessibilité')");
 
-            });
+            }*/);
 
-            modelBuilder.Entity<Ville>(entity =>
+            modelBuilder.Entity<Ville>(/*entity =>
             {
                 entity.HasKey(e => e.CodeInsee)
                     .HasName("pk_vil");
@@ -520,7 +510,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
                     .HasForeignKey(d => d.DepartementCode)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("fk_vil_dep");
-            });
+            }*/);
 
             OnModelCreatingPartial(modelBuilder);
         }

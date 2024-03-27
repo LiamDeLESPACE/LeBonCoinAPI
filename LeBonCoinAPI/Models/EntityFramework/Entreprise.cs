@@ -12,33 +12,21 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         }
 
-        //[Key]
-        //[Column("prf_id")]
-        //public int ProfilId { get; set; }
-
-        //[Required]
-        //[Column("adr_id")]
-        //public int AdresseId { get; set; }
-
-        //[Required]
-        //[Column("prf_hashmdp")]
-        //public string HashMotDePasse { get; set; }
-
-        //[Column("prf_telephone")]
-        //[StringLength(10)]
-        //[RegularExpression(@"^0[0-9]{9}$", ErrorMessage = "Le telephone doit contenir 10 chiffres")]
-        //public string? Telephone { get; set; }
-
         [Required]
         [Column("sct_id")]
         public int SecteurId { get; set; }
 
         [Required]
         [Column("ent_siret")]
-        [StringLength(14)]
+        [MinLength(14)]
+        [MaxLength(14)]
         public string Siret { get; set; }
 
         [Required]
+        [Column("adr_id")]
+        public int AdresseId { get; set; }
+
+
         [Column("ent_nom")]
         [StringLength(100)]
         public string? Nom { get; set; }
@@ -48,11 +36,10 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(SecteurActivite.EntreprisesSecteurActivite))]
         public virtual SecteurActivite SecteurActiviteEntreprise { get; set; } = null!;
 
-        /*
-        //Profil
-        [ForeignKey(nameof(ProfilId))]
-        [InverseProperty(nameof(Profil.EntreprisesProfil))]
-        public virtual Profil ProfilEntreprise { get; set; } = null!;*/
+        //Adresse
+        [ForeignKey(nameof(AdresseId))]
+        [InverseProperty(nameof(Adresse.EntreprisesAdresse))]
+        public virtual Adresse AdresseEntreprise { get; set; } = null!;
 
     }
 }

@@ -40,18 +40,18 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("res_nom")]
         [StringLength(50)]
-        public string? Nom { get; set; }
+        public string Nom { get; set; }
 
         [Required]
         [Column("res_prenom")]
         [StringLength(50)]
-        public string? Prenom { get; set; }
+        public string Prenom { get; set; }
 
         [Required]
         [Column("res_telephone")]
         [StringLength(10)]
         [RegularExpression(@"^0[0-9]{9}$", ErrorMessage = "Le telephone doit contenir 10 chiffres")]
-        public string? Telephone { get; set; }
+        public string Telephone { get; set; }
 
 
         //Reglement

@@ -29,6 +29,6 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Profil
         [ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.SignalementsProfil))]
-        public virtual Profil ProfilSignalement { get; set; }
+        public virtual Profil ProfilSignalement { get; set; } = null!;
     }
 }

@@ -22,11 +22,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Profil
         [ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.CommentairesProfil))]
-        public virtual Profil ProfilCommentaire { get; set; }
+        public virtual Profil ProfilCommentaire { get; set; } = null!;
 
         //Reservation
         [ForeignKey(nameof(ReservationId))]
         [InverseProperty(nameof(Reservation.CommentairesReservation))]
-        public virtual Reservation ReservationCommentaire { get; set; }
+        public virtual Reservation ReservationCommentaire { get; set; } = null!;
     }
 }

@@ -13,8 +13,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Key]
         [Column("rgl_id")]
-        [StringLength(50)]
-        public string? ReglementId { get; set; }
+        public string ReglementId { get; set; }
 
         [Required]
         [Column("res_id")]

@@ -21,7 +21,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("dep_nom")]
         [StringLength(50)]
-        public string Nom { get; set; } = null!;
+        public string Nom { get; set; }
 
         //Ville
         [InverseProperty(nameof(Ville.DepartementVille))]
