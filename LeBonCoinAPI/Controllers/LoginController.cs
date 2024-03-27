@@ -18,7 +18,7 @@ namespace LeBonCoinAPI.Controllers
         private readonly IConfiguration _config;
         private List<Particulier> appUsers = new List<Particulier>
         {
-        new Particulier {Email = "test@gmail.com", Civilite = "H", Nom = "Orchant", Prenom = "Yves", DateNaissance = new DateTime(1989,06,02), HashMotDePasse = "1234" },
+        new Particulier {ProfilId = 2,Email = "aaaaa@gmail.com", Civilite = "H", Nom = "sfesef", Prenom = "Yves", DateNaissance = new DateTime(1989,06,02), HashMotDePasse = "134679" },
         };
 
         public LoginController(IConfiguration config)
@@ -63,6 +63,8 @@ namespace LeBonCoinAPI.Controllers
             var claims = new[]
             {
             new Claim(JwtRegisteredClaimNames.Sub, userInfo.Email),
+            new Claim("prenom", userInfo.Prenom.ToString()),
+            new Claim("role",userInfo.GetType().Name),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

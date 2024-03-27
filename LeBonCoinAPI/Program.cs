@@ -45,9 +45,13 @@ namespace LeBonCoinAPI
             {
                 config.AddPolicy(Policies.admin, Policies.AdminPolicy());
                 config.AddPolicy(Policies.particulier, Policies.ParticulierPolicy());
+                config.AddPolicy(Policies.particulier+","+ Policies.admin, Policies.HumanPolicy());
             });
 
             var app = builder.Build();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -61,7 +65,6 @@ namespace LeBonCoinAPI
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
 
 
             app.MapControllers();

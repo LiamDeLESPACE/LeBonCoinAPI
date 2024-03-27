@@ -15,5 +15,10 @@ namespace LeBonCoinAPI.Models.Auth
         {
             return new AuthorizationPolicyBuilder().RequireAuthenticatedUser().RequireRole(particulier).Build();
         }
+
+        public static AuthorizationPolicy HumanPolicy()
+        {
+            return new AuthorizationPolicyBuilder().RequireAuthenticatedUser().RequireRole(particulier,admin).Build();
+        }
     }
 }
