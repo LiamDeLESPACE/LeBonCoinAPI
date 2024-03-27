@@ -18,8 +18,13 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Required]
         [Column("ent_siret")]
-        [StringLength(14)]
+        [MinLength(14)]
+        [MaxLength(14)]
         public string Siret { get; set; }
+
+        [Required]
+        [Column("adr_id")]
+        public int AdresseId { get; set; }
 
 
         [Column("ent_nom")]
@@ -31,11 +36,10 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(SecteurActivite.EntreprisesSecteurActivite))]
         public virtual SecteurActivite SecteurActiviteEntreprise { get; set; } = null!;
 
-        /*
-        //Profil
-        [ForeignKey(nameof(ProfilId))]
-        [InverseProperty(nameof(Profil.EntreprisesProfil))]
-        public virtual Profil ProfilEntreprise { get; set; } = null!;*/
+        //Adresse
+        [ForeignKey(nameof(AdresseId))]
+        [InverseProperty(nameof(Adresse.EntreprisesAdresse))]
+        public virtual Adresse AdresseEntreprise { get; set; } = null!;
 
     }
 }

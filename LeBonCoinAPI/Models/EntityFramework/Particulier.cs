@@ -12,10 +12,6 @@ namespace LeBonCoinAPI.Models.EntityFramework
           
         }
 
-        //[Required]
-        //[Column("adr_id")]
-        //public int AdresseId { get; set; }
-
         [Required]
         [Column("prt_email")]
         [StringLength(100)]
@@ -35,6 +31,14 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         [Column("prt_datenaissance", TypeName = "date")]
         public DateTime? DateNaissance { get; set; }
-        
+
+        [Column("adr_id")]
+        public int? AdresseId { get; set; }
+
+        //Adresse
+        [ForeignKey(nameof(AdresseId))]
+        [InverseProperty(nameof(Adresse.ParticuliersAdresse))]
+        public virtual Adresse? AdresseParticulier { get; set; }
+
     }
 }

@@ -64,7 +64,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
                 //entity.HasCheckConstraint("ck_adm_email", "adm_email like '%_@__%.__%'");
             });*/
 
-            modelBuilder.Entity<Admin>();
+            modelBuilder.Entity<Admin>().ToTable(t => t.HasCheckConstraint("ck_adm_email", "adm_email like '%_@__%.__%'"));
 
             modelBuilder.Entity<Adresse>(/*entity =>
             {
