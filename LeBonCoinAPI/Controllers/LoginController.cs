@@ -18,7 +18,7 @@ namespace LeBonCoinAPI.Controllers
         private readonly IConfiguration _config;
         private List<Particulier> appUsers = new List<Particulier>
         {
-        new Particulier {Email = "test@gmail.com", Civilite = "H", Nom = "Orchant", Prenom = "Yves", DateNaissance = new DateTime(1989,06,02) },
+        new Particulier {Email = "test@gmail.com", Civilite = "H", Nom = "Orchant", Prenom = "Yves", DateNaissance = new DateTime(1989,06,02), HashMotDePasse = "1234" },
         };
 
         public LoginController(IConfiguration config)
