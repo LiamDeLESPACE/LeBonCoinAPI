@@ -21,10 +21,10 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         public Admin() : base() { }
 
-        [Required]
+
         [Column("adm_service")]
         [MaxLength(50)]
-        public string Service { get; set; }
+        public string? Service { get; set; }
 
         [Required]
         [Column("adm_email")]

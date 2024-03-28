@@ -7,7 +7,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_e_entreprise_ent")]
     public class Entreprise : Profil
     {
-        public Entreprise(int secteurId, string siret, int adresseId, string hashMdp) : base(hashMdp) : this()
+        public Entreprise(int secteurId, string siret, int adresseId, string hashMdp) : base(hashMdp) 
         {
             SecteurId = secteurId;
             Siret = siret;
@@ -52,12 +52,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Secteur Activite
         [ForeignKey(nameof(SecteurId))]
         [InverseProperty(nameof(SecteurActivite.EntreprisesSecteurActivite))]
-        public virtual SecteurActivite SecteurActiviteEntreprise { get; set; } = null!;
+        public virtual SecteurActivite? SecteurActiviteEntreprise { get; set; }
 
         //Adresse
         [ForeignKey(nameof(AdresseId))]
         [InverseProperty(nameof(Adresse.EntreprisesAdresse))]
-        public virtual Adresse AdresseEntreprise { get; set; } = null!;
+        public virtual Adresse? AdresseEntreprise { get; set; }
 
     }
 }
