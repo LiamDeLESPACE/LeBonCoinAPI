@@ -12,6 +12,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
             AnnoncesTypeLogement = new HashSet<Annonce>();
         }
 
+        public TypeLogement(string nomTypeLogement): this()
+        {
+            Nom = nomTypeLogement;
+        }
+
         [Key]
         [Column("tyl_id")]
         public int TypeLogementId { get; set; }

@@ -8,13 +8,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_e_annonce_ann")]
     public class Annonce
     {
-        public Annonce(int idadresse, int idtypelogement, int idprofil, string titre, bool active, double prixnuitee)
+        public Annonce(int idadresse, int idtypelogement, int idprofil, string titre, bool active, double prixnuitee) : this()
         {
-            EquipementsPossedesAnnonce = new HashSet<PossedeEquipement>();
-            ReservationsAnnonce = new HashSet<Reservation>();
-            SignalementsAnnonce = new HashSet<Signale>();
-            FavorisAnnonce = new HashSet<Favoris>();
-            PhotosAnnonce = new HashSet<Photo>();
             AdresseId = idadresse;
             TypeLogementId = idtypelogement;
             ProfilId = idprofil;
@@ -42,8 +37,15 @@ namespace LeBonCoinAPI.Models.EntityFramework
         {
 
         }
-        
 
+        public Annonce()
+        {
+            EquipementsPossedesAnnonce = new HashSet<PossedeEquipement>();
+            ReservationsAnnonce = new HashSet<Reservation>();
+            SignalementsAnnonce = new HashSet<Signale>();
+            FavorisAnnonce = new HashSet<Favoris>();
+            PhotosAnnonce = new HashSet<Photo>();
+        }
 
         [Key]
         [Column("ann_id")]

@@ -12,6 +12,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
         {
             EntreprisesSecteurActivite = new HashSet<Entreprise>();
         }
+
+        public SecteurActivite(string nomSecteur) : this()
+        {
+            NomSecteur = nomSecteur;
+        }
+
         [Key]
         [Column("sct_id")]
         public int SecteurId { get; set; }

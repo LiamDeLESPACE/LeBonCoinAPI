@@ -12,6 +12,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
             
         }
 
+        public PossedeEquipement(int annonceId, int equipementId)
+        {
+            AnnonceId = annonceId;
+            EquipementId = equipementId;
+        }
+
         [Key]
         [Column("ann_id")]
         public int AnnonceId { get; set; }

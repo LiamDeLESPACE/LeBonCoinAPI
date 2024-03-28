@@ -7,24 +7,28 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_e_entreprise_ent")]
     public class Entreprise : Profil
     {
-        public Entreprise(int secteurId, string siret, int adresseId, string hashMdp) : base(hashMdp)
+        public Entreprise(int secteurId, string siret, int adresseId, string hashMdp) : base(hashMdp) : this()
         {
             SecteurId = secteurId;
             Siret = siret;
             AdresseId = adresseId;
         }
 
-        public Entreprise(int secteurId, string siret, int adresseId, string hashMdp, string telephone) : base(hashMdp, telephone)
+        public Entreprise(int secteurId, string siret, int adresseId, string hashMdp, string telephone) 
+            : base(hashMdp, telephone)
         {
             SecteurId = secteurId;
             Siret = siret;
             AdresseId = adresseId;
         }
 
-        public Entreprise(int secteurId, string siret, int adresseId, string hashMdp, string nom, string telephone): this(secteurId, siret, adresseId, hashMdp, telephone) 
+        public Entreprise(int secteurId, string siret, int adresseId, string hashMdp, string nom, string telephone) 
+            : this(secteurId, siret, adresseId, hashMdp, telephone) 
         {
             Nom = nom;
         }
+
+        public Entreprise() : base() { }
 
         [Required]
         [Column("sct_id")]

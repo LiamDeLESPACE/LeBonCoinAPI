@@ -9,14 +9,18 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_e_adresse_adr")]
     public class Adresse
     {
-        public Adresse(string INSEE_Ville, string nomrue, int numerorue)
+        public Adresse(string INSEE_Ville, string nomrue, int numerorue) : this()
+        {
+            CodeInsee = INSEE_Ville;
+            Rue = nomrue;
+            Numero = numerorue;
+        }
+
+        public Adresse()
         {
             EntreprisesAdresse = new HashSet<Entreprise>();
             ParticuliersAdresse = new HashSet<Particulier>();
             AnnoncesAdresse = new HashSet<Annonce>();
-            CodeInsee = INSEE_Ville;
-            Rue = nomrue;
-            Numero = numerorue;
         }
 
         [Key]

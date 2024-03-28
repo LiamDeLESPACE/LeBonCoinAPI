@@ -13,6 +13,20 @@ namespace LeBonCoinAPI.Models.EntityFramework
             CommentairesReservation = new HashSet<Commentaire>();
         }
 
+        public Reservation(int annonceId, int profilId, DateTime dateArrivee, DateTime dateDepart, int nbVoyageurs, 
+            string nom, string prenom, string telephone) : this()
+        {
+            AnnonceId = annonceId;
+            ProfilId = profilId;
+            DateArrivee = dateArrivee;
+            DateDepart = dateDepart;
+            NombreVoyageur = nbVoyageurs;
+            Nom = nom;
+            Prenom = prenom;
+            Telephone = telephone;
+        }
+
+
         [Key]
         [Column("res_id")]
         public int ReservationId { get; set; }

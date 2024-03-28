@@ -8,6 +8,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_e_equipement_equ")]
     public class Equipement
     {
+        public Equipement(int typeEquipementId, string nomEquipement) : this()
+        {
+            TypeEquipementId = typeEquipementId;
+            Nom = nomEquipement;
+        }
+
         public Equipement()
         {
             EquipementsPossedesDesEquipement = new HashSet<PossedeEquipement>();

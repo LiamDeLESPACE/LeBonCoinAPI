@@ -19,6 +19,8 @@ namespace LeBonCoinAPI.Models.EntityFramework
             Email = adminmail;
         }
 
+        public Admin() : base() { }
+
         [Required]
         [Column("adm_service")]
         [MaxLength(50)]

@@ -8,7 +8,13 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
     public abstract class Profil
     {
-        public Profil(string hashPassword)
+        public Profil(string hashPassword) : this()
+        {
+            
+            HashMotDePasse = hashPassword;
+        }
+
+        public Profil()
         {
             CartesBancairesProfil = new HashSet<CarteBancaire>();
             PhotosProfil = new HashSet<Photo>();
@@ -17,11 +23,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
             AnnoncesProfil = new HashSet<Annonce>();
             FavorisProfil = new HashSet<Favoris>();
             CommentairesProfil = new HashSet<Commentaire>();
-            HashMotDePasse = hashPassword;
         }
-
-        #warning a delete rapidement une fois les filles fixées
-        public Profil() { }
 
         public Profil(string hashPassword, string telephone) : this(hashPassword)
         {

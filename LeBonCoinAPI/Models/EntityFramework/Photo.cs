@@ -12,6 +12,18 @@ namespace LeBonCoinAPI.Models.EntityFramework
 
         }
 
+        public Photo (int profilId, string url)
+        {
+            ProfilId = profilId;
+            URL = url;
+        }
+
+        public void PhotoAnnonce(int annonceId, string url) //beurk
+        {
+            AnnonceId = annonceId;
+            URL = url;
+        }
+
         [Key]
         [Column("pho_id")]
         public int PhotoId { get; set; }
