@@ -7,6 +7,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_j_favoris_fav")]
     public class Favoris
     {
+        public Favoris(int annonceId,int profilId)
+        {
+            AnnonceId = annonceId;
+            ProfilId = profilId;
+        }
+
         public Favoris()
         {
             

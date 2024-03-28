@@ -8,14 +8,17 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_e_ville_vil")]
     public class Ville
     {
-        public Ville(string codeINSEE, string depCode, string nom, string codePostal)
+        public Ville(string codeINSEE, string depCode, string nom, string codePostal)  : this()
         {            
-            AdressesVille = new HashSet<Adresse>();
             CodeInsee = codeINSEE;
             DepartementCode = depCode;
             Nom = nom;
             CodePostal = codePostal;
+        }
 
+        public Ville()
+        {
+            AdressesVille = new HashSet<Adresse>();
         }
 
         [Key]

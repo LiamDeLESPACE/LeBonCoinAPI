@@ -11,6 +11,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
             
         }
 
+        public Reglement(string reglementId, int reservationId)
+        {
+            ReglementId = reglementId;
+            ReservationId = reservationId;
+        }
+
         [Key]
         [Column("rgl_id")]
         public string ReglementId { get; set; }

@@ -7,24 +7,28 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_e_entreprise_ent")]
     public class Entreprise : Profil
     {
-        public Entreprise(int secteurId, string siret, int adresseId, string hashMdp) : base(hashMdp)
+        public Entreprise(int secteurId, string siret, int adresseId, string hashMdp) : base(hashMdp) 
         {
             SecteurId = secteurId;
             Siret = siret;
             AdresseId = adresseId;
         }
 
-        public Entreprise(int secteurId, string siret, int adresseId, string hashMdp, string telephone) : base(hashMdp, telephone)
+        public Entreprise(int secteurId, string siret, int adresseId, string hashMdp, string telephone) 
+            : base(hashMdp, telephone)
         {
             SecteurId = secteurId;
             Siret = siret;
             AdresseId = adresseId;
         }
 
-        public Entreprise(int secteurId, string siret, int adresseId, string hashMdp, string nom, string telephone): this(secteurId, siret, adresseId, hashMdp, telephone) 
+        public Entreprise(int secteurId, string siret, int adresseId, string hashMdp, string nom, string telephone) 
+            : this(secteurId, siret, adresseId, hashMdp, telephone) 
         {
             Nom = nom;
         }
+
+        public Entreprise() : base() { }
 
         [Required]
         [Column("sct_id")]
@@ -48,12 +52,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Secteur Activite
         [ForeignKey(nameof(SecteurId))]
         [InverseProperty(nameof(SecteurActivite.EntreprisesSecteurActivite))]
-        public virtual SecteurActivite SecteurActiviteEntreprise { get; set; } = null!;
+        public virtual SecteurActivite? SecteurActiviteEntreprise { get; set; }
 
         //Adresse
         [ForeignKey(nameof(AdresseId))]
         [InverseProperty(nameof(Adresse.EntreprisesAdresse))]
-        public virtual Adresse AdresseEntreprise { get; set; } = null!;
+        public virtual Adresse? AdresseEntreprise { get; set; }
 
     }
 }

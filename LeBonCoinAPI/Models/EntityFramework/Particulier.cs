@@ -1,20 +1,39 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using LeBonCoinAPI.Controllers;
 
 namespace LeBonCoinAPI.Models.EntityFramework
 {
     [Table("t_e_particulier_prt")]
     public class Particulier : Profil
     {
-        public Particulier()
+        public Particulier(string email, string hashMdp) : base(hashMdp)
         {
-          
+          Email = email;
+        }
+
+        public Particulier(string email, string hashMdp, string telephone, string civilite, string nom, string prenom, 
+            DateTime datenaissance, int adresseId) : base(hashMdp, telephone)
+        {
+            Email = email;
+            Civilite = civilite;
+            Nom = nom;
+            Prenom = prenom;
+            DateNaissance = datenaissance;
+            AdresseId = adresseId;
+
+        }
+
+        public Particulier() : base()
+        {
+
         }
 
         [Required]
         [Column("prt_email")]
         [StringLength(100)]
+        [RegularExpression("^[a-z]+@[a-z]+.[a-z]+$")]
         public string Email { get; set; }
 
         [Column("prt_civilite")]

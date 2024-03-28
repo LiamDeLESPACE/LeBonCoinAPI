@@ -12,6 +12,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
         {
             EquipementsTypeEquipement = new HashSet<Equipement>();
         }
+
+        public TypeEquipement(string nomEquipement) : this()
+        {
+            Nom = nomEquipement;
+        }
+
         [Key]
         [Column("tye_id")]
         public int TypeEquipementId { get; set; }

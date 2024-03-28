@@ -12,6 +12,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
             
         }
 
+        public Signale(int profilId, int annonceId)
+        {
+            ProfilId = profilId;
+            AnnonceId = annonceId;
+        }
+
         [Key]
         [Column("prf_id")]
         public int ProfilId { get; set; }
