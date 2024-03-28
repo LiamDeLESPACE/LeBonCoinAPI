@@ -17,7 +17,7 @@ namespace LeBonCoinAPI.Controllers.Tests
     {
         private CarteBancairesController _controller;
 
-        private CarteBancairesController _context;
+        private DataContext _context;
 
         [TestMethod()]
         public void CarteBancairesControllerTest()
