@@ -7,7 +7,13 @@ namespace LeBonCoinAPI.Models.EntityFramework
     [Table("t_e_admin_adm")]
     public class Admin : Profil
     {
-        public Admin(string service, string adminmail)
+        public Admin(string service, string adminmail, string hashPassword) : base(hashPassword)
+        {
+            Service = service;
+            Email = adminmail;
+        }
+
+        public Admin(string service, string adminmail, string hashPassword, string telephone) : base(hashPassword, telephone)
         {
             Service = service;
             Email = adminmail;
