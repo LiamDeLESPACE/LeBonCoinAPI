@@ -82,9 +82,9 @@ namespace LeBonCoinAPI.Controllers.Tests
             Assert.IsInstanceOfType(result, typeof(ActionResult<Admin>), "Pas un ActionResult<Admin>");
             Assert.IsInstanceOfType(result, typeof(CreatedAtActionResult), "Pas un CreatedAtActionResult");
             var actionResult = result as CreatedAtActionResult;
-            Assert.IsInstanceOfType(actionResult.Value, typeof(Admin), "Pas une série");
+            Assert.IsInstanceOfType(actionResult.Value, typeof(Admin), "Pas un admin");
             adm.ProfilId = ((Admin)actionResult.Value).ProfilId;
-            Assert.AreEqual(adm, (Admin)actionResult.Value, "Series pas identiques");
+            Assert.AreEqual(adm, (Admin)actionResult.Value, "Admins pas identiques");
         }
 
         [TestMethod()]
