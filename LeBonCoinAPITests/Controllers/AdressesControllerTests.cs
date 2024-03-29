@@ -26,7 +26,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         Adresse adresse;
         List<Adresse> testListe;
 
-public AdressesControllerTests()
+        public AdressesControllerTests()
         {
             var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=localhost; port=5432; Database=LeBonCoinSAE; uid=postgres; password=postgres;");
             _context = new Mock<DataContext>();

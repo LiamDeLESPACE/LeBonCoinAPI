@@ -19,125 +19,150 @@ namespace LeBonCoinAPI.Controllers.Tests
     {
         private DepartementsController _controller;
 
-        private DataContext _context;
+        private Mock<DataContext> _context;
+
+        //Arrange
+        Departement Departement;
+        List<Departement> testListe;
+
+        public DepartementsControllerTests()
+        {
+            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=localhost; port=5432; Database=LeBonCoinSAE; uid=postgres; password=postgres;");
+            _context = new Mock<DataContext>();
+            _controller = new DepartementsController(_context.Object);
+        }
 
         [TestInitialize]
-        public void Initialize()
+        public void InitialisationDesTests()
         {
-            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=localhost;Port=5432;Database=LeBonCoinSAE;Uid=postgres;Password=postgres;");
-            _context = new DataContext(builder.Options);
+            // Rajouter les initialisations exécutées avant chaque test
+            Departement = new Departement { DepartementCode = "1", Nom = "Ain" };
+
+            testListe = new List<Departement>();
+            testListe.Add(new Departement { DepartementCode = "1", Nom = "Ain" });
+            testListe.Add(new Departement { DepartementCode = "2", Nom = "Aisne" });
+
+
         }
 
         [TestMethod()]
-        public void DepartementsControllerTest()
+        public void GetDepartement_ExistingIdPassed_ReturnsRightItem()
         {
-            //var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server = localhost; port = 5432; Database = LeBonCoinSAE; uid = postgres; password = postgres;");
-            //_context = new DataContext(builder.Options);           
-            //_controller = new DepartementsController(_context);
+
+            //Act
+            var result = _controller.GetDepartement("1");
+
+            //Assert
+            Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Departement>), "Pas un ActionResult");
+
+            var actionResult = result.Result as ActionResult<Departement>;
+
+            //Assert
+            Assert.IsNotNull(actionResult, "ActionResult null");
+            Assert.IsNotNull(actionResult.Value, "Valeur nulle");
+            Assert.IsInstanceOfType(actionResult.Value, typeof(Departement), "Pas une Departement");
+            Assert.AreEqual(Departement, (Departement)actionResult.Value, "Departement pas identiques");
         }
 
         [TestMethod()]
-        public void GetDepartementsTest()
+        public void GetDepartement_UnknownIdPassed_ReturnsNotFoundResult()
         {
-            // Mock du DbSet<Departement>
-            var mockDbSet = new Mock<DbSet<Departement>>();
-            // Configurer le contexte pour retourner le DbSet mocké
-            var mockContext = new Mock<DataContext>();
-            mockContext.Setup(c => c.Departements).Returns(mockDbSet.Object);
-            // Utiliser le contexte mocké dans le contrôleur
-            _controller = new DepartementsController(mockContext.Object);
+            //Act
+            var result = _controller.GetDepartement("0");
 
-            // Arrange
-            List<Departement> expected = new List<Departement>(); // Créer une liste vide car on utilise un contexte mocké
+            //Assert
+            Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Departement>), "Pas un ActionResult");
+            Assert.IsNull(result.Result.Value, "Departement pas null");
+        }
 
-            // Act
-            var result = _controller.GetDepartements().Result;
+        [TestMethod()]
+        public void GetDepartements_ReturnsRightItems()
+        {
 
-            // Assert
-            CollectionAssert.AreEqual(expected, result.Value.ToList(), "Les listes ne sont pas identiques");
-
-
-
-            /*// Mock du DbContext
-            var mockContext = new Mock<DataContext>();
-            // Mock du DbSet<Departement>
-            var mockDbSet = new Mock<DbSet<Departement>>();
-            // Configurer le contexte pour retourner le DbSet mocké
-            mockContext.Setup(c => c.Departements).Returns(mockDbSet.Object);
-            // Utiliser le contexte mocké dans le contrôleur
-            _controller = new DepartementsController(mockContext.Object);
-
-            // Arrange
-            List<Departement> expected = _context.Departements.ToList();
-            // Act
-            var res = _controller.GetDepartements().Result;
-            // Assert
-            CollectionAssert.AreEqual(expected, res.Value.ToList(), "Les listes ne sont pas identiques");
-
-            */
-            /*// Arrange 
-
-            Departement dep1 = new Departement("1","Ain");         
-            Departement dep2 = new Departement("2","Aisne");
-
-            List<Departement> departementsEsperees = new List<Departement>();
-            departementsEsperees.Add(dep1);
-            departementsEsperees.Add(dep2);
-
-            //var mockRepository = new Mock<IDataRepository<Departement>>();
-            //mockRepository.Setup(r => r.()).Returns(departementsEsperees);
-
-            //var userController = new DepartementsController((DataContext)mockRepository.Object);
-
-            // Act
+            //Act
             var result = _controller.GetDepartements();
 
-            // Assert
+            //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<IEnumerable<Departement>>), "Pas un ActionResult");
-           // ActionResult<IEnumerable<Departement>> actionResult = result.Result as ActionResult<IEnumerable<Departement>>;
-           // Assert.IsNotNull(actionResult, "ActionResult null");
-           // Assert.IsNotNull(actionResult.Value, "Valeur nulle");
-            //CollectionAssert.AreEqual(departementsEsperees, actionResult.Value.Where(d => string.Compare(d.DepartementCode, "2") < 0).ToList(), "Pas les mêmes déartements");
-            */
+            ActionResult<IEnumerable<Departement>> actionResult = result.Result as ActionResult<IEnumerable<Departement>>;
+            Assert.IsNotNull(actionResult, "ActionResult null");
+            Assert.IsNotNull(actionResult.Value, "Valeur nulle");
+            Assert.IsTrue(testListe.Any(d => d.DepartementCode == "1"));
+            Assert.IsTrue(testListe.Any(d => d.DepartementCode == "2"));
         }
 
         [TestMethod()]
-        public void GetDepartementTest()
+        public void PostDepartement_ModelValidated_CreationOK()
         {
+
+            //Act
+            var result = _controller.PostDepartement(Departement).Result;
+
+            //Assert
+            Assert.IsInstanceOfType(result, typeof(ActionResult<Departement>), "Pas un ActionResult");
+            Assert.IsInstanceOfType(result.Result, typeof(CreatedAtActionResult), "Pas un CreatedAtActionResult");
+            var actionResult = result.Result as CreatedAtActionResult;
+            Assert.IsInstanceOfType(actionResult.Value, typeof(Departement), "Pas une Departement");
+            Departement.DepartementCode = ((Departement)actionResult.Value).DepartementCode;
+            Assert.AreEqual(Departement, (Departement)actionResult.Value, "Departements pas identiques");
+
+        }
+        [TestMethod()]
+        public void PostDepartement_CodeInsee_CreationFailed()
+        {
+
+            //Act
+            var result = _controller.PostDepartement(Departement).Result;
+
+            //Assert
+            Assert.IsNotInstanceOfType(result.Result, typeof(Departement), "Pas un CreatedAtActionResult");
 
         }
 
         [TestMethod()]
-        public void PutDepartementTest()
-        {
-
-        }
-
-        [TestMethod]
-        public void Postdepartement_ModelValidated_CreationOK_AvecMoq()
+        public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
             // Arrange
-            var mockRepository = new Mock<IDataRepository<Departement>>();
-            var userController = new DepartementsController((DataContext)mockRepository.Object);
-
-            Departement dep1 = new Departement("200", "Ainee");
+            string id = "2";//Mauvais ID
 
             // Act
-            var actionResult = userController.PostDepartement(dep1).Result;
+            var result = await _controller.PutDepartement(id, Departement);
 
             // Assert
-            Assert.IsInstanceOfType(actionResult, typeof(ActionResult<Departement>), "Pas un ActionResult<Departement>");
-            Assert.IsInstanceOfType(actionResult.Result, typeof(CreatedAtActionResult), "Pas un CreatedAtActionResult");
-            var result = actionResult.Result as CreatedAtActionResult;
-            Assert.IsInstanceOfType(result.Value, typeof(Departement), "Pas un Departement");
-            dep1.DepartementCode = ((Departement)result.Value).DepartementCode;
-            Assert.AreEqual(dep1, (Departement)result.Value, "Departements pas identiques");
+            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+        }
+
+        [TestMethod()]
+        public async Task Put_WithValidId_ReturnsNoContent()
+        {
+
+            string id = "1"; //BonID
+
+            // Act
+            var result = await _controller.PutDepartement(id, Departement);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(NoContentResult));
         }
 
         [TestMethod()]
         public void DeleteDepartementTest()
         {
 
+            //Act
+            var result = _controller.GetDepartement("1");
+
+            //Existence
+            var actionResult = result.Result as ActionResult<Departement>;
+            Assert.IsNotNull(actionResult.Value, "Valeur nulle");
+            Assert.IsInstanceOfType(actionResult.Value, typeof(Departement), "Pas une Departement");
+
+            //Act
+            var resultDest = _controller.DeleteDepartement("1");
+
+            //Assert
+            Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Departement>), "Pas un ActionResult");
+            Assert.IsNull(resultDest.Result, "Departement pas null");
         }
     }
 }
