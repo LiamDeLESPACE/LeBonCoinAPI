@@ -14,15 +14,14 @@ namespace LeBonCoinAPI.Controllers
     public class LoginAdminController : ControllerBase
     {
         private readonly IConfiguration _config;
+        private readonly DataContext _data;
+        private List<Admin> appUsers;
 
-        private List<Admin> appUsersAdmin = new List<Admin>
-        {
-            new Admin("test","test@test.fr","1234"),
-        };
-
-        public LoginAdminController(IConfiguration config)
+        public LoginAdminController(IConfiguration config, DataContext datacontext)
         {
             _config = config;
+            _data = datacontext;
+            appUsers = _data.Admins.ToList<Admin>();
         }
 
         [HttpPost]
@@ -46,7 +45,7 @@ namespace LeBonCoinAPI.Controllers
 
         private Admin AuthenticateAdmin(Admin user)
         {
-            return appUsersAdmin.SingleOrDefault(x => x.Email.ToUpper() == user.Email.ToUpper() && x.HashMotDePasse == user.HashMotDePasse);
+            return appUsers.SingleOrDefault(x => x.Email.ToUpper() == user.Email.ToUpper() && x.HashMotDePasse == user.HashMotDePasse);
         }
 
         private string GenerateJwtTokenAdmin(Admin userInfo)

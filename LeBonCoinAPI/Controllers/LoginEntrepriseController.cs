@@ -14,18 +14,14 @@ namespace LeBonCoinAPI.Controllers
     public class LoginEntrepriseController : ControllerBase
     {
         private readonly IConfiguration _config;
+        private readonly DataContext _data;
+        private List<Entreprise> appUsers;
 
-
-        private List<Entreprise> appUsersEntreprise = new List<Entreprise>
-        {
-            new Entreprise(1,"11111111111111",1,"1234")
-        };
-
-        
-
-        public LoginEntrepriseController(IConfiguration config)
+        public LoginEntrepriseController(IConfiguration config, DataContext datacontext)
         {
             _config = config;
+            _data = datacontext;
+            appUsers = _data.Entreprises.ToList<Entreprise>();
         }
 
         [HttpPost]
@@ -49,7 +45,7 @@ namespace LeBonCoinAPI.Controllers
 
         private Entreprise AuthenticateEntreprise(Entreprise user)
         {
-            return appUsersEntreprise.SingleOrDefault(x => x.Siret.ToUpper() == user.Siret.ToUpper() && x.HashMotDePasse == user.HashMotDePasse);
+            return appUsers.SingleOrDefault(x => x.Siret.ToUpper() == user.Siret.ToUpper() && x.HashMotDePasse == user.HashMotDePasse);
         }
 
         private string GenerateJwtTokenEntreprise(Entreprise userInfo)
