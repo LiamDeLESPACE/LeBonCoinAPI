@@ -16,19 +16,15 @@ namespace LeBonCoinAPI.Controllers
     public class LoginParticulierController : ControllerBase
     {
         private readonly IConfiguration _config;
-        private List<Particulier> appUsers = new List<Particulier>
-        {
-            new Particulier {ProfilId = 2,Email = "aaaaa@gmail.com", Civilite = "H", Nom = "sfesef", Prenom = "Yves", DateNaissance = new DateTime(1989,06,02), HashMotDePasse = "134679" },
-            
-        };
+        private readonly DataContext _data;
+        private List<Particulier> appUsers;
 
-       
-
-        public LoginParticulierController(IConfiguration config)
+        public LoginParticulierController(IConfiguration config, DataContext datacontext)
         {
             _config = config;
+            _data = datacontext;
+            appUsers = _data.Particuliers.ToList<Particulier>();
         }
-
 
 
         //LoginParticulier

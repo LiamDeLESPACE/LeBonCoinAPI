@@ -24,7 +24,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Particuliers
         [HttpGet]
-        [Authorize(Policy = Policies.particulier + "," + Policies.admin)]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<Particulier>>> GetParticuliers()
         {
           if (_context.Particuliers == null)
@@ -36,8 +36,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Particuliers/5
         [HttpGet("{id}")]
-        [Authorize(Policy = Policies.admin)]
-        [Authorize(Policy = Policies.particulier)]
+        [Authorize(Policy = Policies.human)]
         public async Task<ActionResult<Particulier>> GetParticulier(int id)
         {
           if (_context.Particuliers == null)
@@ -57,8 +56,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Particuliers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Policy = Policies.admin)]
-        [Authorize(Policy = Policies.particulier)]
+        [Authorize(Policy = Policies.human)]
         public async Task<IActionResult> PutParticulier(int id, Particulier particulier)
         {
             if (id != particulier.ProfilId)
@@ -90,8 +88,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/Particuliers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Policy = Policies.admin)]
-        [Authorize(Policy = Policies.particulier)]
+        [Authorize(Policy = Policies.human)]
         public async Task<ActionResult<Particulier>> PostParticulier(Particulier particulier)
         {
           if (_context.Particuliers == null)
@@ -120,8 +117,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/Particuliers/5
         [HttpDelete("{id}")]
-        [Authorize(Policy = Policies.admin)]
-        [Authorize(Policy = Policies.particulier)]
+        [Authorize(Policy = Policies.human)]
         public async Task<IActionResult> DeleteParticulier(int id)
         {
             if (_context.Particuliers == null)
