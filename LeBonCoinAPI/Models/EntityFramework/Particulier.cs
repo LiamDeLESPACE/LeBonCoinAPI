@@ -33,7 +33,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("prt_email")]
         [StringLength(100)]
-        [RegularExpression("^[a-z]+@[a-z]+.[a-z]+$")]
+        [RegularExpression(@"^[^@\s]+@[^@\s]+\.[a-z]+$")]
         public string Email { get; set; }
 
         [Column("prt_civilite")]

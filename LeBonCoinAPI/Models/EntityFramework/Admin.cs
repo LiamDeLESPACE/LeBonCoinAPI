@@ -29,7 +29,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [Required]
         [Column("adm_email")]
         [MaxLength(100)]
-        [RegularExpression("^[a-z]+@[a-z]+.[a-z]+$")]
+        [RegularExpression(@"^[^@\s]+@lebonendroit\.com$")]
         public string Email { get; set; }
 
     }
