@@ -21,20 +21,61 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         private DataContext _context;
 
-
+        [TestInitialize]
+        public void Initialize()
+        {
+            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=localhost;Port=5432;Database=LeBonCoinSAE;Uid=postgres;Password=postgres;");
+            _context = new DataContext(builder.Options);
+        }
 
         [TestMethod()]
         public void DepartementsControllerTest()
         {
-            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server = localhost; port = 5432; Database = LeBonCoinSAE; uid = postgres; password = postgres;");
-            _context = new DataContext(builder.Options);
-            _controller = new DepartementsController(_context);
+            //var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server = localhost; port = 5432; Database = LeBonCoinSAE; uid = postgres; password = postgres;");
+            //_context = new DataContext(builder.Options);           
+            //_controller = new DepartementsController(_context);
         }
 
         [TestMethod()]
         public void GetDepartementsTest()
         {
-            // Arrange 
+            // Mock du DbSet<Departement>
+            var mockDbSet = new Mock<DbSet<Departement>>();
+            // Configurer le contexte pour retourner le DbSet mocké
+            var mockContext = new Mock<DataContext>();
+            mockContext.Setup(c => c.Departements).Returns(mockDbSet.Object);
+            // Utiliser le contexte mocké dans le contrôleur
+            _controller = new DepartementsController(mockContext.Object);
+
+            // Arrange
+            List<Departement> expected = new List<Departement>(); // Créer une liste vide car on utilise un contexte mocké
+
+            // Act
+            var result = _controller.GetDepartements().Result;
+
+            // Assert
+            CollectionAssert.AreEqual(expected, result.Value.ToList(), "Les listes ne sont pas identiques");
+
+
+
+            /*// Mock du DbContext
+            var mockContext = new Mock<DataContext>();
+            // Mock du DbSet<Departement>
+            var mockDbSet = new Mock<DbSet<Departement>>();
+            // Configurer le contexte pour retourner le DbSet mocké
+            mockContext.Setup(c => c.Departements).Returns(mockDbSet.Object);
+            // Utiliser le contexte mocké dans le contrôleur
+            _controller = new DepartementsController(mockContext.Object);
+
+            // Arrange
+            List<Departement> expected = _context.Departements.ToList();
+            // Act
+            var res = _controller.GetDepartements().Result;
+            // Assert
+            CollectionAssert.AreEqual(expected, res.Value.ToList(), "Les listes ne sont pas identiques");
+
+            */
+            /*// Arrange 
 
             Departement dep1 = new Departement("1","Ain");         
             Departement dep2 = new Departement("2","Aisne");
@@ -57,7 +98,7 @@ namespace LeBonCoinAPI.Controllers.Tests
            // Assert.IsNotNull(actionResult, "ActionResult null");
            // Assert.IsNotNull(actionResult.Value, "Valeur nulle");
             //CollectionAssert.AreEqual(departementsEsperees, actionResult.Value.Where(d => string.Compare(d.DepartementCode, "2") < 0).ToList(), "Pas les mêmes déartements");
-
+            */
         }
 
         [TestMethod()]
@@ -76,13 +117,13 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void Postdepartement_ModelValidated_CreationOK_AvecMoq()
         {
             // Arrange
-            //var mockRepository = new Mock<IDataRepository<Departement>>();
-            //var userController = new DepartementsController((DataContext)mockRepository.Object);
+            var mockRepository = new Mock<IDataRepository<Departement>>();
+            var userController = new DepartementsController((DataContext)mockRepository.Object);
 
             Departement dep1 = new Departement("200", "Ainee");
 
             // Act
-            var actionResult = _controller.PostDepartement(dep1).Result;
+            var actionResult = userController.PostDepartement(dep1).Result;
 
             // Assert
             Assert.IsInstanceOfType(actionResult, typeof(ActionResult<Departement>), "Pas un ActionResult<Departement>");
