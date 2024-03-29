@@ -146,7 +146,7 @@ public AdressesControllerTests()
         }
 
         [TestMethod()]
-        public void DeleteAdresseTest()
+        public void DeleteAdminTest()
         {
 
             //Act
