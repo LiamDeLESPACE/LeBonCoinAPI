@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
+using LeBonCoinAPI.Models.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -22,6 +24,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Entreprises
         [HttpGet]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<Entreprise>>> GetEntreprises()
         {
           if (_context.Entreprises == null)
@@ -33,6 +36,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Entreprises/5
         [HttpGet("{id}")]
+        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Entreprise>> GetEntreprise(int id)
         {
           if (_context.Entreprises == null)
@@ -52,6 +56,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Entreprises/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = Policies.director)]
         public async Task<IActionResult> PutEntreprise(int id, Entreprise entreprise)
         {
             if (id != entreprise.ProfilId)
@@ -83,6 +88,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/Entreprises
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.director)]
         public async Task<ActionResult<Entreprise>> PostEntreprise(Entreprise entreprise)
         {
           if (_context.Entreprises == null)
@@ -111,6 +117,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/Entreprises/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policies.director)]
         public async Task<IActionResult> DeleteEntreprise(int id)
         {
             if (_context.Entreprises == null)

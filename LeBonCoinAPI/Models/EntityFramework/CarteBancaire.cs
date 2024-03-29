@@ -13,6 +13,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
             Numero = numCarte;
         }
 
+        public CarteBancaire()
+        {
+            
+        }
+
         [Key]
         [Column("cab_id")]
         public int CarteId { get; set; }
