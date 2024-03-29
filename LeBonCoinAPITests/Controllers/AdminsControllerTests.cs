@@ -6,156 +6,162 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LeBonCoinAPI.Models.EntityFramework;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
+using Azure;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Data;
 
 namespace LeBonCoinAPI.Controllers.Tests
 {
     [TestClass()]
     public class AdminsControllerTests
     {
-        DataContext _context;
         private AdminsController _controller;
-        List<Admin> _testList;
 
-        /*[TestInitialize]
+        private Mock<DataContext> _context;
+
+        //Arrange
+        Admin admin;
+        List<Admin> testListe;
+
+        public AdminsControllerTests()
+        {
+            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=localhost; port=5432; Database=LeBonCoinSAE; uid=postgres; password=postgres;");
+            _context = new Mock<DataContext>();
+            _controller = new AdminsController(_context.Object);
+        }
+
+        [TestInitialize]
         public void InitialisationDesTests()
         {
-        
-            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=localhost; port=5432; Database=LeBonCoinSAE; uid=postgres; password=postgres;");
-            _context = new DataContext();
-            _controller = new AdminsController(_context);
-            _testList = GetTestAdmins();
-        }*/
+            // Rajouter les initialisations exécutées avant chaque test
+            admin = new Admin { AdresseId = 1, HashMotDePasse = '$2b$12$6PLiq9Mf3CgnjA5Nh6S2xuJ/IV.2lLbQVzLRF0k68imVl5bq7rlWe', Telephone = '0710778326', Service = 'PetiteAnnonce', Email = 'Debisse.Paul@lebonendroit.com'};
 
-       /* [TestMethod()]
-        public void AdminsControllerTest()
-        {
-            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=localhost; port=5432; Database=LeBonCoinSAE; uid=postgres; password=postgres;");
-            _context = new DataContext();
-            _controller = new AdminsController(_context);
+            testListe = new List<Admin>();
+            testListe.Add(new Admin { AdresseId = 1, HashMotDePasse = '$2b$12$6PLiq9Mf3CgnjA5Nh6S2xuJ/IV.2lLbQVzLRF0k68imVl5bq7rlWe', Telephone = '0710778326', Service = 'PetiteAnnonce', Email = 'Debisse.Paul@lebonendroit.com' });
+            testListe.Add(new Admin { AdresseId = 2, HashMotDePasse = '$2b$12$X6UO8I8XC6wtHRMKdywFBuYzrV/08B9n4y9XmdTeQjwwuG.3BPKDW', Telephone = '0742416738', Service = 'PetiteAnnonce', Email = 'Menvusa.Gerard@lebonendroit.com' });
+
         }
 
         [TestMethod()]
-        public void GetAdminsTest_RecupereTOUSLesAdmins()
+        public void GetAdmin_ExistingIdPassed_ReturnsRightItem()
         {
-            //Act
-            var result = _controller.GetAdmins().Result.Value;
-            //Assert
-            Assert.AreEqual(_testList.Count, result.Count());
-        }
 
-        public void GetAdminsTest_RecupereLeBonType()
-        {
             //Act
-            var result = _controller.GetAdmins().Result.Value;
-            //Assert
-            CollectionAssert.AllItemsAreInstancesOfType((System.Collections.ICollection)result, typeof(Admin));
-        }
+            var result = _controller.GetAdmin(1);
 
-        [TestMethod()]
-        public void GetAdminTest_RecupereLadmin()
-        {
-            //Act
-            var result = _controller.GetAdmin(3);
             //Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(_testList[3].Email, result.Result.Value.Email);
+            Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Admin>), "Pas un ActionResult");
+
+            var actionResult = result.Result as ActionResult<Admin>;
+
+            //Assert
+            Assert.IsNotNull(actionResult, "ActionResult null");
+            Assert.IsNotNull(actionResult.Value, "Valeur nulle");
+            Assert.IsInstanceOfType(actionResult.Value, typeof(Admin), "Pas une Admin");
+            Assert.AreEqual(admin, (Admin)actionResult.Value, "Admin pas identiques");
         }
 
         [TestMethod()]
-        public void GetAdminTest_NeRecuperepasLadmin()
+        public void GetAdmin_UnknownIdPassed_ReturnsNotFoundResult()
         {
             //Act
-            var result = _controller.GetAdmin(999);
-            //Assert
-            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
-        }
+            var result = _controller.GetAdmin(0);
 
-
-        [TestMethod()]
-        public void PutAdminTest_CreationOK()
-        {
-            //Arrange
-            Admin adm = new Admin("Petite annonce", "toto.tata@gmail.com");
-            
-            
-            //Act
-            var result = _controller.PutAdmin(5,adm).Result;
-            
             //Assert
-            Assert.IsInstanceOfType(result, typeof(ActionResult<Admin>), "Pas un ActionResult<Admin>");
-            Assert.IsInstanceOfType(result, typeof(CreatedAtActionResult), "Pas un CreatedAtActionResult");
-            var actionResult = result as CreatedAtActionResult;
-            Assert.IsInstanceOfType(actionResult.Value, typeof(Admin), "Pas un admin");
-            adm.ProfilId = ((Admin)actionResult.Value).ProfilId;
-            Assert.AreEqual(adm, (Admin)actionResult.Value, "Admins pas identiques");
+            Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Admin>), "Pas un ActionResult");
+            Assert.IsNull(result.Result.Value, "Admin pas null");
         }
 
         [TestMethod()]
-        public void PutAdminTest_ServiceMissing_CreationFailed()
+        public void GetAdmins_ReturnsRightItems()
         {
-            //Arrange
-            Admin adm = new Admin { AdresseId = 1, HashMotDePasse = "$2b$12$6PLiq9Mf3CgnjA5Nh6S2xuJ/IV.2lLbQVzLRF0k68imVl5bq7rlWe", Telephone = "0710778326", Email = "Debisse.Paul@lebonendroit.com" };
+
             //Act
-            var result = _controller.PostAdmin(adm).Result;
+            var result = _controller.GetAdmins();
+
             //Assert
-            Assert.IsInstanceOfType(result, typeof(ActionResult<Admin>), "Pas un ActionResult<Admin>");
+            Assert.IsInstanceOfType(result.Result, typeof(ActionResult<IEnumerable<Admin>>), "Pas un ActionResult");
+            ActionResult<IEnumerable<Admin>> actionResult = result.Result as ActionResult<IEnumerable<Admin>>;
+            Assert.IsNotNull(actionResult, "ActionResult null");
+            Assert.IsNotNull(actionResult.Value, "Valeur nulle");
+            CollectionAssert.AreEqual(testListe, actionResult.Value.Where(s => s.ProfilId <= 2).ToList(), "Pas les mêmes Admins");
+        }
+
+        [TestMethod()]
+        public void PostAdmin_ModelValidated_CreationOK()
+        {
+
+            //Act
+            var result = _controller.PostAdmin(Admin).Result;
+
+            //Assert
+            Assert.IsInstanceOfType(result, typeof(ActionResult<Admin>), "Pas un ActionResult");
             Assert.IsInstanceOfType(result.Result, typeof(CreatedAtActionResult), "Pas un CreatedAtActionResult");
             var actionResult = result.Result as CreatedAtActionResult;
-            Assert.IsInstanceOfType(actionResult.Value, typeof(Admin), "Pas une série");
-            adm.ProfilId = ((Admin)actionResult.Value).ProfilId;
-            Assert.AreEqual(adm, (Admin)actionResult.Value, "Series pas identiques");
+            Assert.IsInstanceOfType(actionResult.Value, typeof(Admin), "Pas une Admin");
+            admin.Email = ((Admin)actionResult.Value).Email;
+            Assert.AreEqual(admin, (Admin)actionResult.Value, "Admins pas identiques");
+
+        }
+        [TestMethod()]
+        public void PostAdmin_CodeInsee_CreationFailed()
+        {
+
+            //Act
+            var result = _controller.PostAdmin(admin).Result;
+
+            //Assert
+            Assert.IsNotInstanceOfType(result.Result, typeof(Admin), "Pas un CreatedAtActionResult");
+
         }
 
         [TestMethod()]
-        public void PostAdminTest_CreationOK()
+        public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
-            //Arrange
-            Admin adm = new Admin { AdresseId = 1, HashMotDePasse = "$2b$12$6PLiq9Mf3CgnjA5Nh6S2xuJ/IV.2lLbQVzLRF0k68imVl5bq7rlWe", Telephone = "0710778326", Service = "PetiteAnnonce", Email = "Debisse.Paul@lebonendroit.com" };
-            //Act
-            var result = _controller.PostAdmin(adm).Result;
-            //Assert
-            Assert.IsInstanceOfType(result, typeof(ActionResult<Admin>), "Pas un ActionResult<Admin>");
-            Assert.IsInstanceOfType(result.Result, typeof(CreatedAtActionResult), "Pas un CreatedAtActionResult");
-            var actionResult = result.Result as CreatedAtActionResult;
-            Assert.IsInstanceOfType(actionResult.Value, typeof(Admin), "Pas une série");
-            adm.ProfilId = ((Admin)actionResult.Value).ProfilId;
-            Assert.AreEqual(adm, (Admin)actionResult.Value, "Series pas identiques");
+            // Arrange
+            int id = 2;//Mauvais ID
+
+            // Act
+            var result = await _controller.PutAdmin(id, admin);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
         }
 
         [TestMethod()]
-        public void PostAdminTest_EmailMissing_CreationFailed()
+        public async Task Put_WithValidId_ReturnsNoContent()
         {
-            //Arrange
-            Admin adm = new Admin { AdresseId = 1, HashMotDePasse = "$2b$12$6PLiq9Mf3CgnjA5Nh6S2xuJ/IV.2lLbQVzLRF0k68imVl5bq7rlWe", Telephone = "0710778326", Service = "PetiteAnnonce"};
-            //Act
-            var result = _controller.PostAdmin(adm).Result;
-            //Assert
-            Assert.IsInstanceOfType(result, typeof(ActionResult<Admin>), "Pas un ActionResult<Admin>");
-            Assert.IsInstanceOfType(result.Result, typeof(CreatedAtActionResult), "Pas un CreatedAtActionResult");
-            var actionResult = result.Result as CreatedAtActionResult;
-            Assert.IsInstanceOfType(actionResult.Value, typeof(Admin), "Pas une série");
-            adm.ProfilId = ((Admin)actionResult.Value).ProfilId;
-            Assert.AreEqual(adm, (Admin)actionResult.Value, "Series pas identiques");
+
+            int id = 1; //BonID
+
+            // Act
+            var result = await _controller.PutAdmin(id, admin);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(NoContentResult));
         }
 
         [TestMethod()]
         public void DeleteAdminTest()
         {
-            Assert.Fail();
+
+            //Act
+            var result = _controller.GetAdmin(1);
+
+            //Existence
+            var actionResult = result.Result as ActionResult<Admin>;
+            Assert.IsNotNull(actionResult.Value, "Valeur nulle");
+            Assert.IsInstanceOfType(actionResult.Value, typeof(Admin), "Pas une Admin");
+
+            //Act
+            var resultDest = _controller.DeleteAdmin(1);
+
+            //Assert
+            Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Admin>), "Pas un ActionResult");
+            Assert.IsNull(resultDest.Result, "Admin pas null");
         }
-
-        private List<Admin> GetTestAdmins()
-        {
-            var testAdmins = new List<Admin>();
-            testAdmins.Add(new Admin { AdresseId = 1, HashMotDePasse = "$2b$12$6PLiq9Mf3CgnjA5Nh6S2xuJ/IV.2lLbQVzLRF0k68imVl5bq7rlWe", Telephone = "0710778326", Service = "PetiteAnnonce", Email = "Debisse.Paul@lebonendroit.com" });
-            testAdmins.Add(new Admin { AdresseId = 2, HashMotDePasse = "$2b$12$X6UO8I8XC6wtHRMKdywFBuYzrV/08B9n4y9XmdTeQjwwuG.3BPKDW", Telephone = "0742416738", Service = "PetiteAnnonce", Email = "Menvusa.Gerard@lebonendroit.com" });
-            testAdmins.Add(new Admin { AdresseId = 3, HashMotDePasse = "$2b$12$GTT6PGIzAfqnZrPn0Ek4i.NQth2.UU9J6b6vrvLJGBaDEmTZDhtJG", Telephone = "0736615553", Service = "PetiteAnnonce", Email = "Tard.Gui@lebonendroit.com" });
-            testAdmins.Add(new Admin { AdresseId = 4, HashMotDePasse = "$2b$12$IPF3t30AKjwhPzY44dJZ3Oe1pGfAbpkpG7qA1InKqA/f1gKE3GnsO", Telephone = "0732639420", Service = "Informatique", Email = "Paul.Jean@lebonendroit.com" });
-
-            return testAdmins;
-        }*/
     }
-
 }
