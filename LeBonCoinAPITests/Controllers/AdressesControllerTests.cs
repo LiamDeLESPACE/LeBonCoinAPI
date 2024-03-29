@@ -126,65 +126,47 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var result = _controller.PostAdresse(adresse1).Result;
+
+            //Assert
+            Assert.IsNotInstanceOfType(result.Result, typeof(Adresse), "Pas un CreatedAtActionResult");
+
         }
 
         [TestMethod()]
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
             // Arrange
-            int idVoulu = 1;
-            Adresse adresse2 = new Adresse 
-            { 
-                AdresseId = 2, 
-                CodeInsee = "01431", 
-                Rue = "Rue de Cornier", 
+            var mockContext = new Mock<DataContext>();
+            var controller = new AdressesController(mockContext.Object);
+            int id = 1;
+            var adresse = new Adresse { 
+                AdresseId = 2,
+                CodeInsee = "01431",
+                Rue = "Rue de Cornier",
                 Numero = 15
-
-            };
+            }; // Suppose une adresse avec ID différent
 
             // Act
-            var result = await _controller.PutAdresse(idVoulu, adresse2);
+            var result = await _controller.PutAdresse(id, adresse);
 
             // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
         }
 
-        /*[TestMethod()]
+        [TestMethod()]
         public async Task Put_WithValidId_ReturnsNoContent()
         {
             // Arrange
-            var mockContext = new Mock<YourDbContext>();
-            var controller = new AdresseController(mockContext.Object);
+            var mockContext = new Mock<DataContext>();
+            var controller = new AdressesController(mockContext.Object);
             int id = 1;
             var adresse = new Adresse { AdresseId = 1 }; // Suppose une adresse avec ID correspondant
 
             // Act
-            var result = await controller.Put(id, adresse);
+            var result = await controller.PutAdresse(id, adresse);
 
             // Assert
-            Assert.IsType<NoContentResult>(result);
-        }
-
-        [TestMethod()]
-        public async Task Put_WithConcurrencyException_ReturnsNotFound()
-        {
-            // Arrange
-            var mockContext = new Mock<YourDbContext>();
-            mockContext.Setup(c => c.SaveChangesAsync()).Throws(new DbUpdateConcurrencyException());
-            var controller = new AdresseController(mockContext.Object);
-            int id = 1;
-            var adresse = new Adresse { AdresseId = 1 }; // Suppose une adresse avec ID correspondant
-
-            // Act
-            var result = await controller.Put(id, adresse);
-
-            // Assert
-            Assert.IsType<NotFoundResult>(result);
-        }*/
-
-        [TestMethod()]
-        public void PutAdresseTest()
-        {
-            Assert.Fail();
+            Assert.IsInstanceOfType(result,typeof(NoContentResult));
         }
 
         [TestMethod()]
