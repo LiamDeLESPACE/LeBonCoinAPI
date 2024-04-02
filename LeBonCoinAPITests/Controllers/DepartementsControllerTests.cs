@@ -50,6 +50,8 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
+            var mockRepository = new Mock<IDataRepository<Departement>>();
+            mockRepository.Setup(x => x.GetByIdAsync("1").Result).Returns(testListe[0]);
             var result = _controller.GetDepartement("1");
 
             //Assert
