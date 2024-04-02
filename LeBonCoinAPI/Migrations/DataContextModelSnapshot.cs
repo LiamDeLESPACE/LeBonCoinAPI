@@ -123,7 +123,18 @@ namespace LeBonCoinAPI.Migrations
 
                     b.HasIndex("TypeLogementId");
 
-                    b.ToTable("t_e_annonce_ann");
+                    b.ToTable("t_e_annonce_ann", t =>
+                        {
+                            t.HasCheckConstraint("ck_ann_dureeminimumsejour", "ann_dureeminimumsejour > 0");
+
+                            t.HasCheckConstraint("ck_ann_etoile", "ann_etoile > 0 AND ann_etoile <= 5");
+
+                            t.HasCheckConstraint("ck_ann_nombrechambres", "ann_nombrechambres > 0");
+
+                            t.HasCheckConstraint("ck_ann_nombrepersonnesmax", "ann_nombrepersonnesmax > 0");
+
+                            t.HasCheckConstraint("ck_ann_prixparnuit", "ann_prixparnuit > 0");
+                        });
                 });
 
             modelBuilder.Entity("LeBonCoinAPI.Models.EntityFramework.CarteBancaire", b =>
@@ -380,7 +391,12 @@ namespace LeBonCoinAPI.Migrations
 
                     b.HasIndex("ProfilId");
 
-                    b.ToTable("t_e_reservation_res");
+                    b.ToTable("t_e_reservation_res", t =>
+                        {
+                            t.HasCheckConstraint("ck_res_nombrevoyageur", "res_nombrevoyageur > 0");
+
+                            t.HasCheckConstraint("ck_res_telephone", "res_telephone LIKE ('06%') or res_telephone LIKE ('07%')OR res_telephone IS NULL");
+                        });
                 });
 
             modelBuilder.Entity("LeBonCoinAPI.Models.EntityFramework.SecteurActivite", b =>
@@ -578,7 +594,12 @@ namespace LeBonCoinAPI.Migrations
 
                     b.HasIndex("AdresseId");
 
-                    b.ToTable("t_e_particulier_prt");
+                    b.ToTable("t_e_particulier_prt", t =>
+                        {
+                            t.HasCheckConstraint("ck_prt_civilite", "prt_civilite in ('H', 'F')");
+
+                            t.HasCheckConstraint("ck_prt_email", "prt_email like '%_@__%.__%'");
+                        });
                 });
 
             modelBuilder.Entity("LeBonCoinAPI.Models.EntityFramework.Adresse", b =>

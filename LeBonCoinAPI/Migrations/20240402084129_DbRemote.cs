@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LeBonCoinAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class testbdd : Migration
+    public partial class DbRemote : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -179,6 +179,11 @@ namespace LeBonCoinAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_t_e_annonce_ann", x => x.annid);
+                    table.CheckConstraint("ck_ann_dureeminimumsejour", "ann_dureeminimumsejour > 0");
+                    table.CheckConstraint("ck_ann_etoile", "ann_etoile > 0 AND ann_etoile <= 5");
+                    table.CheckConstraint("ck_ann_nombrechambres", "ann_nombrechambres > 0");
+                    table.CheckConstraint("ck_ann_nombrepersonnesmax", "ann_nombrepersonnesmax > 0");
+                    table.CheckConstraint("ck_ann_prixparnuit", "ann_prixparnuit > 0");
                     table.ForeignKey(
                         name: "FK_t_e_annonce_ann_t_e_adresse_adr_adr_id",
                         column: x => x.adrid,
@@ -239,6 +244,8 @@ namespace LeBonCoinAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_t_e_particulier_prt", x => x.prfid);
+                    table.CheckConstraint("ck_prt_civilite", "prt_civilite in ('H', 'F')");
+                    table.CheckConstraint("ck_prt_email", "prt_email like '%_@__%.__%'");
                     table.ForeignKey(
                         name: "FK_t_e_particulier_prt_t_e_adresse_adr_adr_id",
                         column: x => x.adrid,
@@ -284,6 +291,8 @@ namespace LeBonCoinAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_t_e_reservation_res", x => x.resid);
+                    table.CheckConstraint("ck_res_nombrevoyageur", "res_nombrevoyageur > 0");
+                    table.CheckConstraint("ck_res_telephone", "res_telephone LIKE ('06%') or res_telephone LIKE ('07%')OR res_telephone IS NULL");
                     table.ForeignKey(
                         name: "FK_t_e_reservation_res_t_e_annonce_ann_ann_id",
                         column: x => x.annid,
