@@ -21,7 +21,7 @@ namespace LeBonCoinAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql( "Server=localhost; port=5432; Database=sae; uid=postgres; password=postgres;"));
+            builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("PhPpgAdmin")));
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                  .AddJwtBearer(options =>
