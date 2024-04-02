@@ -135,7 +135,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public async Task Put_WithValidId_ReturnsNoContent()
         {
 
-            int id = 1; //BonID
+            int id = 43; //BonID
 
             // Act
             var result = await _controller.PutCommentaire(id, commentaire);
