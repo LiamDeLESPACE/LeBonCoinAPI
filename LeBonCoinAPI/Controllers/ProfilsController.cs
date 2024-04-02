@@ -6,14 +6,18 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
+using LeBonCoinAPI.Models.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LeBonCoinAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = Policies.admin)]
     public class ProfilsController : ControllerBase
     {
-#warning suppression du contrôleur ?
+#warning touche pas à ça !!!!!
+
         private readonly DataContext _context;
 
         public ProfilsController(DataContext context)

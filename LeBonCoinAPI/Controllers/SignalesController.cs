@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
+using LeBonCoinAPI.Models.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -22,6 +24,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Signales
         [HttpGet]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<Signale>>> GetSignales()
         {
           if (_context.Signales == null)
@@ -33,6 +36,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Signales/5
         [HttpGet("{id}")]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<Signale>> GetSignale(int id)
         {
           if (_context.Signales == null)
@@ -52,6 +56,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Signales/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> PutSignale(int id, Signale signale)
         {
             if (id != signale.ProfilId)
@@ -83,6 +88,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/Signales
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Signale>> PostSignale(Signale signale)
         {
           if (_context.Signales == null)
@@ -111,6 +117,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/Signales/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> DeleteSignale(int id)
         {
             if (_context.Signales == null)
