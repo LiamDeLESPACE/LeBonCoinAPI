@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
+using Microsoft.AspNetCore.Authorization;
+using LeBonCoinAPI.Models.Auth;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -22,6 +24,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Departements
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Departement>>> GetDepartements()
         {
           if (_context.Departements == null)
@@ -33,6 +36,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Departements/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<Departement>> GetDepartement(string id)
         {
           if (_context.Departements == null)
@@ -52,6 +56,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Departements/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> PutDepartement(string id, Departement departement)
         {
             if (id != departement.DepartementCode)
@@ -83,6 +88,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/Departements
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<Departement>> PostDepartement(Departement departement)
         {
           if (_context.Departements == null)
@@ -111,6 +117,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/Departements/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> DeleteDepartement(string id)
         {
             if (_context.Departements == null)

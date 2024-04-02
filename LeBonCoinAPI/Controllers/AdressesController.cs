@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
+using LeBonCoinAPI.Models.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -22,6 +24,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Adresses
         [HttpGet]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<Adresse>>> GetAdresses()
         {
           if (_context.Adresses == null)
@@ -33,6 +36,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Adresses/5
         [HttpGet("{id}")]
+        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Adresse>> GetAdresse(int id)
         {
           if (_context.Adresses == null)
@@ -52,6 +56,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Adresses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> PutAdresse(int id, Adresse adresse)
         {
             if (id != adresse.AdresseId)
@@ -83,6 +88,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/Adresses
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Adresse>> PostAdresse(Adresse adresse)
         {
           if (_context.Adresses == null)
@@ -111,6 +117,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/Adresses/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> DeleteAdresse(int id)
         {
             if (_context.Adresses == null)

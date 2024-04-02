@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
+using LeBonCoinAPI.Models.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -22,6 +24,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Commentaires
         [HttpGet]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<Commentaire>>> GetCommentaires()
         {
           if (_context.Commentaires == null)
@@ -31,15 +34,54 @@ namespace LeBonCoinAPI.Controllers
             return await _context.Commentaires.ToListAsync();
         }
 
-        // GET: api/Commentaires/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Commentaire>> GetCommentaire(int id)
+        // GET: api/Commentaires/5/6
+        [HttpGet("{idReservation}/{idProfil}")]
+        [Authorize(Policy = Policies.all)]
+        public async Task<ActionResult<Commentaire>> GetCommentaire(int idReservation, int idProfil)
         {
           if (_context.Commentaires == null)
           {
               return NotFound();
           }
-            var commentaire = await _context.Commentaires.FindAsync(id);
+            var commentaire = await (from s in _context.Commentaires where s.ProfilId == idProfil && s.ReservationId == idReservation select s).FirstOrDefaultAsync();
+
+            if (commentaire == null)
+            {
+                return NotFound();
+            }
+
+            return commentaire;
+        }
+
+        // GET: api/Commentaires/5
+        [HttpGet("{idProfil}")]
+        [Authorize(Policy = Policies.all)]
+        public async Task<ActionResult<List<Commentaire>>> GetCommentaireOfProfil(int idProfil)
+        {
+            if (_context.Commentaires == null)
+            {
+                return NotFound();
+            }
+            var commentaire = await (from s in _context.Commentaires where s.ProfilId == idProfil select s).ToListAsync();
+
+            if (commentaire == null)
+            {
+                return NotFound();
+            }
+
+            return commentaire;
+        }
+
+        // GET: api/Commentaires/5
+        [HttpGet("{idReservation}")]
+        [Authorize(Policy = Policies.all)]
+        public async Task<ActionResult<List<Commentaire>>> GetCommentaireOfReservation(int idReservation)
+        {
+            if (_context.Commentaires == null)
+            {
+                return NotFound();
+            }
+            var commentaire = await (from s in _context.Commentaires where s.ReservationId == idReservation select s).ToListAsync();
 
             if (commentaire == null)
             {
@@ -51,10 +93,11 @@ namespace LeBonCoinAPI.Controllers
 
         // PUT: api/Commentaires/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCommentaire(int id, Commentaire commentaire)
+        [HttpPut("{idProfil}/idReservation")]
+        [Authorize(Policy = Policies.all)]
+        public async Task<IActionResult> PutCommentaire(int idProfil, int idReservation, Commentaire commentaire)
         {
-            if (id != commentaire.ProfilId)
+            if (idProfil != commentaire.ProfilId || idReservation != commentaire.ReservationId)
             {
                 return BadRequest();
             }
@@ -67,7 +110,7 @@ namespace LeBonCoinAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CommentaireExists(id))
+                if (!CommentaireExists(idProfil, idReservation))
                 {
                     return NotFound();
                 }
@@ -83,6 +126,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/Commentaires
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Commentaire>> PostCommentaire(Commentaire commentaire)
         {
           if (_context.Commentaires == null)
@@ -96,7 +140,7 @@ namespace LeBonCoinAPI.Controllers
             }
             catch (DbUpdateException)
             {
-                if (CommentaireExists(commentaire.ProfilId))
+                if (CommentaireExists(commentaire.ProfilId, commentaire.ReservationId))
                 {
                     return Conflict();
                 }
@@ -106,18 +150,19 @@ namespace LeBonCoinAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetCommentaire", new { id = commentaire.ProfilId }, commentaire);
+            return CreatedAtAction("GetCommentaire", new { idProfil = commentaire.ProfilId, idReservation = commentaire.ReservationId }, commentaire);
         }
 
         // DELETE: api/Commentaires/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCommentaire(int id)
+        [Authorize(Policy = Policies.all)]
+        public async Task<IActionResult> DeleteCommentaire(int idProfil, int idReservation)
         {
             if (_context.Commentaires == null)
             {
                 return NotFound();
             }
-            var commentaire = await _context.Commentaires.FindAsync(id);
+            var commentaire = await _context.Commentaires.FirstOrDefaultAsync(x => x.ProfilId == idProfil && x.ReservationId == idReservation);
             if (commentaire == null)
             {
                 return NotFound();
@@ -129,9 +174,9 @@ namespace LeBonCoinAPI.Controllers
             return NoContent();
         }
 
-        private bool CommentaireExists(int id)
+        private bool CommentaireExists(int idProfil, int idReservation)
         {
-            return (_context.Commentaires?.Any(e => e.ProfilId == id)).GetValueOrDefault();
+            return (_context.Commentaires?.Any(e => e.ProfilId == idProfil && e.ReservationId == idReservation)).GetValueOrDefault();
         }
     }
 }

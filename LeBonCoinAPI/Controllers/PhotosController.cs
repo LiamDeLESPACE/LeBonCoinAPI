@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
+using LeBonCoinAPI.Models.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -22,6 +24,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Photos
         [HttpGet]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<Photo>>> GetPhotos()
         {
           if (_context.Photos == null)
@@ -33,13 +36,52 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Photos/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Photo>> GetPhoto(int id)
+        [Authorize(Policy = Policies.all)]
+        public async Task<ActionResult<Photo>> GetPhotoProfil(int idProfil)
         {
           if (_context.Photos == null)
           {
               return NotFound();
           }
+            var photo = await _context.Photos.FirstOrDefaultAsync(x => x.ProfilId == idProfil);
+
+            if (photo == null)
+            {
+                return NotFound();
+            }
+
+            return photo;
+        }
+
+        // GET: api/Photos/5
+        [HttpGet("{id}")]
+        [Authorize(Policy = Policies.all)]
+        public async Task<ActionResult<Photo>> GetPhotoP(int id)
+        {
+            if (_context.Photos == null)
+            {
+                return NotFound();
+            }
             var photo = await _context.Photos.FindAsync(id);
+
+            if (photo == null)
+            {
+                return NotFound();
+            }
+
+            return photo;
+        }
+
+        // GET: api/Photos/5
+        [HttpGet("{id}")]
+        [Authorize(Policy = Policies.all)]
+        public async Task<ActionResult<IEnumerable<Photo>>> GetPhotosAnnonce(int idAnnonce)
+        {
+            if (_context.Photos == null)
+            {
+                return NotFound();
+            }
+            var photo = await (from s in _context.Photos where s.AnnonceId == idAnnonce select s).ToListAsync();
 
             if (photo == null)
             {
@@ -52,6 +94,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Photos/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> PutPhoto(int id, Photo photo)
         {
             if (id != photo.PhotoId)
@@ -83,6 +126,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/Photos
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Photo>> PostPhoto(Photo photo)
         {
           if (_context.Photos == null)
@@ -97,6 +141,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/Photos/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> DeletePhoto(int id)
         {
             if (_context.Photos == null)

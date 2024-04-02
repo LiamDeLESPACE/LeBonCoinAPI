@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
+using LeBonCoinAPI.Models.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -22,6 +24,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Annonces
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Annonce>>> GetAnnonces()
         {
           if (_context.Annonces == null)
@@ -33,6 +36,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Annonces/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<Annonce>> GetAnnonce(int id)
         {
           if (_context.Annonces == null)
@@ -52,6 +56,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Annonces/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> PutAnnonce(int id, Annonce annonce)
         {
             if (id != annonce.AnnonceId)
@@ -83,6 +88,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/Annonces
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Annonce>> PostAnnonce(Annonce annonce)
         {
           if (_context.Annonces == null)
@@ -111,6 +117,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/Annonces/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> DeleteAnnonce(int id)
         {
             if (_context.Annonces == null)

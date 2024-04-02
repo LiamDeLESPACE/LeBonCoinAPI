@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
+using Microsoft.AspNetCore.Authorization;
+using LeBonCoinAPI.Models.Auth;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -22,6 +24,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Equipements
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Equipement>>> GetEquipements()
         {
           if (_context.Equipements == null)
@@ -33,6 +36,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Equipements/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<Equipement>> GetEquipement(int id)
         {
           if (_context.Equipements == null)
@@ -52,6 +56,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Equipements/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> PutEquipement(int id, Equipement equipement)
         {
             if (id != equipement.EquipementId)
@@ -83,6 +88,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/Equipements
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<Equipement>> PostEquipement(Equipement equipement)
         {
           if (_context.Equipements == null)
@@ -111,6 +117,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/Equipements/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> DeleteEquipement(int id)
         {
             if (_context.Equipements == null)

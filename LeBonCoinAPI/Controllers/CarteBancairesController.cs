@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
+using LeBonCoinAPI.Models.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -22,6 +24,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/CarteBancaires
         [HttpGet]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<CarteBancaire>>> GetCarteBancaires()
         {
           if (_context.CarteBancaires == null)
@@ -33,6 +36,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/CarteBancaires/5
         [HttpGet("{id}")]
+        [Authorize(Policy = Policies.human)]
         public async Task<ActionResult<CarteBancaire>> GetCarteBancaire(int id)
         {
           if (_context.CarteBancaires == null)
@@ -52,6 +56,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/CarteBancaires/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = Policies.human)]
         public async Task<IActionResult> PutCarteBancaire(int id, CarteBancaire carteBancaire)
         {
             if (id != carteBancaire.CarteId)
@@ -83,6 +88,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/CarteBancaires
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.human)]
         public async Task<ActionResult<CarteBancaire>> PostCarteBancaire(CarteBancaire carteBancaire)
         {
           if (_context.CarteBancaires == null)
@@ -111,6 +117,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/CarteBancaires/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policies.human)]
         public async Task<IActionResult> DeleteCarteBancaire(int id)
         {
             if (_context.CarteBancaires == null)

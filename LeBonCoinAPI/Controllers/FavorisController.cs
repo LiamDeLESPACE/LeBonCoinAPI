@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
+using LeBonCoinAPI.Models.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -22,6 +24,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Favoris
         [HttpGet]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<Favoris>>> GetlesFavoris()
         {
           if (_context.lesFavoris == null)
@@ -31,15 +34,35 @@ namespace LeBonCoinAPI.Controllers
             return await _context.lesFavoris.ToListAsync();
         }
 
-        // GET: api/Favoris/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Favoris>> GetFavoris(int id)
+        // GET: api/FavorisOfProfil/5
+        [HttpGet("{idProfil}")]
+        [Authorize(Policy = Policies.all)]
+        public async Task<ActionResult<IEnumerable<Favoris>>> GetFavorisOfProfil(int idProfil)
         {
           if (_context.lesFavoris == null)
           {
               return NotFound();
           }
-            var favoris = await _context.lesFavoris.FindAsync(id);
+            var favoris = await (from s in _context.lesFavoris where s.ProfilId == idProfil select s).ToListAsync();
+
+            if (favoris == null)
+            {
+                return NotFound();
+            }
+
+            return favoris;
+        }
+
+        // GET: api/Favoris/5
+        [HttpGet("{idProfil}/{idAnnonce}")]
+        [Authorize(Policy = Policies.all)]
+        public async Task<ActionResult<Favoris>> GetFavoris(int idProfil, int idAnnonce)
+        {
+            if (_context.lesFavoris == null)
+            {
+                return NotFound();
+            }
+            var favoris = await (from s in _context.lesFavoris where s.ProfilId == idProfil && s.AnnonceId == idAnnonce select s).FirstOrDefaultAsync();
 
             if (favoris == null)
             {
@@ -51,10 +74,11 @@ namespace LeBonCoinAPI.Controllers
 
         // PUT: api/Favoris/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutFavoris(int id, Favoris favoris)
+        [HttpPut("{idProfil}/{idAnnonce}")]
+        [Authorize(Policy = Policies.all)]
+        public async Task<IActionResult> PutFavoris(int idProfil, int idAnnonce, Favoris favoris)
         {
-            if (id != favoris.AnnonceId)
+            if (idProfil != favoris.ProfilId || idAnnonce != favoris.AnnonceId)
             {
                 return BadRequest();
             }
@@ -67,7 +91,7 @@ namespace LeBonCoinAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FavorisExists(id))
+                if (!FavorisExists(idProfil, idAnnonce))
                 {
                     return NotFound();
                 }
@@ -83,6 +107,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/Favoris
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Favoris>> PostFavoris(Favoris favoris)
         {
           if (_context.lesFavoris == null)
@@ -96,7 +121,7 @@ namespace LeBonCoinAPI.Controllers
             }
             catch (DbUpdateException)
             {
-                if (FavorisExists(favoris.AnnonceId))
+                if (FavorisExists(favoris.ProfilId, favoris.AnnonceId))
                 {
                     return Conflict();
                 }
@@ -106,18 +131,19 @@ namespace LeBonCoinAPI.Controllers
                 }
             }
 
-            return CreatedAtAction("GetFavoris", new { id = favoris.AnnonceId }, favoris);
+            return CreatedAtAction("GetFavoris", new { idProfil = favoris.ProfilId, idAnnonce = favoris.AnnonceId }, favoris);
         }
 
-        // DELETE: api/Favoris/5
+        // DELETE: api/Favoris/5/6
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFavoris(int id)
+        [Authorize(Policy = Policies.all)]
+        public async Task<IActionResult> DeleteFavoris(int idProfil, int idAnnonce)
         {
             if (_context.lesFavoris == null)
             {
                 return NotFound();
             }
-            var favoris = await _context.lesFavoris.FindAsync(id);
+            var favoris = await _context.lesFavoris.FirstOrDefaultAsync(x => x.ProfilId == idProfil && x.AnnonceId == idAnnonce);
             if (favoris == null)
             {
                 return NotFound();
@@ -129,9 +155,9 @@ namespace LeBonCoinAPI.Controllers
             return NoContent();
         }
 
-        private bool FavorisExists(int id)
+        private bool FavorisExists(int idProfil, int idAnnonce)
         {
-            return (_context.lesFavoris?.Any(e => e.AnnonceId == id)).GetValueOrDefault();
+            return (_context.lesFavoris?.Any(e => e.ProfilId == idProfil && e.AnnonceId == idAnnonce)).GetValueOrDefault();
         }
     }
 }
