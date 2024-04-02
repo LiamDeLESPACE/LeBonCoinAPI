@@ -36,7 +36,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Reservations/5
         [HttpGet("{id}")]
-        [Authorize(Policy = Policies.akll)]
+        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Reservation>> GetReservation(int id)
         {
           if (_context.Reservations == null)
@@ -56,6 +56,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Reservations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> PutReservation(int id, Reservation reservation)
         {
             if (id != reservation.ReservationId)
@@ -87,6 +88,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/Reservations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Reservation>> PostReservation(Reservation reservation)
         {
           if (_context.Reservations == null)
@@ -115,6 +117,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/Reservations/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> DeleteReservation(int id)
         {
             if (_context.Reservations == null)
