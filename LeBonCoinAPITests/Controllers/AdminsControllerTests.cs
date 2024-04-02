@@ -37,11 +37,11 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void InitialisationDesTests()
         {
             // Rajouter les initialisations exécutées avant chaque test
-            admin = new Admin { AdresseId = 1, HashMotDePasse = '$2b$12$6PLiq9Mf3CgnjA5Nh6S2xuJ/IV.2lLbQVzLRF0k68imVl5bq7rlWe', Telephone = '0710778326', Service = 'PetiteAnnonce', Email = 'Debisse.Paul@lebonendroit.com'};
+            admin = new Admin { ProfilId = 1, HashMotDePasse = "$2b$12$6PLiq9Mf3CgnjA5Nh6S2xuJ/IV.2lLbQVzLRF0k68imVl5bq7rlWe", Telephone = "0710778326", Service = "PetiteAnnonce", Email = "Debisse.Paul@lebonendroit.com" };
 
             testListe = new List<Admin>();
-            testListe.Add(new Admin { AdresseId = 1, HashMotDePasse = '$2b$12$6PLiq9Mf3CgnjA5Nh6S2xuJ/IV.2lLbQVzLRF0k68imVl5bq7rlWe', Telephone = '0710778326', Service = 'PetiteAnnonce', Email = 'Debisse.Paul@lebonendroit.com' });
-            testListe.Add(new Admin { AdresseId = 2, HashMotDePasse = '$2b$12$X6UO8I8XC6wtHRMKdywFBuYzrV/08B9n4y9XmdTeQjwwuG.3BPKDW', Telephone = '0742416738', Service = 'PetiteAnnonce', Email = 'Menvusa.Gerard@lebonendroit.com' });
+            testListe.Add(new Admin { ProfilId = 1, HashMotDePasse = "$2b$12$6PLiq9Mf3CgnjA5Nh6S2xuJ/IV.2lLbQVzLRF0k68imVl5bq7rlWe", Telephone = "0710778326", Service = "PetiteAnnonce", Email= "Debisse.Paul@lebonendroit.com" });
+            testListe.Add(new Admin { ProfilId = 2, HashMotDePasse = "$2b$12$X6UO8I8XC6wtHRMKdywFBuYzrV/08B9n4y9XmdTeQjwwuG.3BPKDW", Telephone = "0742416738", Service = "PetiteAnnonce", Email = "Menvusa.Gerard@lebonendroit.com" });
 
         }
 
@@ -95,7 +95,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
-            var result = _controller.PostAdmin(Admin).Result;
+            var result = _controller.PostAdmin(admin).Result;
 
             //Assert
             Assert.IsInstanceOfType(result, typeof(ActionResult<Admin>), "Pas un ActionResult");
