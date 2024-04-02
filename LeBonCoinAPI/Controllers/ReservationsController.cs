@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
+using LeBonCoinAPI.Models.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -22,6 +24,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Reservations
         [HttpGet]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<Reservation>>> GetReservations()
         {
           if (_context.Reservations == null)
@@ -33,6 +36,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Reservations/5
         [HttpGet("{id}")]
+        [Authorize(Policy = Policies.akll)]
         public async Task<ActionResult<Reservation>> GetReservation(int id)
         {
           if (_context.Reservations == null)

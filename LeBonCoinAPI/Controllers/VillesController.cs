@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
+using LeBonCoinAPI.Models.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -33,6 +35,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Villes/5
         [HttpGet("{id}")]
+        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Ville>> GetVille(string id)
         {
           if (_context.Villes == null)
@@ -52,6 +55,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Villes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> PutVille(string id, Ville ville)
         {
             if (id != ville.CodeInsee)
@@ -83,6 +87,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/Villes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Ville>> PostVille(Ville ville)
         {
           if (_context.Villes == null)
@@ -111,6 +116,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/Villes/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> DeleteVille(string id)
         {
             if (_context.Villes == null)

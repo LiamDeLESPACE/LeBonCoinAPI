@@ -6,14 +6,16 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
+using LeBonCoinAPI.Models.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LeBonCoinAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = Policies.admin)]
     public class ReglementsController : ControllerBase
     {
-#warning jsp a quoi il sert / delete ?
         private readonly DataContext _context;
 
         public ReglementsController(DataContext context)
