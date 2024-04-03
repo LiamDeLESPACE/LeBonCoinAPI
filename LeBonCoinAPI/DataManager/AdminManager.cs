@@ -30,7 +30,7 @@ namespace LeBonCoinAPI.DataManager
         public void Update(Admin admin, Admin entity)
         {
             dataContext.Entry(admin).State = EntityState.Modified;
-            admin.ProfilId = entity.ProfilId;
+            
             admin.HashMotDePasse = entity.HashMotDePasse;
             admin.Telephone = entity.Telephone;
             admin.Service = entity.Service;

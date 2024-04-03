@@ -29,17 +29,9 @@ namespace LeBonCoinAPI.DataManager
         }
         public void Update(Profil profil, Profil entity)
         {
-            dataContext.Entry(profil).State = EntityState.Modified;
-            profil.ProfilId = entity.ProfilId;
+            dataContext.Entry(profil).State = EntityState.Modified;            
             profil.HashMotDePasse = entity.HashMotDePasse;
-            profil.Telephone = entity.Telephone;
-            profil.CartesBancairesProfil = entity.CartesBancairesProfil;
-            profil.PhotosProfil = entity.PhotosProfil;
-            profil.ReservationsProfil = entity.ReservationsProfil;
-            profil.SignalementsProfil = entity.SignalementsProfil;
-            profil.AnnoncesProfil = entity.AnnoncesProfil;
-            profil.FavorisProfil = entity.FavorisProfil;
-            profil.CommentairesProfil = entity.CommentairesProfil;
+            profil.Telephone = entity.Telephone;           
 
             dataContext.SaveChanges();
         }

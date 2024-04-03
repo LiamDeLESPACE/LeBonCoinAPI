@@ -29,8 +29,7 @@ namespace LeBonCoinAPI.DataManager
         }
         public void Update(Entreprise entreprise, Entreprise entity)
         {
-            dataContext.Entry(entreprise).State = EntityState.Modified;
-            entreprise.ProfilId = entity.ProfilId;
+            dataContext.Entry(entreprise).State = EntityState.Modified;            
             entreprise.HashMotDePasse = entity.HashMotDePasse;
             entreprise.Telephone = entity.Telephone;
             entreprise.SecteurId = entity.SecteurId;

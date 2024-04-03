@@ -30,12 +30,10 @@ namespace LeBonCoinAPI.DataManager
         public void Update(Ville ville, Ville entity)
         {
             dataContext.Entry(ville).State = EntityState.Modified;
-            ville.CodeInsee = entity.CodeInsee;
             ville.DepartementCode = entity.DepartementCode;
             ville.Nom = entity.Nom;
             ville.CodePostal = entity.CodePostal; 
-
-            ville.AdressesVille = entity.AdressesVille;
+                        
             dataContext.SaveChanges();
         }
         public void Delete(Ville ville)

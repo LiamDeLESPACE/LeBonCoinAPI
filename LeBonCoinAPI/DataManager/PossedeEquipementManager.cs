@@ -38,9 +38,7 @@ namespace LeBonCoinAPI.DataManager
         }
         public void Update(PossedeEquipement possedeEquipement, PossedeEquipement entity)
         {
-            dataContext.Entry(possedeEquipement).State = EntityState.Modified;
-            possedeEquipement.AnnonceId = entity.AnnonceId;
-            possedeEquipement.EquipementId = entity.EquipementId;
+            dataContext.Entry(possedeEquipement).State = EntityState.Modified;            
 
             dataContext.SaveChanges();
         }

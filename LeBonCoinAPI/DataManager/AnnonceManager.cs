@@ -29,8 +29,7 @@ namespace LeBonCoinAPI.DataManager
         }
         public void Update(Annonce annonce, Annonce entity)
         {
-            dataContext.Entry(annonce).State = EntityState.Modified;
-            annonce.AnnonceId = entity.AnnonceId;
+            dataContext.Entry(annonce).State = EntityState.Modified;            
             annonce.AdresseId = entity.AdresseId;
             annonce.TypeLogementId = entity.TypeLogementId;
             annonce.ProfilId = entity.ProfilId;
@@ -42,12 +41,7 @@ namespace LeBonCoinAPI.DataManager
             annonce.Etoile = entity.Etoile;
             annonce.NombrePersonnesMax = entity.NombrePersonnesMax;
             annonce.PrixParNuit = entity.PrixParNuit;
-            annonce.NombreChambres = entity.NombreChambres;
-            annonce.EquipementsPossedesAnnonce = entity.EquipementsPossedesAnnonce;
-            annonce.ReservationsAnnonce = entity.ReservationsAnnonce;
-            annonce.SignalementsAnnonce = entity.SignalementsAnnonce;
-            annonce.FavorisAnnonce = entity.FavorisAnnonce;
-            annonce.PhotosAnnonce = entity.PhotosAnnonce;
+            annonce.NombreChambres = entity.NombreChambres;            
 
             dataContext.SaveChanges();
         }

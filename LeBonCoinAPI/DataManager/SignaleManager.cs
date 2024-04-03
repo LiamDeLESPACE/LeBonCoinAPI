@@ -39,9 +39,8 @@ namespace LeBonCoinAPI.DataManager
         }
         public void Update(Signale signale, Signale entity)
         {
-            dataContext.Entry(signale).State = EntityState.Modified;
-            signale.ProfilId = entity.ProfilId;
-            signale.AnnonceId = entity.AnnonceId;
+            dataContext.Entry(signale).State = EntityState.Modified;          
+            
             
             dataContext.SaveChanges();
         }

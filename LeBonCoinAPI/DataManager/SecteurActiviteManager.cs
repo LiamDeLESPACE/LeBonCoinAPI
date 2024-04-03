@@ -29,10 +29,8 @@ namespace LeBonCoinAPI.DataManager
         }
         public void Update(SecteurActivite secteurActivite, SecteurActivite entity)
         {
-            dataContext.Entry(secteurActivite).State = EntityState.Modified;
-            secteurActivite.SecteurId = entity.SecteurId;
-            secteurActivite.NomSecteur = entity.NomSecteur;
-            secteurActivite.EntreprisesSecteurActivite = entity.EntreprisesSecteurActivite;
+            dataContext.Entry(secteurActivite).State = EntityState.Modified;            
+            secteurActivite.NomSecteur = entity.NomSecteur;            
             
             dataContext.SaveChanges();
         }

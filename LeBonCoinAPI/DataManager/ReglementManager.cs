@@ -29,8 +29,7 @@ namespace LeBonCoinAPI.DataManager
         }
         public void Update(Reglement reglement, Reglement entity)
         {
-            dataContext.Entry(reglement).State = EntityState.Modified;
-            reglement.ReglementId = entity.ReglementId;
+            dataContext.Entry(reglement).State = EntityState.Modified;            
             reglement.ReservationId = entity.ReservationId;
            
             dataContext.SaveChanges();

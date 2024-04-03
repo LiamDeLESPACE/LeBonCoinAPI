@@ -29,8 +29,7 @@ namespace LeBonCoinAPI.DataManager
         }
         public void Update(CarteBancaire carteBancaire, CarteBancaire entity)
         {
-            dataContext.Entry(carteBancaire).State = EntityState.Modified;
-            carteBancaire.CarteId = entity.CarteId;
+            dataContext.Entry(carteBancaire).State = EntityState.Modified;            
             carteBancaire.ProfilId = entity.ProfilId;
             carteBancaire.Numero = entity.Numero;
             

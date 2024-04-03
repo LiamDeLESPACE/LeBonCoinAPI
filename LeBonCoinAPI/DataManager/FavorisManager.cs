@@ -34,9 +34,7 @@ namespace LeBonCoinAPI.DataManager
         }
         public void Update(Favoris favoris, Favoris entity)
         {
-            dataContext.Entry(favoris).State = EntityState.Modified;
-            favoris.AnnonceId = entity.AnnonceId;
-            favoris.ProfilId = entity.ProfilId;
+            dataContext.Entry(favoris).State = EntityState.Modified;            
 
             dataContext.SaveChanges();
         }

@@ -39,8 +39,7 @@ namespace LeBonCoinAPI.DataManager
         }
         public void Update(Photo photo, Photo entity)
         {
-            dataContext.Entry(photo).State = EntityState.Modified;
-            photo.PhotoId = entity.PhotoId;
+            dataContext.Entry(photo).State = EntityState.Modified;            
             photo.ProfilId = entity.ProfilId;
             photo.AnnonceId = entity.AnnonceId;
             photo.URL = entity.URL;

@@ -29,15 +29,11 @@ namespace LeBonCoinAPI.DataManager
         }
         public void Update(Adresse adresse, Adresse entity)
         {
-            dataContext.Entry(adresse).State = EntityState.Modified;
-            adresse.AdresseId = entity.AdresseId;
+            dataContext.Entry(adresse).State = EntityState.Modified;            
             adresse.CodeInsee = entity.CodeInsee;
             adresse.Numero = entity.Numero;
             adresse.Rue = entity.Rue;
-            adresse.ParticuliersAdresse = entity.ParticuliersAdresse;
-            adresse.EntreprisesAdresse = entity.EntreprisesAdresse;
-            adresse.AnnoncesAdresse = entity.AnnoncesAdresse;
-
+            
             dataContext.SaveChanges();
         }
         public void Delete(Adresse adresse)

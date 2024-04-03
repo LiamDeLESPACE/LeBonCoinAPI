@@ -29,11 +29,9 @@ namespace LeBonCoinAPI.DataManager
         }
         public void Update(Departement departement, Departement entity)
         {
-            dataContext.Entry(departement).State = EntityState.Modified;
-            departement.DepartementCode = entity.DepartementCode;
+            dataContext.Entry(departement).State = EntityState.Modified;            
             departement.Nom = entity.Nom;
-
-            departement.VillesDepartement = entity.VillesDepartement;
+            
             dataContext.SaveChanges();
         }
         public void Delete(Departement departement)

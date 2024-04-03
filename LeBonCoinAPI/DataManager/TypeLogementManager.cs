@@ -29,10 +29,8 @@ namespace LeBonCoinAPI.DataManager
         }
         public void Update(TypeLogement typeLogement, TypeLogement entity)
         {
-            dataContext.Entry(typeLogement).State = EntityState.Modified;
-            typeLogement.TypeLogementId = entity.TypeLogementId;
-            typeLogement.Nom = entity.Nom;
-            typeLogement.AnnoncesTypeLogement = entity.AnnoncesTypeLogement;
+            dataContext.Entry(typeLogement).State = EntityState.Modified;            
+            typeLogement.Nom = entity.Nom;            
 
             dataContext.SaveChanges();
         }

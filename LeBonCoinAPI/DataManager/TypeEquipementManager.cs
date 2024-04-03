@@ -29,10 +29,8 @@ namespace LeBonCoinAPI.DataManager
         }
         public void Update(TypeEquipement typeEquipement, TypeEquipement entity)
         {
-            dataContext.Entry(typeEquipement).State = EntityState.Modified;
-            typeEquipement.TypeEquipementId = entity.TypeEquipementId;
-            typeEquipement.Nom = entity.Nom;
-            typeEquipement.EquipementsTypeEquipement = entity.EquipementsTypeEquipement;
+            dataContext.Entry(typeEquipement).State = EntityState.Modified;            
+            typeEquipement.Nom = entity.Nom;            
             
             dataContext.SaveChanges();
         }

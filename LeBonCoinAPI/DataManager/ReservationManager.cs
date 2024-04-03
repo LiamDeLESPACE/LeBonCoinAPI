@@ -29,8 +29,7 @@ namespace LeBonCoinAPI.DataManager
         }
         public void Update(Reservation reservation, Reservation entity)
         {
-            dataContext.Entry(reservation).State = EntityState.Modified;
-            reservation.ReservationId = entity.ReservationId;
+            dataContext.Entry(reservation).State = EntityState.Modified;            
             reservation.AnnonceId = entity.AnnonceId;
             reservation.ProfilId = entity.ProfilId;
             reservation.DateArrivee = entity.DateArrivee;
@@ -38,9 +37,7 @@ namespace LeBonCoinAPI.DataManager
             reservation.NombreVoyageur = entity.NombreVoyageur;
             reservation.Nom = entity.Nom;
             reservation.Prenom = entity.Prenom;
-            reservation.Telephone = entity.Telephone;
-            reservation.ReglementsReservation = entity.ReglementsReservation;
-            reservation.CommentairesReservation = entity.CommentairesReservation;
+            reservation.Telephone = entity.Telephone;            
             
             dataContext.SaveChanges();
         }
