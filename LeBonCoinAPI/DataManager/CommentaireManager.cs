@@ -40,9 +40,9 @@ namespace LeBonCoinAPI.DataManager
         public void Update(Commentaire commentaire, Commentaire entity)
         {
             dataContext.Entry(commentaire).State = EntityState.Modified;
-            commentaire.CarteId = entity.CarteId;
             commentaire.ProfilId = entity.ProfilId;
-            commentaire.Numero = entity.Numero;
+            commentaire.ReservationId = entity.ReservationId;
+            commentaire.Contenu = entity.Contenu;
 
             dataContext.SaveChanges();
         }
