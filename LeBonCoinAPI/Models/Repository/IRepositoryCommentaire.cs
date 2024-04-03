@@ -6,8 +6,8 @@ namespace LeBonCoinAPI.Models.Repository
     {
         ActionResult<IEnumerable<TEntity>> GetAll();
         ActionResult<TEntity> GetByIds(int idReservation, int idProfil);
-        ActionResult<TEntity> GetByIdProfil(int id);
-        ActionResult<TEntity> GetByIdReservation(int id);
+        ActionResult<TEntity> GetByIdProfil(int idProfil);
+        ActionResult<TEntity> GetByIdReservation(int idReservation);
         void Add(TEntity entity);
         void Update(TEntity entityToUpdate, TEntity entity);
         void Delete(TEntity entity);
