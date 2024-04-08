@@ -123,7 +123,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         }
         [TestMethod()]
-        public void PostAdmin_CodeInsee_CreationFailed()
+        public void PostAdmin_CreationFailed()
         {
             var mockRepository = new Mock<IRepositoryAdmin<Admin>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);

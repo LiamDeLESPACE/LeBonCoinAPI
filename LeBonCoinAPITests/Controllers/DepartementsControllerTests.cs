@@ -19,16 +19,13 @@ namespace LeBonCoinAPI.Controllers.Tests
     [TestClass()]
     public class DepartementsControllerTests
     {
-        //private DepartementsController _controller;
-
-        //private Mock<DataContext> _context;
 
         private DepartementsController _controller;
         private DataContext _context;
         private IRepositoryDepartement<Departement> _dataRepository;
 
         //Arrange
-        Departement Departement;
+        Departement departement;
         List<Departement> testListe;
 
         public DepartementsControllerTests()
@@ -43,7 +40,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void InitialisationDesTests()
         {
             // Rajouter les initialisations exécutées avant chaque test
-            Departement = new Departement { DepartementCode = "1", Nom = "Ain" };
+            departement = new Departement { DepartementCode = "1", Nom = "Ain" };
 
             testListe = new List<Departement>();
             testListe.Add(new Departement { DepartementCode = "1", Nom = "Ain" });
@@ -118,26 +115,26 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetByString("1")).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
             //Act
-            var result = _controller.PostDepartement(Departement).Result;
+            var result = _controller.PostDepartement(departement).Result;
 
             //Assert
             Assert.IsInstanceOfType(result, typeof(ActionResult<Departement>), "Pas un ActionResult");
             Assert.IsInstanceOfType(result.Result, typeof(CreatedAtActionResult), "Pas un CreatedAtActionResult");
             var actionResult = result.Result as CreatedAtActionResult;
             Assert.IsInstanceOfType(actionResult.Value, typeof(Departement), "Pas une Departement");
-            Departement.DepartementCode = ((Departement)actionResult.Value).DepartementCode;
-            Assert.AreEqual(Departement, (Departement)actionResult.Value, "Departements pas identiques");
+            departement.DepartementCode = ((Departement)actionResult.Value).DepartementCode;
+            Assert.AreEqual(departement, (Departement)actionResult.Value, "Departements pas identiques");
 
         }
         [TestMethod()]
-        public void PostDepartement_CodeInsee_CreationFailed()
+        public void PostDepartement_CreationFailed()
         {
             var mockRepository = new Mock<IRepositoryDepartement<Departement>>();
             mockRepository.Setup(x => x.GetByString("1")).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
 
             //Act
-            var result = _controller.PostDepartement(Departement).Result;
+            var result = _controller.PostDepartement(departement).Result;
 
             //Assert
             Assert.IsNotInstanceOfType(result.Result, typeof(Departement), "Pas un CreatedAtActionResult");
@@ -155,7 +152,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             string id = "6";//Mauvais ID
 
             // Act
-            var result = await _controller.PutDepartement(id, Departement);
+            var result = await _controller.PutDepartement(id, departement);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
@@ -171,7 +168,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             string id = "1"; //BonID
 
             // Act
-            var result = await _controller.PutDepartement(id, Departement);
+            var result = await _controller.PutDepartement(id, departement);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(NoContentResult));

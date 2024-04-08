@@ -17,7 +17,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 {
     [TestClass()]
     public class FavorisControllerTests
-    {/*
+    {
         private FavorisController _controller;
 
         private Mock<DataContext> _context;
@@ -107,7 +107,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         }
         [TestMethod()]
-        public void PostFavoris_CodeInsee_CreationFailed()
+        public void PostFavoris_CreationFailed()
         {
 
             //Act
@@ -162,6 +162,6 @@ namespace LeBonCoinAPI.Controllers.Tests
             //Assert
             Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Favoris>), "Pas un ActionResult");
             Assert.IsNull(resultDest.Result, "Favoris pas null");
-        }*/
+        }
     }
 }

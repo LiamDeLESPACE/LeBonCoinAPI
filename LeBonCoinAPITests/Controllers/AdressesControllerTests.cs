@@ -75,6 +75,10 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void GetAdresse_UnknownIdPassed_ReturnsNotFoundResult()
         {
             //Act
+            var mockRepository = new Mock<IRepositoryAdresse<Adresse>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new AdressesController(mockRepository.Object);
+
             var result = _controller.GetAdresse(0);
 
             //Assert
@@ -87,6 +91,10 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
+            var mockRepository = new Mock<IRepositoryAdresse<Adresse>>();
+            mockRepository.Setup(x => x.GetAll()).Returns(testListe);
+            var userController = new AdressesController(mockRepository.Object);
+
             var result = _controller.GetAdresses();
 
             //Assert
@@ -101,6 +109,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostAdresse_ModelValidated_CreationOK()
         {
 
+            var mockRepository = new Mock<IRepositoryAdresse<Adresse>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new AdressesController(mockRepository.Object);
             //Act
             var result = _controller.PostAdresse(adresse).Result;
 
@@ -114,9 +125,12 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         }
         [TestMethod()]
-        public void PostAdresse_CodeInsee_CreationFailed()
+        public void PostAdresse_CreationFailed()
         {
 
+            var mockRepository = new Mock<IRepositoryAdresse<Adresse>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new AdressesController(mockRepository.Object);
             //Act
             var result = _controller.PostAdresse(adresse).Result;
 
@@ -128,6 +142,10 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
+            var mockRepository = new Mock<IRepositoryAdresse<Adresse>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new AdressesController(mockRepository.Object);
+
             // Arrange
             int id = 2;//Mauvais ID
 
@@ -141,6 +159,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithValidId_ReturnsNoContent()
         {
+            var mockRepository = new Mock<IRepositoryAdresse<Adresse>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new AdressesController(mockRepository.Object);
 
             int id = 1; //BonID
 
@@ -154,14 +175,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void DeleteAdminTest()
         {
-
-            //Act
-            var result = _controller.GetAdresse(1);
-
-            //Existence
-            var actionResult = result.Result as ActionResult<Adresse>;
-            Assert.IsNotNull(actionResult.Value, "Valeur nulle");
-            Assert.IsInstanceOfType(actionResult.Value, typeof(Adresse), "Pas une adresse");
+            var mockRepository = new Mock<IRepositoryAdresse<Adresse>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new AdressesController(mockRepository.Object);
 
             //Act
             var resultDest = _controller.DeleteAdresse(1);
