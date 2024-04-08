@@ -28,9 +28,9 @@ namespace LeBonCoinAPI.DataManager
             return await dataContext.Photos.FirstOrDefaultAsync(u => u.ProfilId == idProfil);
         }
 
-        public async Task<ActionResult<Photo>> GetByIdAnnonce(int idAnnonce)
+        public async Task<ActionResult<IEnumerable<Photo>>> GetByIdAnnonce(int idAnnonce)
         {
-            return await dataContext.Photos.FirstOrDefaultAsync(u => u.AnnonceId == idAnnonce);
+            return await (from f in dataContext.Photos where f.AnnonceId == idAnnonce select f).ToListAsync();
         }
         public async Task Add(Photo entity)
         {

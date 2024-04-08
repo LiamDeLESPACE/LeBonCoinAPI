@@ -7,7 +7,7 @@ namespace LeBonCoinAPI.Models.Repository
         Task<ActionResult<IEnumerable<TEntity>>> GetAll();
         Task<ActionResult<TEntity>> GetById(int id);
         Task<ActionResult<TEntity>> GetByIdProfil(int idProfil);
-        Task<ActionResult<TEntity>> GetByIdAnnonce(int idAnnonce);
+        Task<ActionResult<IEnumerable<TEntity>>> GetByIdAnnonce(int idAnnonce);
         Task Add(TEntity entity);
         Task Update(TEntity entityToUpdate, TEntity entity);
         Task Delete(TEntity entity);

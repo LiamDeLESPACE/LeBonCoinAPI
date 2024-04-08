@@ -23,9 +23,9 @@ namespace LeBonCoinAPI.DataManager
             return await dataContext.lesFavoris.FirstOrDefaultAsync(c => c.ProfilId == idProfil && c.AnnonceId == idAnnonce);
         }
 
-        public async Task<ActionResult<Favoris>> GetByIdProfil(int idProfil)
+        public async Task<ActionResult<IEnumerable<Favoris>>> GetByIdProfil(int idProfil)
         {
-            return await dataContext.lesFavoris.FirstOrDefaultAsync(u => u.ProfilId == idProfil);
+            return await (from f in dataContext.lesFavoris where f.ProfilId == idProfil select f).ToListAsync();
         }
         public async Task Add(Favoris entity)
         {

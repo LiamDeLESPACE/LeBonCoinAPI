@@ -23,13 +23,13 @@ namespace LeBonCoinAPI.DataManager
             return await dataContext.PossedeEquipements.FirstOrDefaultAsync(c => c.AnnonceId == idAnnonce && c.EquipementId == idEquipement);
         }
 
-        public async Task<ActionResult<PossedeEquipement>> GetByIdAnnonce(int idAnnonce)
+        public async Task<ActionResult<IEnumerable<PossedeEquipement>>> GetByIdAnnonce(int idAnnonce)
         {
-            return await dataContext.PossedeEquipements.FirstOrDefaultAsync(u => u.AnnonceId == idAnnonce);
+            return await (from f in dataContext.PossedeEquipements where f.AnnonceId == idAnnonce select f).ToListAsync();
         }
-        public async Task<ActionResult<PossedeEquipement>> GetByIdEquipement(int idEquipement)
+        public async Task<ActionResult<IEnumerable<PossedeEquipement>>> GetByIdEquipement(int idEquipement)
         {
-            return await dataContext.PossedeEquipements.FirstOrDefaultAsync(u => u.EquipementId == idEquipement);
+            return await (from f in dataContext.PossedeEquipements where f.EquipementId == idEquipement select f).ToListAsync();
         }
         public async Task Add(PossedeEquipement entity)
         {

@@ -23,14 +23,14 @@ namespace LeBonCoinAPI.DataManager
             return await dataContext.Commentaires.FirstOrDefaultAsync(c => c.ReservationId == idReservation && c.ProfilId == idProfil);
         }
 
-        public async Task<ActionResult<Commentaire>> GetByIdReservation(int idReservation)
+        public async Task<ActionResult<IEnumerable<Commentaire>>> GetByIdReservation(int idReservation)
         {
-            return await dataContext.Commentaires.FirstOrDefaultAsync(u => u.ReservationId == idReservation);
+            return await (from c in dataContext.Commentaires where c.ReservationId == idReservation select c).ToListAsync();
         }
 
-        public async Task<ActionResult<Commentaire>> GetByIdProfil(int idProfil)
+        public async Task<ActionResult<IEnumerable<Commentaire>>> GetByIdProfil(int idProfil)
         {
-            return await dataContext.Commentaires.FirstOrDefaultAsync(u => u.ProfilId == idProfil);
+            return await (from c in dataContext.Commentaires where c.ProfilId == idProfil select c).ToListAsync();
         }
         public async Task Add(Commentaire entity)
         {

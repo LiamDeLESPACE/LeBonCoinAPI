@@ -22,14 +22,14 @@ namespace LeBonCoinAPI.DataManager
         {
             return await dataContext.Signales.FirstOrDefaultAsync(c => c.AnnonceId == idAnnonce && c.ProfilId == idProfil);
         }
-        public async Task<ActionResult<Signale>> GetByIdProfil(int idProfil)
+        public async Task<ActionResult<IEnumerable<Signale>>> GetByIdProfil(int idProfil)
         {
-            return await dataContext.Signales.FirstOrDefaultAsync(u => u.ProfilId == idProfil);
+            return await (from f in dataContext.Signales where f.ProfilId == idProfil select f).ToListAsync();
         }
 
-        public async Task<ActionResult<Signale>> GetByIdAnnonce(int idAnnonce)
+        public async Task<ActionResult<IEnumerable<Signale>>> GetByIdAnnonce(int idAnnonce)
         {
-            return await dataContext.Signales.FirstOrDefaultAsync(u => u.AnnonceId == idAnnonce);
+            return await (from f in dataContext.Signales where f.AnnonceId == idAnnonce select f).ToListAsync();
         }
 
         public async Task Add(Signale entity)
