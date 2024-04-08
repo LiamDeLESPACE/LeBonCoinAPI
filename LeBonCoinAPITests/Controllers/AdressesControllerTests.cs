@@ -6,12 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LeBonCoinAPI.Models.EntityFramework;
+using LeBonCoinAPI.Models.Repository;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
+using Castle.Components.DictionaryAdapter.Xml;
 using Moq;
-using Azure;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Data;
+using LeBonCoinAPI.DataManager;
 
 namespace LeBonCoinAPI.Controllers.Tests
 {
@@ -19,8 +20,8 @@ namespace LeBonCoinAPI.Controllers.Tests
     public class AdressesControllerTests
     {
         private AdressesController _controller;
-
-        private Mock<DataContext> _context;
+        private DataContext _context;
+        private IRepositoryAdresse<Adresse> _dataRepository;
 
         //Arrange
         Adresse adresse;
@@ -28,9 +29,10 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         public AdressesControllerTests()
         {
-            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=localhost; port=5432; Database=LeBonCoinSAE; uid=postgres; password=postgres;");
-            _context = new Mock<DataContext>();
-            _controller = new AdressesController(_context.Object);
+            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=51.83.36.122; port=5432; Database=sa23; uid=sa23; password=idkY3t?; SearchPath=sae;");
+            _context = new DataContext(builder.Options);
+            _dataRepository = new AdresseManager(_context);
+            _controller = new AdressesController(_dataRepository);
         }
 
         [TestInitialize]
@@ -51,6 +53,10 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
+            var mockRepository = new Mock<IRepositoryAdresse<Adresse>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new AdressesController(mockRepository.Object);
+
             var result = _controller.GetAdresse(1);
 
             //Assert
