@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LeBonCoinAPI.DataManager
 {
-    public class AnnonceManager : IRepositoryAnnonce<Annonce>
+    public class AnnonceManager : IRepository<Annonce>
     {
         readonly DataContext? dataContext;
         public AnnonceManager() { }
@@ -13,21 +13,21 @@ namespace LeBonCoinAPI.DataManager
         {
             dataContext = context;
         }
-        public ActionResult<IEnumerable<Annonce>> GetAll()
+        public async Task<ActionResult<IEnumerable<Annonce>>> GetAll()
         {
-            return dataContext.Annonces.ToList();
+            return await dataContext.Annonces.ToListAsync();
         }
 
-        public ActionResult<Annonce> GetById(int id)
+        public async Task<ActionResult<Annonce>> GetById(int id)
         {
-            return dataContext.Annonces.FirstOrDefault(u => u.AnnonceId == id);
+            return await dataContext.Annonces.FindAsync(id);
         }
-        public void Add(Annonce entity)
+        public async Task Add(Annonce entity)
         {
-            dataContext.Annonces.Add(entity);
-            dataContext.SaveChanges();
+            await dataContext.Annonces.AddAsync(entity);
+            await dataContext.SaveChangesAsync();
         }
-        public void Update(Annonce annonce, Annonce entity)
+        public async Task Update(Annonce annonce, Annonce entity)
         {
             dataContext.Entry(annonce).State = EntityState.Modified;            
             annonce.AdresseId = entity.AdresseId;
@@ -43,12 +43,12 @@ namespace LeBonCoinAPI.DataManager
             annonce.PrixParNuit = entity.PrixParNuit;
             annonce.NombreChambres = entity.NombreChambres;            
 
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
-        public void Delete(Annonce annonce)
+        public async Task Delete(Annonce annonce)
         {
             dataContext.Annonces.Remove(annonce);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
     }
 }

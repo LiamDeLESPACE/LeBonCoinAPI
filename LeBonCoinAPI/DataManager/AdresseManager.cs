@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LeBonCoinAPI.DataManager
 {
-    public class AdresseManager : IRepositoryAdresse<Adresse>
+    public class AdresseManager : IRepository<Adresse>
     {
         readonly DataContext? dataContext;
         public AdresseManager() { }
@@ -20,7 +20,7 @@ namespace LeBonCoinAPI.DataManager
 
         public async Task<ActionResult<Adresse>> GetById(int id)
         {
-            return await dataContext.Adresses.FirstOrDefaultAsync(u => u.AdresseId == id);
+            return await dataContext.Adresses.FindAsync(id);
         }
         public async Task Add(Adresse entity)
         {
