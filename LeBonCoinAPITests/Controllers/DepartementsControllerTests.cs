@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LeBonCoinAPI.Models.EntityFramework;
+using LeBonCoinAPI.Models.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
@@ -50,8 +51,8 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
-            var mockRepository = new Mock<IDataRepository<Departement>>();
-            mockRepository.Setup(x => x.GetByIdAsync("1").Result).Returns(testListe[0]);
+            var mockRepository = new Mock<IRepositoryDepartement<Departement>>();
+            mockRepository.Setup(x => x.GetByString("1")).Returns(testListe[0]);
             var result = _controller.GetDepartement("1");
 
             //Assert
