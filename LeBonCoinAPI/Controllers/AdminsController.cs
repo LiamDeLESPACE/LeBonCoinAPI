@@ -18,9 +18,9 @@ namespace LeBonCoinAPI.Controllers
     public class AdminsController : ControllerBase
     {
 
-        private readonly IRepositoryAdmin<Admin> repositoryAdmin;
+        private readonly IRepository<Admin> repositoryAdmin;
 
-        public AdminsController(IRepositoryAdmin<Admin> repoAdmin)
+        public AdminsController(IRepository<Admin> repoAdmin)
         {
             repositoryAdmin = repoAdmin;
         }

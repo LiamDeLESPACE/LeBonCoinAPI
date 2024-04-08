@@ -16,35 +16,31 @@ namespace LeBonCoinAPI.Controllers
     [ApiController]
     public class AdressesController : ControllerBase
     {
-        private readonly IRepositoryAdresse<Adresse> repositoryAdresse;
+        private readonly IRepository<Adresse> repositoryAdresse;
 
-        public AdressesController(IRepositoryAdresse<Adresse> repoAdresse)
+        public AdressesController(IRepository<Adresse> repoAdresse)
         {
             repositoryAdresse = repoAdresse;
         }
 
         // GET: api/Adresses
         [HttpGet]
-        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<Adresse>>> GetAdresses()
         {
-          if (_context.Adresses == null)
-          {
-              return NotFound();
-          }
-            return await _context.Adresses.ToListAsync();
+            var res = await repositoryAdresse.GetAll();
+            if (res == null)
+            {
+                return NotFound();
+            }
+            return res;
         }
 
         // GET: api/Adresses/5
         [HttpGet("{id}")]
-        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Adresse>> GetAdresse(int id)
         {
-          if (_context.Adresses == null)
-          {
-              return NotFound();
-          }
-            var adresse = await _context.Adresses.FindAsync(id);
+
+            var adresse = await repositoryAdresse.GetById(id);
 
             if (adresse == null)
             {
@@ -57,7 +53,6 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Adresses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> PutAdresse(int id, Adresse adresse)
         {
             if (id != adresse.AdresseId)
@@ -65,81 +60,51 @@ namespace LeBonCoinAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(adresse).State = EntityState.Modified;
-
-            try
+            var adresseToUpdate = await repositoryAdresse.GetById(id);
+            if (adresseToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!AdresseExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await repositoryAdresse.Update(adresseToUpdate.Value, adresse);
+                return NoContent();
             }
 
-            return NoContent();
         }
 
         // POST: api/Adresses
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Adresse>> PostAdresse(Adresse adresse)
         {
-          if (_context.Adresses == null)
-          {
-              return Problem("Entity set 'DataContext.Adresses'  is null.");
-          }
-            _context.Adresses.Add(adresse);
-            try
+            if (await repositoryAdresse.GetAll() == null)
             {
-                await _context.SaveChangesAsync();
+                return Problem("Entity set 'DataContext.Adresses'  is null.");
             }
-            catch (DbUpdateException)
-            {
-                if (AdresseExists(adresse.AdresseId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await repositoryAdresse.Add(adresse);
+
 
             return CreatedAtAction("GetAdresse", new { id = adresse.AdresseId }, adresse);
         }
 
         // DELETE: api/Adresses/5
         [HttpDelete("{id}")]
-        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> DeleteAdresse(int id)
         {
-            if (_context.Adresses == null)
+            if (await repositoryAdresse.GetAll() == null)
             {
                 return NotFound();
             }
-            var adresse = await _context.Adresses.FindAsync(id);
+            var adresse = await repositoryAdresse.GetById(id);
             if (adresse == null)
             {
                 return NotFound();
             }
 
-            _context.Adresses.Remove(adresse);
-            await _context.SaveChangesAsync();
+            await repositoryAdresse.Delete(adresse.Value);
 
             return NoContent();
-        }
-
-        private bool AdresseExists(int id)
-        {
-            return (_context.Adresses?.Any(e => e.AdresseId == id)).GetValueOrDefault();
         }
     }
 }
