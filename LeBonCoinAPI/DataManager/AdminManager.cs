@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LeBonCoinAPI.DataManager
 {
-    public class AdminManager : IRepositoryAdmin<Admin>
+    public class AdminManager : IRepository<Admin>
     {
         readonly DataContext? dataContext;
         public AdminManager() { }
@@ -18,9 +18,9 @@ namespace LeBonCoinAPI.DataManager
             return dataContext.Admins.ToList();
         }
 
-        public ActionResult<Admin> GetById(int id)
+        public async Task<ActionResult<Admin>> GetById(int id)
         {
-            return dataContext.Admins.FirstOrDefault(u => u.ProfilId == id);
+            return await dataContext.Admins.FindAsync(id);
         }
         public void Add(Admin entity)
         {

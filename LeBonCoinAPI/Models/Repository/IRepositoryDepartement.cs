@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LeBonCoinAPI.Models.Repository
 {
-    public interface IRepositoryDepartement<Tentity>
+    public interface IRepositoryDepartement<TEntity>
     {
-        ActionResult<IEnumerable<Tentity>> GetAll();
-        ActionResult<Tentity> GetByString(string str);
-        void Add(Tentity entity);
-        void Update(Tentity entityToUpdate, Tentity entity);
-        void Delete(Tentity entity);
+        Task<ActionResult<IEnumerable<TEntity>>> GetAll();
+        Task<ActionResult<TEntity>> GetByString(string str);
+        Task Add(TEntity entity);
+        Task Update(TEntity entityToUpdate, TEntity entity);
+        Task Delete(TEntity entity);
     }
 }
