@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LeBonCoinAPI.DataManager
 {
-    public class TypeLogementManager : IRepositoryTypeLogement<TypeLogement>
+    public class TypeLogementManager : IRepository<TypeLogement>
     {
         readonly DataContext? dataContext;
         public TypeLogementManager() { }
@@ -20,7 +20,7 @@ namespace LeBonCoinAPI.DataManager
 
         public async Task<ActionResult<TypeLogement>> GetById(int id)
         {
-            return await dataContext.TypeLogements.FirstOrDefaultAsync(u => u.TypeLogementId == id);
+            return await dataContext.TypeLogements.FindAsync(id);
         }
         public async Task Add(TypeLogement entity)
         {

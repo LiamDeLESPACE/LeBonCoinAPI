@@ -20,7 +20,7 @@ namespace LeBonCoinAPI.DataManager
 
         public async Task<ActionResult<Photo>> GetById(int id)
         {
-            return await dataContext.Photos.FirstOrDefaultAsync(u => u.PhotoId == id);
+            return await dataContext.Photos.FindAsync(id);
         }
 
         public async Task<ActionResult<Photo>> GetByIdProfil(int idProfil)

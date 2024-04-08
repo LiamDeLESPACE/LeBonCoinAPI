@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LeBonCoinAPI.DataManager
 {
-    public class ReservationManager : IRepositoryReservation<Reservation>
+    public class ReservationManager : IRepository<Reservation>
     {
         readonly DataContext? dataContext;
         public ReservationManager() { }
@@ -20,7 +20,7 @@ namespace LeBonCoinAPI.DataManager
 
         public async Task<ActionResult<Reservation>> GetById(int id)
         {
-            return await dataContext.Reservations.FirstOrDefaultAsync(u => u.ReservationId == id);
+            return await dataContext.Reservations.FindAsync(id);
         }
         public async Task Add(Reservation entity)
         {

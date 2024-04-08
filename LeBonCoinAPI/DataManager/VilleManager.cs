@@ -20,7 +20,7 @@ namespace LeBonCoinAPI.DataManager
 
         public async Task<ActionResult<Ville>> GetByString(string codeInsee)
         {
-            return await dataContext.Villes.FirstOrDefaultAsync(u => u.CodeInsee.ToUpper() == codeInsee.ToUpper());
+            return await dataContext.Villes.FindAsync(codeInsee);
         }
         public async Task Add(Ville entity)
         {
