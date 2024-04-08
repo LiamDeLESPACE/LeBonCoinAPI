@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
 using LeBonCoinAPI.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
+using LeBonCoinAPI.Models.Repository;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -15,35 +16,31 @@ namespace LeBonCoinAPI.Controllers
     [ApiController]
     public class PhotosController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IRepositoryPhoto<Photo> repositoryPhoto;
 
-        public PhotosController(DataContext context)
+        public PhotosController(IRepositoryPhoto<Photo> repoPhoto)
         {
-            _context = context;
+            repositoryPhoto = repoPhoto;
         }
 
         // GET: api/Photos
         [HttpGet]
-        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<Photo>>> GetPhotos()
         {
-          if (_context.Photos == null)
-          {
-              return NotFound();
-          }
-            return await _context.Photos.ToListAsync();
+            var res = await repositoryPhoto.GetAll();
+            if (res == null)
+            {
+                return NotFound();
+            }
+            return res;
         }
 
         // GET: api/Photos/5
-        [HttpGet("{idProfil}")]
-        [Authorize(Policy = Policies.all)]
-        public async Task<ActionResult<Photo>> GetPhotoProfil(int idProfil)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Photo>> GetPhotoP(int id)
         {
-          if (_context.Photos == null)
-          {
-              return NotFound();
-          }
-            var photo = await _context.Photos.FirstOrDefaultAsync(x => x.ProfilId == idProfil);
+
+            var photo = await repositoryPhoto.GetById(id);
 
             if (photo == null)
             {
@@ -54,15 +51,11 @@ namespace LeBonCoinAPI.Controllers
         }
 
         // GET: api/Photos/5
-        [HttpGet("{id}")]
-        [Authorize(Policy = Policies.all)]
-        public async Task<ActionResult<Photo>> GetPhotoP(int id)
+        [HttpGet("{idProfil}")]
+        public async Task<ActionResult<Photo>> GetPhotoProfil(int idProfil)
         {
-            if (_context.Photos == null)
-            {
-                return NotFound();
-            }
-            var photo = await _context.Photos.FindAsync(id);
+
+            var photo = await repositoryPhoto.GetByIdProfil(idProfil);
 
             if (photo == null)
             {
@@ -74,14 +67,10 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Photos/5
         [HttpGet("{idAnnonce}")]
-        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<IEnumerable<Photo>>> GetPhotosAnnonce(int idAnnonce)
         {
-            if (_context.Photos == null)
-            {
-                return NotFound();
-            }
-            var photo = await (from s in _context.Photos where s.AnnonceId == idAnnonce select s).ToListAsync();
+
+            var photo = await repositoryPhoto.GetByIdAnnonce(idAnnonce);
 
             if (photo == null)
             {
@@ -94,7 +83,6 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Photos/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> PutPhoto(int id, Photo photo)
         {
             if (id != photo.PhotoId)
@@ -102,67 +90,51 @@ namespace LeBonCoinAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(photo).State = EntityState.Modified;
-
-            try
+            var photoToUpdate = await repositoryPhoto.GetById(id);
+            if (photoToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!PhotoExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await repositoryPhoto.Update(photoToUpdate.Value, photo);
+                return NoContent();
             }
 
-            return NoContent();
         }
 
         // POST: api/Photos
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Photo>> PostPhoto(Photo photo)
         {
-          if (_context.Photos == null)
-          {
-              return Problem("Entity set 'DataContext.Photos'  is null.");
-          }
-            _context.Photos.Add(photo);
-            await _context.SaveChangesAsync();
+            if (await repositoryPhoto.GetAll() == null)
+            {
+                return Problem("Entity set 'DataContext.Photos'  is null.");
+            }
+            await repositoryPhoto.Add(photo);
+
 
             return CreatedAtAction("GetPhoto", new { id = photo.PhotoId }, photo);
         }
 
         // DELETE: api/Photos/5
         [HttpDelete("{id}")]
-        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> DeletePhoto(int id)
         {
-            if (_context.Photos == null)
+            if (await repositoryPhoto.GetAll() == null)
             {
                 return NotFound();
             }
-            var photo = await _context.Photos.FindAsync(id);
+            var photo = await repositoryPhoto.GetById(id);
             if (photo == null)
             {
                 return NotFound();
             }
 
-            _context.Photos.Remove(photo);
-            await _context.SaveChangesAsync();
+            await repositoryPhoto.Delete(photo.Value);
 
             return NoContent();
-        }
-
-        private bool PhotoExists(int id)
-        {
-            return (_context.Photos?.Any(e => e.PhotoId == id)).GetValueOrDefault();
         }
     }
 }

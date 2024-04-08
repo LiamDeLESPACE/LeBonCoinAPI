@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
 using LeBonCoinAPI.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
+using LeBonCoinAPI.Models.Repository;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -15,35 +16,31 @@ namespace LeBonCoinAPI.Controllers
     [ApiController]
     public class ParticuliersController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IRepository<Particulier> repositoryParticulier;
 
-        public ParticuliersController(DataContext context)
+        public ParticuliersController(IRepository<Particulier> repoParticulier)
         {
-            _context = context;
+            repositoryParticulier = repoParticulier;
         }
 
         // GET: api/Particuliers
         [HttpGet]
-        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<Particulier>>> GetParticuliers()
         {
-          if (_context.Particuliers == null)
-          {
-              return NotFound();
-          }
-            return await _context.Particuliers.ToListAsync();
+            var res = await repositoryParticulier.GetAll();
+            if (res == null)
+            {
+                return NotFound();
+            }
+            return res;
         }
 
         // GET: api/Particuliers/5
         [HttpGet("{id}")]
-        [Authorize(Policy = Policies.human)]
         public async Task<ActionResult<Particulier>> GetParticulier(int id)
         {
-          if (_context.Particuliers == null)
-          {
-              return NotFound();
-          }
-            var particulier = await _context.Particuliers.FindAsync(id);
+
+            var particulier = await repositoryParticulier.GetById(id);
 
             if (particulier == null)
             {
@@ -56,7 +53,6 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Particuliers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Policy = Policies.human)]
         public async Task<IActionResult> PutParticulier(int id, Particulier particulier)
         {
             if (id != particulier.ProfilId)
@@ -64,81 +60,51 @@ namespace LeBonCoinAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(particulier).State = EntityState.Modified;
-
-            try
+            var particulierToUpdate = await repositoryParticulier.GetById(id);
+            if (particulierToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!ParticulierExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await repositoryParticulier.Update(particulierToUpdate.Value, particulier);
+                return NoContent();
             }
 
-            return NoContent();
         }
 
         // POST: api/Particuliers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Policy = Policies.human)]
         public async Task<ActionResult<Particulier>> PostParticulier(Particulier particulier)
         {
-          if (_context.Particuliers == null)
-          {
-              return Problem("Entity set 'DataContext.Particuliers'  is null.");
-          }
-            _context.Particuliers.Add(particulier);
-            try
+            if (await repositoryParticulier.GetAll() == null)
             {
-                await _context.SaveChangesAsync();
+                return Problem("Entity set 'DataContext.Particuliers'  is null.");
             }
-            catch (DbUpdateException)
-            {
-                if (ParticulierExists(particulier.ProfilId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await repositoryParticulier.Add(particulier);
+
 
             return CreatedAtAction("GetParticulier", new { id = particulier.ProfilId }, particulier);
         }
 
         // DELETE: api/Particuliers/5
         [HttpDelete("{id}")]
-        [Authorize(Policy = Policies.human)]
         public async Task<IActionResult> DeleteParticulier(int id)
         {
-            if (_context.Particuliers == null)
+            if (await repositoryParticulier.GetAll() == null)
             {
                 return NotFound();
             }
-            var particulier = await _context.Particuliers.FindAsync(id);
+            var particulier = await repositoryParticulier.GetById(id);
             if (particulier == null)
             {
                 return NotFound();
             }
 
-            _context.Particuliers.Remove(particulier);
-            await _context.SaveChangesAsync();
+            await repositoryParticulier.Delete(particulier.Value);
 
             return NoContent();
-        }
-
-        private bool ParticulierExists(int id)
-        {
-            return (_context.Particuliers?.Any(e => e.ProfilId == id)).GetValueOrDefault();
         }
     }
 }
