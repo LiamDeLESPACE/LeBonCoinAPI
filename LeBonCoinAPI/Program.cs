@@ -1,5 +1,7 @@
+using LeBonCoinAPI.DataManager;
 using LeBonCoinAPI.Models.Auth;
 using LeBonCoinAPI.Models.EntityFramework;
+using LeBonCoinAPI.Models.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +24,7 @@ namespace LeBonCoinAPI
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("PhPpgAdmin")));
+            builder.Services.AddScoped<IRepositoryDepartement<Departement>, DepartementManager>();
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                  .AddJwtBearer(options =>

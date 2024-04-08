@@ -35,7 +35,7 @@ namespace LeBonCoinAPI.Controllers
         }
 
         // GET: api/Photos/5
-        [HttpGet("{id}")]
+        [HttpGet("{idProfil}")]
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Photo>> GetPhotoProfil(int idProfil)
         {
@@ -73,7 +73,7 @@ namespace LeBonCoinAPI.Controllers
         }
 
         // GET: api/Photos/5
-        [HttpGet("{id}")]
+        [HttpGet("{idAnnonce}")]
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<IEnumerable<Photo>>> GetPhotosAnnonce(int idAnnonce)
         {

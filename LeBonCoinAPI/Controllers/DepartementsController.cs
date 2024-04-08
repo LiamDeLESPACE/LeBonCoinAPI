@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
 using Microsoft.AspNetCore.Authorization;
 using LeBonCoinAPI.Models.Auth;
+using LeBonCoinAPI.DataManager;
+using NuGet.Protocol.Core.Types;
+using LeBonCoinAPI.Models.Repository;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -15,11 +18,14 @@ namespace LeBonCoinAPI.Controllers
     [ApiController]
     public class DepartementsController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IRepositoryDepartement<Departement> repositoryDepartement;
+        //private readonly repositoryDepartement repositoryDepartement;
+        //private readonly DataContext _context;
 
-        public DepartementsController(DataContext context)
+        public DepartementsController(IRepositoryDepartement<Departement> dataRepo)
         {
-            _context = context;
+            //repositoryDepartement = departmentManager;
+            repositoryDepartement = dataRepo;
         }
 
         // GET: api/Departements
@@ -27,11 +33,17 @@ namespace LeBonCoinAPI.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Departement>>> GetDepartements()
         {
-          if (_context.Departements == null)
-          {
-              return NotFound();
-          }
-            return await _context.Departements.ToListAsync();
+            /*if (_context.Departements == null)
+            {
+                return NotFound();
+            }
+              return await _context.Departements.ToListAsync();*/
+
+            if (repositoryDepartement.GetAll() == null)
+            {
+                return NotFound();
+            }
+            return repositoryDepartement.GetAll();
         }
 
         // GET: api/Departements/5
@@ -39,11 +51,12 @@ namespace LeBonCoinAPI.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<Departement>> GetDepartement(string id)
         {
-          if (_context.Departements == null)
+          /*if (_context.Departements == null)
           {
               return NotFound();
-          }
-            var departement = await _context.Departements.FindAsync(id);
+          }*/
+            var departement = repositoryDepartement.GetByString(id);
+          //var departement = await _context.Departements.FindAsync(id);
 
             if (departement == null)
             {
@@ -64,7 +77,19 @@ namespace LeBonCoinAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(departement).State = EntityState.Modified;
+            var departmentToUpdate = repositoryDepartement.GetByString(id);
+
+            if (departmentToUpdate == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                repositoryDepartement.Update(departmentToUpdate.Value, departement);
+                return NoContent();
+            }
+
+            /*_context.Entry(departement).State = EntityState.Modified;
 
             try
             {
@@ -82,7 +107,7 @@ namespace LeBonCoinAPI.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent();*/
         }
 
         // POST: api/Departements
@@ -91,28 +116,36 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<Departement>> PostDepartement(Departement departement)
         {
-          if (_context.Departements == null)
-          {
-              return Problem("Entity set 'DataContext.Departements'  is null.");
-          }
-            _context.Departements.Add(departement);
-            try
+            /*if (_context.Departements == null)
             {
-                await _context.SaveChangesAsync();
+                return Problem("Entity set 'DataContext.Departements'  is null.");
             }
-            catch (DbUpdateException)
-            {
-                if (DepartementExists(departement.DepartementCode))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+              _context.Departements.Add(departement);
+              try
+              {
+                  await _context.SaveChangesAsync();
+              }
+              catch (DbUpdateException)
+              {
+                  if (DepartementExists(departement.DepartementCode))
+                  {
+                      return Conflict();
+                  }
+                  else
+                  {
+                      throw;
+                  }
+                        return CreatedAtAction("GetDepartement", new { id = departement.DepartementCode }, departement);
 
+              }*/
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            repositoryDepartement.Add(departement);
             return CreatedAtAction("GetDepartement", new { id = departement.DepartementCode }, departement);
+
         }
 
         // DELETE: api/Departements/5
@@ -120,7 +153,15 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> DeleteDepartement(string id)
         {
-            if (_context.Departements == null)
+            var departement = repositoryDepartement.GetByString(id);
+            if (departement == null)
+            {
+                return NotFound();
+            }
+            repositoryDepartement.Delete(departement.Value);
+
+            return NoContent();
+            /*if (_context.Departements == null)
             {
                 return NotFound();
             }
@@ -133,12 +174,12 @@ namespace LeBonCoinAPI.Controllers
             _context.Departements.Remove(departement);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return NoContent();*/
         }
 
-        private bool DepartementExists(string id)
+        /*private bool DepartementExists(string id)
         {
             return (_context.Departements?.Any(e => e.DepartementCode == id)).GetValueOrDefault();
-        }
+        }*/
     }
 }
