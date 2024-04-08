@@ -13,43 +13,43 @@ namespace LeBonCoinAPI.DataManager
         {
             dataContext = context;
         }
-        public ActionResult<IEnumerable<Photo>> GetAll()
+        public async  Task<ActionResult<IEnumerable<Photo>>> GetAll()
         {
-            return dataContext.Photos.ToList();
+            return await dataContext.Photos.ToListAsync();
         }
 
-        public ActionResult<Photo> GetById(int id)
+        public async Task<ActionResult<Photo>> GetById(int id)
         {
-            return dataContext.Photos.FirstOrDefault(u => u.PhotoId == id);
+            return await dataContext.Photos.FirstOrDefaultAsync(u => u.PhotoId == id);
         }
 
-        public ActionResult<Photo> GetByIdProfil(int idProfil)
+        public async Task<ActionResult<Photo>> GetByIdProfil(int idProfil)
         {
-            return dataContext.Photos.FirstOrDefault(u => u.ProfilId == idProfil);
+            return await dataContext.Photos.FirstOrDefaultAsync(u => u.ProfilId == idProfil);
         }
 
-        public ActionResult<Photo> GetByIdAnnonce(int idAnnonce)
+        public async Task<ActionResult<Photo>> GetByIdAnnonce(int idAnnonce)
         {
-            return dataContext.Photos.FirstOrDefault(u => u.AnnonceId == idAnnonce);
+            return await dataContext.Photos.FirstOrDefaultAsync(u => u.AnnonceId == idAnnonce);
         }
-        public void Add(Photo entity)
+        public async Task Add(Photo entity)
         {
-            dataContext.Photos.Add(entity);
-            dataContext.SaveChanges();
+            await dataContext.Photos.AddAsync(entity);
+            await dataContext.SaveChangesAsync();
         }
-        public void Update(Photo photo, Photo entity)
+        public async Task Update(Photo photo, Photo entity)
         {
             dataContext.Entry(photo).State = EntityState.Modified;            
             photo.ProfilId = entity.ProfilId;
             photo.AnnonceId = entity.AnnonceId;
             photo.URL = entity.URL;
             
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
-        public void Delete(Photo photo)
+        public async Task Delete(Photo photo)
         {
             dataContext.Photos.Remove(photo);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
     }
 }

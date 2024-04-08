@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LeBonCoinAPI.DataManager
 {
-    public class CarteBancaireManager : IRepositoryCarteBancaire<CarteBancaire>
+    public class CarteBancaireManager : IRepository<CarteBancaire>
     {
         readonly DataContext? dataContext;
         public CarteBancaireManager() { }
@@ -13,32 +13,32 @@ namespace LeBonCoinAPI.DataManager
         {
             dataContext = context;
         }
-        public ActionResult<IEnumerable<CarteBancaire>> GetAll()
+        public async Task<ActionResult<IEnumerable<CarteBancaire>>> GetAll()
         {
-            return dataContext.CarteBancaires.ToList();
+            return await dataContext.CarteBancaires.ToListAsync();
         }
 
-        public ActionResult<CarteBancaire> GetById(int id)
+        public async Task<ActionResult<CarteBancaire>> GetById(int id)
         {
-            return dataContext.CarteBancaires.FirstOrDefault(u => u.CarteId == id);
+            return await dataContext.CarteBancaires.FindAsync(id);
         }
-        public void Add(CarteBancaire entity)
+        public async Task Add(CarteBancaire entity)
         {
-            dataContext.CarteBancaires.Add(entity);
-            dataContext.SaveChanges();
+            await dataContext.CarteBancaires.AddAsync(entity);
+            await dataContext.SaveChangesAsync();
         }
-        public void Update(CarteBancaire carteBancaire, CarteBancaire entity)
+        public async Task Update(CarteBancaire carteBancaire, CarteBancaire entity)
         {
             dataContext.Entry(carteBancaire).State = EntityState.Modified;            
             carteBancaire.ProfilId = entity.ProfilId;
             carteBancaire.Numero = entity.Numero;
             
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
-        public void Delete(CarteBancaire carteBancaire)
+        public async Task Delete(CarteBancaire carteBancaire)
         {
             dataContext.CarteBancaires.Remove(carteBancaire);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
     }
 }

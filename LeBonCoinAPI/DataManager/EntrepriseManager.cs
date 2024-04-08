@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LeBonCoinAPI.DataManager
 {
-    public class EntrepriseManager : IRepositoryEntreprise<Entreprise>
+    public class EntrepriseManager : IRepository<Entreprise>
     {
         readonly DataContext? dataContext;
         public EntrepriseManager() { }
@@ -13,21 +13,21 @@ namespace LeBonCoinAPI.DataManager
         {
             dataContext = context;
         }
-        public ActionResult<IEnumerable<Entreprise>> GetAll()
+        public async Task<ActionResult<IEnumerable<Entreprise>>> GetAll()
         {
-            return dataContext.Entreprises.ToList();
+            return await dataContext.Entreprises.ToListAsync();
         }
 
-        public ActionResult<Entreprise> GetById(int id)
+        public async Task<ActionResult<Entreprise>> GetById(int id)
         {
-            return dataContext.Entreprises.FirstOrDefault(u => u.ProfilId == id);
+            return await dataContext.Entreprises.FindAsync(id);
         }
-        public void Add(Entreprise entity)
+        public async Task Add(Entreprise entity)
         {
-            dataContext.Entreprises.Add(entity);
-            dataContext.SaveChanges();
+            await dataContext.Entreprises.AddAsync(entity);
+            await dataContext.SaveChangesAsync();
         }
-        public void Update(Entreprise entreprise, Entreprise entity)
+        public async Task Update(Entreprise entreprise, Entreprise entity)
         {
             dataContext.Entry(entreprise).State = EntityState.Modified;            
             entreprise.HashMotDePasse = entity.HashMotDePasse;
@@ -37,12 +37,12 @@ namespace LeBonCoinAPI.DataManager
             entreprise.AdresseId = entity.AdresseId;
             entreprise.Nom = entity.Nom;
             
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
-        public void Delete(Entreprise entreprise)
+        public async Task Delete(Entreprise entreprise)
         {
             dataContext.Entreprises.Remove(entreprise);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
     }
 }

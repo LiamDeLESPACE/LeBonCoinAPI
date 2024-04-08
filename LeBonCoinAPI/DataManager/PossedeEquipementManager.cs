@@ -13,39 +13,39 @@ namespace LeBonCoinAPI.DataManager
         {
             dataContext = context;
         }
-        public ActionResult<IEnumerable<PossedeEquipement>> GetAll()
+        public async Task<ActionResult<IEnumerable<PossedeEquipement>>> GetAll()
         {
-            return dataContext.PossedeEquipements.ToList();
+            return await dataContext.PossedeEquipements.ToListAsync();
         }
 
-        public ActionResult<PossedeEquipement> GetByIds(int idAnnonce, int idEquipement)
+        public async Task<ActionResult<PossedeEquipement>> GetByIds(int idAnnonce, int idEquipement)
         {
-            return dataContext.PossedeEquipements.FirstOrDefault(c => c.AnnonceId == idAnnonce && c.EquipementId == idEquipement);
+            return await dataContext.PossedeEquipements.FirstOrDefaultAsync(c => c.AnnonceId == idAnnonce && c.EquipementId == idEquipement);
         }
 
-        public ActionResult<PossedeEquipement> GetByIdAnnonce(int idAnnonce)
+        public async Task<ActionResult<PossedeEquipement>> GetByIdAnnonce(int idAnnonce)
         {
-            return dataContext.PossedeEquipements.FirstOrDefault(u => u.AnnonceId == idAnnonce);
+            return await dataContext.PossedeEquipements.FirstOrDefaultAsync(u => u.AnnonceId == idAnnonce);
         }
-        public ActionResult<PossedeEquipement> GetByIdEquipement(int idEquipement)
+        public async Task<ActionResult<PossedeEquipement>> GetByIdEquipement(int idEquipement)
         {
-            return dataContext.PossedeEquipements.FirstOrDefault(u => u.EquipementId == idEquipement);
+            return await dataContext.PossedeEquipements.FirstOrDefaultAsync(u => u.EquipementId == idEquipement);
         }
-        public void Add(PossedeEquipement entity)
+        public async Task Add(PossedeEquipement entity)
         {
-            dataContext.PossedeEquipements.Add(entity);
-            dataContext.SaveChanges();
+            await dataContext.PossedeEquipements.AddAsync(entity);
+            await dataContext.SaveChangesAsync();
         }
-        public void Update(PossedeEquipement possedeEquipement, PossedeEquipement entity)
+        public async Task Update(PossedeEquipement possedeEquipement, PossedeEquipement entity)
         {
             dataContext.Entry(possedeEquipement).State = EntityState.Modified;            
 
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
-        public void Delete(PossedeEquipement possedeEquipement)
+        public async Task Delete(PossedeEquipement possedeEquipement)
         {
             dataContext.PossedeEquipements.Remove(possedeEquipement);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
     }
 }

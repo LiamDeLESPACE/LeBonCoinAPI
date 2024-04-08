@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
+using LeBonCoinAPI.Models.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -31,15 +33,54 @@ namespace LeBonCoinAPI.Controllers
             return await _context.PossedeEquipements.ToListAsync();
         }
 
-        // GET: api/PossedeEquipements/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<PossedeEquipement>> GetPossedeEquipement(int id)
+        // GET: api/PossedeEquipements/5/6
+        [HttpGet("{idAnnonce}/{idEquipement}")]
+        [Authorize(Policy = Policies.all)]
+        public async Task<ActionResult<PossedeEquipement>> GetPossedeEquipement(int idAnnonce, int idEquipement)
         {
-          if (_context.PossedeEquipements == null)
-          {
-              return NotFound();
-          }
-            var possedeEquipement = await _context.PossedeEquipements.FindAsync(id);
+            if (_context.PossedeEquipements == null)
+            {
+                return NotFound();
+            }
+            var possedeEquipement = await (from s in _context.PossedeEquipements where s.AnnonceId == idAnnonce && s.EquipementId == idEquipement select s).FirstOrDefaultAsync();
+
+            if (possedeEquipement == null)
+            {
+                return NotFound();
+            }
+
+            return possedeEquipement;
+        }
+
+        // GET: api/PossedeEquipements/5
+        [HttpGet("{idProfil}")]
+        [Authorize(Policy = Policies.all)]
+        public async Task<ActionResult<List<PossedeEquipement>>> GetPossedeEquipementOfAnnonce(int idAnnonce)
+        {
+            if (_context.PossedeEquipements == null)
+            {
+                return NotFound();
+            }
+            var possedeEquipement = await (from s in _context.PossedeEquipements where s.AnnonceId == idAnnonce select s).ToListAsync();
+
+            if (possedeEquipement == null)
+            {
+                return NotFound();
+            }
+
+            return possedeEquipement;
+        }
+
+        // GET: api/PossedeEquipements/5
+        [HttpGet("{idProfil}")]
+        [Authorize(Policy = Policies.all)]
+        public async Task<ActionResult<List<PossedeEquipement>>> GetPossedeEquipementOfEquipement(int idEquipement)
+        {
+            if (_context.PossedeEquipements == null)
+            {
+                return NotFound();
+            }
+            var possedeEquipement = await (from s in _context.PossedeEquipements where s.EquipementId == idEquipement select s).ToListAsync();
 
             if (possedeEquipement == null)
             {
