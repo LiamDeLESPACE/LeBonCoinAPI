@@ -13,31 +13,31 @@ namespace LeBonCoinAPI.DataManager
         {
             dataContext = context;
         }
-        public ActionResult<IEnumerable<TypeLogement>> GetAll()
+        public async Task<ActionResult<IEnumerable<TypeLogement>>> GetAll()
         {
-            return dataContext.TypeLogements.ToList();
+            return await dataContext.TypeLogements.ToListAsync();
         }
 
-        public ActionResult<TypeLogement> GetById(int id)
+        public async Task<ActionResult<TypeLogement>> GetById(int id)
         {
-            return dataContext.TypeLogements.FirstOrDefault(u => u.TypeLogementId == id);
+            return await dataContext.TypeLogements.FirstOrDefaultAsync(u => u.TypeLogementId == id);
         }
-        public void Add(TypeLogement entity)
+        public async Task Add(TypeLogement entity)
         {
-            dataContext.TypeLogements.Add(entity);
-            dataContext.SaveChanges();
+            await dataContext.TypeLogements.AddAsync(entity);
+            await dataContext.SaveChangesAsync();
         }
-        public void Update(TypeLogement typeLogement, TypeLogement entity)
+        public async Task Update(TypeLogement typeLogement, TypeLogement entity)
         {
             dataContext.Entry(typeLogement).State = EntityState.Modified;            
             typeLogement.Nom = entity.Nom;            
 
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
-        public void Delete(TypeLogement typeLogement)
+        public async Task Delete(TypeLogement typeLogement)
         {
             dataContext.TypeLogements.Remove(typeLogement);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
     }
 }

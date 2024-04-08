@@ -13,33 +13,33 @@ namespace LeBonCoinAPI.DataManager
         {
             dataContext = context;
         }
-        public ActionResult<IEnumerable<Ville>> GetAll()
+        public async Task<ActionResult<IEnumerable<Ville>>> GetAll()
         {
-            return dataContext.Villes.ToList();
+            return await dataContext.Villes.ToListAsync();
         }
 
-        public ActionResult<Ville> GetByString(string codeInsee)
+        public async Task<ActionResult<Ville>> GetByString(string codeInsee)
         {
-            return dataContext.Villes.FirstOrDefault(u => u.CodeInsee.ToUpper() == codeInsee.ToUpper());
+            return await dataContext.Villes.FirstOrDefaultAsync(u => u.CodeInsee.ToUpper() == codeInsee.ToUpper());
         }
-        public void Add(Ville entity)
+        public async Task Add(Ville entity)
         {
-            dataContext.Villes.Add(entity);
-            dataContext.SaveChanges();
+            await dataContext.Villes.AddAsync(entity);
+            await dataContext.SaveChangesAsync();
         }
-        public void Update(Ville ville, Ville entity)
+        public async Task Update(Ville ville, Ville entity)
         {
             dataContext.Entry(ville).State = EntityState.Modified;
             ville.DepartementCode = entity.DepartementCode;
             ville.Nom = entity.Nom;
             ville.CodePostal = entity.CodePostal; 
                         
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
-        public void Delete(Ville ville)
+        public async Task Delete(Ville ville)
         {
             dataContext.Villes.Remove(ville);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
     }
 }

@@ -13,31 +13,31 @@ namespace LeBonCoinAPI.DataManager
         {
             dataContext = context;
         }
-        public ActionResult<IEnumerable<Reglement>> GetAll()
+        public async Task<ActionResult<IEnumerable<Reglement>>> GetAll()
         {
-            return dataContext.Reglements.ToList();
+            return await dataContext.Reglements.ToListAsync();
         }
 
-        public ActionResult<Reglement> GetByString(string id)
+        public async Task<ActionResult<Reglement>> GetByString(string id)
         {
-            return dataContext.Reglements.FirstOrDefault(u => u.ReglementId.ToUpper() == id.ToUpper());
+            return await dataContext.Reglements.FirstOrDefaultAsync(u => u.ReglementId.ToUpper() == id.ToUpper());
         }
-        public void Add(Reglement entity)
+        public async Task Add(Reglement entity)
         {
-            dataContext.Reglements.Add(entity);
-            dataContext.SaveChanges();
+            await dataContext.Reglements.AddAsync(entity);
+            await dataContext.SaveChangesAsync();
         }
-        public void Update(Reglement reglement, Reglement entity)
+        public async Task Update(Reglement reglement, Reglement entity)
         {
             dataContext.Entry(reglement).State = EntityState.Modified;            
             reglement.ReservationId = entity.ReservationId;
            
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
-        public void Delete(Reglement reglement)
+        public async Task Delete(Reglement reglement)
         {
             dataContext.Reglements.Remove(reglement);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
     }
 }

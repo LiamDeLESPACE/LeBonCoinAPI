@@ -13,21 +13,21 @@ namespace LeBonCoinAPI.DataManager
         {
             dataContext = context;
         }
-        public ActionResult<IEnumerable<Reservation>> GetAll()
+        public async Task<ActionResult<IEnumerable<Reservation>>> GetAll()
         {
-            return dataContext.Reservations.ToList();
+            return await dataContext.Reservations.ToListAsync();
         }
 
-        public ActionResult<Reservation> GetById(int id)
+        public async Task<ActionResult<Reservation>> GetById(int id)
         {
-            return dataContext.Reservations.FirstOrDefault(u => u.ReservationId == id);
+            return await dataContext.Reservations.FirstOrDefaultAsync(u => u.ReservationId == id);
         }
-        public void Add(Reservation entity)
+        public async Task Add(Reservation entity)
         {
-            dataContext.Reservations.Add(entity);
-            dataContext.SaveChanges();
+            await dataContext.Reservations.AddAsync(entity);
+            await dataContext.SaveChangesAsync();
         }
-        public void Update(Reservation reservation, Reservation entity)
+        public async Task Update(Reservation reservation, Reservation entity)
         {
             dataContext.Entry(reservation).State = EntityState.Modified;            
             reservation.AnnonceId = entity.AnnonceId;
@@ -39,12 +39,12 @@ namespace LeBonCoinAPI.DataManager
             reservation.Prenom = entity.Prenom;
             reservation.Telephone = entity.Telephone;            
             
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
-        public void Delete(Reservation reservation)
+        public async Task Delete(Reservation reservation)
         {
             dataContext.Reservations.Remove(reservation);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
     }
 }

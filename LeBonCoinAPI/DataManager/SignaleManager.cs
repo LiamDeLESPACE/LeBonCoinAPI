@@ -13,41 +13,41 @@ namespace LeBonCoinAPI.DataManager
         {
             dataContext = context;
         }
-        public ActionResult<IEnumerable<Signale>> GetAll()
+        public async Task<ActionResult<IEnumerable<Signale>>> GetAll()
         {
-            return dataContext.Signales.ToList();
+            return await dataContext.Signales.ToListAsync();
         }
 
-        public ActionResult<Signale> GetByIds(int idAnnonce, int idProfil)
+        public async Task<ActionResult<Signale>> GetByIds(int idAnnonce, int idProfil)
         {
-            return dataContext.Signales.FirstOrDefault(c => c.AnnonceId == idAnnonce && c.ProfilId == idProfil);
+            return await dataContext.Signales.FirstOrDefaultAsync(c => c.AnnonceId == idAnnonce && c.ProfilId == idProfil);
         }
-        public ActionResult<Signale> GetByIdProfil(int idProfil)
+        public async Task<ActionResult<Signale>> GetByIdProfil(int idProfil)
         {
-            return dataContext.Signales.FirstOrDefault(u => u.ProfilId == idProfil);
-        }
-
-        public ActionResult<Signale> GetByIdAnnonce(int idAnnonce)
-        {
-            return dataContext.Signales.FirstOrDefault(u => u.AnnonceId == idAnnonce);
+            return await dataContext.Signales.FirstOrDefaultAsync(u => u.ProfilId == idProfil);
         }
 
-        public void Add(Signale entity)
+        public async Task<ActionResult<Signale>> GetByIdAnnonce(int idAnnonce)
+        {
+            return await dataContext.Signales.FirstOrDefaultAsync(u => u.AnnonceId == idAnnonce);
+        }
+
+        public async Task Add(Signale entity)
         {
             dataContext.Signales.Add(entity);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
-        public void Update(Signale signale, Signale entity)
+        public async Task Update(Signale signale, Signale entity)
         {
             dataContext.Entry(signale).State = EntityState.Modified;          
             
             
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
-        public void Delete(Signale signale)
+        public async Task Delete(Signale signale)
         {
             dataContext.Signales.Remove(signale);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
     }
 }
