@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
 using LeBonCoinAPI.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
+using LeBonCoinAPI.Models.Repository;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -15,34 +16,55 @@ namespace LeBonCoinAPI.Controllers
     [ApiController]
     public class PossedeEquipementsController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IRepositoryPossedeEquipement<PossedeEquipement> _repositoryPossedeEquipement;
 
-        public PossedeEquipementsController(DataContext context)
+        public PossedeEquipementsController(IRepositoryPossedeEquipement<PossedeEquipement> repository)
         {
-            _context = context;
+            _repositoryPossedeEquipement = repository;
         }
 
         // GET: api/PossedeEquipements
         [HttpGet]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<PossedeEquipement>>> GetPossedeEquipements()
         {
-          if (_context.PossedeEquipements == null)
-          {
-              return NotFound();
-          }
-            return await _context.PossedeEquipements.ToListAsync();
-        }
 
-        // GET: api/PossedeEquipements/5/6
-        [HttpGet("{idAnnonce}/{idEquipement}")]
-        [Authorize(Policy = Policies.all)]
-        public async Task<ActionResult<PossedeEquipement>> GetPossedeEquipement(int idAnnonce, int idEquipement)
-        {
-            if (_context.PossedeEquipements == null)
+            if (_repositoryPossedeEquipement == null)
             {
                 return NotFound();
             }
-            var possedeEquipement = await (from s in _context.PossedeEquipements where s.AnnonceId == idAnnonce && s.EquipementId == idEquipement select s).FirstOrDefaultAsync();
+            return await _repositoryPossedeEquipement.GetAll();
+        }
+
+        // GET: api/PossedeEquipements/5
+        [HttpGet("{idAnnonce}/{idProfil}")]
+        [Authorize(Policy = Policies.admin)]
+        public async Task<ActionResult<PossedeEquipement>> GetPossedeEquipementByIds(int idAnnonce, int idEquipement)
+        {
+            if (_repositoryPossedeEquipement == null)
+            {
+                return NotFound();
+            }
+            var possedeEquipement = await _repositoryPossedeEquipement.GetByIds(idAnnonce, idEquipement);
+
+            if (possedeEquipement == null)
+            {
+                return NotFound();
+            }
+
+            return possedeEquipement;
+        }
+
+        // GET: api/PossedeEquipements/5
+        [HttpGet("{idAnnonce}")]
+        [Authorize(Policy = Policies.all)]
+        public async Task<ActionResult<IEnumerable<PossedeEquipement>>> GetPossedeEquipementByIdAnnonce(int idAnnonce)
+        {
+            if (_repositoryPossedeEquipement == null)
+            {
+                return NotFound();
+            }
+            var possedeEquipement = await _repositoryPossedeEquipement.GetByIdAnnonce(idAnnonce);
 
             if (possedeEquipement == null)
             {
@@ -55,13 +77,13 @@ namespace LeBonCoinAPI.Controllers
         // GET: api/PossedeEquipements/5
         [HttpGet("{idProfil}")]
         [Authorize(Policy = Policies.all)]
-        public async Task<ActionResult<List<PossedeEquipement>>> GetPossedeEquipementOfAnnonce(int idAnnonce)
+        public async Task<ActionResult<IEnumerable<PossedeEquipement>>> GetPossedeEquipementByIdEquipement(int idEquipement)
         {
-            if (_context.PossedeEquipements == null)
+            if (_repositoryPossedeEquipement == null)
             {
                 return NotFound();
             }
-            var possedeEquipement = await (from s in _context.PossedeEquipements where s.AnnonceId == idAnnonce select s).ToListAsync();
+            var possedeEquipement = await _repositoryPossedeEquipement.GetByIdEquipement(idEquipement);
 
             if (possedeEquipement == null)
             {
@@ -71,31 +93,14 @@ namespace LeBonCoinAPI.Controllers
             return possedeEquipement;
         }
 
-        // GET: api/PossedeEquipements/5
-        [HttpGet("{idProfil}")]
-        [Authorize(Policy = Policies.all)]
-        public async Task<ActionResult<List<PossedeEquipement>>> GetPossedeEquipementOfEquipement(int idEquipement)
-        {
-            if (_context.PossedeEquipements == null)
-            {
-                return NotFound();
-            }
-            var possedeEquipement = await (from s in _context.PossedeEquipements where s.EquipementId == idEquipement select s).ToListAsync();
-
-            if (possedeEquipement == null)
-            {
-                return NotFound();
-            }
-
-            return possedeEquipement;
-        }
-
+        /*
         // PUT: api/PossedeEquipements/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPossedeEquipement(int id, PossedeEquipement possedeEquipement)
+        [Authorize(Policy = Policies.admin)]
+        public async Task<IActionResult> PutPossedeEquipement(int idAnnonce, int idProfil, PossedeEquipement possedeEquipement)
         {
-            if (id != possedeEquipement.AnnonceId)
+            if (idAnnonce != possedeEquipement.AnnonceId || idProfil != possedeEquipement.ProfilId)
             {
                 return BadRequest();
             }
@@ -119,60 +124,41 @@ namespace LeBonCoinAPI.Controllers
             }
 
             return NoContent();
-        }
+        }*/
 
         // POST: api/PossedeEquipements
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<PossedeEquipement>> PostPossedeEquipement(PossedeEquipement possedeEquipement)
         {
-          if (_context.PossedeEquipements == null)
-          {
-              return Problem("Entity set 'DataContext.PossedeEquipements'  is null.");
-          }
-            _context.PossedeEquipements.Add(possedeEquipement);
-            try
+            if (_repositoryPossedeEquipement == null)
             {
-                await _context.SaveChangesAsync();
+                return Problem("Repository is null.");
             }
-            catch (DbUpdateException)
-            {
-                if (PossedeEquipementExists(possedeEquipement.AnnonceId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _repositoryPossedeEquipement.Add(possedeEquipement);
 
-            return CreatedAtAction("GetPossedeEquipement", new { id = possedeEquipement.AnnonceId }, possedeEquipement);
+            return CreatedAtAction("GetPossedeEquipement", new { idAnnonce = possedeEquipement.AnnonceId, idEquipement = possedeEquipement.EquipementId }, possedeEquipement);
         }
 
         // DELETE: api/PossedeEquipements/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePossedeEquipement(int id)
+        [HttpDelete("{idAnnonce}/{idProfil}")]
+        [Authorize(Policy = Policies.admin)]
+        public async Task<IActionResult> DeletePossedeEquipement(int idAnnonce, int idProfil)
         {
-            if (_context.PossedeEquipements == null)
+            if (_repositoryPossedeEquipement == null)
             {
                 return NotFound();
             }
-            var possedeEquipement = await _context.PossedeEquipements.FindAsync(id);
-            if (possedeEquipement == null)
+            var possedeEquipement = await _repositoryPossedeEquipement.GetByIds(idAnnonce, idProfil);
+            if (possedeEquipement.Value == null)
             {
                 return NotFound();
             }
 
-            _context.PossedeEquipements.Remove(possedeEquipement);
-            await _context.SaveChangesAsync();
+            await _repositoryPossedeEquipement.Delete(possedeEquipement.Value);
 
             return NoContent();
-        }
-
-        private bool PossedeEquipementExists(int id)
-        {
-            return (_context.PossedeEquipements?.Any(e => e.AnnonceId == id)).GetValueOrDefault();
         }
     }
 }

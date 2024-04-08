@@ -108,9 +108,9 @@ namespace LeBonCoinAPI.Controllers
             return NoContent();
         }
 
-        private bool TypeEquipementExists(int id)
+        /*private bool TypeEquipementExists(int id)
         {
             return (_context.TypeEquipements?.Any(e => e.TypeEquipementId == id)).GetValueOrDefault();
-        }
+        }*/
     }
 }

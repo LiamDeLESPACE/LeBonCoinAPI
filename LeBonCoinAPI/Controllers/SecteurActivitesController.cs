@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
 using LeBonCoinAPI.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
+using LeBonCoinAPI.Models.Repository;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -16,33 +17,31 @@ namespace LeBonCoinAPI.Controllers
     [Authorize(Policy = Policies.admin)]
     public class SecteurActivitesController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IRepository<SecteurActivite> repositorySecteurActivite;
 
-        public SecteurActivitesController(DataContext context)
+        public SecteurActivitesController(IRepository<SecteurActivite> repoSecteurActivite)
         {
-            _context = context;
+            repositorySecteurActivite = repoSecteurActivite;
         }
 
         // GET: api/SecteurActivites
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SecteurActivite>>> GetSecteurActivites()
         {
-          if (_context.SecteurActivites == null)
-          {
-              return NotFound();
-          }
-            return await _context.SecteurActivites.ToListAsync();
+            var res = await repositorySecteurActivite.GetAll();
+            if (res == null)
+            {
+                return NotFound();
+            }
+            return res;
         }
 
         // GET: api/SecteurActivites/5
         [HttpGet("{id}")]
         public async Task<ActionResult<SecteurActivite>> GetSecteurActivite(int id)
         {
-          if (_context.SecteurActivites == null)
-          {
-              return NotFound();
-          }
-            var secteurActivite = await _context.SecteurActivites.FindAsync(id);
+
+            var secteurActivite = await repositorySecteurActivite.GetById(id);
 
             if (secteurActivite == null)
             {
@@ -62,25 +61,17 @@ namespace LeBonCoinAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(secteurActivite).State = EntityState.Modified;
-
-            try
+            var secteurActiviteToUpdate = await repositorySecteurActivite.GetById(id);
+            if (secteurActiviteToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!SecteurActiviteExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await repositorySecteurActivite.Update(secteurActiviteToUpdate.Value, secteurActivite);
+                return NoContent();
             }
 
-            return NoContent();
         }
 
         // POST: api/SecteurActivites
@@ -88,26 +79,12 @@ namespace LeBonCoinAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<SecteurActivite>> PostSecteurActivite(SecteurActivite secteurActivite)
         {
-          if (_context.SecteurActivites == null)
-          {
-              return Problem("Entity set 'DataContext.SecteurActivites'  is null.");
-          }
-            _context.SecteurActivites.Add(secteurActivite);
-            try
+            if (await repositorySecteurActivite.GetAll() == null)
             {
-                await _context.SaveChangesAsync();
+                return Problem("Entity set 'DataContext.SecteurActivites'  is null.");
             }
-            catch (DbUpdateException)
-            {
-                if (SecteurActiviteExists(secteurActivite.SecteurId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await repositorySecteurActivite.Add(secteurActivite);
+
 
             return CreatedAtAction("GetSecteurActivite", new { id = secteurActivite.SecteurId }, secteurActivite);
         }
@@ -116,25 +93,19 @@ namespace LeBonCoinAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSecteurActivite(int id)
         {
-            if (_context.SecteurActivites == null)
+            if (await repositorySecteurActivite.GetAll() == null)
             {
                 return NotFound();
             }
-            var secteurActivite = await _context.SecteurActivites.FindAsync(id);
+            var secteurActivite = await repositorySecteurActivite.GetById(id);
             if (secteurActivite == null)
             {
                 return NotFound();
             }
 
-            _context.SecteurActivites.Remove(secteurActivite);
-            await _context.SaveChangesAsync();
+            await repositorySecteurActivite.Delete(secteurActivite.Value);
 
             return NoContent();
-        }
-
-        private bool SecteurActiviteExists(int id)
-        {
-            return (_context.SecteurActivites?.Any(e => e.SecteurId == id)).GetValueOrDefault();
         }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
 using LeBonCoinAPI.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
+using LeBonCoinAPI.Models.Repository;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -18,33 +19,31 @@ namespace LeBonCoinAPI.Controllers
     {
 #warning touche pas à ça !!!!!
 
-        private readonly DataContext _context;
+        private readonly IRepository<Profil> repositoryProfil;
 
-        public ProfilsController(DataContext context)
+        public ProfilsController(IRepository<Profil> repoProfil)
         {
-            _context = context;
+            repositoryProfil = repoProfil;
         }
 
         // GET: api/Profils
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Profil>>> GetProfils()
         {
-          if (_context.Profils == null)
-          {
-              return NotFound();
-          }
-            return await _context.Profils.ToListAsync();
+            var res = await repositoryProfil.GetAll();
+            if (res == null)
+            {
+                return NotFound();
+            }
+            return res;
         }
 
         // GET: api/Profils/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Profil>> GetProfil(int id)
         {
-          if (_context.Profils == null)
-          {
-              return NotFound();
-          }
-            var profil = await _context.Profils.FindAsync(id);
+
+            var profil = await repositoryProfil.GetById(id);
 
             if (profil == null)
             {
@@ -64,25 +63,17 @@ namespace LeBonCoinAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(profil).State = EntityState.Modified;
-
-            try
+            var profilToUpdate = await repositoryProfil.GetById(id);
+            if (profilToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!ProfilExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await repositoryProfil.Update(profilToUpdate.Value, profil);
+                return NoContent();
             }
 
-            return NoContent();
         }
 
         // POST: api/Profils
@@ -90,26 +81,12 @@ namespace LeBonCoinAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Profil>> PostProfil(Profil profil)
         {
-          if (_context.Profils == null)
-          {
-              return Problem("Entity set 'DataContext.Profils'  is null.");
-          }
-            _context.Profils.Add(profil);
-            try
+            if (await repositoryProfil.GetAll() == null)
             {
-                await _context.SaveChangesAsync();
+                return Problem("Entity set 'DataContext.Profils'  is null.");
             }
-            catch (DbUpdateException)
-            {
-                if (ProfilExists(profil.ProfilId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await repositoryProfil.Add(profil);
+
 
             return CreatedAtAction("GetProfil", new { id = profil.ProfilId }, profil);
         }
@@ -118,25 +95,19 @@ namespace LeBonCoinAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProfil(int id)
         {
-            if (_context.Profils == null)
+            if (await repositoryProfil.GetAll() == null)
             {
                 return NotFound();
             }
-            var profil = await _context.Profils.FindAsync(id);
+            var profil = await repositoryProfil.GetById(id);
             if (profil == null)
             {
                 return NotFound();
             }
 
-            _context.Profils.Remove(profil);
-            await _context.SaveChangesAsync();
+            await repositoryProfil.Delete(profil.Value);
 
             return NoContent();
-        }
-
-        private bool ProfilExists(int id)
-        {
-            return (_context.Profils?.Any(e => e.ProfilId == id)).GetValueOrDefault();
         }
     }
 }

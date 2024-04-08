@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
 using LeBonCoinAPI.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
+using LeBonCoinAPI.Models.Repository;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -16,33 +17,31 @@ namespace LeBonCoinAPI.Controllers
     [Authorize(Policy = Policies.admin)]
     public class ReglementsController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IRepositoryReglement<Reglement> repositoryReglement;
 
-        public ReglementsController(DataContext context)
+        public ReglementsController(IRepositoryReglement<Reglement> repoReglement)
         {
-            _context = context;
+            repositoryReglement = repoReglement;
         }
 
         // GET: api/Reglements
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Reglement>>> GetReglements()
         {
-          if (_context.Reglements == null)
-          {
-              return NotFound();
-          }
-            return await _context.Reglements.ToListAsync();
+            var res = await repositoryReglement.GetAll();
+            if (res == null)
+            {
+                return NotFound();
+            }
+            return res;
         }
 
         // GET: api/Reglements/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Reglement>> GetReglement(string id)
         {
-          if (_context.Reglements == null)
-          {
-              return NotFound();
-          }
-            var reglement = await _context.Reglements.FindAsync(id);
+
+            var reglement = await repositoryReglement.GetByString(id);
 
             if (reglement == null)
             {
@@ -62,25 +61,17 @@ namespace LeBonCoinAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(reglement).State = EntityState.Modified;
-
-            try
+            var reglementToUpdate = await repositoryReglement.GetByString(id);
+            if (reglementToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!ReglementExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await repositoryReglement.Update(reglementToUpdate.Value, reglement);
+                return NoContent();
             }
 
-            return NoContent();
         }
 
         // POST: api/Reglements
@@ -88,26 +79,12 @@ namespace LeBonCoinAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Reglement>> PostReglement(Reglement reglement)
         {
-          if (_context.Reglements == null)
-          {
-              return Problem("Entity set 'DataContext.Reglements'  is null.");
-          }
-            _context.Reglements.Add(reglement);
-            try
+            if (await repositoryReglement.GetAll() == null)
             {
-                await _context.SaveChangesAsync();
+                return Problem("Entity set 'DataContext.Reglements'  is null.");
             }
-            catch (DbUpdateException)
-            {
-                if (ReglementExists(reglement.ReglementId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await repositoryReglement.Add(reglement);
+
 
             return CreatedAtAction("GetReglement", new { id = reglement.ReglementId }, reglement);
         }
@@ -116,25 +93,19 @@ namespace LeBonCoinAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReglement(string id)
         {
-            if (_context.Reglements == null)
+            if (await repositoryReglement.GetAll() == null)
             {
                 return NotFound();
             }
-            var reglement = await _context.Reglements.FindAsync(id);
+            var reglement = await repositoryReglement.GetByString(id);
             if (reglement == null)
             {
                 return NotFound();
             }
 
-            _context.Reglements.Remove(reglement);
-            await _context.SaveChangesAsync();
+            await repositoryReglement.Delete(reglement.Value);
 
             return NoContent();
-        }
-
-        private bool ReglementExists(string id)
-        {
-            return (_context.Reglements?.Any(e => e.ReglementId == id)).GetValueOrDefault();
         }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
 using LeBonCoinAPI.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
+using LeBonCoinAPI.Models.Repository;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -15,35 +16,31 @@ namespace LeBonCoinAPI.Controllers
     [ApiController]
     public class ReservationsController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IRepository<Reservation> repositoryReservation;
 
-        public ReservationsController(DataContext context)
+        public ReservationsController(IRepository<Reservation> repoReservation)
         {
-            _context = context;
+            repositoryReservation = repoReservation;
         }
 
         // GET: api/Reservations
         [HttpGet]
-        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<Reservation>>> GetReservations()
         {
-          if (_context.Reservations == null)
-          {
-              return NotFound();
-          }
-            return await _context.Reservations.ToListAsync();
+            var res = await repositoryReservation.GetAll();
+            if (res == null)
+            {
+                return NotFound();
+            }
+            return res;
         }
 
         // GET: api/Reservations/5
         [HttpGet("{id}")]
-        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Reservation>> GetReservation(int id)
         {
-          if (_context.Reservations == null)
-          {
-              return NotFound();
-          }
-            var reservation = await _context.Reservations.FindAsync(id);
+
+            var reservation = await repositoryReservation.GetById(id);
 
             if (reservation == null)
             {
@@ -56,7 +53,6 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Reservations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> PutReservation(int id, Reservation reservation)
         {
             if (id != reservation.ReservationId)
@@ -64,81 +60,51 @@ namespace LeBonCoinAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(reservation).State = EntityState.Modified;
-
-            try
+            var reservationToUpdate = await repositoryReservation.GetById(id);
+            if (reservationToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!ReservationExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await repositoryReservation.Update(reservationToUpdate.Value, reservation);
+                return NoContent();
             }
 
-            return NoContent();
         }
 
         // POST: api/Reservations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Reservation>> PostReservation(Reservation reservation)
         {
-          if (_context.Reservations == null)
-          {
-              return Problem("Entity set 'DataContext.Reservations'  is null.");
-          }
-            _context.Reservations.Add(reservation);
-            try
+            if (await repositoryReservation.GetAll() == null)
             {
-                await _context.SaveChangesAsync();
+                return Problem("Entity set 'DataContext.Reservations'  is null.");
             }
-            catch (DbUpdateException)
-            {
-                if (ReservationExists(reservation.ReservationId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await repositoryReservation.Add(reservation);
+
 
             return CreatedAtAction("GetReservation", new { id = reservation.ReservationId }, reservation);
         }
 
         // DELETE: api/Reservations/5
         [HttpDelete("{id}")]
-        [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> DeleteReservation(int id)
         {
-            if (_context.Reservations == null)
+            if (await repositoryReservation.GetAll() == null)
             {
                 return NotFound();
             }
-            var reservation = await _context.Reservations.FindAsync(id);
+            var reservation = await repositoryReservation.GetById(id);
             if (reservation == null)
             {
                 return NotFound();
             }
 
-            _context.Reservations.Remove(reservation);
-            await _context.SaveChangesAsync();
+            await repositoryReservation.Delete(reservation.Value);
 
             return NoContent();
-        }
-
-        private bool ReservationExists(int id)
-        {
-            return (_context.Reservations?.Any(e => e.ReservationId == id)).GetValueOrDefault();
         }
     }
 }

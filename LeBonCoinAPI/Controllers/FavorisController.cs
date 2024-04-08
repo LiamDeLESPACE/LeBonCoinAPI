@@ -66,7 +66,7 @@ namespace LeBonCoinAPI.Controllers
             return favoris;
         }
 
-        // PUT: api/Favoris/5
+        /*// PUT: api/Favoris/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{idProfil}/idReservation")]
         [Authorize(Policy = Policies.all)]
@@ -90,7 +90,7 @@ namespace LeBonCoinAPI.Controllers
             }
 
 
-        }
+        }*/
 
         // POST: api/Favoris
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
