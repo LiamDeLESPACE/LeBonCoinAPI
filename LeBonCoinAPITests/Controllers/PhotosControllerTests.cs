@@ -88,21 +88,6 @@ namespace LeBonCoinAPI.Controllers.Tests
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Photo>), "Pas un ActionResult");
             Assert.IsNull(result.Result.Value, "Photo pas null");
         }
-        //Pas sur de la pertinence de ce test, si vous pensez que c'est le cas décommentez mais faites attention aux ID
-        /*[TestMethod()]
-        public void GetPhotos_ReturnsRightItems()
-        {
-
-            //Act
-            var result = _controller.GetPhotos();
-
-            //Assert
-            Assert.IsInstanceOfType(result.Result, typeof(ActionResult<IEnumerable<Photo>>), "Pas un ActionResult");
-            ActionResult<IEnumerable<Photo>> actionResult = result.Result as ActionResult<IEnumerable<Photo>>;
-            Assert.IsNotNull(actionResult, "ActionResult null");
-            Assert.IsNotNull(actionResult.Value, "Valeur nulle");
-            CollectionAssert.AreEqual(testListe, actionResult.Value.Where(s => s.PhotoId <= 2).ToList(), "Pas les mêmes Photos");
-        }*/
 
         [TestMethod()]
         public void PostPhoto_ModelValidated_CreationOK()
@@ -121,7 +106,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         }
         [TestMethod()]
-        public void PostPhoto_CodeInsee_CreationFailed()
+        public void PostPhoto_CreationFailed()
         {
 
             //Act

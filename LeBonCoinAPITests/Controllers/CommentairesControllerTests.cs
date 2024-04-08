@@ -17,7 +17,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 {
     [TestClass()]
     public class CommentairesControllerTests
-    {/*
+    {
         private CommentairesController _controller;
 
         private Mock<DataContext> _context;
@@ -107,7 +107,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         }
         [TestMethod()]
-        public void PostCommentaire_CodeInsee_CreationFailed()
+        public void PostCommentaire_CreationFailed()
         {
 
             //Act
@@ -162,6 +162,6 @@ namespace LeBonCoinAPI.Controllers.Tests
             //Assert
             Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Commentaire>), "Pas un ActionResult");
             Assert.IsNull(resultDest.Result, "Commentaire pas null");
-        }*/
+        }
     }
 }

@@ -8,67 +8,184 @@ using System.Threading.Tasks;
 using LeBonCoinAPI.Models.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
+using Moq;
+using Azure;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Data;
+using LeBonCoinAPI.Models.Repository;
+using Moq;
+using LeBonCoinAPI.DataManager;
 
 namespace LeBonCoinAPI.Controllers.Tests
 {
     [TestClass()]
     public class CarteBancairesControllerTests
     {
+
         private CarteBancairesController _controller;
-
         private DataContext _context;
+        private IRepositoryCarteBancaire<Departement> _dataRepository;
 
-        [TestMethod()]
-        public void CarteBancairesControllerTest()
+        //Arrange
+        CarteBancaire carteBancaire;
+        List<CarteBancaire> testListe;
+
+        public CarteBancairesControllerTests()
         {
-            /*var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server = localhost; port = 5432; Database = LeBonCoinSAE; uid = postgres; password = postgres;");
-            _context = new DataContext();
-            _controller = new CarteBancairesController(_context);*/
+            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=51.83.36.122; port=5432; Database=sa23; uid=sa23; password=idkY3t?; SearchPath=sae;");
+            _context = new DataContext(builder.Options);
+            _dataRepository = new CarteBancaireManager(_context);
+            _controller = new CarteBancairesController(_dataRepository);
+        }
+
+        [TestInitialize]
+        public void InitialisationDesTests()
+        {
+            // Rajouter les initialisations exécutées avant chaque test
+            carteBancaire = new CarteBancaire { CarteId=1, ProfilId=2, Numero= "4556173923578293" };
+
+            testListe = new List<CarteBancaire>();
+            testListe.Add(carteBancaire);
+            testListe.Add(new CarteBancaire { CarteId = 2, ProfilId = 5, Numero = "4903422675465567" });
 
         }
 
         [TestMethod()]
-        public void GetCarteBancairesTest()
+        public void GetCarteBancaire_ExistingIdPassed_ReturnsRightItem()
         {
 
+            //Act
+            var mockRepository = new Mock<IRepositoryCarteBancaire<CarteBancaire>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new CarteBancairesController(mockRepository.Object);
+
+            var result = _controller.GetCarteBancaire(27);
+
+            //Assert
+            Assert.IsInstanceOfType(result.Result, typeof(ActionResult<CarteBancaire>), "Pas un ActionResult");
+
+            var actionResult = result.Result as ActionResult<CarteBancaire>;
+
+            //Assert
+            Assert.IsNotNull(actionResult, "ActionResult null");
+            Assert.IsNotNull(actionResult.Value, "Valeur nulle");
+            Assert.IsInstanceOfType(actionResult.Value, typeof(CarteBancaire), "Pas une CarteBancaire");
+            Assert.AreEqual(carteBancaire, (CarteBancaire)actionResult.Value, "CarteBancaire pas identiques");
         }
 
         [TestMethod()]
-        public void GetCarteBancaireTest()
+        public void GetCarteBancaire_UnknownIdPassed_ReturnsNotFoundResult()
         {
+            //Act
+            var mockRepository = new Mock<IRepositoryCarteBancaire<CarteBancaire>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new CarteBancairesController(mockRepository.Object);
 
+            var result = _controller.GetCarteBancaire(0);
+
+            //Assert
+            Assert.IsInstanceOfType(result.Result, typeof(ActionResult<CarteBancaire>), "Pas un ActionResult");
+            Assert.IsNull(result.Result.Value, "CarteBancaire pas null");
         }
 
         [TestMethod()]
-        public void PutCarteBancaireTest()
+        public void GetCarteBancaires_ReturnsRightItems()
         {
 
+            //Act
+            var mockRepository = new Mock<IRepositoryCarteBancaire<CarteBancaire>>();
+            mockRepository.Setup(x => x.GetAll()).Returns(testListe);
+            var userController = new CarteBancairesController(mockRepository.Object);
+
+            var result = _controller.GetCarteBancaires();
+
+            //Assert
+            Assert.IsInstanceOfType(result.Result, typeof(ActionResult<IEnumerable<CarteBancaire>>), "Pas un ActionResult");
+            ActionResult<IEnumerable<CarteBancaire>> actionResult = result.Result as ActionResult<IEnumerable<CarteBancaire>>;
+            Assert.IsNotNull(actionResult, "ActionResult null");
+            Assert.IsNotNull(actionResult.Value, "Valeur nulle");
+            CollectionAssert.AreEqual(testListe, actionResult.Value.Where(s => s.ProfilId <=2).ToList(), "Pas les mêmes CarteBancaires");
         }
 
         [TestMethod()]
         public void PostCarteBancaire_ModelValidated_CreationOK()
         {
-            // Arrange
-            CarteBancaire cb1 = new CarteBancaire(20, "4903422675465567");
+            var mockRepository = new Mock<IRepositoryCarteBancaire<CarteBancaire>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new CarteBancairesController(mockRepository.Object);
+            //Act
+            var result = _controller.PostCarteBancaire(carteBancaire).Result;
 
-
-            // Act
-            var result = _controller.PostCarteBancaire(cb1).Result; // Result pour appeler la méthode async de manière synchrone, afin d'obtenir le résultat
-
-            // Assert
-            Assert.IsInstanceOfType(result, typeof(ActionResult<CarteBancaire>), "Pas un ActionResult<CarteBancaire>");
+            //Assert
+            Assert.IsInstanceOfType(result, typeof(ActionResult<CarteBancaire>), "Pas un ActionResult");
             Assert.IsInstanceOfType(result.Result, typeof(CreatedAtActionResult), "Pas un CreatedAtActionResult");
             var actionResult = result.Result as CreatedAtActionResult;
             Assert.IsInstanceOfType(actionResult.Value, typeof(CarteBancaire), "Pas une CarteBancaire");
-            cb1.CarteId = ((CarteBancaire)actionResult.Value).CarteId;
-            Assert.AreEqual(cb1, (CarteBancaire)actionResult.Value, "CarteBancaires pas identiques");
+            carteBancaire.Numero = ((CarteBancaire)actionResult.Value).Numero;
+            Assert.AreEqual(carteBancaire, (CarteBancaire)actionResult.Value, "CarteBancaires pas identiques");
+
+        }
+        [TestMethod()]
+        public void PostCarteBancaire_CreationFailed()
+        {
+            var mockRepository = new Mock<IRepositoryCarteBancaire<CarteBancaire>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new CarteBancairesController(mockRepository.Object);
+
+            //Act
+            var result = _controller.PostCarteBancaire(carteBancaire).Result;
+
+            //Assert
+            Assert.IsNotInstanceOfType(result.Result, typeof(CarteBancaire), "Pas un CreatedAtActionResult");
+
+        }
+
+        [TestMethod()]
+        public async Task Put_WithInvalidId_ReturnsBadRequest()
+        {
+            var mockRepository = new Mock<IRepositoryCarteBancaire<CarteBancaire>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new CarteBancairesController(mockRepository.Object);
+
+            // Arrange
+            int id = 27;//Mauvais ID
+
+            // Act
+            var result = await _controller.PutCarteBancaire(id, carteBancaire);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+        }
+
+        [TestMethod()]
+        public async Task Put_WithValidId_ReturnsNoContent()
+        {
+            var mockRepository = new Mock<IRepositoryCarteBancaire<CarteBancaire>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new CarteBancairesController(mockRepository.Object);
+
+            int id = 1; //BonID
+
+            // Act
+            var result = await _controller.PutCarteBancaire(id, carteBancaire);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(NoContentResult));
         }
 
         [TestMethod()]
         public void DeleteCarteBancaireTest()
         {
+            var mockRepository = new Mock<IRepositoryCarteBancaire<CarteBancaire>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new CarteBancairesController(mockRepository.Object);
 
+            //Act
+            var resultDest = _controller.DeleteCarteBancaire(1);
+
+            //Assert
+            Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<CarteBancaire>), "Pas un ActionResult");
+            Assert.IsNull(resultDest.Result, "CarteBancaire pas null");
         }
     }
 }

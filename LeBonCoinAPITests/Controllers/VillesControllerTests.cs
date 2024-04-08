@@ -107,7 +107,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         }
         [TestMethod()]
-        public void PostVille_CodeInsee_CreationFailed()
+        public void PostVille_CreationFailed()
         {
 
             //Act
