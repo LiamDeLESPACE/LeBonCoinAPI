@@ -12,15 +12,20 @@ using System.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
 using Castle.Components.DictionaryAdapter.Xml;
 using Moq;
+using LeBonCoinAPI.DataManager;
 
 namespace LeBonCoinAPI.Controllers.Tests
 {
     [TestClass()]
     public class DepartementsControllerTests
     {
-        private DepartementsController _controller;
+        //private DepartementsController _controller;
 
-        private Mock<DataContext> _context;
+        //private Mock<DataContext> _context;
+
+        private DepartementsController _controller;
+        private DataContext _context;
+        private IRepositoryDepartement<Departement> _dataRepository;
 
         //Arrange
         Departement Departement;
@@ -28,9 +33,10 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         public DepartementsControllerTests()
         {
-            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=localhost; port=5432; Database=LeBonCoinSAE; uid=postgres; password=postgres;");
-            _context = new Mock<DataContext>();
-            _controller = new DepartementsController(_context.Object);
+            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=51.83.36.122; port=5432; Database=sa23; uid=sa23; password=idkY3t?; SearchPath=sae;");
+            _context = new DataContext(builder.Options);
+            _dataRepository = new DepartementManager(_context);
+            _controller = new DepartementsController(_dataRepository);
         }
 
         [TestInitialize]
@@ -53,7 +59,9 @@ namespace LeBonCoinAPI.Controllers.Tests
             //Act
             var mockRepository = new Mock<IRepositoryDepartement<Departement>>();
             mockRepository.Setup(x => x.GetByString("1")).Returns(testListe[0]);
-            var result = _controller.GetDepartement("1");
+            var userController = new DepartementsController(mockRepository.Object);
+            
+            var result = userController.GetDepartement("1");
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Departement>), "Pas un ActionResult");
@@ -64,7 +72,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             Assert.IsNotNull(actionResult, "ActionResult null");
             Assert.IsNotNull(actionResult.Value, "Valeur nulle");
             Assert.IsInstanceOfType(actionResult.Value, typeof(Departement), "Pas une Departement");
-            Assert.AreEqual(Departement, (Departement)actionResult.Value, "Departement pas identiques");
+            Assert.AreEqual(testListe[0], actionResult.Value as Departement, "Departement pas identiques");
         }
 
         [TestMethod()]
