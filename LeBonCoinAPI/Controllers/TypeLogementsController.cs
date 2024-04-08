@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
 using LeBonCoinAPI.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
+using LeBonCoinAPI.Models.Repository;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -16,33 +17,34 @@ namespace LeBonCoinAPI.Controllers
     [Authorize(Policy = Policies.admin)]
     public class TypeLogementsController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IRepository<TypeLogement> _tlRepository;
 
-        public TypeLogementsController(DataContext context)
+        public TypeLogementsController(IRepository<TypeLogement> repository)
         {
-            _context = context;
+            _tlRepository = repository;
         }
 
         // GET: api/TypeLogements
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TypeLogement>>> GetTypeLogements()
         {
-          if (_context.TypeLogements == null)
+
+          if (_tlRepository == null)
           {
               return NotFound();
           }
-            return await _context.TypeLogements.ToListAsync();
+            return await _tlRepository.GetAll();
         }
 
         // GET: api/TypeLogements/5
         [HttpGet("{id}")]
         public async Task<ActionResult<TypeLogement>> GetTypeLogement(int id)
         {
-          if (_context.TypeLogements == null)
+          if (_tlRepository == null)
           {
               return NotFound();
           }
-            var typeLogement = await _context.TypeLogements.FindAsync(id);
+            var typeLogement = await _tlRepository.GetById(id);
 
             if (typeLogement == null)
             {
@@ -62,23 +64,12 @@ namespace LeBonCoinAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(typeLogement).State = EntityState.Modified;
+            var tl = await _tlRepository.GetById(id);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TypeLogementExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            if (tl.Value == null)
+                return NotFound();
+
+            await _tlRepository.Update(tl.Value, typeLogement);
 
             return NoContent();
         }
@@ -88,26 +79,11 @@ namespace LeBonCoinAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<TypeLogement>> PostTypeLogement(TypeLogement typeLogement)
         {
-          if (_context.TypeLogements == null)
+          if (_tlRepository == null)
           {
-              return Problem("Entity set 'DataContext.TypeLogements'  is null.");
+              return Problem("Repository is null.");
           }
-            _context.TypeLogements.Add(typeLogement);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (TypeLogementExists(typeLogement.TypeLogementId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _tlRepository.Add(typeLogement);
 
             return CreatedAtAction("GetTypeLogement", new { id = typeLogement.TypeLogementId }, typeLogement);
         }
@@ -116,25 +92,24 @@ namespace LeBonCoinAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTypeLogement(int id)
         {
-            if (_context.TypeLogements == null)
+            if (_tlRepository == null)
             {
-                return NotFound();
+                return Problem("Repository is null.");
             }
-            var typeLogement = await _context.TypeLogements.FindAsync(id);
-            if (typeLogement == null)
+            var typeLogement = await _tlRepository.GetById(id);
+            if (typeLogement.Value == null)
             {
                 return NotFound();
             }
 
-            _context.TypeLogements.Remove(typeLogement);
-            await _context.SaveChangesAsync();
+            await _tlRepository.Delete(typeLogement.Value);
 
             return NoContent();
         }
 
-        private bool TypeLogementExists(int id)
+        /*private bool TypeLogementExists(int id)
         {
             return (_context.TypeLogements?.Any(e => e.TypeLogementId == id)).GetValueOrDefault();
-        }
+        }*/
     }
 }
