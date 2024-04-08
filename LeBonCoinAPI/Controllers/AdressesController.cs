@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
 using LeBonCoinAPI.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
+using LeBonCoinAPI.Models.Repository;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -15,11 +16,11 @@ namespace LeBonCoinAPI.Controllers
     [ApiController]
     public class AdressesController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IRepositoryAdresse<Adresse> repositoryAdresse;
 
-        public AdressesController(DataContext context)
+        public AdressesController(IRepositoryAdresse<Adresse> repoAdresse)
         {
-            _context = context;
+            repositoryAdresse = repoAdresse;
         }
 
         // GET: api/Adresses

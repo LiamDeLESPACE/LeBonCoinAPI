@@ -20,9 +20,9 @@ namespace LeBonCoinAPI.Controllers
 
         private readonly IRepositoryAdmin<Admin> repositoryAdmin;
 
-        public AdminsController(IRepositoryAdmin<Admin> dataRepo)
+        public AdminsController(IRepositoryAdmin<Admin> repoAdmin)
         {
-            repositoryAdmin = dataRepo;
+            repositoryAdmin = repoAdmin;
         }
 
         // GET: api/Admins
@@ -101,12 +101,12 @@ namespace LeBonCoinAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Admin>> PostAdmin(Admin admin)
         {
-          if (_context.Admins == null)
+          if (repositoryAdmin.GetAll() == null)
           {
               return Problem("Entity set 'DataContext.Admins'  is null.");
           }
-            _context.Admins.Add(admin);
-            try
+            repositoryAdmin.Add(admin);
+            /*try
             {
                 await _context.SaveChangesAsync();
             }
@@ -120,7 +120,7 @@ namespace LeBonCoinAPI.Controllers
                 {
                     throw;
                 }
-            }
+            }*/
 
             return CreatedAtAction("GetAdmin", new { id = admin.ProfilId }, admin);
         }
@@ -129,25 +129,24 @@ namespace LeBonCoinAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAdmin(int id)
         {
-            if (_context.Admins == null)
+            if (repositoryAdmin.GetAll() == null)
             {
                 return NotFound();
             }
-            var admin = await _context.Admins.FindAsync(id);
+            var admin = repositoryAdmin.GetById(id);
             if (admin == null)
             {
                 return NotFound();
             }
 
-            _context.Admins.Remove(admin);
-            await _context.SaveChangesAsync();
+            repositoryAdmin.Delete(admin.Value);
 
             return NoContent();
         }
 
-        private bool AdminExists(int id)
+        /*private bool AdminExists(int id)
         {
             return (_context.Admins?.Any(e => e.ProfilId == id)).GetValueOrDefault();
-        }
+        }*/
     }
 }
