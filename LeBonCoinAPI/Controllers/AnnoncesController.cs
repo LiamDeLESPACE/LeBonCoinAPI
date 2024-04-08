@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
 using LeBonCoinAPI.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
+using LeBonCoinAPI.Models.Repository;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -15,35 +16,31 @@ namespace LeBonCoinAPI.Controllers
     [ApiController]
     public class AnnoncesController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IRepository<Annonce> repositoryAnnonce;
 
-        public AnnoncesController(DataContext context)
+        public AnnoncesController(IRepository<Annonce> repoAnnonce)
         {
-            _context = context;
+            repositoryAnnonce = repoAnnonce;
         }
 
         // GET: api/Annonces
         [HttpGet]
-        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Annonce>>> GetAnnonces()
         {
-          if (_context.Annonces == null)
-          {
-              return NotFound();
-          }
-            return await _context.Annonces.ToListAsync();
+            var res = await repositoryAnnonce.GetAll();
+            if (res == null)
+            {
+                return NotFound();
+            }
+            return res;
         }
 
         // GET: api/Annonces/5
         [HttpGet("{id}")]
-        [AllowAnonymous]
         public async Task<ActionResult<Annonce>> GetAnnonce(int id)
         {
-          if (_context.Annonces == null)
-          {
-              return NotFound();
-          }
-            var annonce = await _context.Annonces.FindAsync(id);
+
+            var annonce = await repositoryAnnonce.GetById(id);
 
             if (annonce == null)
             {
@@ -56,7 +53,6 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Annonces/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> PutAnnonce(int id, Annonce annonce)
         {
             if (id != annonce.AnnonceId)
@@ -64,81 +60,51 @@ namespace LeBonCoinAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(annonce).State = EntityState.Modified;
-
-            try
+            var annonceToUpdate = await repositoryAnnonce.GetById(id);
+            if (annonceToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!AnnonceExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await repositoryAnnonce.Update(annonceToUpdate.Value, annonce);
+                return NoContent();
             }
 
-            return NoContent();
         }
 
         // POST: api/Annonces
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Annonce>> PostAnnonce(Annonce annonce)
         {
-          if (_context.Annonces == null)
-          {
-              return Problem("Entity set 'DataContext.Annonces'  is null.");
-          }
-            _context.Annonces.Add(annonce);
-            try
+            if (await repositoryAnnonce.GetAll() == null)
             {
-                await _context.SaveChangesAsync();
+                return Problem("Entity set 'DataContext.Annonces'  is null.");
             }
-            catch (DbUpdateException)
-            {
-                if (AnnonceExists(annonce.AnnonceId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await repositoryAnnonce.Add(annonce);
+
 
             return CreatedAtAction("GetAnnonce", new { id = annonce.AnnonceId }, annonce);
         }
 
         // DELETE: api/Annonces/5
         [HttpDelete("{id}")]
-        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> DeleteAnnonce(int id)
         {
-            if (_context.Annonces == null)
+            if (await repositoryAnnonce.GetAll() == null)
             {
                 return NotFound();
             }
-            var annonce = await _context.Annonces.FindAsync(id);
+            var annonce = await repositoryAnnonce.GetById(id);
             if (annonce == null)
             {
                 return NotFound();
             }
 
-            _context.Annonces.Remove(annonce);
-            await _context.SaveChangesAsync();
+            await repositoryAnnonce.Delete(annonce.Value);
 
             return NoContent();
-        }
-
-        private bool AnnonceExists(int id)
-        {
-            return (_context.Annonces?.Any(e => e.AnnonceId == id)).GetValueOrDefault();
         }
     }
 }

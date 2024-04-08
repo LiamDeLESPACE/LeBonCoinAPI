@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
 using LeBonCoinAPI.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
+using LeBonCoinAPI.Models.Repository;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -15,35 +16,31 @@ namespace LeBonCoinAPI.Controllers
     [ApiController]
     public class CarteBancairesController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IRepository<CarteBancaire> repositoryCarteBancaire;
 
-        public CarteBancairesController(DataContext context)
+        public CarteBancairesController(IRepository<CarteBancaire> repoCarteBancaire)
         {
-            _context = context;
+            repositoryCarteBancaire = repoCarteBancaire;
         }
 
         // GET: api/CarteBancaires
         [HttpGet]
-        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<CarteBancaire>>> GetCarteBancaires()
         {
-          if (_context.CarteBancaires == null)
-          {
-              return NotFound();
-          }
-            return await _context.CarteBancaires.ToListAsync();
+            var res = await repositoryCarteBancaire.GetAll();
+            if (res == null)
+            {
+                return NotFound();
+            }
+            return res;
         }
 
         // GET: api/CarteBancaires/5
         [HttpGet("{id}")]
-        [Authorize(Policy = Policies.human)]
         public async Task<ActionResult<CarteBancaire>> GetCarteBancaire(int id)
         {
-          if (_context.CarteBancaires == null)
-          {
-              return NotFound();
-          }
-            var carteBancaire = await _context.CarteBancaires.FindAsync(id);
+
+            var carteBancaire = await repositoryCarteBancaire.GetById(id);
 
             if (carteBancaire == null)
             {
@@ -56,7 +53,6 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/CarteBancaires/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Policy = Policies.human)]
         public async Task<IActionResult> PutCarteBancaire(int id, CarteBancaire carteBancaire)
         {
             if (id != carteBancaire.CarteId)
@@ -64,81 +60,51 @@ namespace LeBonCoinAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(carteBancaire).State = EntityState.Modified;
-
-            try
+            var carteBancaireToUpdate = await repositoryCarteBancaire.GetById(id);
+            if (carteBancaireToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!CarteBancaireExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await repositoryCarteBancaire.Update(carteBancaireToUpdate.Value, carteBancaire);
+                return NoContent();
             }
 
-            return NoContent();
         }
 
         // POST: api/CarteBancaires
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Policy = Policies.human)]
         public async Task<ActionResult<CarteBancaire>> PostCarteBancaire(CarteBancaire carteBancaire)
         {
-          if (_context.CarteBancaires == null)
-          {
-              return Problem("Entity set 'DataContext.CarteBancaires'  is null.");
-          }
-            _context.CarteBancaires.Add(carteBancaire);
-            try
+            if (await repositoryCarteBancaire.GetAll() == null)
             {
-                await _context.SaveChangesAsync();
+                return Problem("Entity set 'DataContext.CarteBancaires'  is null.");
             }
-            catch (DbUpdateException)
-            {
-                if (CarteBancaireExists(carteBancaire.CarteId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await repositoryCarteBancaire.Add(carteBancaire);
+
 
             return CreatedAtAction("GetCarteBancaire", new { id = carteBancaire.CarteId }, carteBancaire);
         }
 
         // DELETE: api/CarteBancaires/5
         [HttpDelete("{id}")]
-        [Authorize(Policy = Policies.human)]
         public async Task<IActionResult> DeleteCarteBancaire(int id)
         {
-            if (_context.CarteBancaires == null)
+            if (await repositoryCarteBancaire.GetAll() == null)
             {
                 return NotFound();
             }
-            var carteBancaire = await _context.CarteBancaires.FindAsync(id);
+            var carteBancaire = await repositoryCarteBancaire.GetById(id);
             if (carteBancaire == null)
             {
                 return NotFound();
             }
 
-            _context.CarteBancaires.Remove(carteBancaire);
-            await _context.SaveChangesAsync();
+            await repositoryCarteBancaire.Delete(carteBancaire.Value);
 
             return NoContent();
-        }
-
-        private bool CarteBancaireExists(int id)
-        {
-            return (_context.CarteBancaires?.Any(e => e.CarteId == id)).GetValueOrDefault();
         }
     }
 }
