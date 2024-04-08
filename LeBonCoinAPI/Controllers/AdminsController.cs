@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
 using LeBonCoinAPI.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
+using LeBonCoinAPI.Models.Repository;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -16,33 +17,34 @@ namespace LeBonCoinAPI.Controllers
     [Authorize(Policy = Policies.admin)]
     public class AdminsController : ControllerBase
     {
-        private readonly DataContext _context;
 
-        public AdminsController(DataContext context)
+        private readonly IRepositoryAdmin<Admin> repositoryAdmin;
+
+        public AdminsController(IRepositoryAdmin<Admin> dataRepo)
         {
-            _context = context;
+            repositoryAdmin = dataRepo;
         }
 
         // GET: api/Admins
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Admin>>> GetAdmins()
         {
-          if (_context.Admins == null)
+          if ( repositoryAdmin.GetAll() == null)
           {
               return NotFound();
           }
-            return await _context.Admins.ToListAsync();
+            return repositoryAdmin.GetAll();
         }
 
         // GET: api/Admins/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Admin>> GetAdmin(int id)
         {
-          if (_context.Admins == null)
+          if (repositoryAdmin.GetAll() == null)
           {
               return NotFound();
           }
-            var admin = await _context.Admins.FindAsync(id);
+            var admin = repositoryAdmin.GetById(id);
 
             if (admin == null)
             {
@@ -62,9 +64,20 @@ namespace LeBonCoinAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(admin).State = EntityState.Modified;
+            var adminToUpdate = repositoryAdmin.GetById(id);
+            if (adminToUpdate == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                repositoryAdmin.Update(adminToUpdate.Value, admin);
+                return NoContent();
+            }
 
-            try
+            //_context.Entry(admin).State = EntityState.Modified;
+
+            /*try
             {
                 await _context.SaveChangesAsync();
             }
@@ -80,7 +93,7 @@ namespace LeBonCoinAPI.Controllers
                 }
             }
 
-            return NoContent();
+            return NoContent();*/
         }
 
         // POST: api/Admins
