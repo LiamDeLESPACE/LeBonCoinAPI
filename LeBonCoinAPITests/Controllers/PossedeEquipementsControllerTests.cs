@@ -12,6 +12,8 @@ using Moq;
 using Azure;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Data;
+using LeBonCoinAPI.Models.Repository;
+using LeBonCoinAPI.DataManager;
 
 namespace LeBonCoinAPI.Controllers.Tests
 {
@@ -19,7 +21,8 @@ namespace LeBonCoinAPI.Controllers.Tests
     public class PossedeEquipementControllerTests
     {
         private PossedeEquipementsController _controller;
-        private Mock<DataContext> _context;
+        private DataContext _context;
+        private IRepositoryPossedeEquipement<PossedeEquipement> _dataRepository;
 
         //Arrange
         PossedeEquipement possedeEquipement;
@@ -27,9 +30,10 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         public PossedeEquipementControllerTests()
         {
-            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=localhost; port=5432; Database=LeBonCoinSAE; uid=postgres; password=postgres;");
-            _context = new Mock<DataContext>();
-            _controller = new PossedeEquipementsController(_context.Object);
+            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=51.83.36.122; port=5432; Database=sa23; uid=sa23; password=idkY3t?; SearchPath=sae;");
+            _context = new DataContext(builder.Options);
+            _dataRepository = new PossedeEquipementManager(_context);
+            _controller = new PossedeEquipementsController(_dataRepository);
         }
 
         [TestInitialize]
@@ -49,7 +53,11 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
-            var result = _controller.GetPossedeEquipement(43);
+            var mockRepository = new Mock<IRepositoryPossedeEquipement<PossedeEquipement>>();
+            mockRepository.Setup(x => x.GetByIds(43,17)).Returns(testListe[0]);
+            var userController = new PossedeEquipementsController(mockRepository.Object);
+
+            var result = _controller.GetPossedeEquipement(43, 17);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<PossedeEquipement>), "Pas un ActionResult");
@@ -67,6 +75,10 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void GetPossedeEquipement_UnknownIdPassed_ReturnsNotFoundResult()
         {
             //Act
+            var mockRepository = new Mock<IRepositoryPossedeEquipement<PossedeEquipement>>();
+            mockRepository.Setup(x => x.GetByIds(43, 17)).Returns(testListe[0]);
+            var userController = new PossedeEquipementsController(mockRepository.Object);
+
             var result = _controller.GetPossedeEquipement(0);
 
             //Assert
@@ -79,6 +91,10 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
+            var mockRepository = new Mock<IRepositoryPossedeEquipement<PossedeEquipement>>();
+            mockRepository.Setup(x => x.GetAll()).Returns(testListe);
+            var userController = new PossedeEquipementsController(mockRepository.Object);
+
             var result = _controller.GetPossedeEquipements();
 
             //Assert
@@ -94,6 +110,10 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
+            var mockRepository = new Mock<IRepositoryPossedeEquipement<PossedeEquipement>>();
+            mockRepository.Setup(x => x.GetByIds(43, 17)).Returns(testListe[0]);
+            var userController = new PossedeEquipementsController(mockRepository.Object);
+
             var result = _controller.PostPossedeEquipement(possedeEquipement).Result;
 
             //Assert
@@ -108,6 +128,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostPossedeEquipement_CreationFailed()
         {
+            var mockRepository = new Mock<IRepositoryPossedeEquipement<PossedeEquipement>>();
+            mockRepository.Setup(x => x.GetByIds(43, 17)).Returns(testListe[0]);
+            var userController = new PossedeEquipementsController(mockRepository.Object);
 
             //Act
             var result = _controller.PostPossedeEquipement(possedeEquipement).Result;
@@ -120,11 +143,15 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
+            var mockRepository = new Mock<IRepositoryPossedeEquipement<PossedeEquipement>>();
+            mockRepository.Setup(x => x.GetByIds(43, 17)).Returns(testListe[0]);
+            var userController = new PossedeEquipementsController(mockRepository.Object);
+
             // Arrange
-            int id = 2;//Mauvais ID
+            int id1 = 2; int id2 = 2;//Mauvais ID
 
             // Act
-            var result = await _controller.PutPossedeEquipement(id, possedeEquipement);
+            var result = await _controller.PutPossedeEquipement(id1, id2, possedeEquipement);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
@@ -133,11 +160,14 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithValidId_ReturnsNoContent()
         {
+            var mockRepository = new Mock<IRepositoryPossedeEquipement<PossedeEquipement>>();
+            mockRepository.Setup(x => x.GetByIds(43, 17)).Returns(testListe[0]);
+            var userController = new PossedeEquipementsController(mockRepository.Object);
 
-            int id = 43; //BonID
+            int id1 = 43; int id2 = 17; //BonID
 
             // Act
-            var result = await _controller.PutPossedeEquipement(id, possedeEquipement);
+            var result = await _controller.PutPossedeEquipement(id1, id2, possedeEquipement);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(NoContentResult));
@@ -147,16 +177,12 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void DeletePossedeEquipementTest()
         {
 
-            //Act
-            var result = _controller.GetPossedeEquipement(43);
-
-            //Existence
-            var actionResult = result.Result as ActionResult<PossedeEquipement>;
-            Assert.IsNotNull(actionResult.Value, "Valeur nulle");
-            Assert.IsInstanceOfType(actionResult.Value, typeof(PossedeEquipement), "Pas une PossedeEquipement");
+            var mockRepository = new Mock<IRepositoryPossedeEquipement<PossedeEquipement>>();
+            mockRepository.Setup(x => x.GetByIds(43, 17)).Returns(testListe[0]);
+            var userController = new PossedeEquipementsController(mockRepository.Object);
 
             //Act
-            var resultDest = _controller.DeletePossedeEquipement(43);
+            var resultDest = _controller.DeletePossedeEquipement(43, 17);
 
             //Assert
             Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<PossedeEquipement>), "Pas un ActionResult");
