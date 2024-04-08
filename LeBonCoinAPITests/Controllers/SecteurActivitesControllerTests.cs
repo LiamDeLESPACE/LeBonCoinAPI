@@ -89,7 +89,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void GetSecteurActivites_ReturnsRightItems()
         {
             var mockRepository = new Mock<IRepositorySecteurActivite<SecteurActivite>>();
-            mockRepository.Setup(x => x.GetAll()).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetAll()).Returns(testListe);
             var userController = new SecteurActivitesController(mockRepository.Object);
 
             //Act
