@@ -5,10 +5,10 @@ namespace LeBonCoinAPI.Models.Repository
 {
     public interface IRepositoryDepartement<Tentity>
     {
-        ActionResult<IEnumerable<Tentity>> GetAll();
-        ActionResult<Tentity> GetByString(string str);
-        void Add(Tentity entity);
-        void Update(Tentity entityToUpdate, Tentity entity);
-        void Delete(Tentity entity);
+        Task<ActionResult<IEnumerable<Tentity>>> GetAll();
+        Task<ActionResult<Tentity>> GetByString(string str);
+        Task Add(Tentity entity);
+        Task Update(Tentity entityToUpdate, Tentity entity);
+        Task Delete(Tentity entity);
     }
 }
