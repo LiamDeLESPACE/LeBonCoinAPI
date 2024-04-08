@@ -43,5 +43,7 @@ namespace LeBonCoinAPI.DataManager
             dataContext.Admins.Remove(admin);
             await dataContext.SaveChangesAsync();
         }
+
+
     }
 }

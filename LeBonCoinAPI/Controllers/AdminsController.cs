@@ -29,22 +29,20 @@ namespace LeBonCoinAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Admin>>> GetAdmins()
         {
-          if ( repositoryAdmin.GetAll() == null)
+            var res = await repositoryAdmin.GetAll();
+          if (res == null)
           {
               return NotFound();
           }
-            return repositoryAdmin.GetAll();
+            return res;
         }
 
         // GET: api/Admins/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Admin>> GetAdmin(int id)
         {
-          if (repositoryAdmin.GetAll() == null)
-          {
-              return NotFound();
-          }
-            var admin = repositoryAdmin.GetById(id);
+
+            var admin = await repositoryAdmin.GetById(id);
 
             if (admin == null)
             {
@@ -64,36 +62,17 @@ namespace LeBonCoinAPI.Controllers
                 return BadRequest();
             }
 
-            var adminToUpdate = repositoryAdmin.GetById(id);
+            var adminToUpdate = await repositoryAdmin.GetById(id);
             if (adminToUpdate == null)
             {
                 return NotFound();
             }
             else
             {
-                repositoryAdmin.Update(adminToUpdate.Value, admin);
+                await repositoryAdmin.Update(adminToUpdate.Value, admin);
                 return NoContent();
             }
 
-            //_context.Entry(admin).State = EntityState.Modified;
-
-            /*try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AdminExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();*/
         }
 
         // POST: api/Admins
@@ -101,26 +80,12 @@ namespace LeBonCoinAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Admin>> PostAdmin(Admin admin)
         {
-          if (repositoryAdmin.GetAll() == null)
+          if (await repositoryAdmin.GetAll() == null)
           {
               return Problem("Entity set 'DataContext.Admins'  is null.");
           }
-            repositoryAdmin.Add(admin);
-            /*try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (AdminExists(admin.ProfilId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }*/
+            await repositoryAdmin.Add(admin);
+
 
             return CreatedAtAction("GetAdmin", new { id = admin.ProfilId }, admin);
         }
@@ -129,24 +94,20 @@ namespace LeBonCoinAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAdmin(int id)
         {
-            if (repositoryAdmin.GetAll() == null)
+            if (await repositoryAdmin.GetAll() == null)
             {
                 return NotFound();
             }
-            var admin = repositoryAdmin.GetById(id);
+            var admin = await repositoryAdmin.GetById(id);
             if (admin == null)
             {
                 return NotFound();
             }
 
-            repositoryAdmin.Delete(admin.Value);
+            await repositoryAdmin.Delete(admin.Value);
 
             return NoContent();
         }
 
-        /*private bool AdminExists(int id)
-        {
-            return (_context.Admins?.Any(e => e.ProfilId == id)).GetValueOrDefault();
-        }*/
     }
 }
