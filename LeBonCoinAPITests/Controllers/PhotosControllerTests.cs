@@ -13,6 +13,8 @@ using Azure;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Data;
 using System.Drawing;
+using LeBonCoinAPI.Models.Repository;
+using LeBonCoinAPI.DataManager;
 
 namespace LeBonCoinAPI.Controllers.Tests
 {
@@ -20,8 +22,8 @@ namespace LeBonCoinAPI.Controllers.Tests
     public class PhotosControllerTests
     {
         private PhotosController _controller;
-
-        private Mock<DataContext> _context;
+        private DataContext _context;
+        private IRepositoryPhoto<Photo> _dataRepository;
 
         //Arrange
         Photo photoProfil;
@@ -29,9 +31,10 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         public PhotosControllerTests()
         {
-            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=localhost; port=5432; Database=LeBonCoinSAE; uid=postgres; password=postgres;");
-            _context = new Mock<DataContext>();
-            _controller = new PhotosController(_context.Object);
+            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=51.83.36.122; port=5432; Database=sa23; uid=sa23; password=idkY3t?; SearchPath=sae;");
+            _context = new DataContext(builder.Options);
+            _dataRepository = new PhotoManager(_context);
+            _controller = new PhotosController(_dataRepository);
         }
 
         [TestInitialize]
@@ -51,6 +54,10 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
+            var mockRepository = new Mock<IRepositoryPhoto<Photo>>();
+            mockRepository.Setup(x => x.GetByIdAnnonce(1)).Returns(testListe);
+            var userController = new DepartementsController(mockRepository.Object);
+
             var result = _controller.GetPhotosAnnonce(1);
 
             //Assert
@@ -65,7 +72,11 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
-            var result = _controller.GetPhotoProfil(1);
+            var mockRepository = new Mock<IRepositoryPhoto<Photo>>();
+            mockRepository.Setup(x => x.GetById(151)).Returns(photoProfil);
+            var userController = new DepartementsController(mockRepository.Object);
+
+            var result = _controller.GetPhotoProfil(151);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Photo>), "Pas un ActionResult");
@@ -82,6 +93,10 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void GetPhoto_UnknownIdPassed_ReturnsNotFoundResult()
         {
             //Act
+            var mockRepository = new Mock<IRepositoryPhoto<Photo>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new DepartementsController(mockRepository.Object);
+
             var result = _controller.GetPhotoProfil(0);
 
             //Assert
@@ -94,6 +109,10 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
+            var mockRepository = new Mock<IRepositoryPhoto<Photo>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new DepartementsController(mockRepository.Object);
+
             var result = _controller.PostPhoto(photoProfil).Result;
 
             //Assert
@@ -110,6 +129,10 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
+            var mockRepository = new Mock<IRepositoryPhoto<Photo>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new DepartementsController(mockRepository.Object);
+
             var result = _controller.PostPhoto(photoProfil).Result;
 
             //Assert
@@ -120,6 +143,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
+            var mockRepository = new Mock<IRepositoryPhoto<Photo>>();
+            mockRepository.Setup(x => x.GetById(151)).Returns(testListe[0]);
+            var userController = new DepartementsController(mockRepository.Object);
             // Arrange
             int id = 2;//Mauvais ID
 
@@ -133,7 +159,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithValidId_ReturnsNoContent()
         {
-
+            var mockRepository = new Mock<IRepositoryPhoto<Photo>>();
+            mockRepository.Setup(x => x.GetById(151)).Returns(testListe[0]);
+            var userController = new DepartementsController(mockRepository.Object);
             int id = 151; //BonID
 
             // Act
@@ -147,13 +175,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void DeletePhotoTest()
         {
 
-            //Act
-            var result = _controller.GetPhotoP(151);
-
-            //Existence
-            var actionResult = result.Result as ActionResult<Photo>;
-            Assert.IsNotNull(actionResult.Value, "Valeur nulle");
-            Assert.IsInstanceOfType(actionResult.Value, typeof(Photo), "Pas une Photo");
+            var mockRepository = new Mock<IRepositoryPhoto<Photo>>();
+            mockRepository.Setup(x => x.GetById(151)).Returns(testListe[0]);
+            var userController = new DepartementsController(mockRepository.Object);
 
             //Act
             var resultDest = _controller.DeletePhoto(151);

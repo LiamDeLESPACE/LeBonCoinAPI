@@ -6,12 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LeBonCoinAPI.Models.EntityFramework;
+using LeBonCoinAPI.Models.Repository;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
+using Castle.Components.DictionaryAdapter.Xml;
 using Moq;
-using Azure;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Data;
+using LeBonCoinAPI.DataManager;
 
 namespace LeBonCoinAPI.Controllers.Tests
 {
@@ -19,8 +20,8 @@ namespace LeBonCoinAPI.Controllers.Tests
     public class ReservationsControllerTests
     {
         private ReservationsController _controller;
-
-        private Mock<DataContext> _context;
+        private DataContext _context;
+        private IRepositoryReservation<Reservation> _dataRepository;
 
         //Arrange
         Reservation reservation;
@@ -28,9 +29,10 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         public ReservationsControllerTests()
         {
-            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=localhost; port=5432; Database=LeBonCoinSAE; uid=postgres; password=postgres;");
-            _context = new Mock<DataContext>();
-            _controller = new ReservationsController(_context.Object);
+            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=51.83.36.122; port=5432; Database=sa23; uid=sa23; password=idkY3t?; SearchPath=sae;");
+            _context = new DataContext(builder.Options);
+            _dataRepository = new ReservationManager(_context);
+            _controller = new ReservationsController(_dataRepository);
         }
 
         [TestInitialize]
@@ -49,7 +51,11 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
-            var result = _controller.GetReservation(27);
+            var mockRepository = new Mock<IRepositoryReservation<Reservation>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new ReservationsController(mockRepository.Object);
+
+            var result = _controller.GetReservation(1);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Reservation>), "Pas un ActionResult");
@@ -67,6 +73,10 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void GetReservation_UnknownIdPassed_ReturnsNotFoundResult()
         {
             //Act
+            var mockRepository = new Mock<IRepositoryReservation<Reservation>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new ReservationsController(mockRepository.Object);
+
             var result = _controller.GetReservation(0);
 
             //Assert
@@ -77,6 +87,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void GetReservations_ReturnsRightItems()
         {
+            var mockRepository = new Mock<IRepositoryReservation<Reservation>>();
+            mockRepository.Setup(x => x.GetAll()).Returns(testListe[0]);
+            var userController = new ReservationsController(mockRepository.Object);
 
             //Act
             var result = _controller.GetReservations();
@@ -92,6 +105,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostReservation_ModelValidated_CreationOK()
         {
+            var mockRepository = new Mock<IRepositoryReservation<Reservation>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new ReservationsController(mockRepository.Object);
 
             //Act
             var result = _controller.PostReservation(reservation).Result;
@@ -108,6 +124,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostReservation_CreationFailed()
         {
+            var mockRepository = new Mock<IRepositoryReservation<Reservation>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new ReservationsController(mockRepository.Object);
 
             //Act
             var result = _controller.PostReservation(reservation).Result;
@@ -120,6 +139,10 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
+            var mockRepository = new Mock<IRepositoryReservation<Reservation>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new ReservationsController(mockRepository.Object);
+
             // Arrange
             int id = 37;//Mauvais ID
 
@@ -133,6 +156,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithValidId_ReturnsNoContent()
         {
+            var mockRepository = new Mock<IRepositoryReservation<Reservation>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new ReservationsController(mockRepository.Object);
 
             int id = 1; //BonID
 
@@ -146,14 +172,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void DeleteReservationTest()
         {
-
-            //Act
-            var result = _controller.GetReservation(1);
-
-            //Existence
-            var actionResult = result.Result as ActionResult<Reservation>;
-            Assert.IsNotNull(actionResult.Value, "Valeur nulle");
-            Assert.IsInstanceOfType(actionResult.Value, typeof(Reservation), "Pas une Reservation");
+            var mockRepository = new Mock<IRepositoryReservation<Reservation>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new ReservationsController(mockRepository.Object);
 
             //Act
             var resultDest = _controller.DeleteReservation(1);

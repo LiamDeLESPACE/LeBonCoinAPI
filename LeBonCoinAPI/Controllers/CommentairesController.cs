@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
 using LeBonCoinAPI.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
+using LeBonCoinAPI.Models.Repository;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -15,11 +16,11 @@ namespace LeBonCoinAPI.Controllers
     [ApiController]
     public class CommentairesController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IRepositoryCommentaire<Commentaire> repositoryCommentaire;
 
-        public CommentairesController(DataContext context)
+        public CommentairesController(IRepositoryCommentaire<Commentaire> repoCommentaire)
         {
-            _context = context;
+            repositoryCommentaire = repoCommentaire;
         }
 
         // GET: api/Commentaires
@@ -27,11 +28,12 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<Commentaire>>> GetCommentaires()
         {
-          if (_context.Commentaires == null)
-          {
-              return NotFound();
-          }
-            return await _context.Commentaires.ToListAsync();
+            var res = await repositoryCommentaire.GetAll();
+            if (res == null)
+            {
+                return NotFound();
+            }
+            return res;
         }
 
         // GET: api/Commentaires/5/6
@@ -39,11 +41,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Commentaire>> GetCommentaire(int idReservation, int idProfil)
         {
-          if (_context.Commentaires == null)
-          {
-              return NotFound();
-          }
-            var commentaire = await (from s in _context.Commentaires where s.ProfilId == idProfil && s.ReservationId == idReservation select s).FirstOrDefaultAsync();
+            var commentaire = await repositoryCommentaire.GetByIds(idReservation, idProfil);
 
             if (commentaire == null)
             {
@@ -58,11 +56,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<IEnumerable<Commentaire>>> GetCommentaireOfProfil(int idProfil)
         {
-            if (_context.Commentaires == null)
-            {
-                return NotFound();
-            }
-            var commentaire = await (from s in _context.Commentaires where s.ProfilId == idProfil select s).ToListAsync();
+            var commentaire = await repositoryCommentaire.GetByIdProfil(idProfil);
 
             if (commentaire == null)
             {
@@ -77,11 +71,8 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<IEnumerable<Commentaire>>> GetCommentaireOfReservation(int idReservation)
         {
-            if (_context.Commentaires == null)
-            {
-                return NotFound();
-            }
-            var commentaire = await (from s in _context.Commentaires where s.ReservationId == idReservation select s).ToListAsync();
+            
+            var commentaire = await repositoryCommentaire.GetByIdReservation(idReservation);
 
             if (commentaire == null)
             {
@@ -102,25 +93,19 @@ namespace LeBonCoinAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(commentaire).State = EntityState.Modified;
+            var commentaireToUpdate = await repositoryCommentaire.GetByIds(idReservation, idProfil);
 
-            try
+            if (commentaireToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!CommentaireExists(idProfil, idReservation))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await repositoryCommentaire.Update(commentaireToUpdate.Value, commentaire);
+                return NoContent();
             }
 
-            return NoContent();
+
         }
 
         // POST: api/Commentaires
@@ -129,26 +114,11 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Commentaire>> PostCommentaire(Commentaire commentaire)
         {
-          if (_context.Commentaires == null)
+          if (await repositoryCommentaire.GetAll() == null)
           {
               return Problem("Entity set 'DataContext.Commentaires'  is null.");
           }
-            _context.Commentaires.Add(commentaire);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (CommentaireExists(commentaire.ProfilId, commentaire.ReservationId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            repositoryCommentaire.Add(commentaire);
 
             return CreatedAtAction("GetCommentaire", new { idProfil = commentaire.ProfilId, idReservation = commentaire.ReservationId }, commentaire);
         }
@@ -158,25 +128,21 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> DeleteCommentaire(int idProfil, int idReservation)
         {
-            if (_context.Commentaires == null)
+            if (await repositoryCommentaire.GetAll() == null)
             {
                 return NotFound();
             }
-            var commentaire = await _context.Commentaires.FirstOrDefaultAsync(x => x.ProfilId == idProfil && x.ReservationId == idReservation);
+            var commentaire = await repositoryCommentaire.GetByIds(idReservation, idProfil);
             if (commentaire == null)
             {
                 return NotFound();
             }
 
-            _context.Commentaires.Remove(commentaire);
-            await _context.SaveChangesAsync();
+            await repositoryCommentaire.Delete(commentaire.Value);
 
             return NoContent();
         }
 
-        private bool CommentaireExists(int idProfil, int idReservation)
-        {
-            return (_context.Commentaires?.Any(e => e.ProfilId == idProfil && e.ReservationId == idReservation)).GetValueOrDefault();
-        }
+        
     }
 }
