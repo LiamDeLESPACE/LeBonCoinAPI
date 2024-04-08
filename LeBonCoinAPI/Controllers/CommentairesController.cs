@@ -56,7 +56,7 @@ namespace LeBonCoinAPI.Controllers
         // GET: api/Commentaires/5
         [HttpGet("{idProfil}")]
         [Authorize(Policy = Policies.all)]
-        public async Task<ActionResult<List<Commentaire>>> GetCommentaireOfProfil(int idProfil)
+        public async Task<ActionResult<IEnumerable<Commentaire>>> GetCommentaireOfProfil(int idProfil)
         {
             if (_context.Commentaires == null)
             {
@@ -75,7 +75,7 @@ namespace LeBonCoinAPI.Controllers
         // GET: api/Commentaires/5
         [HttpGet("{idReservation}")]
         [Authorize(Policy = Policies.all)]
-        public async Task<ActionResult<List<Commentaire>>> GetCommentaireOfReservation(int idReservation)
+        public async Task<ActionResult<IEnumerable<Commentaire>>> GetCommentaireOfReservation(int idReservation)
         {
             if (_context.Commentaires == null)
             {
