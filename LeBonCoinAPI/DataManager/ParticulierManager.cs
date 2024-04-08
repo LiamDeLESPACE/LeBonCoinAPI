@@ -13,21 +13,21 @@ namespace LeBonCoinAPI.DataManager
         {
             dataContext = context;
         }
-        public ActionResult<IEnumerable<Particulier>> GetAll()
+        public async Task<ActionResult<IEnumerable<Particulier>>> GetAll()
         {
-            return dataContext.Particuliers.ToList();
+            return await dataContext.Particuliers.ToListAsync();
         }
 
-        public ActionResult<Particulier> GetById(int id)
+        public async Task<ActionResult<Particulier>> GetById(int id)
         {
-            return dataContext.Particuliers.FirstOrDefault(u => u.ProfilId == id);
+            return await dataContext.Particuliers.FirstOrDefaultAsync(u => u.ProfilId == id);
         }
-        public void Add(Particulier entity)
+        public async Task Add(Particulier entity)
         {
             dataContext.Particuliers.Add(entity);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
-        public void Update(Particulier particulier, Particulier entity)
+        public async Task Update(Particulier particulier, Particulier entity)
         {
             dataContext.Entry(particulier).State = EntityState.Modified;            
             particulier.HashMotDePasse = entity.HashMotDePasse;
@@ -39,12 +39,12 @@ namespace LeBonCoinAPI.DataManager
             particulier.DateNaissance = entity.DateNaissance;
             particulier.AdresseId = entity.AdresseId;
 
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
-        public void Delete(Particulier particulier)
+        public async Task Delete(Particulier particulier)
         {
             dataContext.Particuliers.Remove(particulier);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
     }
 }

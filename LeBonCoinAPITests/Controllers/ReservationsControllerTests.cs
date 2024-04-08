@@ -106,7 +106,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         }
         [TestMethod()]
-        public void PostReservation_CodeInsee_CreationFailed()
+        public void PostReservation_CreationFailed()
         {
 
             //Act

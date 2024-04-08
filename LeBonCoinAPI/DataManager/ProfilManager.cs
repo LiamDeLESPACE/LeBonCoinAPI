@@ -13,32 +13,32 @@ namespace LeBonCoinAPI.DataManager
         {
             dataContext = context;
         }
-        public ActionResult<IEnumerable<Profil>> GetAll()
+        public async Task<ActionResult<IEnumerable<Profil>>> GetAll()
         {
-            return dataContext.Profils.ToList();
+            return await dataContext.Profils.ToListAsync();
         }
 
-        public ActionResult<Profil> GetById(int id)
+        public async Task<ActionResult<Profil>> GetById(int id)
         {
-            return dataContext.Profils.FirstOrDefault(u => u.ProfilId == id);
+            return await dataContext.Profils.FirstOrDefaultAsync(u => u.ProfilId == id);
         }
-        public void Add(Profil entity)
+        public async Task Add(Profil entity)
         {
-            dataContext.Profils.Add(entity);
-            dataContext.SaveChanges();
+            await dataContext.Profils.AddAsync(entity);
+            await dataContext.SaveChangesAsync();
         }
-        public void Update(Profil profil, Profil entity)
+        public async Task Update(Profil profil, Profil entity)
         {
             dataContext.Entry(profil).State = EntityState.Modified;            
             profil.HashMotDePasse = entity.HashMotDePasse;
             profil.Telephone = entity.Telephone;           
 
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
-        public void Delete(Profil profil)
+        public async Task Delete(Profil profil)
         {
             dataContext.Profils.Remove(profil);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
     }
 }

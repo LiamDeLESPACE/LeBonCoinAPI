@@ -13,35 +13,35 @@ namespace LeBonCoinAPI.DataManager
         {
             dataContext = context;
         }
-        public ActionResult<IEnumerable<Favoris>> GetAll()
+        public async Task<ActionResult<IEnumerable<Favoris>>> GetAll()
         {
-            return dataContext.lesFavoris.ToList();
+            return await dataContext.lesFavoris.ToListAsync();
         }
 
-        public ActionResult<Favoris> GetByIds(int idProfil, int idAnnonce)
+        public async Task<ActionResult<Favoris>> GetByIds(int idProfil, int idAnnonce)
         {
-            return dataContext.lesFavoris.FirstOrDefault(c => c.ProfilId == idProfil && c.AnnonceId == idAnnonce);
+            return await dataContext.lesFavoris.FirstOrDefaultAsync(c => c.ProfilId == idProfil && c.AnnonceId == idAnnonce);
         }
 
-        public ActionResult<Favoris> GetByIdProfil(int idProfil)
+        public async Task<ActionResult<Favoris>> GetByIdProfil(int idProfil)
         {
-            return dataContext.lesFavoris.FirstOrDefault(u => u.ProfilId == idProfil);
+            return await dataContext.lesFavoris.FirstOrDefaultAsync(u => u.ProfilId == idProfil);
         }
-        public void Add(Favoris entity)
+        public async Task Add(Favoris entity)
         {
-            dataContext.lesFavoris.Add(entity);
-            dataContext.SaveChanges();
+            await dataContext.lesFavoris.AddAsync(entity);
+            await dataContext.SaveChangesAsync();
         }
-        public void Update(Favoris favoris, Favoris entity)
+        public async Task Update(Favoris favoris, Favoris entity)
         {
             dataContext.Entry(favoris).State = EntityState.Modified;            
 
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
-        public void Delete(Favoris favoris)
+        public async Task Delete(Favoris favoris)
         {
             dataContext.lesFavoris.Remove(favoris);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
     }
 }
