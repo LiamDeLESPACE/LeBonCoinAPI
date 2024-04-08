@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
 using LeBonCoinAPI.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
+using LeBonCoinAPI.Models.Repository;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -15,35 +16,31 @@ namespace LeBonCoinAPI.Controllers
     [ApiController]
     public class EntreprisesController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IRepository<Entreprise> repositoryEntreprise;
 
-        public EntreprisesController(DataContext context)
+        public EntreprisesController(IRepository<Entreprise> repoEntreprise)
         {
-            _context = context;
+            repositoryEntreprise = repoEntreprise;
         }
 
         // GET: api/Entreprises
         [HttpGet]
-        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<Entreprise>>> GetEntreprises()
         {
-          if (_context.Entreprises == null)
-          {
-              return NotFound();
-          }
-            return await _context.Entreprises.ToListAsync();
+            var res = await repositoryEntreprise.GetAll();
+            if (res == null)
+            {
+                return NotFound();
+            }
+            return res;
         }
 
         // GET: api/Entreprises/5
         [HttpGet("{id}")]
-        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Entreprise>> GetEntreprise(int id)
         {
-          if (_context.Entreprises == null)
-          {
-              return NotFound();
-          }
-            var entreprise = await _context.Entreprises.FindAsync(id);
+
+            var entreprise = await repositoryEntreprise.GetById(id);
 
             if (entreprise == null)
             {
@@ -56,7 +53,6 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Entreprises/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Policy = Policies.director)]
         public async Task<IActionResult> PutEntreprise(int id, Entreprise entreprise)
         {
             if (id != entreprise.ProfilId)
@@ -64,81 +60,51 @@ namespace LeBonCoinAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(entreprise).State = EntityState.Modified;
-
-            try
+            var entrepriseToUpdate = await repositoryEntreprise.GetById(id);
+            if (entrepriseToUpdate == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!EntrepriseExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                await repositoryEntreprise.Update(entrepriseToUpdate.Value, entreprise);
+                return NoContent();
             }
 
-            return NoContent();
         }
 
         // POST: api/Entreprises
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Policy = Policies.director)]
         public async Task<ActionResult<Entreprise>> PostEntreprise(Entreprise entreprise)
         {
-          if (_context.Entreprises == null)
-          {
-              return Problem("Entity set 'DataContext.Entreprises'  is null.");
-          }
-            _context.Entreprises.Add(entreprise);
-            try
+            if (await repositoryEntreprise.GetAll() == null)
             {
-                await _context.SaveChangesAsync();
+                return Problem("Entity set 'DataContext.Entreprises'  is null.");
             }
-            catch (DbUpdateException)
-            {
-                if (EntrepriseExists(entreprise.ProfilId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await repositoryEntreprise.Add(entreprise);
+
 
             return CreatedAtAction("GetEntreprise", new { id = entreprise.ProfilId }, entreprise);
         }
 
         // DELETE: api/Entreprises/5
         [HttpDelete("{id}")]
-        [Authorize(Policy = Policies.director)]
         public async Task<IActionResult> DeleteEntreprise(int id)
         {
-            if (_context.Entreprises == null)
+            if (await repositoryEntreprise.GetAll() == null)
             {
                 return NotFound();
             }
-            var entreprise = await _context.Entreprises.FindAsync(id);
+            var entreprise = await repositoryEntreprise.GetById(id);
             if (entreprise == null)
             {
                 return NotFound();
             }
 
-            _context.Entreprises.Remove(entreprise);
-            await _context.SaveChangesAsync();
+            await repositoryEntreprise.Delete(entreprise.Value);
 
             return NoContent();
-        }
-
-        private bool EntrepriseExists(int id)
-        {
-            return (_context.Entreprises?.Any(e => e.ProfilId == id)).GetValueOrDefault();
         }
     }
 }
