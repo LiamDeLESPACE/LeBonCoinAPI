@@ -13,31 +13,31 @@ namespace LeBonCoinAPI.DataManager
         {
             dataContext = context;
         }
-        public ActionResult<IEnumerable<SecteurActivite>> GetAll()
+        public async Task<ActionResult<IEnumerable<SecteurActivite>>> GetAll()
         {
-            return dataContext.SecteurActivites.ToList();
+            return await dataContext.SecteurActivites.ToListAsync();
         }
 
-        public ActionResult<SecteurActivite> GetById(int id)
+        public async Task<ActionResult<SecteurActivite>> GetById(int id)
         {
-            return dataContext.SecteurActivites.FirstOrDefault(u => u.SecteurId == id);
+            return await dataContext.SecteurActivites.FirstOrDefaultAsync(u => u.SecteurId == id);
         }
-        public void Add(SecteurActivite entity)
+        public async Task Add(SecteurActivite entity)
         {
-            dataContext.SecteurActivites.Add(entity);
-            dataContext.SaveChanges();
+            await dataContext.SecteurActivites.AddAsync(entity);
+            await dataContext.SaveChangesAsync();
         }
-        public void Update(SecteurActivite secteurActivite, SecteurActivite entity)
+        public async Task Update(SecteurActivite secteurActivite, SecteurActivite entity)
         {
             dataContext.Entry(secteurActivite).State = EntityState.Modified;            
             secteurActivite.NomSecteur = entity.NomSecteur;            
             
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
-        public void Delete(SecteurActivite secteurActivite)
+        public async Task Delete(SecteurActivite secteurActivite)
         {
             dataContext.SecteurActivites.Remove(secteurActivite);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
     }
 }

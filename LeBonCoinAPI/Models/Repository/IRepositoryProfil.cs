@@ -2,7 +2,7 @@
 
 namespace LeBonCoinAPI.Models.Repository
 {
-    public interface IRepositoryProfil<Tentity>
+    public interface IRepositoryProfil<TEntity>
     {
         Task<ActionResult<IEnumerable<TEntity>>> GetAll();
         Task<ActionResult<TEntity>> GetById(int id);
