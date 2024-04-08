@@ -22,10 +22,10 @@ namespace LeBonCoinAPI.Controllers
         //private readonly repositoryDepartement repositoryDepartement;
         //private readonly DataContext _context;
 
-        public DepartementsController(IRepositoryDepartement<Departement> dataRepo)
+        public DepartementsController(IRepositoryDepartement<Departement> repoDepartement)
         {
             //repositoryDepartement = departmentManager;
-            repositoryDepartement = dataRepo;
+            repositoryDepartement = repoDepartement;
         }
 
         // GET: api/Departements
@@ -39,7 +39,7 @@ namespace LeBonCoinAPI.Controllers
             }
               return await _context.Departements.ToListAsync();*/
 
-            if (repositoryDepartement.GetAll() == null)
+            if (await repositoryDepartement.GetAll() == null)
             {
                 return NotFound();
             }

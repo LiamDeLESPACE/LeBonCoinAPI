@@ -13,21 +13,21 @@ namespace LeBonCoinAPI.DataManager
         {
             dataContext = context;
         }
-        public ActionResult<IEnumerable<Admin>> GetAll()
+        public async Task<ActionResult<IEnumerable<Admin>>> GetAll()
         {
-            return dataContext.Admins.ToList();
+            return await dataContext.Admins.ToListAsync();
         }
 
         public async Task<ActionResult<Admin>> GetById(int id)
         {
             return await dataContext.Admins.FindAsync(id);
         }
-        public void Add(Admin entity)
+        public async Task Add(Admin entity)
         {
-            dataContext.Admins.Add(entity);
-            dataContext.SaveChanges();
+            await dataContext.Admins.AddAsync(entity);
+            await dataContext.SaveChangesAsync();
         }
-        public void Update(Admin admin, Admin entity)
+        public async Task Update(Admin admin, Admin entity)
         {
             dataContext.Entry(admin).State = EntityState.Modified;
             
@@ -36,12 +36,12 @@ namespace LeBonCoinAPI.DataManager
             admin.Service = entity.Service;
             admin.Email = entity.Email;
 
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
-        public void Delete(Admin admin)
+        public async Task Delete(Admin admin)
         {
             dataContext.Admins.Remove(admin);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
     }
 }

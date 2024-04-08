@@ -4,11 +4,11 @@ namespace LeBonCoinAPI.Models.Repository
 {
     public interface IRepositoryFavoris<TEntity>
     {
-        ActionResult<IEnumerable<TEntity>> GetAll();
-        ActionResult<TEntity> GetByIds(int idProfil, int idAnnonce);
-        ActionResult<TEntity> GetByIdProfil(int idProfil);
-        void Add(TEntity entity);
-        void Update(TEntity entityToUpdate, TEntity entity);
-        void Delete(TEntity entity);
+        Task<ActionResult<IEnumerable<TEntity>>> GetAll();
+        Task<ActionResult<TEntity>> GetByIds(int idProfil, int idAnnonce);
+        Task<ActionResult<TEntity>> GetByIdProfil(int idProfil);
+        Task Add(TEntity entity);
+        Task Update(TEntity entityToUpdate, TEntity entity);
+        Task Delete(TEntity entity);
     }
 }
