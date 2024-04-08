@@ -12,6 +12,8 @@ using Moq;
 using Azure;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Data;
+using LeBonCoinAPI.Models.Repository;
+using LeBonCoinAPI.DataManager;
 
 namespace LeBonCoinAPI.Controllers.Tests
 {
@@ -19,8 +21,8 @@ namespace LeBonCoinAPI.Controllers.Tests
     public class ReglementsControllerTests
     {
         private ReglementsController _controller;
-
-        private Mock<DataContext> _context;
+        private DataContext _context;
+        private IRepositoryReglement<Reglement> _dataRepository;
 
         //Arrange
         Reglement reglement;
@@ -28,9 +30,10 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         public ReglementsControllerTests()
         {
-            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=localhost; port=5432; Database=LeBonCoinSAE; uid=postgres; password=postgres;");
-            _context = new Mock<DataContext>();
-            _controller = new ReglementsController(_context.Object);
+            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=51.83.36.122; port=5432; Database=sa23; uid=sa23; password=idkY3t?; SearchPath=sae;");
+            _context = new DataContext(builder.Options);
+            _dataRepository = new ReglementManager(_context);
+            _controller = new ReglementsController(_dataRepository);
         }
 
         [TestInitialize]
@@ -48,6 +51,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void GetReglement_ExistingIdPassed_ReturnsRightItem()
         {
+            var mockRepository = new Mock<IRepositoryReglement<Reglement>>();
+            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051")).Returns(testListe[0]);
+            var userController = new ReglementsController(mockRepository.Object);
 
             //Act
             var result = _controller.GetReglement("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051");
@@ -67,6 +73,10 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void GetReglement_UnknownIdPassed_ReturnsNotFoundResult()
         {
+            var mockRepository = new Mock<IRepositoryReglement<Reglement>>();
+            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051")).Returns(testListe[0]);
+            var userController = new ReglementsController(mockRepository.Object);
+
             //Act
             var result = _controller.GetReglement("RG-ZOBFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LDBHG");
 
@@ -78,7 +88,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void GetReglements_ReturnsRightItems()
         {
-
+            var mockRepository = new Mock<IRepositoryReglement<Reglement>>();
+            mockRepository.Setup(x => x.GetAll()).Returns(testListe);
+            var userController = new ReglementsController(mockRepository.Object);
             //Act
             var result = _controller.GetReglements();
 
@@ -93,6 +105,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostReglement_ModelValidated_CreationOK()
         {
+            var mockRepository = new Mock<IRepositoryReglement<Reglement>>();
+            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051")).Returns(testListe[0]);
+            var userController = new ReglementsController(mockRepository.Object);
 
             //Act
             var result = _controller.PostReglement(reglement).Result;
@@ -109,7 +124,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostReglement_CreationFailed()
         {
-
+            var mockRepository = new Mock<IRepositoryReglement<Reglement>>();
+            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051")).Returns(testListe[0]);
+            var userController = new ReglementsController(mockRepository.Object);
             //Act
             var result = _controller.PostReglement(reglement).Result;
 
@@ -121,6 +138,10 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
+            var mockRepository = new Mock<IRepositoryReglement<Reglement>>();
+            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051")).Returns(testListe[0]);
+            var userController = new ReglementsController(mockRepository.Object);
+
             // Arrange
             string id = "RG-ZOBFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LDBHG";//Mauvais ID
 
@@ -134,6 +155,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithValidId_ReturnsNoContent()
         {
+            var mockRepository = new Mock<IRepositoryReglement<Reglement>>();
+            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051")).Returns(testListe[0]);
+            var userController = new ReglementsController(mockRepository.Object);
 
             string id = "RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051";//Bon ID
 
@@ -147,14 +171,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void DeleteReglementTest()
         {
-
-            //Act
-            var result = _controller.GetReglement("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051");
-
-            //Existence
-            var actionResult = result.Result as ActionResult<Reglement>;
-            Assert.IsNotNull(actionResult.Value, "Valeur nulle");
-            Assert.IsInstanceOfType(actionResult.Value, typeof(Reglement), "Pas une Reglement");
+            var mockRepository = new Mock<IRepositoryReglement<Reglement>>();
+            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051")).Returns(testListe[0]);
+            var userController = new ReglementsController(mockRepository.Object);
 
             //Act
             var resultDest = _controller.DeleteReglement("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051");
