@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
 using LeBonCoinAPI.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
+using LeBonCoinAPI.Models.Repository;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -15,22 +16,28 @@ namespace LeBonCoinAPI.Controllers
     [ApiController]
     public class VillesController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IRepositoryVille<Ville> _villeRepository;
 
-        public VillesController(DataContext context)
+        public VillesController()
         {
-            _context = context;
+            
+        }
+
+        public VillesController(IRepositoryVille<Ville> repoVille)
+        {
+            _villeRepository = repoVille;
         }
 
         // GET: api/Villes
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Ville>>> GetVilles()
         {
-          if (_context.Villes == null)
+
+          if (_villeRepository == null)
           {
               return NotFound();
           }
-            return await _context.Villes.ToListAsync();
+            return await _villeRepository.GetAll();
         }
 
         // GET: api/Villes/5
@@ -38,11 +45,12 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Ville>> GetVille(string id)
         {
-          if (_context.Villes == null)
+            var ville = await _villeRepository.GetByString(id);
+
+          if (_villeRepository == null)
           {
               return NotFound();
           }
-            var ville = await _context.Villes.FindAsync(id);
 
             if (ville == null)
             {
@@ -63,23 +71,12 @@ namespace LeBonCoinAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(ville).State = EntityState.Modified;
+            var res = await _villeRepository.GetByString(id);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!VilleExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            if(res.Value == null)
+                return NotFound();
+
+            await _villeRepository.Update(res.Value, ville);
 
             return NoContent();
         }
@@ -90,26 +87,11 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Ville>> PostVille(Ville ville)
         {
-          if (_context.Villes == null)
+          if (_villeRepository == null)
           {
               return Problem("Entity set 'DataContext.Villes'  is null.");
           }
-            _context.Villes.Add(ville);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (VilleExists(ville.CodeInsee))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _villeRepository.Add(ville);
 
             return CreatedAtAction("GetVille", new { id = ville.CodeInsee }, ville);
         }
@@ -119,25 +101,24 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> DeleteVille(string id)
         {
-            if (_context.Villes == null)
+            if (_villeRepository == null)
             {
                 return NotFound();
             }
-            var ville = await _context.Villes.FindAsync(id);
-            if (ville == null)
+            var ville = await _villeRepository.GetByString(id);
+            if (ville.Value == null)
             {
                 return NotFound();
             }
 
-            _context.Villes.Remove(ville);
-            await _context.SaveChangesAsync();
+            await _villeRepository.Delete(ville.Value);
 
             return NoContent();
         }
-
+        /*
         private bool VilleExists(string id)
         {
             return (_context.Villes?.Any(e => e.CodeInsee == id)).GetValueOrDefault();
-        }
+        }*/
     }
 }

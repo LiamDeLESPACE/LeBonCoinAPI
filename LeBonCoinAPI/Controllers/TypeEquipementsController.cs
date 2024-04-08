@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
 using LeBonCoinAPI.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
+using LeBonCoinAPI.Models.Repository;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -16,33 +17,34 @@ namespace LeBonCoinAPI.Controllers
     [Authorize(Policy = Policies.admin)]
     public class TypeEquipementsController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IRepository<TypeEquipement> _teRepository;
 
-        public TypeEquipementsController(DataContext context)
+        public TypeEquipementsController(IRepository<TypeEquipement> repository)
         {
-            _context = context;
+            _teRepository = repository;
         }
 
         // GET: api/TypeEquipements
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TypeEquipement>>> GetTypeEquipements()
         {
-          if (_context.TypeEquipements == null)
+
+          if (_teRepository == null)
           {
               return NotFound();
           }
-            return await _context.TypeEquipements.ToListAsync();
+            return await _teRepository.GetAll();
         }
 
         // GET: api/TypeEquipements/5
         [HttpGet("{id}")]
         public async Task<ActionResult<TypeEquipement>> GetTypeEquipement(int id)
         {
-          if (_context.TypeEquipements == null)
+          if (_teRepository == null)
           {
               return NotFound();
           }
-            var typeEquipement = await _context.TypeEquipements.FindAsync(id);
+            var typeEquipement = await _teRepository.GetById(id);
 
             if (typeEquipement == null)
             {
@@ -62,23 +64,12 @@ namespace LeBonCoinAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(typeEquipement).State = EntityState.Modified;
+            var te = await _teRepository.GetById(id);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TypeEquipementExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            if (te.Value == null)
+                return NotFound();
+
+            await _teRepository.Update(te.Value, typeEquipement);
 
             return NoContent();
         }
@@ -88,26 +79,12 @@ namespace LeBonCoinAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<TypeEquipement>> PostTypeEquipement(TypeEquipement typeEquipement)
         {
-          if (_context.TypeEquipements == null)
+          if (_teRepository == null)
           {
-              return Problem("Entity set 'DataContext.TypeEquipements'  is null.");
+              return Problem("Repository is null.");
           }
-            _context.TypeEquipements.Add(typeEquipement);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (TypeEquipementExists(typeEquipement.TypeEquipementId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            
+          await _teRepository.Add(typeEquipement);
 
             return CreatedAtAction("GetTypeEquipement", new { id = typeEquipement.TypeEquipementId }, typeEquipement);
         }
@@ -116,18 +93,17 @@ namespace LeBonCoinAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTypeEquipement(int id)
         {
-            if (_context.TypeEquipements == null)
+            if (_teRepository == null)
             {
-                return NotFound();
+                return Problem("Repository is null.");
             }
-            var typeEquipement = await _context.TypeEquipements.FindAsync(id);
-            if (typeEquipement == null)
+            var typeEquipement = await _teRepository.GetById(id);
+            if (typeEquipement.Value == null)
             {
                 return NotFound();
             }
 
-            _context.TypeEquipements.Remove(typeEquipement);
-            await _context.SaveChangesAsync();
+            await _teRepository.Delete(typeEquipement.Value);
 
             return NoContent();
         }

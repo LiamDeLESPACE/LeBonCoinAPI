@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LeBonCoinAPI.Models.EntityFramework;
 using LeBonCoinAPI.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
+using LeBonCoinAPI.Models.Repository;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -15,11 +16,11 @@ namespace LeBonCoinAPI.Controllers
     [ApiController]
     public class SignalesController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IRepositorySignale<Signale> _repositorySignale;
 
-        public SignalesController(DataContext context)
+        public SignalesController(IRepositorySignale<Signale> repository)
         {
-            _context = context;
+            _repositorySignale = repository;
         }
 
         // GET: api/Signales
@@ -27,23 +28,24 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<Signale>>> GetSignales()
         {
-          if (_context.Signales == null)
+
+          if (_repositorySignale == null)
           {
               return NotFound();
           }
-            return await _context.Signales.ToListAsync();
+            return await _repositorySignale.GetAll();
         }
 
         // GET: api/Signales/5
-        [HttpGet("{id}")]
+        [HttpGet("{idAnnonce}/{idProfil}")]
         [Authorize(Policy = Policies.admin)]
-        public async Task<ActionResult<Signale>> GetSignale(int id)
+        public async Task<ActionResult<Signale>> GetSignaleByIds(int idAnnonce, int idProfil)
         {
-          if (_context.Signales == null)
+          if (_repositorySignale == null)
           {
               return NotFound();
           }
-            var signale = await _context.Signales.FindAsync(id);
+            var signale = await _repositorySignale.GetByIds(idAnnonce, idProfil);
 
             if (signale == null)
             {
@@ -53,13 +55,52 @@ namespace LeBonCoinAPI.Controllers
             return signale;
         }
 
+        // GET: api/Signales/5
+        [HttpGet("{idAnnonce}")]
+        [Authorize(Policy = Policies.all)]
+        public async Task<ActionResult<IEnumerable<Signale>>> GetSignaleByIdAnnonce(int idAnnonce)
+        {
+            if (_repositorySignale == null)
+            {
+                return NotFound();
+            }
+            var signale = await _repositorySignale.GetByIdAnnonce(idAnnonce);
+
+            if (signale == null)
+            {
+                return NotFound();
+            }
+
+            return signale;
+        }
+
+        // GET: api/Signales/5
+        [HttpGet("{idProfil}")]
+        [Authorize(Policy = Policies.all)]
+        public async Task<ActionResult<IEnumerable<Signale>>> GetSignaleByIdProfil(int idProfil)
+        {
+            if (_repositorySignale == null)
+            {
+                return NotFound();
+            }
+            var signale = await _repositorySignale.GetByIdProfil(idProfil);
+
+            if (signale == null)
+            {
+                return NotFound();
+            }
+
+            return signale;
+        }
+
+        /*
         // PUT: api/Signales/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [Authorize(Policy = Policies.admin)]
-        public async Task<IActionResult> PutSignale(int id, Signale signale)
+        public async Task<IActionResult> PutSignale(int idAnnonce, int idProfil, Signale signale)
         {
-            if (id != signale.ProfilId)
+            if (idAnnonce != signale.AnnonceId || idProfil != signale.ProfilId)
             {
                 return BadRequest();
             }
@@ -83,7 +124,7 @@ namespace LeBonCoinAPI.Controllers
             }
 
             return NoContent();
-        }
+        }*/
 
         // POST: api/Signales
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -91,54 +132,38 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Signale>> PostSignale(Signale signale)
         {
-          if (_context.Signales == null)
+          if (_repositorySignale == null)
           {
-              return Problem("Entity set 'DataContext.Signales'  is null.");
+              return Problem("Repository is null.");
           }
-            _context.Signales.Add(signale);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (SignaleExists(signale.ProfilId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _repositorySignale.Add(signale);
 
             return CreatedAtAction("GetSignale", new { id = signale.ProfilId }, signale);
         }
 
         // DELETE: api/Signales/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{idAnnonce}/{idProfil}")]
         [Authorize(Policy = Policies.admin)]
-        public async Task<IActionResult> DeleteSignale(int id)
+        public async Task<IActionResult> DeleteSignale(int idAnnonce, int idProfil)
         {
-            if (_context.Signales == null)
+            if (_repositorySignale == null)
             {
                 return NotFound();
             }
-            var signale = await _context.Signales.FindAsync(id);
-            if (signale == null)
+            var signale = await _repositorySignale.GetByIds(idAnnonce,idProfil);
+            if (signale.Value == null)
             {
                 return NotFound();
             }
 
-            _context.Signales.Remove(signale);
-            await _context.SaveChangesAsync();
+            await _repositorySignale.Delete(signale.Value);
 
             return NoContent();
         }
 
-        private bool SignaleExists(int id)
+        /*private bool SignaleExists(int id)
         {
             return (_context.Signales?.Any(e => e.ProfilId == id)).GetValueOrDefault();
-        }
+        }*/
     }
 }
