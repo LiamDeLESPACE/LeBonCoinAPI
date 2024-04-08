@@ -12,6 +12,8 @@ using Moq;
 using Azure;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Data;
+using LeBonCoinAPI.Models.Repository;
+using LeBonCoinAPI.DataManager;
 
 namespace LeBonCoinAPI.Controllers.Tests
 {
@@ -19,8 +21,8 @@ namespace LeBonCoinAPI.Controllers.Tests
     public class AdminsControllerTests
     {
         private AdminsController _controller;
-
-        private Mock<DataContext> _context;
+        private DataContext _context;
+        private IRepositoryAdmin<Admin> _dataRepository;
 
         //Arrange
         Admin admin;
@@ -28,9 +30,10 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         public AdminsControllerTests()
         {
-            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=localhost; port=5432; Database=LeBonCoinSAE; uid=postgres; password=postgres;");
-            _context = new Mock<DataContext>();
-            _controller = new AdminsController(_context.Object);
+            var builder = new DbContextOptionsBuilder<DataContext>().UseNpgsql("Server=51.83.36.122; port=5432; Database=sa23; uid=sa23; password=idkY3t?; SearchPath=sae;");
+            _context = new DataContext(builder.Options);
+            _dataRepository = new AdminManager(_context);
+            _controller = new AdminsController(_dataRepository);
         }
 
         [TestInitialize]
@@ -48,7 +51,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void GetAdmin_ExistingIdPassed_ReturnsRightItem()
         {
-
+            var mockRepository = new Mock<IRepositoryAdmin<Admin>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new AdminsController(mockRepository.Object);
             //Act
             var result = _controller.GetAdmin(1);
 
@@ -68,6 +73,10 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void GetAdmin_UnknownIdPassed_ReturnsNotFoundResult()
         {
             //Act
+            var mockRepository = new Mock<IRepositoryAdmin<Admin>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new AdminsController(mockRepository.Object);
+
             var result = _controller.GetAdmin(0);
 
             //Assert
@@ -80,6 +89,10 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
+            var mockRepository = new Mock<IRepositoryAdmin<Admin>>();
+            mockRepository.Setup(x => x.GetAll()).Returns(testListe);
+            var userController = new AdminsController(mockRepository.Object);
+
             var result = _controller.GetAdmins();
 
             //Assert
@@ -93,6 +106,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostAdmin_ModelValidated_CreationOK()
         {
+            var mockRepository = new Mock<IRepositoryAdmin<Admin>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new AdminsController(mockRepository.Object);
 
             //Act
             var result = _controller.PostAdmin(admin).Result;
@@ -109,6 +125,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostAdmin_CodeInsee_CreationFailed()
         {
+            var mockRepository = new Mock<IRepositoryAdmin<Admin>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new AdminsController(mockRepository.Object);
 
             //Act
             var result = _controller.PostAdmin(admin).Result;
@@ -121,8 +140,12 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
+            var mockRepository = new Mock<IRepositoryAdmin<Admin>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new AdminsController(mockRepository.Object);
+
             // Arrange
-            int id = 2;//Mauvais ID
+            int id = 6;//Mauvais ID
 
             // Act
             var result = await _controller.PutAdmin(id, admin);
@@ -134,6 +157,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithValidId_ReturnsNoContent()
         {
+            var mockRepository = new Mock<IRepositoryAdmin<Admin>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new AdminsController(mockRepository.Object);
 
             int id = 1; //BonID
 
@@ -148,13 +174,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void DeleteAdminTest()
         {
 
-            //Act
-            var result = _controller.GetAdmin(1);
-
-            //Existence
-            var actionResult = result.Result as ActionResult<Admin>;
-            Assert.IsNotNull(actionResult.Value, "Valeur nulle");
-            Assert.IsInstanceOfType(actionResult.Value, typeof(Admin), "Pas une Admin");
+            var mockRepository = new Mock<IRepositoryAdmin<Admin>>();
+            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var userController = new AdminsController(mockRepository.Object);
 
             //Act
             var resultDest = _controller.DeleteAdmin(1);

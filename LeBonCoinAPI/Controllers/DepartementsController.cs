@@ -77,7 +77,7 @@ namespace LeBonCoinAPI.Controllers
                 return BadRequest();
             }
 
-            var departmentToUpdate = await repositoryDepartement.GetByStringAsync(id);
+            var departmentToUpdate = await repositoryDepartement.GetByString(id);
 
             if (departmentToUpdate == null)
             {
@@ -85,7 +85,7 @@ namespace LeBonCoinAPI.Controllers
             }
             else
             {
-                await repositoryDepartement.UpdateAsync(departmentToUpdate.Value, departement);
+                await repositoryDepartement.Update(departmentToUpdate.Value, departement);
                 return NoContent();
             }
 
@@ -143,7 +143,7 @@ namespace LeBonCoinAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-            await repositoryDepartement.AddAsync(departement);
+            await repositoryDepartement.Add(departement);
             return CreatedAtAction("GetDepartement", new { id = departement.DepartementCode }, departement);
 
         }
@@ -153,12 +153,12 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> DeleteDepartement(string id)
         {
-            var departement = await repositoryDepartement.GetByStringAsync(id);
+            var departement = await repositoryDepartement.GetByString(id);
             if (departement == null)
             {
                 return NotFound();
             }
-            await repositoryDepartement.DeleteAsync(departement.Value);
+            await repositoryDepartement.Delete(departement.Value);
 
             return NoContent();
             /*if (_context.Departements == null)

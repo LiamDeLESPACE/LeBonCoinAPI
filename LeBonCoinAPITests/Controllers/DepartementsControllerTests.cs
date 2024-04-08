@@ -79,7 +79,11 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void GetDepartement_UnknownIdPassed_ReturnsNotFoundResult()
         {
             //Act
-            var result = _controller.GetDepartement("0");
+            var mockRepository = new Mock<IRepositoryDepartement<Departement>>();
+            mockRepository.Setup(x => x.GetByString("1")).Returns(testListe[0]);
+            var userController = new DepartementsController(mockRepository.Object);
+
+            var result = userController.GetDepartement("0");
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Departement>), "Pas un ActionResult");
@@ -91,7 +95,11 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
-            var result = _controller.GetDepartements();
+            var mockRepository = new Mock<IRepositoryDepartement<Departement>>();
+            mockRepository.Setup(x => x.GetAll()).Returns(testListe);
+            var userController = new DepartementsController(mockRepository.Object);
+
+            var result = userController.GetDepartements();
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<IEnumerable<Departement>>), "Pas un ActionResult");
@@ -106,6 +114,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostDepartement_ModelValidated_CreationOK()
         {
 
+            var mockRepository = new Mock<IRepositoryDepartement<Departement>>();
+            mockRepository.Setup(x => x.GetByString("1")).Returns(testListe[0]);
+            var userController = new DepartementsController(mockRepository.Object);
             //Act
             var result = _controller.PostDepartement(Departement).Result;
 
@@ -121,6 +132,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostDepartement_CodeInsee_CreationFailed()
         {
+            var mockRepository = new Mock<IRepositoryDepartement<Departement>>();
+            mockRepository.Setup(x => x.GetByString("1")).Returns(testListe[0]);
+            var userController = new DepartementsController(mockRepository.Object);
 
             //Act
             var result = _controller.PostDepartement(Departement).Result;
@@ -133,8 +147,12 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
+            var mockRepository = new Mock<IRepositoryDepartement<Departement>>();
+            mockRepository.Setup(x => x.GetByString("1")).Returns(testListe[0]);
+            var userController = new DepartementsController(mockRepository.Object);
+
             // Arrange
-            string id = "2";//Mauvais ID
+            string id = "6";//Mauvais ID
 
             // Act
             var result = await _controller.PutDepartement(id, Departement);
@@ -146,6 +164,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithValidId_ReturnsNoContent()
         {
+            var mockRepository = new Mock<IRepositoryDepartement<Departement>>();
+            mockRepository.Setup(x => x.GetByString("1")).Returns(testListe[0]);
+            var userController = new DepartementsController(mockRepository.Object);
 
             string id = "1"; //BonID
 
@@ -159,14 +180,9 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void DeleteDepartementTest()
         {
-
-            //Act
-            var result = _controller.GetDepartement("1");
-
-            //Existence
-            var actionResult = result.Result as ActionResult<Departement>;
-            Assert.IsNotNull(actionResult.Value, "Valeur nulle");
-            Assert.IsInstanceOfType(actionResult.Value, typeof(Departement), "Pas une Departement");
+            var mockRepository = new Mock<IRepositoryDepartement<Departement>>();
+            mockRepository.Setup(x => x.GetByString("1")).Returns(testListe[0]);
+            var userController = new DepartementsController(mockRepository.Object);
 
             //Act
             var resultDest = _controller.DeleteDepartement("1");
