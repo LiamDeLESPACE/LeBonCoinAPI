@@ -13,32 +13,32 @@ namespace LeBonCoinAPI.DataManager
         {
             dataContext = context;
         }
-        public ActionResult<IEnumerable<Equipement>> GetAll()
+        public async Task<ActionResult<IEnumerable<Equipement>>> GetAll()
         {
-            return dataContext.Equipements.ToList();
+            return await dataContext.Equipements.ToListAsync();
         }
 
-        public ActionResult<Equipement> GetById(int id)
+        public async Task<ActionResult<Equipement>> GetById(int id)
         {
-            return dataContext.Equipements.FirstOrDefault(u => u.EquipementId == id);
+            return await dataContext.Equipements.FirstOrDefaultAsync(u => u.EquipementId == id);
         }
-        public void Add(Equipement entity)
+        public async Task Add(Equipement entity)
         {
-            dataContext.Equipements.Add(entity);
-            dataContext.SaveChanges();
+            await dataContext.Equipements.AddAsync(entity);
+            await dataContext.SaveChangesAsync();
         }
-        public void Update(Equipement equipement, Equipement entity)
+        public async Task Update(Equipement equipement, Equipement entity)
         {
             dataContext.Entry(equipement).State = EntityState.Modified;            
             equipement.TypeEquipementId = entity.TypeEquipementId;
-            equipement.Nom = entity.Nom;            
-            
-            dataContext.SaveChanges();
+            equipement.Nom = entity.Nom;
+
+            await dataContext.SaveChangesAsync();
         }
-        public void Delete(Equipement equipement)
+        public async Task Delete(Equipement equipement)
         {
             dataContext.Equipements.Remove(equipement);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
     }
 }

@@ -13,41 +13,41 @@ namespace LeBonCoinAPI.DataManager
         {
             dataContext = context;
         }
-        public ActionResult<IEnumerable<Commentaire>> GetAll()
+        public async Task<ActionResult<IEnumerable<Commentaire>>> GetAll()
         {
-            return dataContext.Commentaires.ToList();
+            return await dataContext.Commentaires.ToListAsync();
         }
 
-        public ActionResult<Commentaire> GetByIds(int idReservation, int idProfil)
+        public async Task<ActionResult<Commentaire>> GetByIds(int idReservation, int idProfil)
         {
-            return dataContext.Commentaires.FirstOrDefault(c => c.ReservationId == idReservation && c.ProfilId == idProfil);
+            return await dataContext.Commentaires.FirstOrDefaultAsync(c => c.ReservationId == idReservation && c.ProfilId == idProfil);
         }
 
-        public ActionResult<Commentaire> GetByIdReservation(int idReservation)
+        public async Task<ActionResult<Commentaire>> GetByIdReservation(int idReservation)
         {
-            return dataContext.Commentaires.FirstOrDefault(u => u.ReservationId == idReservation);
+            return await dataContext.Commentaires.FirstOrDefaultAsync(u => u.ReservationId == idReservation);
         }
 
-        public ActionResult<Commentaire> GetByIdProfil(int idProfil)
+        public async Task<ActionResult<Commentaire>> GetByIdProfil(int idProfil)
         {
-            return dataContext.Commentaires.FirstOrDefault(u => u.ProfilId == idProfil);
+            return await dataContext.Commentaires.FirstOrDefaultAsync(u => u.ProfilId == idProfil);
         }
-        public void Add(Commentaire entity)
+        public async Task Add(Commentaire entity)
         {
-            dataContext.Commentaires.Add(entity);
-            dataContext.SaveChanges();
+            await dataContext.Commentaires.AddAsync(entity);
+            await dataContext.SaveChangesAsync();
         }
-        public void Update(Commentaire commentaire, Commentaire entity)
+        public async Task Update(Commentaire commentaire, Commentaire entity)
         {
             dataContext.Entry(commentaire).State = EntityState.Modified;
             commentaire.Contenu = entity.Contenu;
 
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
-        public void Delete(Commentaire commentaire)
+        public async Task Delete(Commentaire commentaire)
         {
             dataContext.Commentaires.Remove(commentaire);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
     }
 }

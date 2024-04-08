@@ -13,33 +13,33 @@ namespace LeBonCoinAPI.DataManager
         {
             dataContext = context;
         }
-        public ActionResult<IEnumerable<Adresse>> GetAll()
+        public async Task<ActionResult<IEnumerable<Adresse>>> GetAll()
         {
-            return dataContext.Adresses.ToList();
+            return await dataContext.Adresses.ToListAsync();
         }
 
-        public ActionResult<Adresse> GetById(int id)
+        public async Task<ActionResult<Adresse>> GetById(int id)
         {
-            return dataContext.Adresses.FirstOrDefault(u => u.AdresseId == id);
+            return await dataContext.Adresses.FirstOrDefaultAsync(u => u.AdresseId == id);
         }
-        public void Add(Adresse entity)
+        public async Task Add(Adresse entity)
         {
-            dataContext.Adresses.Add(entity);
-            dataContext.SaveChanges();
+            await dataContext.Adresses.AddAsync(entity);
+            await dataContext.SaveChangesAsync();
         }
-        public void Update(Adresse adresse, Adresse entity)
+        public async Task Update(Adresse adresse, Adresse entity)
         {
             dataContext.Entry(adresse).State = EntityState.Modified;            
             adresse.CodeInsee = entity.CodeInsee;
             adresse.Numero = entity.Numero;
             adresse.Rue = entity.Rue;
             
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
-        public void Delete(Adresse adresse)
+        public async Task Delete(Adresse adresse)
         {
             dataContext.Adresses.Remove(adresse);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
     }
 }
