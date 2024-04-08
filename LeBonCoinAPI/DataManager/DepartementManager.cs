@@ -13,31 +13,31 @@ namespace LeBonCoinAPI.DataManager
         {
             dataContext = context;
         }
-        public ActionResult<IEnumerable<Departement>> GetAll()
+        public async Task<ActionResult<IEnumerable<Departement>>> GetAll()
         {
-            return dataContext.Departements.ToList();
+            return await dataContext.Departements.ToListAsync();
         }
 
-        public ActionResult<Departement> GetByString(string nom)
+        public async Task<ActionResult<Departement>> GetByString(string nom)
         {
-            return dataContext.Departements.FirstOrDefault(u => u.Nom.ToUpper() == nom.ToUpper());
+            return await dataContext.Departements.FirstOrDefaultAsync(u => u.Nom.ToUpper() == nom.ToUpper());
         }
-        public void Add(Departement entity)
+        public async Task Add(Departement entity)
         {
-            dataContext.Departements.Add(entity);
-            dataContext.SaveChanges();
+            await dataContext.Departements.AddAsync(entity);
+            await dataContext.SaveChangesAsync();
         }
-        public void Update(Departement departement, Departement entity)
+        public async Task Update(Departement departement, Departement entity)
         {
             dataContext.Entry(departement).State = EntityState.Modified;            
             departement.Nom = entity.Nom;
             
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
-        public void Delete(Departement departement)
+        public async Task Delete(Departement departement)
         {
             dataContext.Departements.Remove(departement);
-            dataContext.SaveChanges();
+            await dataContext.SaveChangesAsync();
         }
     }
 }
