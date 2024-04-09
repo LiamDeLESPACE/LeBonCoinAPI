@@ -37,12 +37,27 @@ namespace LeBonCoinAPI.Controllers
             return res;
         }
 
-        // GET: api/Departements/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Departement>> GetDepartement(string id)
+        // GET: api/Departements/Haute-Savoie
+        [HttpGet("n/{nomDepartement}")]
+        public async Task<ActionResult<Departement>> GetDepartement(string nomDepartement)
         {
 
-            var departement = await repositoryDepartement.GetByString(id);
+            var departement = await repositoryDepartement.GetByString(nomDepartement);
+
+            if (departement == null)
+            {
+                return NotFound();
+            }
+
+            return departement;
+        }
+
+        // GET: api/Departements/74
+        [HttpGet("c/{codeDepartement}")]
+        public async Task<ActionResult<Departement>> GetDepartementByCode(string codeDepartement)
+        {
+
+            var departement = await repositoryDepartement.GetByCode(codeDepartement);
 
             if (departement == null)
             {
@@ -54,17 +69,17 @@ namespace LeBonCoinAPI.Controllers
 
         // PUT: api/Departements/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut("{codeDepartement}")]
         [Authorize(Policy = Policies.admin)]
-        public async Task<IActionResult> PutDepartement(string id, Departement departement)
+        public async Task<IActionResult> PutDepartement(string codeDepartement, Departement departement)
         {
-            if (id != departement.DepartementCode)
+            if (codeDepartement != departement.DepartementCode)
             {
                 return BadRequest();
             }
 
-            var departementToUpdate = await repositoryDepartement.GetByString(id);
-            if (departementToUpdate == null)
+            var departementToUpdate = await repositoryDepartement.GetByCode(codeDepartement);
+            if (departementToUpdate.Value == null)
             {
                 return NotFound();
             }
@@ -93,16 +108,16 @@ namespace LeBonCoinAPI.Controllers
         }
 
         // DELETE: api/Departements/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{codeDepartement}")]
         [Authorize(Policy = Policies.admin)]
-        public async Task<IActionResult> DeleteDepartement(string id)
+        public async Task<IActionResult> DeleteDepartement(string codeDepartement)
         {
             if (repositoryDepartement == null)
             {
                 return NotFound();
             }
-            var departement = await repositoryDepartement.GetByString(id);
-            if (departement == null)
+            var departement = await repositoryDepartement.GetByCode(codeDepartement);
+            if (departement.Value == null)
             {
                 return NotFound();
             }

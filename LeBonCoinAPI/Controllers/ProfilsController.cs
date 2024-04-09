@@ -63,7 +63,7 @@ namespace LeBonCoinAPI.Controllers
             }
 
             var profilToUpdate = await repositoryProfil.GetById(id);
-            if (profilToUpdate == null)
+            if (profilToUpdate.Value == null)
             {
                 return NotFound();
             }
@@ -99,7 +99,7 @@ namespace LeBonCoinAPI.Controllers
                 return NotFound();
             }
             var profil = await repositoryProfil.GetById(id);
-            if (profil == null)
+            if (profil.Value == null)
             {
                 return NotFound();
             }

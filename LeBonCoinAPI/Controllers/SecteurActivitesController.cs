@@ -62,7 +62,7 @@ namespace LeBonCoinAPI.Controllers
             }
 
             var secteurActiviteToUpdate = await repositorySecteurActivite.GetById(id);
-            if (secteurActiviteToUpdate == null)
+            if (secteurActiviteToUpdate.Value == null)
             {
                 return NotFound();
             }
