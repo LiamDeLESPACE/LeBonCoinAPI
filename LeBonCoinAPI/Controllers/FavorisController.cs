@@ -37,7 +37,7 @@ namespace LeBonCoinAPI.Controllers
         }
 
         // GET: api/Favoris/5/6
-        [HttpGet("{idReservation}/{idProfil}")]
+        [HttpGet("{idProfil}/{idAnnonce}")]
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Favoris>> GetFavoris(int idProfil, int idAnnonce)
         {
@@ -102,13 +102,13 @@ namespace LeBonCoinAPI.Controllers
             {
                 return Problem("Entity set 'DataContext.Favoris'  is null.");
             }
-            repositoryFavoris.Add(favoris);
+            await repositoryFavoris.Add(favoris);
 
             return CreatedAtAction("GetFavoris", new { idProfil = favoris.ProfilId, idAnnonce = favoris.AnnonceId }, favoris);
         }
 
-        // DELETE: api/Favoris/5
-        [HttpDelete("{id}")]
+        // DELETE: api/Favoris/5/6
+        [HttpDelete("{idProfil/idAnnonce}")]
         [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> DeleteFavoris(int idProfil, int idAnnonce)
         {
