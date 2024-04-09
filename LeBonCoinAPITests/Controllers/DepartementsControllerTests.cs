@@ -55,7 +55,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var mockRepository = new Mock<IRepositoryDepartement<Departement>>();
-            mockRepository.Setup(x => x.GetByString("1")).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByString("1").Result).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
             
             var result = userController.GetDepartement("1");
@@ -77,7 +77,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
             //Act
             var mockRepository = new Mock<IRepositoryDepartement<Departement>>();
-            mockRepository.Setup(x => x.GetByString("1")).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByString("1").Result).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
 
             var result = userController.GetDepartement("0");
@@ -93,7 +93,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var mockRepository = new Mock<IRepositoryDepartement<Departement>>();
-            mockRepository.Setup(x => x.GetAll()).Returns(testListe);
+            mockRepository.Setup(x => x.GetAll().Result).Returns(testListe);
             var userController = new DepartementsController(mockRepository.Object);
 
             var result = userController.GetDepartements();
@@ -112,7 +112,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             var mockRepository = new Mock<IRepositoryDepartement<Departement>>();
-            mockRepository.Setup(x => x.GetByString("1")).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByString("1").Result).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
             //Act
             var result = userController.PostDepartement(departement).Result;
@@ -130,7 +130,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostDepartement_CreationFailed()
         {
             var mockRepository = new Mock<IRepositoryDepartement<Departement>>();
-            mockRepository.Setup(x => x.GetByString("1")).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByString("1").Result).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
 
             //Act
@@ -145,7 +145,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepositoryDepartement<Departement>>();
-            mockRepository.Setup(x => x.GetByString("1")).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByString("1").Result).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
 
             // Arrange
@@ -162,7 +162,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public async Task Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepositoryDepartement<Departement>>();
-            mockRepository.Setup(x => x.GetByString("1")).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByString("1").Result).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
 
             string id = "1"; //BonID
@@ -178,7 +178,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void DeleteDepartementTest()
         {
             var mockRepository = new Mock<IRepositoryDepartement<Departement>>();
-            mockRepository.Setup(x => x.GetByString("1")).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByString("1").Result).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
 
             //Act

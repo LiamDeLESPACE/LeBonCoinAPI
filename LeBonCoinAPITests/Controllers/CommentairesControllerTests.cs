@@ -54,7 +54,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var mockRepository = new Mock<IRepositoryCommentaire<Commentaire>>();
-            mockRepository.Setup(x => x.GetByIds(43, 94)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByIds(43, 94).Result).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
 
             var result = userController.GetCommentaire(43, 94);
@@ -76,7 +76,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
             //Act
             var mockRepository = new Mock<IRepositoryCommentaire<Commentaire>>();
-            mockRepository.Setup(x => x.GetByIds(43, 94)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByIds(43, 94).Result).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
 
             var result = userController.GetCommentaire(0,0);
@@ -92,7 +92,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var mockRepository = new Mock<IRepositoryCommentaire<Commentaire>>();
-            mockRepository.Setup(x => x.GetAll()).Returns(testListe);
+            mockRepository.Setup(x => x.GetAll().Result).Returns(testListe);
             var userController = new DepartementsController(mockRepository.Object);
 
             var result = userController.GetCommentaires();
@@ -109,7 +109,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostCommentaire_ModelValidated_CreationOK()
         {
             var mockRepository = new Mock<IRepositoryCommentaire<Commentaire>>();
-            mockRepository.Setup(x => x.GetByIds(43, 94)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByIds(43, 94).Result).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
 
             //Act
@@ -128,7 +128,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostCommentaire_CreationFailed()
         {
             var mockRepository = new Mock<IRepositoryCommentaire<Commentaire>>();
-            mockRepository.Setup(x => x.GetByIds(43, 94)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByIds(43, 94).Result).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
 
 
@@ -144,7 +144,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepositoryCommentaire<Commentaire>>();
-            mockRepository.Setup(x => x.GetByIds(43, 94)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByIds(43, 94).Result).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
 
             // Arrange
@@ -161,7 +161,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public async Task Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepositoryCommentaire<Commentaire>>();
-            mockRepository.Setup(x => x.GetByIds(43, 94)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByIds(43, 94).Result).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
 
             int id1 = 43; int id2 = 94; //BonID
@@ -177,7 +177,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void DeleteCommentaireTest()
         {
             var mockRepository = new Mock<IRepositoryCommentaire<Commentaire>>();
-            mockRepository.Setup(x => x.GetByIds(43, 94)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByIds(43, 94).Result).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
 
             //Act
