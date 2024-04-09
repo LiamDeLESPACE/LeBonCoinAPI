@@ -67,7 +67,10 @@ namespace LeBonCoinAPI
             {
                 config.AddPolicy(Policies.admin, Policies.AdminPolicy());
                 config.AddPolicy(Policies.particulier, Policies.ParticulierPolicy());
+                config.AddPolicy(Policies.entreprise, Policies.EntreprisePolicy());
                 config.AddPolicy(Policies.particulier+","+ Policies.admin, Policies.HumanPolicy());
+                config.AddPolicy(Policies.entreprise + "," + Policies.admin, Policies.DirectorPolicy());
+                config.AddPolicy(Policies.entreprise + "," + Policies.particulier + "," + Policies.admin, Policies.AllPolicy());
             });
 
             var app = builder.Build();
