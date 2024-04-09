@@ -29,12 +29,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Profil
         [ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.CommentairesProfil))]
-        public virtual Profil ProfilCommentaire { get; set; } = null!;
+        public virtual Profil ProfilCommentaire { get; set; }  
 
         //Reservation
         [ForeignKey(nameof(ReservationId))]
         [InverseProperty(nameof(Reservation.CommentairesReservation))]
-        public virtual Reservation ReservationCommentaire { get; set; } = null!;
+        public virtual Reservation ReservationCommentaire { get; set; }  
 
         public override bool Equals(object? obj)
         {

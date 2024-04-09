@@ -10,26 +10,26 @@ namespace LeBonCoinAPI.Models.EntityFramework
         public DataContext(DbContextOptions<DataContext> options) 
             : base(options) { }
 
-        public virtual DbSet<Admin> Admins { get; set; } = null!;
-        public virtual DbSet<Adresse> Adresses { get; set; } = null!;
-        public virtual DbSet<Annonce> Annonces { get; set; } = null!;
-        public virtual DbSet<Commentaire> Commentaires { get; set; } = null!;
-        public virtual DbSet<CarteBancaire> CarteBancaires { get; set; } = null!;
-        public virtual DbSet<Departement> Departements { get; set; } = null!;
-        public virtual DbSet<Entreprise> Entreprises { get; set; } = null!;
-        public virtual DbSet<Equipement> Equipements { get; set; } = null!;
-        public virtual DbSet<Favoris> lesFavoris { get; set; } = null!;
-        public virtual DbSet<Particulier> Particuliers { get; set; } = null!;
-        public virtual DbSet<Photo> Photos { get; set; } = null!;
-        public virtual DbSet<PossedeEquipement> PossedeEquipements { get; set; } = null!;
-        public virtual DbSet<Profil> Profils { get; set; } = null!;
-        public virtual DbSet<Reglement> Reglements { get; set; } = null!;
-        public virtual DbSet<Reservation> Reservations { get; set; } = null!;
-        public virtual DbSet<SecteurActivite> SecteurActivites { get; set; } = null!;
-        public virtual DbSet<Signale> Signales { get; set; } = null!;
-        public virtual DbSet<TypeLogement> TypeLogements { get; set; } = null!;
-        public virtual DbSet<TypeEquipement> TypeEquipements { get; set; } = null!;
-        public virtual DbSet<Ville> Villes { get; set; } = null!;
+        public virtual DbSet<Admin> Admins { get; set; }  
+        public virtual DbSet<Adresse> Adresses { get; set; }  
+        public virtual DbSet<Annonce> Annonces { get; set; }  
+        public virtual DbSet<Commentaire> Commentaires { get; set; }  
+        public virtual DbSet<CarteBancaire> CarteBancaires { get; set; }  
+        public virtual DbSet<Departement> Departements { get; set; }  
+        public virtual DbSet<Entreprise> Entreprises { get; set; }  
+        public virtual DbSet<Equipement> Equipements { get; set; }  
+        public virtual DbSet<Favoris> lesFavoris { get; set; }  
+        public virtual DbSet<Particulier> Particuliers { get; set; }  
+        public virtual DbSet<Photo> Photos { get; set; }  
+        public virtual DbSet<PossedeEquipement> PossedeEquipements { get; set; }  
+        public virtual DbSet<Profil> Profils { get; set; }  
+        public virtual DbSet<Reglement> Reglements { get; set; }  
+        public virtual DbSet<Reservation> Reservations { get; set; }  
+        public virtual DbSet<SecteurActivite> SecteurActivites { get; set; }  
+        public virtual DbSet<Signale> Signales { get; set; }  
+        public virtual DbSet<TypeLogement> TypeLogements { get; set; }  
+        public virtual DbSet<TypeEquipement> TypeEquipements { get; set; }  
+        public virtual DbSet<Ville> Villes { get; set; }  
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

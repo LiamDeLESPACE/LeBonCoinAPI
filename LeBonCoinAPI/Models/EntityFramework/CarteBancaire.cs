@@ -35,7 +35,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Profil
         [ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.CartesBancairesProfil))]
-        public virtual Profil ProfilCarteBancaire { get; set; } = null!;
+        public virtual Profil ProfilCarteBancaire { get; set; }  
 
         public override bool Equals(object? obj)
         {

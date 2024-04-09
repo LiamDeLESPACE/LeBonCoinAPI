@@ -29,12 +29,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Annonce
         [ForeignKey(nameof(AnnonceId))]
         [InverseProperty(nameof(Annonce.EquipementsPossedesAnnonce))]
-        public virtual Annonce AnnonceEquipementPossede { get; set; } = null!;
+        public virtual Annonce AnnonceEquipementPossede { get; set; }  
 
         //Equipement
         [ForeignKey(nameof(EquipementId))]
         [InverseProperty(nameof(Equipement.EquipementsPossedesDesEquipement))]
-        public virtual Equipement EquipementPossede { get; set; } = null!;
+        public virtual Equipement EquipementPossede { get; set; }  
 
         public override bool Equals(object? obj)
         {

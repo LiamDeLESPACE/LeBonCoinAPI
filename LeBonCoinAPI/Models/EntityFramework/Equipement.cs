@@ -39,7 +39,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //TypeEquipement
         [ForeignKey(nameof(TypeEquipementId))]
         [InverseProperty(nameof(TypeEquipement.EquipementsTypeEquipement))]
-        public virtual TypeEquipement TypeEquipementEquipement { get; set; } = null!;
+        public virtual TypeEquipement TypeEquipementEquipement { get; set; }  
 
         public override bool Equals(object? obj)
         {

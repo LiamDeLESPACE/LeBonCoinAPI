@@ -57,7 +57,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Ville
         [ForeignKey(nameof(CodeInsee))]
         [InverseProperty(nameof(Ville.AdressesVille))]
-        public virtual Ville VilleAdresse { get; set; } = null!;
+        public virtual Ville VilleAdresse { get; set; }  
 
         public override bool Equals(object? obj)
         {
