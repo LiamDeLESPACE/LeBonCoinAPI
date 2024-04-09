@@ -109,7 +109,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostVille_ModelValidated_CreationOK()
         {
             var mockRepository = new Mock<IRepositoryVille<Ville>>();
-            mockRepository.Setup(x => x.GetByInsee("01004").Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetByInsee("01004").Result).Returns(testListe[0]);
             var userController = new VillesController(mockRepository.Object);
 
             //Act
@@ -128,7 +128,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostVille_CreationFailed()
         {
             var mockRepository = new Mock<IRepositoryVille<Ville>>();
-            mockRepository.Setup(x => x.GetByInsee("01004").Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetByInsee("01004").Result).Returns(testListe[0]);
             var userController = new VillesController(mockRepository.Object);
 
             //Act
