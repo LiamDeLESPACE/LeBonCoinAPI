@@ -96,7 +96,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> DeleteAdresse(int id)
         {
-            if (await repositoryAdresse.GetAll() == null)
+            if (repositoryAdresse == null)
             {
                 return NotFound();
             }

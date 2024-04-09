@@ -97,7 +97,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> DeleteDepartement(string id)
         {
-            if (await repositoryDepartement.GetAll() == null)
+            if (repositoryDepartement == null)
             {
                 return NotFound();
             }

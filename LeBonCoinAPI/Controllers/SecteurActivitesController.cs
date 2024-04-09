@@ -95,7 +95,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> DeleteSecteurActivite(int id)
         {
-            if (await repositorySecteurActivite.GetAll() == null)
+            if (repositorySecteurActivite == null)
             {
                 return NotFound();
             }

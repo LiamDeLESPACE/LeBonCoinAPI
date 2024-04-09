@@ -97,7 +97,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.human)]
         public async Task<IActionResult> DeleteCarteBancaire(int id)
         {
-            if (await repositoryCarteBancaire.GetAll() == null)
+            if (repositoryCarteBancaire == null)
             {
                 return NotFound();
             }

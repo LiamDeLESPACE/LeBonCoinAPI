@@ -126,7 +126,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> DeletePhoto(int id)
         {
-            if (await repositoryPhoto.GetAll() == null)
+            if (repositoryPhoto == null)
             {
                 return NotFound();
             }

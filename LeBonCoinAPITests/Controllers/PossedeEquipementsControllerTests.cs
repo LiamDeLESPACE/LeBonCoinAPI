@@ -185,8 +185,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var resultDest = userController.DeletePossedeEquipement(43, 17);
 
             //Assert
-            Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<PossedeEquipement>), "Pas un ActionResult");
-            Assert.IsNull(resultDest.Result, "PossedeEquipement pas null");
+            Assert.IsInstanceOfType(resultDest.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
     }
 }

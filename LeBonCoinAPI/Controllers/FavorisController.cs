@@ -112,7 +112,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> DeleteFavoris(int idProfil, int idAnnonce)
         {
-            if (await repositoryFavoris.GetAll() == null)
+            if (repositoryFavoris == null)
             {
                 return NotFound();
             }

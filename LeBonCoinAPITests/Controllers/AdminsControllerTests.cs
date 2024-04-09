@@ -175,7 +175,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             var mockRepository = new Mock<IRepository<Admin>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(admin);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new AdminsController(mockRepository.Object);
 
             //Act

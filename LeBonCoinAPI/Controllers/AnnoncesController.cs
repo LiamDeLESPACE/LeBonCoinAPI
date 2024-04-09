@@ -95,9 +95,9 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> DeleteAnnonce(int id)
         {
-            if (await repositoryAnnonce.GetAll() == null)
+            if (repositoryAnnonce == null)
             {
-                return NotFound();
+                return Problem("Repository is null.");
             }
             var annonce = await repositoryAnnonce.GetById(id);
             if (annonce.Value == null)

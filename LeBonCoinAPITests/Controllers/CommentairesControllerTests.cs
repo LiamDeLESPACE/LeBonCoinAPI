@@ -181,11 +181,10 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new CommentairesController(mockRepository.Object);
 
             //Act
-            var resultDest = userController.DeleteCommentaire(43, 94);
+            var resultDest = userController.DeleteCommentaire(94, 43);
 
             //Assert
-            Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Commentaire>), "Pas un ActionResult");
-            Assert.IsNull(resultDest.Result, "Commentaire pas null");
+            Assert.IsInstanceOfType(resultDest.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
     }
 }

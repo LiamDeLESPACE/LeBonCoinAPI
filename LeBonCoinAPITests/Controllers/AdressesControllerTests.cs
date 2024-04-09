@@ -183,8 +183,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var resultDest = userController.DeleteAdresse(1);
 
             //Assert
-            Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Adresse>), "Pas un ActionResult");
-            Assert.IsNull(resultDest.Result, "Adresse pas null");
+            Assert.IsInstanceOfType(resultDest.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
     }
 }

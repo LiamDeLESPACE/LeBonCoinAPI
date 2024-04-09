@@ -93,7 +93,7 @@ namespace LeBonCoinAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReglement(string id)
         {
-            if (await repositoryReglement.GetAll() == null)
+            if (repositoryReglement == null)
             {
                 return NotFound();
             }
