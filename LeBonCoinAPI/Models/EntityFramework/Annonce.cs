@@ -108,7 +108,7 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //TypeLogement
         [ForeignKey(nameof(TypeLogementId))]
         [InverseProperty(nameof(TypeLogement.AnnoncesTypeLogement))]
-        public virtual TypeLogement TypeLogementAnnonce { get; set; } = null!;
+        public virtual TypeLogement TypeLogementAnnonce { get; set; }  
 
         //Reservation
         [InverseProperty(nameof(Reservation.AnnonceReservation))]
@@ -129,12 +129,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
         //Adresse
         [ForeignKey(nameof(AdresseId))]
         [InverseProperty(nameof(Adresse.AnnoncesAdresse))]
-        public virtual Adresse AdresseAnnonce { get; set; } = null!;
+        public virtual Adresse AdresseAnnonce { get; set; }  
 
         //Profil
         [ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.AnnoncesProfil))]
-        public virtual Profil ProfilAnnonce { get; set; } = null!;
+        public virtual Profil ProfilAnnonce { get; set; }  
 
         public override bool Equals(object? obj)
         {
