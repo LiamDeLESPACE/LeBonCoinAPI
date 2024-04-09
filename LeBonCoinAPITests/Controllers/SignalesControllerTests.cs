@@ -55,7 +55,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new SignalesController(mockRepository.Object);
 
             //Act
-            var result = _controller.GetSignale(13);
+            var result = userController.GetSignale(13);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Signale>), "Pas un ActionResult");
@@ -77,7 +77,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new SignalesController(mockRepository.Object);
 
             //Act
-            var result = _controller.GetSignale(0);
+            var result = userController.GetSignale(0);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Signale>), "Pas un ActionResult");
@@ -92,7 +92,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new SignalesController(mockRepository.Object);
 
             //Act
-            var result = _controller.GetSignales();
+            var result = userController.GetSignales();
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<IEnumerable<Signale>>), "Pas un ActionResult");
@@ -110,7 +110,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new SignalesController(mockRepository.Object);
 
             //Act
-            var result = _controller.PostSignale(signale).Result;
+            var result = userController.PostSignale(signale).Result;
 
             //Assert
             Assert.IsInstanceOfType(result, typeof(ActionResult<Signale>), "Pas un ActionResult");
@@ -129,7 +129,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new SignalesController(mockRepository.Object);
 
             //Act
-            var result = _controller.PostSignale(signale).Result;
+            var result = userController.PostSignale(signale).Result;
 
             //Assert
             Assert.IsNotInstanceOfType(result.Result, typeof(Signale), "Pas un CreatedAtActionResult");
@@ -147,7 +147,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             int id = 0;//Mauvais ID
 
             // Act
-            var result = await _controller.PutSignale(id, signale);
+            var result = await userController.PutSignale(id, signale);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
@@ -163,7 +163,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             int id = 13; //BonID
 
             // Act
-            var result = await _controller.PutSignale(id, signale);
+            var result = await userController.PutSignale(id, signale);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(NoContentResult));
@@ -177,7 +177,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new SignalesController(mockRepository.Object);
 
             //Act
-            var resultDest = _controller.DeleteSignale(13);
+            var resultDest = userController.DeleteSignale(13);
 
             //Assert
             Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Signale>), "Pas un ActionResult");

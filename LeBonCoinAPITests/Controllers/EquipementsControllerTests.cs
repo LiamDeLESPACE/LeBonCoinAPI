@@ -57,7 +57,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new EquipementsController(mockRepository.Object);
 
-            var result = _controller.GetEquipement(1);
+            var result = userController.GetEquipement(1);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Equipement>), "Pas un ActionResult");
@@ -79,7 +79,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new EquipementsController(mockRepository.Object);
 
-            var result = _controller.GetEquipement(0);
+            var result = userController.GetEquipement(0);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Equipement>), "Pas un ActionResult");
@@ -94,7 +94,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new EquipementsController(mockRepository.Object);
 
             //Act
-            var result = _controller.GetEquipements();
+            var result = userController.GetEquipements();
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<IEnumerable<Equipement>>), "Pas un ActionResult");
@@ -112,7 +112,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new EquipementsController(mockRepository.Object);
 
             //Act
-            var result = _controller.PostEquipement(equipement).Result;
+            var result = userController.PostEquipement(equipement).Result;
 
             //Assert
             Assert.IsInstanceOfType(result, typeof(ActionResult<Equipement>), "Pas un ActionResult");
@@ -131,7 +131,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new EquipementsController(mockRepository.Object);
 
             //Act
-            var result = _controller.PostEquipement(equipement).Result;
+            var result = userController.PostEquipement(equipement).Result;
 
             //Assert
             Assert.IsNotInstanceOfType(result.Result, typeof(Equipement), "Pas un CreatedAtActionResult");
@@ -149,7 +149,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             int id = 2;//Mauvais ID
 
             // Act
-            var result = await _controller.PutEquipement(id, equipement);
+            var result = await userController.PutEquipement(id, equipement);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
@@ -165,7 +165,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             int id = 1; //BonID
 
             // Act
-            var result = await _controller.PutEquipement(id, equipement);
+            var result = await userController.PutEquipement(id, equipement);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(NoContentResult));
@@ -179,7 +179,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new EquipementsController(mockRepository.Object);
 
             //Act
-            var result = _controller.GetEquipement(1);
+            var result = userController.GetEquipement(1);
 
             //Existence
             var actionResult = result.Result as ActionResult<Equipement>;
@@ -187,7 +187,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             Assert.IsInstanceOfType(actionResult.Value, typeof(Equipement), "Pas une Equipement");
 
             //Act
-            var resultDest = _controller.DeleteEquipement(1);
+            var resultDest = userController.DeleteEquipement(1);
 
             //Assert
             Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Equipement>), "Pas un ActionResult");

@@ -59,7 +59,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new CarteBancairesController(mockRepository.Object);
 
-            var result = _controller.GetCarteBancaire(27);
+            var result = userController.GetCarteBancaire(27);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<CarteBancaire>), "Pas un ActionResult");
@@ -81,7 +81,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new CarteBancairesController(mockRepository.Object);
 
-            var result = _controller.GetCarteBancaire(0);
+            var result = userController.GetCarteBancaire(0);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<CarteBancaire>), "Pas un ActionResult");
@@ -97,7 +97,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetAll()).Returns(testListe);
             var userController = new CarteBancairesController(mockRepository.Object);
 
-            var result = _controller.GetCarteBancaires();
+            var result = userController.GetCarteBancaires();
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<IEnumerable<CarteBancaire>>), "Pas un ActionResult");
@@ -114,7 +114,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new CarteBancairesController(mockRepository.Object);
             //Act
-            var result = _controller.PostCarteBancaire(carteBancaire).Result;
+            var result = userController.PostCarteBancaire(carteBancaire).Result;
 
             //Assert
             Assert.IsInstanceOfType(result, typeof(ActionResult<CarteBancaire>), "Pas un ActionResult");
@@ -133,7 +133,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new CarteBancairesController(mockRepository.Object);
 
             //Act
-            var result = _controller.PostCarteBancaire(carteBancaire).Result;
+            var result = userController.PostCarteBancaire(carteBancaire).Result;
 
             //Assert
             Assert.IsNotInstanceOfType(result.Result, typeof(CarteBancaire), "Pas un CreatedAtActionResult");
@@ -151,7 +151,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             int id = 27;//Mauvais ID
 
             // Act
-            var result = await _controller.PutCarteBancaire(id, carteBancaire);
+            var result = await userController.PutCarteBancaire(id, carteBancaire);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
@@ -167,7 +167,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             int id = 1; //BonID
 
             // Act
-            var result = await _controller.PutCarteBancaire(id, carteBancaire);
+            var result = await userController.PutCarteBancaire(id, carteBancaire);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(NoContentResult));
@@ -181,7 +181,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new CarteBancairesController(mockRepository.Object);
 
             //Act
-            var resultDest = _controller.DeleteCarteBancaire(1);
+            var resultDest = userController.DeleteCarteBancaire(1);
 
             //Assert
             Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<CarteBancaire>), "Pas un ActionResult");

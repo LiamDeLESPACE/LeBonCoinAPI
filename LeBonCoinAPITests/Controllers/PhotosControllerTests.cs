@@ -58,7 +58,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetByIdAnnonce(1)).Returns(testListe);
             var userController = new DepartementsController(mockRepository.Object);
 
-            var result = _controller.GetPhotosAnnonce(1);
+            var result = userController.GetPhotosAnnonce(1);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<IEnumerable<Photo>>), "Pas un ActionResult");
@@ -76,7 +76,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetById(151)).Returns(photoProfil);
             var userController = new DepartementsController(mockRepository.Object);
 
-            var result = _controller.GetPhotoProfil(151);
+            var result = userController.GetPhotoProfil(151);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Photo>), "Pas un ActionResult");
@@ -97,7 +97,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
 
-            var result = _controller.GetPhotoProfil(0);
+            var result = userController.GetPhotoProfil(0);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Photo>), "Pas un ActionResult");
@@ -113,7 +113,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
 
-            var result = _controller.PostPhoto(photoProfil).Result;
+            var result = userController.PostPhoto(photoProfil).Result;
 
             //Assert
             Assert.IsInstanceOfType(result, typeof(ActionResult<Photo>), "Pas un ActionResult");
@@ -133,7 +133,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
 
-            var result = _controller.PostPhoto(photoProfil).Result;
+            var result = userController.PostPhoto(photoProfil).Result;
 
             //Assert
             Assert.IsNotInstanceOfType(result.Result, typeof(Photo), "Pas un CreatedAtActionResult");
@@ -150,7 +150,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             int id = 2;//Mauvais ID
 
             // Act
-            var result = await _controller.PutPhoto(id, photoProfil);
+            var result = await userController.PutPhoto(id, photoProfil);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
@@ -165,7 +165,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             int id = 151; //BonID
 
             // Act
-            var result = await _controller.PutPhoto(id, photoProfil);
+            var result = await userController.PutPhoto(id, photoProfil);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(NoContentResult));
@@ -180,7 +180,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new DepartementsController(mockRepository.Object);
 
             //Act
-            var resultDest = _controller.DeletePhoto(151);
+            var resultDest = userController.DeletePhoto(151);
 
             //Assert
             Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Photo>), "Pas un ActionResult");

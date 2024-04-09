@@ -56,7 +56,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new ReglementsController(mockRepository.Object);
 
             //Act
-            var result = _controller.GetReglement("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051");
+            var result = userController.GetReglement("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051");
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Reglement>), "Pas un ActionResult");
@@ -78,7 +78,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new ReglementsController(mockRepository.Object);
 
             //Act
-            var result = _controller.GetReglement("RG-ZOBFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LDBHG");
+            var result = userController.GetReglement("RG-ZOBFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LDBHG");
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Reglement>), "Pas un ActionResult");
@@ -92,7 +92,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetAll()).Returns(testListe);
             var userController = new ReglementsController(mockRepository.Object);
             //Act
-            var result = _controller.GetReglements();
+            var result = userController.GetReglements();
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<IEnumerable<Reglement>>), "Pas un ActionResult");
@@ -110,7 +110,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new ReglementsController(mockRepository.Object);
 
             //Act
-            var result = _controller.PostReglement(reglement).Result;
+            var result = userController.PostReglement(reglement).Result;
 
             //Assert
             Assert.IsInstanceOfType(result, typeof(ActionResult<Reglement>), "Pas un ActionResult");
@@ -128,7 +128,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051")).Returns(testListe[0]);
             var userController = new ReglementsController(mockRepository.Object);
             //Act
-            var result = _controller.PostReglement(reglement).Result;
+            var result = userController.PostReglement(reglement).Result;
 
             //Assert
             Assert.IsNotInstanceOfType(result.Result, typeof(Reglement), "Pas un CreatedAtActionResult");
@@ -146,7 +146,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             string id = "RG-ZOBFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LDBHG";//Mauvais ID
 
             // Act
-            var result = await _controller.PutReglement(id, reglement);
+            var result = await userController.PutReglement(id, reglement);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
@@ -162,7 +162,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             string id = "RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051";//Bon ID
 
             // Act
-            var result = await _controller.PutReglement(id, reglement);
+            var result = await userController.PutReglement(id, reglement);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(NoContentResult));
@@ -176,7 +176,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new ReglementsController(mockRepository.Object);
 
             //Act
-            var resultDest = _controller.DeleteReglement("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051");
+            var resultDest = userController.DeleteReglement("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051");
 
             //Assert
             Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Reglement>), "Pas un ActionResult");

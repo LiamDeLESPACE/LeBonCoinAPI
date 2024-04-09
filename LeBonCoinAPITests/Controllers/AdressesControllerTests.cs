@@ -57,7 +57,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new AdressesController(mockRepository.Object);
 
-            var result = _controller.GetAdresse(1);
+            var result = userController.GetAdresse(1);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Adresse>), "Pas un ActionResult");
@@ -79,7 +79,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new AdressesController(mockRepository.Object);
 
-            var result = _controller.GetAdresse(0);
+            var result = userController.GetAdresse(0);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Adresse>), "Pas un ActionResult");
@@ -95,7 +95,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetAll()).Returns(testListe);
             var userController = new AdressesController(mockRepository.Object);
 
-            var result = _controller.GetAdresses();
+            var result = userController.GetAdresses();
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<IEnumerable<Adresse>>), "Pas un ActionResult");
@@ -113,7 +113,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new AdressesController(mockRepository.Object);
             //Act
-            var result = _controller.PostAdresse(adresse).Result;
+            var result = userController.PostAdresse(adresse).Result;
 
             //Assert
             Assert.IsInstanceOfType(result, typeof(ActionResult<Adresse>), "Pas un ActionResult");
@@ -132,7 +132,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new AdressesController(mockRepository.Object);
             //Act
-            var result = _controller.PostAdresse(adresse).Result;
+            var result = userController.PostAdresse(adresse).Result;
 
             //Assert
             Assert.IsNotInstanceOfType(result.Result, typeof(Adresse), "Pas un CreatedAtActionResult");
@@ -150,7 +150,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             int id = 2;//Mauvais ID
 
             // Act
-            var result = await _controller.PutAdresse(id, adresse);
+            var result = await userController.PutAdresse(id, adresse);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
@@ -166,7 +166,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             int id = 1; //BonID
 
             // Act
-            var result = await _controller.PutAdresse(id, adresse);
+            var result = await userController.PutAdresse(id, adresse);
 
             // Assert
             Assert.IsInstanceOfType(result,typeof(NoContentResult));
@@ -180,7 +180,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new AdressesController(mockRepository.Object);
 
             //Act
-            var resultDest = _controller.DeleteAdresse(1);
+            var resultDest = userController.DeleteAdresse(1);
 
             //Assert
             Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Adresse>), "Pas un ActionResult");
