@@ -59,7 +59,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new CarteBancairesController(mockRepository.Object);
 
-            var result = userController.GetCarteBancaire(27);
+            var result = userController.GetCarteBancaire(1);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<CarteBancaire>), "Pas un ActionResult");

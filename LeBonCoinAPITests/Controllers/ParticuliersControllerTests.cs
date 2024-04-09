@@ -51,11 +51,11 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void GetParticulier_ExistingIdPassed_ReturnsRightItem()
         {
             var mockRepository = new Mock<IRepository<Particulier>>();
-            mockRepository.Setup(x => x.GetById(27).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new ParticuliersController(mockRepository.Object);
 
             //Act
-            var result = userController.GetParticulier(27);
+            var result = userController.GetParticulier(1);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Particulier>), "Pas un ActionResult");
@@ -66,7 +66,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             Assert.IsNotNull(actionResult, "ActionResult null");
             Assert.IsNotNull(actionResult.Value, "Valeur nulle");
             Assert.IsInstanceOfType(actionResult.Value, typeof(Particulier), "Pas une Particulier");
-            Assert.AreEqual(particulier, (Particulier)actionResult.Value, "Particulier pas identiques");
+            Assert.AreEqual(testListe[0], (Particulier)actionResult.Value, "Particulier pas identiques");
         }
 
         [TestMethod()]
