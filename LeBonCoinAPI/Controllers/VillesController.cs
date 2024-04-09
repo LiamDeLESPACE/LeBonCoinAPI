@@ -38,7 +38,6 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Villes/i/74000
         [HttpGet("i/{codeInsee}")]
-        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Ville>> GetVilleByInsee(string codeInsee)
         {
             var ville = await _villeRepository.GetByInsee(codeInsee);
@@ -58,7 +57,6 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Villes/i/Annecy
         [HttpGet("n/{nomVille}")]
-        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Ville>> GetVilleByName(string nomVille)
         {
             var ville = await _villeRepository.GetByNom(nomVille);
@@ -79,7 +77,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Villes/74000
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{insee}")]
-        [Authorize(Policy = Policies.admin)]
+        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> PutVille(string insee, Ville ville)
         {
             if (insee != ville.CodeInsee)
