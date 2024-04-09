@@ -97,7 +97,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Departement>> PostDepartement(Departement departement)
         {
-            if (await repositoryDepartement.GetAll() == null)
+            if (repositoryDepartement == null)
             {
                 return Problem("Entity set 'DataContext.Departements'  is null.");
             }

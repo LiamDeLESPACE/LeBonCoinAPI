@@ -26,6 +26,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         //Arrange
         Entreprise entreprise;
+        Entreprise entrepriseUpdated;
         List<Entreprise> testListe;
 
         public EntreprisesControllerTests()
@@ -40,7 +41,8 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void InitialisationDesTests()
         {
             // Rajouter les initialisations exécutées avant chaque test
-            entreprise = new Entreprise { AdresseId = 7, HashMotDePasse = "$2b$12$CyFB0qqJYEd8/JM5U3psTO2E4QbiPzRtNPhLZB2qX2ylfYr.mfnU2", Telephone = "0678755447", SecteurId = 9, Siret = "91622180700043", Nom = "AlphaTech Solutions" };
+            entreprise = new Entreprise {ProfilId = 7, AdresseId = 7, HashMotDePasse = "$2b$12$CyFB0qqJYEd8/JM5U3psTO2E4QbiPzRtNPhLZB2qX2ylfYr.mfnU2", Telephone = "0678755447", SecteurId = 9, Siret = "91622180700043", Nom = "AlphaTech Solutions" };
+            entrepriseUpdated = new Entreprise { ProfilId = 7, AdresseId = 7, HashMotDePasse = "$2b$12$CyFB0qqJYEd8/JM5U3psTO2E4QbiPzRtNPhLZB2qX2ylfYr.mfnU2", Telephone = "0678755447", SecteurId = 9, Siret = "91622180700043", Nom = "AlphaTech Probleme" };
 
             testListe = new List<Entreprise>();
             testListe.Add(new Entreprise { AdresseId = 7, HashMotDePasse = "$2b$12$CyFB0qqJYEd8/JM5U3psTO2E4QbiPzRtNPhLZB2qX2ylfYr.mfnU2", Telephone = "0678755447", SecteurId = 9, Siret = "91622180700043", Nom = "AlphaTech Solutions" });
@@ -109,7 +111,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostEntreprise_ModelValidated_CreationOK()
         {
             var mockRepository = new Mock<IRepository<Entreprise>>();
-            mockRepository.Setup(x => x.GetById(7).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(7).Result).Returns(testListe[0]);
             var userController = new EntreprisesController(mockRepository.Object);
             //Act
             var result = userController.PostEntreprise(entreprise).Result;
@@ -127,7 +129,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostEntreprise_CreationFailed()
         {
             var mockRepository = new Mock<IRepository<Entreprise>>();
-            mockRepository.Setup(x => x.GetById(7).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(7).Result).Returns(testListe[0]);
             var userController = new EntreprisesController(mockRepository.Object);
             //Act
             var result = userController.PostEntreprise(entreprise).Result;
@@ -138,36 +140,36 @@ namespace LeBonCoinAPI.Controllers.Tests
         }
 
         [TestMethod()]
-        public async Task Put_WithInvalidId_ReturnsBadRequest()
+        public void Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepository<Entreprise>>();
-            mockRepository.Setup(x => x.GetById(7).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(7).Result).Returns(entreprise);
             var userController = new EntreprisesController(mockRepository.Object);
 
             // Arrange
             int id = 2;//Mauvais ID
 
             // Act
-            var result = await userController.PutEntreprise(id, entreprise);
+            var result = userController.PutEntreprise(id, entrepriseUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+            Assert.IsInstanceOfType(result.Result, typeof(BadRequestResult), "Pas un BadRequestResult");
         }
 
         [TestMethod()]
-        public async Task Put_WithValidId_ReturnsNoContent()
+        public void Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepository<Entreprise>>();
-            mockRepository.Setup(x => x.GetById(7).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(7).Result).Returns(entreprise);
             var userController = new EntreprisesController(mockRepository.Object);
 
             int id = 7; //BonID
 
             // Act
-            var result = await userController.PutEntreprise(id, entreprise);
+            var result = userController.PutEntreprise(id, entrepriseUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(NoContentResult));
+            Assert.IsInstanceOfType(result.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
 
         [TestMethod()]

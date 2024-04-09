@@ -26,6 +26,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         //Arrange
         Commentaire commentaire;
+        Commentaire commentaireUpdated;
         List<Commentaire> testListe;
 
         public CommentairesControllerTests()
@@ -40,7 +41,8 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void InitialisationDesTests()
         {
             // Rajouter les initialisations exécutées avant chaque test
-            commentaire = new Commentaire (43, 94, "Intéressé ! Pouvez-vous m\'envoyer plus de photos ?");
+            commentaire = new Commentaire (94, 43, "Intéressé ! Pouvez-vous m\'envoyer plus de photos ?");
+            commentaireUpdated = new Commentaire (94, 43, "Pas intéressé !");
 
             testListe = new List<Commentaire>();
             testListe.Add(new Commentaire (43, 94, "Intéressé ! Pouvez-vous m\'envoyer plus de photos ?"));
@@ -109,7 +111,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostCommentaire_ModelValidated_CreationOK()
         {
             var mockRepository = new Mock<IRepositoryCommentaire<Commentaire>>();
-            mockRepository.Setup(x => x.GetByIds(43, 94).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetByIds(43, 94).Result).Returns(testListe[0]);
             var userController = new CommentairesController(mockRepository.Object);
 
             //Act
@@ -128,7 +130,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostCommentaire_CreationFailed()
         {
             var mockRepository = new Mock<IRepositoryCommentaire<Commentaire>>();
-            mockRepository.Setup(x => x.GetByIds(43, 94).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetByIds(43, 94).Result).Returns(testListe[0]);
             var userController = new CommentairesController(mockRepository.Object);
 
 
@@ -141,36 +143,36 @@ namespace LeBonCoinAPI.Controllers.Tests
         }
 
         [TestMethod()]
-        public async Task Put_WithInvalidId_ReturnsBadRequest()
+        public void Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepositoryCommentaire<Commentaire>>();
-            mockRepository.Setup(x => x.GetByIds(43, 94).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByIds(43, 94).Result).Returns(commentaire);
             var userController = new CommentairesController(mockRepository.Object);
 
             // Arrange
             int id1 = 2; int id2 = 2;//Mauvais ID
 
             // Act
-            var result = await userController.PutCommentaire(id1, id2, commentaire);
+            var result = userController.PutCommentaire(id1, id2, commentaireUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+            Assert.IsInstanceOfType(result.Result, typeof(BadRequestResult), "Pas un BadRequestResult");
         }
 
         [TestMethod()]
-        public async Task Put_WithValidId_ReturnsNoContent()
+        public void Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepositoryCommentaire<Commentaire>>();
-            mockRepository.Setup(x => x.GetByIds(43, 94).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByIds(43, 94).Result).Returns(commentaire);
             var userController = new CommentairesController(mockRepository.Object);
 
-            int id1 = 43; int id2 = 94; //BonID
+            int idReservation = 43; int idProfil = 94; //BonID
 
             // Act
-            var result = await userController.PutCommentaire(id1, id2, commentaire);
+            var result = userController.PutCommentaire(idProfil, idReservation, commentaireUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(NoContentResult));
+            Assert.IsInstanceOfType(result.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
 
         [TestMethod()]

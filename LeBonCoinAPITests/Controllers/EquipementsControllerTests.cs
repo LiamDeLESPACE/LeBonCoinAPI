@@ -26,6 +26,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         //Arrange
         Equipement equipement;
+        Equipement equipementUpdated;
         List<Equipement> testListe;
 
         public EquipementsControllerTests()
@@ -41,6 +42,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
             // Rajouter les initialisations exécutées avant chaque test
             equipement = new Equipement { EquipementId=1, TypeEquipementId =1, Nom="Wifi gratuit" };
+            equipementUpdated = new Equipement { EquipementId=1, TypeEquipementId =1, Nom="Wifi Payant" };
 
             testListe = new List<Equipement>();
             testListe.Add(new Equipement { EquipementId = 1, TypeEquipementId = 1, Nom = "Wifi gratuit" });
@@ -108,7 +110,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostEquipement_ModelValidated_CreationOK()
         {
             var mockRepository = new Mock<IRepository<Equipement>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new EquipementsController(mockRepository.Object);
 
             //Act
@@ -127,7 +129,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostEquipement_CreationFailed()
         {
             var mockRepository = new Mock<IRepository<Equipement>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new EquipementsController(mockRepository.Object);
 
             //Act
@@ -139,36 +141,36 @@ namespace LeBonCoinAPI.Controllers.Tests
         }
 
         [TestMethod()]
-        public async Task Put_WithInvalidId_ReturnsBadRequest()
+        public void Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepository<Equipement>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(equipement);
             var userController = new EquipementsController(mockRepository.Object);
 
             // Arrange
             int id = 2;//Mauvais ID
 
             // Act
-            var result = await userController.PutEquipement(id, equipement);
+            var result = userController.PutEquipement(id, equipementUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+            Assert.IsInstanceOfType(result.Result, typeof(BadRequestResult), "Pas une BadRequestResult");
         }
 
         [TestMethod()]
-        public async Task Put_WithValidId_ReturnsNoContent()
+        public void Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepository<Equipement>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(equipement);
             var userController = new EquipementsController(mockRepository.Object);
 
             int id = 1; //BonID
 
             // Act
-            var result = await userController.PutEquipement(id, equipement);
+            var result = userController.PutEquipement(id, equipementUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(NoContentResult));
+            Assert.IsInstanceOfType(result.Result, typeof(NoContentResult), "Pas une NoContentResult");
         }
 
         [TestMethod()]

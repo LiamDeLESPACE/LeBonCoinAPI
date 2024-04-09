@@ -114,7 +114,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Commentaire>> PostCommentaire(Commentaire commentaire)
         {
-          if (await repositoryCommentaire.GetAll() == null)
+          if (repositoryCommentaire == null)
           {
               return Problem("Entity set 'DataContext.Commentaires'  is null.");
           }

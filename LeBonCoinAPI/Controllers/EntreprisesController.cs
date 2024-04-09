@@ -81,7 +81,7 @@ namespace LeBonCoinAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Entreprise>> PostEntreprise(Entreprise entreprise)
         {
-            if (await repositoryEntreprise.GetAll() == null)
+            if (repositoryEntreprise == null)
             {
                 return Problem("Entity set 'DataContext.Entreprises'  is null.");
             }

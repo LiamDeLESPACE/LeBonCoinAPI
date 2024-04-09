@@ -84,7 +84,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<Equipement>> PostEquipement(Equipement equipement)
         {
-            if (await repositoryEquipement.GetAll() == null)
+            if (repositoryEquipement == null)
             {
                 return Problem("Entity set 'DataContext.Equipements'  is null.");
             }
