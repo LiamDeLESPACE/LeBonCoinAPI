@@ -37,7 +37,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Photos/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Photo>> GetPhotoP(int id)
+        public async Task<ActionResult<Photo>> GetPhoto(int id)
         {
 
             var photo = await repositoryPhoto.GetById(id);
@@ -91,7 +91,7 @@ namespace LeBonCoinAPI.Controllers
             }
 
             var photoToUpdate = await repositoryPhoto.GetById(id);
-            if (photoToUpdate == null)
+            if (photoToUpdate.Value == null)
             {
                 return NotFound();
             }
@@ -127,7 +127,7 @@ namespace LeBonCoinAPI.Controllers
                 return NotFound();
             }
             var photo = await repositoryPhoto.GetById(id);
-            if (photo == null)
+            if (photo.Value == null)
             {
                 return NotFound();
             }
