@@ -128,7 +128,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostSecteurActivite_CreationFailed()
         {
             var mockRepository = new Mock<IRepository<SecteurActivite>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new SecteurActivitesController(mockRepository.Object);
 
             //Act
@@ -151,7 +151,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var result = userController.PutSecteurActivite(4, secteurActiviteUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result.Result, typeof(BadRequestResult));
+            Assert.IsInstanceOfType(result.Result, typeof(BadRequestResult), "Pas un BadRequestResult");
         }
 
         [TestMethod()]
@@ -167,7 +167,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var result = userController.PutSecteurActivite(1, secteurActiviteUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result.Result, typeof(NoContentResult));
+            Assert.IsInstanceOfType(result.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
 
         [TestMethod()]

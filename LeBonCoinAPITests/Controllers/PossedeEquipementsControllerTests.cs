@@ -111,7 +111,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var mockRepository = new Mock<IRepositoryPossedeEquipement<PossedeEquipement>>();
-            mockRepository.Setup(x => x.GetByIds(43, 17).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetByIds(43, 17).Result).Returns(testListe[0]);
             var userController = new PossedeEquipementsController(mockRepository.Object);
 
             var result = userController.PostPossedeEquipement(possedeEquipement).Result;
@@ -129,7 +129,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostPossedeEquipement_CreationFailed()
         {
             var mockRepository = new Mock<IRepositoryPossedeEquipement<PossedeEquipement>>();
-            mockRepository.Setup(x => x.GetByIds(43, 17).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetByIds(43, 17).Result).Returns(testListe[0]);
             var userController = new PossedeEquipementsController(mockRepository.Object);
 
             //Act

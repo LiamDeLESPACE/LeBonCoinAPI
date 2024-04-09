@@ -110,7 +110,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostTypeEquipement_ModelValidated_CreationOK()
         {
             var mockRepository = new Mock<IRepository<TypeEquipement>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new TypeEquipementsController(mockRepository.Object);
 
             //Act
@@ -129,7 +129,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostTypeEquipement_CreationFailed()
         {
             var mockRepository = new Mock<IRepository<TypeEquipement>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new TypeEquipementsController(mockRepository.Object);
 
             //Act

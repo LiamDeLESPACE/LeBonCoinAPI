@@ -110,7 +110,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var mockRepository = new Mock<IRepository<TypeLogement>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new TypeLogementsController(mockRepository.Object);
 
             var result = userController.PostTypeLogement(typeLogement).Result;
@@ -128,7 +128,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostTypeLogement_CreationFailed()
         {
             var mockRepository = new Mock<IRepository<TypeLogement>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new TypeLogementsController(mockRepository.Object);
 
             //Act
