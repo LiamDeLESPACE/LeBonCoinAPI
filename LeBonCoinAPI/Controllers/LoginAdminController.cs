@@ -6,6 +6,8 @@ using System.Security.Claims;
 using System.Text;
 using LeBonCoinAPI.Models;
 using LeBonCoinAPI.Models.EntityFramework;
+using System.Security.Cryptography;
+using System.Runtime.Intrinsics.Arm;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -45,7 +47,14 @@ namespace LeBonCoinAPI.Controllers
 
         private Admin AuthenticateAdmin(Admin user)
         {
-            return appUsers.SingleOrDefault(x => x.Email.ToUpper() == user.Email.ToUpper() && x.HashMotDePasse == user.HashMotDePasse);
+            StringBuilder sb = new StringBuilder();
+            byte[] hashValue = SHA512.HashData(Encoding.UTF8.GetBytes(user.HashMotDePasse));
+            foreach (byte b in hashValue)
+            {
+                sb.Append($"{b:X2}");
+            }
+            return appUsers.SingleOrDefault(x => x.Email.ToUpper() == user.Email.ToUpper() && x.HashMotDePasse.ToUpper() == sb.ToString().ToUpper());
+            
         }
 
         private string GenerateJwtTokenAdmin(Admin userInfo)

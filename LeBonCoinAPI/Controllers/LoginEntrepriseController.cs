@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using LeBonCoinAPI.Models;
 using LeBonCoinAPI.Models.EntityFramework;
+using System.Security.Cryptography;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -45,7 +46,13 @@ namespace LeBonCoinAPI.Controllers
 
         private Entreprise AuthenticateEntreprise(Entreprise user)
         {
-            return appUsers.SingleOrDefault(x => x.Siret.ToUpper() == user.Siret.ToUpper() && x.HashMotDePasse == user.HashMotDePasse);
+            StringBuilder sb = new StringBuilder();
+            byte[] hashValue = SHA512.HashData(Encoding.UTF8.GetBytes(user.HashMotDePasse));
+            foreach (byte b in hashValue)
+            {
+                sb.Append($"{b:X2}");
+            }
+            return appUsers.SingleOrDefault(x => x.Siret.ToUpper() == user.Siret.ToUpper() && x.HashMotDePasse.ToUpper() == sb.ToString().ToUpper());
         }
 
         private string GenerateJwtTokenEntreprise(Entreprise userInfo)

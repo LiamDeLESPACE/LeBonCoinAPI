@@ -2,6 +2,8 @@
 using LeBonCoinAPI.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace LeBonCoinAPI.DataManager
 {
@@ -29,8 +31,16 @@ namespace LeBonCoinAPI.DataManager
         }
         public async Task Update(Entreprise entreprise, Entreprise entity)
         {
-            dataContext.Entry(entreprise).State = EntityState.Modified;            
-            entreprise.HashMotDePasse = entity.HashMotDePasse;
+            dataContext.Entry(entreprise).State = EntityState.Modified;
+
+            StringBuilder sb = new StringBuilder();
+            byte[] hashValue = SHA512.HashData(Encoding.UTF8.GetBytes(entity.HashMotDePasse));
+            foreach (byte b in hashValue)
+            {
+                sb.Append($"{b:X2}");
+            }
+            entreprise.HashMotDePasse = sb.ToString().ToUpper();
+
             entreprise.Telephone = entity.Telephone;
             entreprise.SecteurId = entity.SecteurId;
             entreprise.Siret = entity.Siret;
