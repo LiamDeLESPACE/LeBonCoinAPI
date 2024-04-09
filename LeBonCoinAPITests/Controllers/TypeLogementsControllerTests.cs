@@ -56,7 +56,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new TypeLogementsController(mockRepository.Object);
 
-            var result = _controller.GetTypeLogement(1);
+            var result = userController.GetTypeLogement(1);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<TypeLogement>), "Pas un ActionResult");
@@ -78,7 +78,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new TypeLogementsController(mockRepository.Object);
 
-            var result = _controller.GetTypeLogement(0);
+            var result = userController.GetTypeLogement(0);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<TypeLogement>), "Pas un ActionResult");
@@ -92,7 +92,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetAll()).Returns(testListe);
             var userController = new TypeLogementsController(mockRepository.Object);
             //Act
-            var result = _controller.GetTypeLogements();
+            var result = userController.GetTypeLogements();
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<IEnumerable<TypeLogement>>), "Pas un ActionResult");
@@ -111,7 +111,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new TypeLogementsController(mockRepository.Object);
 
-            var result = _controller.PostTypeLogement(typeLogement).Result;
+            var result = userController.PostTypeLogement(typeLogement).Result;
 
             //Assert
             Assert.IsInstanceOfType(result, typeof(ActionResult<TypeLogement>), "Pas un ActionResult");
@@ -130,7 +130,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new TypeLogementsController(mockRepository.Object);
 
             //Act
-            var result = _controller.PostTypeLogement(typeLogement).Result;
+            var result = userController.PostTypeLogement(typeLogement).Result;
 
             //Assert
             Assert.IsNotInstanceOfType(result.Result, typeof(TypeLogement), "Pas un CreatedAtActionResult");
@@ -147,7 +147,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             int id = 4;//Mauvais ID
 
             // Act
-            var result = await _controller.PutTypeLogement(id, typeLogement);
+            var result = await userController.PutTypeLogement(id, typeLogement);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
@@ -163,7 +163,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             int id = 1; //BonID
 
             // Act
-            var result = await _controller.PutTypeLogement(id, typeLogement);
+            var result = await userController.PutTypeLogement(id, typeLogement);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(NoContentResult));
@@ -177,7 +177,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new TypeLogementsController(mockRepository.Object);
             
             //Act
-            var resultDest = _controller.DeleteTypeLogement(1);
+            var resultDest = userController.DeleteTypeLogement(1);
 
             //Assert
             Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<TypeLogement>), "Pas un ActionResult");

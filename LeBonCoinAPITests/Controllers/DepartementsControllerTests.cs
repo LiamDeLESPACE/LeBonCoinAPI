@@ -115,7 +115,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetByString("1")).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
             //Act
-            var result = _controller.PostDepartement(departement).Result;
+            var result = userController.PostDepartement(departement).Result;
 
             //Assert
             Assert.IsInstanceOfType(result, typeof(ActionResult<Departement>), "Pas un ActionResult");
@@ -134,7 +134,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new DepartementsController(mockRepository.Object);
 
             //Act
-            var result = _controller.PostDepartement(departement).Result;
+            var result = userController.PostDepartement(departement).Result;
 
             //Assert
             Assert.IsNotInstanceOfType(result.Result, typeof(Departement), "Pas un CreatedAtActionResult");
@@ -152,7 +152,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             string id = "6";//Mauvais ID
 
             // Act
-            var result = await _controller.PutDepartement(id, departement);
+            var result = await userController.PutDepartement(id, departement);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
@@ -168,7 +168,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             string id = "1"; //BonID
 
             // Act
-            var result = await _controller.PutDepartement(id, departement);
+            var result = await userController.PutDepartement(id, departement);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(NoContentResult));
@@ -182,7 +182,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new DepartementsController(mockRepository.Object);
 
             //Act
-            var resultDest = _controller.DeleteDepartement("1");
+            var resultDest = userController.DeleteDepartement("1");
 
             //Assert
             Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Departement>), "Pas un ActionResult");

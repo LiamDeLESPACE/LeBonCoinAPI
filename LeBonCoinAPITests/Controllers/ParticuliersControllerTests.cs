@@ -55,7 +55,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new ParticuliersController(mockRepository.Object);
 
             //Act
-            var result = _controller.GetParticulier(27);
+            var result = userController.GetParticulier(27);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Particulier>), "Pas un ActionResult");
@@ -77,7 +77,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetById(27)).Returns(testListe[0]);
             var userController = new ParticuliersController(mockRepository.Object);
 
-            var result = _controller.GetParticulier(0);
+            var result = userController.GetParticulier(0);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Particulier>), "Pas un ActionResult");
@@ -93,7 +93,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetAll()).Returns(testListe);
             var userController = new ParticuliersController(mockRepository.Object);
 
-            var result = _controller.GetParticuliers();
+            var result = userController.GetParticuliers();
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<IEnumerable<Particulier>>), "Pas un ActionResult");
@@ -112,7 +112,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetById(27)).Returns(testListe[0]);
             var userController = new ParticuliersController(mockRepository.Object);
 
-            var result = _controller.PostParticulier(particulier).Result;
+            var result = userController.PostParticulier(particulier).Result;
 
             //Assert
             Assert.IsInstanceOfType(result, typeof(ActionResult<Particulier>), "Pas un ActionResult");
@@ -131,7 +131,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new ParticuliersController(mockRepository.Object);
 
             //Act
-            var result = _controller.PostParticulier(particulier).Result;
+            var result = userController.PostParticulier(particulier).Result;
 
             //Assert
             Assert.IsNotInstanceOfType(result.Result, typeof(Particulier), "Pas un CreatedAtActionResult");
@@ -149,7 +149,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             int id = 2;//Mauvais ID
 
             // Act
-            var result = await _controller.PutParticulier(id, particulier);
+            var result = await userController.PutParticulier(id, particulier);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
@@ -165,7 +165,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             int id = 27; //BonID
 
             // Act
-            var result = await _controller.PutParticulier(id, particulier);
+            var result = await userController.PutParticulier(id, particulier);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(NoContentResult));
@@ -179,7 +179,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new ParticuliersController(mockRepository.Object);
 
             //Act
-            var resultDest = _controller.DeleteParticulier(1);
+            var resultDest = userController.DeleteParticulier(1);
 
             //Assert
             Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Particulier>), "Pas un ActionResult");

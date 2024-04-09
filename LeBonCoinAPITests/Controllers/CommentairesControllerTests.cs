@@ -57,7 +57,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetByIds(43, 94)).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
 
-            var result = _controller.GetCommentaire(43, 94);
+            var result = userController.GetCommentaire(43, 94);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Commentaire>), "Pas un ActionResult");
@@ -79,7 +79,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetByIds(43, 94)).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
 
-            var result = _controller.GetCommentaire(0,0);
+            var result = userController.GetCommentaire(0,0);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Commentaire>), "Pas un ActionResult");
@@ -95,7 +95,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetAll()).Returns(testListe);
             var userController = new DepartementsController(mockRepository.Object);
 
-            var result = _controller.GetCommentaires();
+            var result = userController.GetCommentaires();
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<IEnumerable<Commentaire>>), "Pas un ActionResult");
@@ -113,7 +113,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new DepartementsController(mockRepository.Object);
 
             //Act
-            var result = _controller.PostCommentaire(commentaire).Result;
+            var result = userController.PostCommentaire(commentaire).Result;
 
             //Assert
             Assert.IsInstanceOfType(result, typeof(ActionResult<Commentaire>), "Pas un ActionResult");
@@ -133,7 +133,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
 
             //Act
-            var result = _controller.PostCommentaire(commentaire).Result;
+            var result = userController.PostCommentaire(commentaire).Result;
 
             //Assert
             Assert.IsNotInstanceOfType(result.Result, typeof(Commentaire), "Pas un CreatedAtActionResult");
@@ -151,7 +151,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             int id1 = 2; int id2 = 2;//Mauvais ID
 
             // Act
-            var result = await _controller.PutCommentaire(id1, id2, commentaire);
+            var result = await userController.PutCommentaire(id1, id2, commentaire);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
@@ -167,7 +167,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             int id1 = 43; int id2 = 94; //BonID
 
             // Act
-            var result = await _controller.PutCommentaire(id1, id2, commentaire);
+            var result = await userController.PutCommentaire(id1, id2, commentaire);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(NoContentResult));
@@ -181,7 +181,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new DepartementsController(mockRepository.Object);
 
             //Act
-            var resultDest = _controller.DeleteCommentaire(43, 94);
+            var resultDest = userController.DeleteCommentaire(43, 94);
 
             //Assert
             Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Commentaire>), "Pas un ActionResult");

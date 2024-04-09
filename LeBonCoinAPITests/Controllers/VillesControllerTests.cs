@@ -56,7 +56,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetByString("01004")).Returns(testListe[0]);
             var userController = new VillesController(mockRepository.Object);
 
-            var result = _controller.GetVille("01004");
+            var result = userController.GetVille("01004");
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Ville>), "Pas un ActionResult");
@@ -78,7 +78,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new VillesController(mockRepository.Object);
 
             //Act
-            var result = _controller.GetVille("00000");
+            var result = userController.GetVille("00000");
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Ville>), "Pas un ActionResult");
@@ -93,7 +93,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new VillesController(mockRepository.Object);
 
             //Act
-            var result = _controller.GetVilles();
+            var result = userController.GetVilles();
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<IEnumerable<Ville>>), "Pas un ActionResult");
@@ -111,7 +111,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new VillesController(mockRepository.Object);
 
             //Act
-            var result = _controller.PostVille(ville).Result;
+            var result = userController.PostVille(ville).Result;
 
             //Assert
             Assert.IsInstanceOfType(result, typeof(ActionResult<Ville>), "Pas un ActionResult");
@@ -130,7 +130,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new VillesController(mockRepository.Object);
 
             //Act
-            var result = _controller.PostVille(ville).Result;
+            var result = userController.PostVille(ville).Result;
 
             //Assert
             Assert.IsNotInstanceOfType(result.Result, typeof(Ville), "Pas un CreatedAtActionResult");
@@ -148,7 +148,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             string id = "00000";//Mauvais ID
 
             // Act
-            var result = await _controller.PutVille(id, ville);
+            var result = await userController.PutVille(id, ville);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
@@ -164,7 +164,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             string id = "01500"; //BonID
 
             // Act
-            var result = await _controller.PutVille(id, ville);
+            var result = await userController.PutVille(id, ville);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(NoContentResult));
@@ -178,7 +178,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new VillesController(mockRepository.Object);
 
             //Act
-            var resultDest = _controller.DeleteVille("01004");
+            var resultDest = userController.DeleteVille("01004");
 
             //Assert
             Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Ville>), "Pas un ActionResult");

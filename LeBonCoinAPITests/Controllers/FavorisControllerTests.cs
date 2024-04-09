@@ -57,7 +57,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetByIds(90,31)).Returns(testListe[0]);
             var userController = new FavorisController(mockRepository.Object);
             
-            var result = _controller.GetFavoris(90,31);
+            var result = userController.GetFavoris(90,31);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Favoris>), "Pas un ActionResult");
@@ -79,7 +79,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetByIds(90, 31)).Returns(testListe[0]);
             var userController = new FavorisController(mockRepository.Object);
 
-            var result = _controller.GetFavoris(90,31);
+            var result = userController.GetFavoris(90,31);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Favoris>), "Pas un ActionResult");
@@ -95,7 +95,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetAll()).Returns(testListe[0]);
             var userController = new FavorisController(mockRepository.Object);
 
-            var result = _controller.GetlesFavoris();
+            var result = userController.GetlesFavoris();
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<IEnumerable<Favoris>>), "Pas un ActionResult");
@@ -114,7 +114,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetByIds(90, 31)).Returns(testListe[0]);
             var userController = new FavorisController(mockRepository.Object);
 
-            var result = _controller.PostFavoris(favoris).Result;
+            var result = userController.PostFavoris(favoris).Result;
 
             //Assert
             Assert.IsInstanceOfType(result, typeof(ActionResult<Favoris>), "Pas un ActionResult");
@@ -134,7 +134,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetByIds(90, 31)).Returns(testListe[0]);
             var userController = new FavorisController(mockRepository.Object);
 
-            var result = _controller.PostFavoris(favoris).Result;
+            var result = userController.PostFavoris(favoris).Result;
 
             //Assert
             Assert.IsNotInstanceOfType(result.Result, typeof(Favoris), "Pas un CreatedAtActionResult");
@@ -151,7 +151,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             int id1 = 2; int id2 = 2;//Mauvais ID
 
             // Act
-            var result = await _controller.PutFavoris(id1,id2, favoris);
+            var result = await userController.PutFavoris(id1,id2, favoris);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
@@ -167,7 +167,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             int id1 = 90; int id2 = 31; //BonID
 
             // Act
-            var result = await _controller.PutFavoris(id1,id2, favoris);
+            var result = await userController.PutFavoris(id1,id2, favoris);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(NoContentResult));
@@ -181,7 +181,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new FavorisController(mockRepository.Object);
 
             //Act
-            var resultDest = _controller.DeleteFavoris(90,31);
+            var resultDest = userController.DeleteFavoris(90,31);
 
             //Assert
             Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Favoris>), "Pas un ActionResult");
