@@ -175,15 +175,17 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             var mockRepository = new Mock<IRepository<Admin>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(admin);
             var userController = new AdminsController(mockRepository.Object);
 
             //Act
-            var resultDest = userController.DeleteAdmin(1);
+            var actionResult = userController.DeleteAdmin(1).Result;
 
             //Assert
-            Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Admin>), "Pas un ActionResult");
-            Assert.IsNull(resultDest.Result, "Admin pas null");
+            Assert.IsInstanceOfType(actionResult, typeof(NoContentResult), "Pas un NoContentResult"); // Test du type de retour
+
+            //Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Admin>), "Pas un ActionResult");
+           // Assert.IsNull(actionResult, "Admin pas null");
         }
     }
 }
