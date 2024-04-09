@@ -14,7 +14,6 @@ namespace LeBonCoinAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Policy = Policies.admin)]
     public class TypeEquipementsController : ControllerBase
     {
         private readonly IRepository<TypeEquipement> _teRepository;
@@ -57,6 +56,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/TypeEquipements/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> PutTypeEquipement(int id, TypeEquipement typeEquipement)
         {
             if (id != typeEquipement.TypeEquipementId)
@@ -77,6 +77,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/TypeEquipements
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<TypeEquipement>> PostTypeEquipement(TypeEquipement typeEquipement)
         {
           if (_teRepository == null)
@@ -91,6 +92,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/TypeEquipements/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> DeleteTypeEquipement(int id)
         {
             if (_teRepository == null)

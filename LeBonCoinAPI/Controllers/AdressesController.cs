@@ -25,6 +25,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Adresses
         [HttpGet]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<Adresse>>> GetAdresses()
         {
             var res = await repositoryAdresse.GetAll();
@@ -53,6 +54,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Adresses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> PutAdresse(int id, Adresse adresse)
         {
             if (id != adresse.AdresseId)
@@ -61,7 +63,7 @@ namespace LeBonCoinAPI.Controllers
             }
 
             var adresseToUpdate = await repositoryAdresse.GetById(id);
-            if (adresseToUpdate == null)
+            if (adresseToUpdate.Value == null)
             {
                 return NotFound();
             }
@@ -76,6 +78,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/Adresses
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Adresse>> PostAdresse(Adresse adresse)
         {
             if (await repositoryAdresse.GetAll() == null)
@@ -90,6 +93,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/Adresses/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> DeleteAdresse(int id)
         {
             if (await repositoryAdresse.GetAll() == null)
@@ -97,7 +101,7 @@ namespace LeBonCoinAPI.Controllers
                 return NotFound();
             }
             var adresse = await repositoryAdresse.GetById(id);
-            if (adresse == null)
+            if (adresse.Value == null)
             {
                 return NotFound();
             }

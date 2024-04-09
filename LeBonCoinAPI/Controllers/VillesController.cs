@@ -18,11 +18,6 @@ namespace LeBonCoinAPI.Controllers
     {
         private readonly IRepositoryVille<Ville> _villeRepository;
 
-        public VillesController()
-        {
-            
-        }
-
         public VillesController(IRepositoryVille<Ville> repoVille)
         {
             _villeRepository = repoVille;

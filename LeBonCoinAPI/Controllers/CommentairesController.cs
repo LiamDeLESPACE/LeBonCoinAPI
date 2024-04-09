@@ -95,7 +95,7 @@ namespace LeBonCoinAPI.Controllers
 
             var commentaireToUpdate = await repositoryCommentaire.GetByIds(idReservation, idProfil);
 
-            if (commentaireToUpdate == null)
+            if (commentaireToUpdate.Value == null)
             {
                 return NotFound();
             }
@@ -118,7 +118,7 @@ namespace LeBonCoinAPI.Controllers
           {
               return Problem("Entity set 'DataContext.Commentaires'  is null.");
           }
-            repositoryCommentaire.Add(commentaire);
+            await repositoryCommentaire.Add(commentaire);
 
             return CreatedAtAction("GetCommentaire", new { idProfil = commentaire.ProfilId, idReservation = commentaire.ReservationId }, commentaire);
         }
@@ -133,7 +133,7 @@ namespace LeBonCoinAPI.Controllers
                 return NotFound();
             }
             var commentaire = await repositoryCommentaire.GetByIds(idReservation, idProfil);
-            if (commentaire == null)
+            if (commentaire.Value == null)
             {
                 return NotFound();
             }

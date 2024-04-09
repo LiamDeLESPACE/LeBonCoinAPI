@@ -24,7 +24,26 @@ namespace LeBonCoinAPI
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("PhPpgAdmin")));
+            builder.Services.AddScoped<IRepository<Admin>, AdminManager>();
+            builder.Services.AddScoped<IRepository<Adresse>, AdresseManager>();
+            builder.Services.AddScoped<IRepository<Annonce>, AnnonceManager>();
+            builder.Services.AddScoped<IRepository<CarteBancaire>, CarteBancaireManager>();
+            builder.Services.AddScoped<IRepositoryCommentaire<Commentaire>, CommentaireManager>();
             builder.Services.AddScoped<IRepositoryDepartement<Departement>, DepartementManager>();
+            builder.Services.AddScoped<IRepository<Entreprise>, EntrepriseManager>();
+            builder.Services.AddScoped<IRepository<Equipement>, EquipementManager>();
+            builder.Services.AddScoped<IRepositoryFavoris<Favoris>, FavorisManager>();
+            builder.Services.AddScoped<IRepository<Particulier>, ParticulierManager>();
+            builder.Services.AddScoped<IRepositoryPhoto<Photo>, PhotoManager>();
+            builder.Services.AddScoped<IRepositoryPossedeEquipement<PossedeEquipement>, PossedeEquipementManager>();
+            builder.Services.AddScoped<IRepository<Profil>, ProfilManager>();
+            builder.Services.AddScoped<IRepositoryReglement<Reglement>, ReglementManager>();
+            builder.Services.AddScoped<IRepository<Reservation>, ReservationManager>();
+            builder.Services.AddScoped<IRepository<SecteurActivite>, SecteurActiviteManager>();
+            builder.Services.AddScoped<IRepositorySignale<Signale>, SignaleManager>();
+            builder.Services.AddScoped<IRepository<TypeEquipement>, TypeEquipementManager>();
+            builder.Services.AddScoped<IRepository<TypeLogement>, TypeLogementManager>();
+            builder.Services.AddScoped<IRepositoryVille<Ville>, VilleManager>();
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                  .AddJwtBearer(options =>

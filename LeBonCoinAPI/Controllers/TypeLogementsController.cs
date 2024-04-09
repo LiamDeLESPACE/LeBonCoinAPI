@@ -14,7 +14,6 @@ namespace LeBonCoinAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Policy = Policies.admin)]
     public class TypeLogementsController : ControllerBase
     {
         private readonly IRepository<TypeLogement> _tlRepository;
@@ -57,6 +56,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/TypeLogements/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> PutTypeLogement(int id, TypeLogement typeLogement)
         {
             if (id != typeLogement.TypeLogementId)
@@ -77,6 +77,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/TypeLogements
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<TypeLogement>> PostTypeLogement(TypeLogement typeLogement)
         {
           if (_tlRepository == null)
@@ -90,6 +91,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/TypeLogements/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> DeleteTypeLogement(int id)
         {
             if (_tlRepository == null)

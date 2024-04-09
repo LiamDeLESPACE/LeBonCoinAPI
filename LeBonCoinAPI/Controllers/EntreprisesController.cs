@@ -25,6 +25,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Entreprises
         [HttpGet]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<Entreprise>>> GetEntreprises()
         {
             var res = await repositoryEntreprise.GetAll();
@@ -37,6 +38,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Entreprises/5
         [HttpGet("{id}")]
+        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Entreprise>> GetEntreprise(int id)
         {
 
@@ -53,6 +55,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Entreprises/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = Policies.director)]
         public async Task<IActionResult> PutEntreprise(int id, Entreprise entreprise)
         {
             if (id != entreprise.ProfilId)
@@ -61,7 +64,7 @@ namespace LeBonCoinAPI.Controllers
             }
 
             var entrepriseToUpdate = await repositoryEntreprise.GetById(id);
-            if (entrepriseToUpdate == null)
+            if (entrepriseToUpdate.Value == null)
             {
                 return NotFound();
             }
@@ -90,6 +93,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/Entreprises/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policies.director)]
         public async Task<IActionResult> DeleteEntreprise(int id)
         {
             if (await repositoryEntreprise.GetAll() == null)
@@ -97,7 +101,7 @@ namespace LeBonCoinAPI.Controllers
                 return NotFound();
             }
             var entreprise = await repositoryEntreprise.GetById(id);
-            if (entreprise == null)
+            if (entreprise.Value == null)
             {
                 return NotFound();
             }

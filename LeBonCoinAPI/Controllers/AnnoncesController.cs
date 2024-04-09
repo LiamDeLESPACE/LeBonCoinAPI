@@ -53,6 +53,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Annonces/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> PutAnnonce(int id, Annonce annonce)
         {
             if (id != annonce.AnnonceId)
@@ -61,7 +62,7 @@ namespace LeBonCoinAPI.Controllers
             }
 
             var annonceToUpdate = await repositoryAnnonce.GetById(id);
-            if (annonceToUpdate == null)
+            if (annonceToUpdate.Value == null)
             {
                 return NotFound();
             }
@@ -76,6 +77,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/Annonces
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Annonce>> PostAnnonce(Annonce annonce)
         {
             if (await repositoryAnnonce.GetAll() == null)
@@ -90,6 +92,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/Annonces/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> DeleteAnnonce(int id)
         {
             if (await repositoryAnnonce.GetAll() == null)
@@ -97,7 +100,7 @@ namespace LeBonCoinAPI.Controllers
                 return NotFound();
             }
             var annonce = await repositoryAnnonce.GetById(id);
-            if (annonce == null)
+            if (annonce.Value == null)
             {
                 return NotFound();
             }

@@ -38,7 +38,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Signales/5
         [HttpGet("{idAnnonce}/{idProfil}")]
-        [Authorize(Policy = Policies.admin)]
+        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Signale>> GetSignaleByIds(int idAnnonce, int idProfil)
         {
           if (_repositorySignale == null)

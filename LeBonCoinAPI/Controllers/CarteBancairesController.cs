@@ -25,6 +25,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/CarteBancaires
         [HttpGet]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<CarteBancaire>>> GetCarteBancaires()
         {
             var res = await repositoryCarteBancaire.GetAll();
@@ -37,6 +38,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/CarteBancaires/5
         [HttpGet("{id}")]
+        [Authorize(Policy = Policies.human)]
         public async Task<ActionResult<CarteBancaire>> GetCarteBancaire(int id)
         {
 
@@ -53,6 +55,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/CarteBancaires/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = Policies.human)]
         public async Task<IActionResult> PutCarteBancaire(int id, CarteBancaire carteBancaire)
         {
             if (id != carteBancaire.CarteId)
@@ -61,7 +64,7 @@ namespace LeBonCoinAPI.Controllers
             }
 
             var carteBancaireToUpdate = await repositoryCarteBancaire.GetById(id);
-            if (carteBancaireToUpdate == null)
+            if (carteBancaireToUpdate.Value == null)
             {
                 return NotFound();
             }
@@ -76,6 +79,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/CarteBancaires
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.human)]
         public async Task<ActionResult<CarteBancaire>> PostCarteBancaire(CarteBancaire carteBancaire)
         {
             if (await repositoryCarteBancaire.GetAll() == null)
@@ -90,6 +94,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/CarteBancaires/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policies.human)]
         public async Task<IActionResult> DeleteCarteBancaire(int id)
         {
             if (await repositoryCarteBancaire.GetAll() == null)
@@ -97,7 +102,7 @@ namespace LeBonCoinAPI.Controllers
                 return NotFound();
             }
             var carteBancaire = await repositoryCarteBancaire.GetById(id);
-            if (carteBancaire == null)
+            if (carteBancaire.Value == null)
             {
                 return NotFound();
             }
