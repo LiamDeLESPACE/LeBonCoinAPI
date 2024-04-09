@@ -51,7 +51,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void GetAdmin_ExistingIdPassed_ReturnsRightItem()
         {
-            var mockRepository = new Mock<IRepositoryAdmin<Admin>>();
+            var mockRepository = new Mock<IRepository<Admin>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new AdminsController(mockRepository.Object);
             //Act
@@ -73,7 +73,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void GetAdmin_UnknownIdPassed_ReturnsNotFoundResult()
         {
             //Act
-            var mockRepository = new Mock<IRepositoryAdmin<Admin>>();
+            var mockRepository = new Mock<IRepository<Admin>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new AdminsController(mockRepository.Object);
 
@@ -89,7 +89,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
-            var mockRepository = new Mock<IRepositoryAdmin<Admin>>();
+            var mockRepository = new Mock<IRepository<Admin>>();
             mockRepository.Setup(x => x.GetAll()).Returns(testListe);
             var userController = new AdminsController(mockRepository.Object);
 
@@ -106,7 +106,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostAdmin_ModelValidated_CreationOK()
         {
-            var mockRepository = new Mock<IRepositoryAdmin<Admin>>();
+            var mockRepository = new Mock<IRepository<Admin>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new AdminsController(mockRepository.Object);
 
@@ -125,7 +125,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostAdmin_CreationFailed()
         {
-            var mockRepository = new Mock<IRepositoryAdmin<Admin>>();
+            var mockRepository = new Mock<IRepository<Admin>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new AdminsController(mockRepository.Object);
 
@@ -140,7 +140,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
-            var mockRepository = new Mock<IRepositoryAdmin<Admin>>();
+            var mockRepository = new Mock<IRepository<Admin>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new AdminsController(mockRepository.Object);
 
@@ -157,7 +157,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithValidId_ReturnsNoContent()
         {
-            var mockRepository = new Mock<IRepositoryAdmin<Admin>>();
+            var mockRepository = new Mock<IRepository<Admin>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new AdminsController(mockRepository.Object);
 
@@ -174,7 +174,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void DeleteAdminTest()
         {
 
-            var mockRepository = new Mock<IRepositoryAdmin<Admin>>();
+            var mockRepository = new Mock<IRepository<Admin>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new AdminsController(mockRepository.Object);
 

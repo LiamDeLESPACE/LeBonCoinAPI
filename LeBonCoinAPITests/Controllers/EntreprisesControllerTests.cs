@@ -22,7 +22,7 @@ namespace LeBonCoinAPI.Controllers.Tests
     {
         private EntreprisesController _controller;
         private DataContext _context;
-        private IRepositoryEntreprise<Entreprise> _dataRepository;
+        private IRepository<Entreprise> _dataRepository;
 
         //Arrange
         Entreprise entreprise;
@@ -53,7 +53,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
-            var mockRepository = new Mock<IRepositoryEntreprise<Entreprise>>();
+            var mockRepository = new Mock<IRepository<Entreprise>>();
             mockRepository.Setup(x => x.GetById(7)).Returns(testListe[0]);
             var userController = new EntreprisesController(mockRepository.Object);
 
@@ -75,7 +75,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void GetEntreprise_UnknownIdPassed_ReturnsNotFoundResult()
         {
             //Act
-            var mockRepository = new Mock<IRepositoryEntreprise<Entreprise>>();
+            var mockRepository = new Mock<IRepository<Entreprise>>();
             mockRepository.Setup(x => x.GetById(7)).Returns(testListe[0]);
             var userController = new EntreprisesController(mockRepository.Object);
 
@@ -91,7 +91,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
-            var mockRepository = new Mock<IRepositoryEntreprise<Entreprise>>();
+            var mockRepository = new Mock<IRepository<Entreprise>>();
             mockRepository.Setup(x => x.GetAll()).Returns(testListe);
             var userController = new EntreprisesController(mockRepository.Object);
 
@@ -108,7 +108,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostEntreprise_ModelValidated_CreationOK()
         {
-            var mockRepository = new Mock<IRepositoryEntreprise<Entreprise>>();
+            var mockRepository = new Mock<IRepository<Entreprise>>();
             mockRepository.Setup(x => x.GetById(7)).Returns(testListe[0]);
             var userController = new EntreprisesController(mockRepository.Object);
             //Act
@@ -126,7 +126,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostEntreprise_CreationFailed()
         {
-            var mockRepository = new Mock<IRepositoryEntreprise<Entreprise>>();
+            var mockRepository = new Mock<IRepository<Entreprise>>();
             mockRepository.Setup(x => x.GetById(7)).Returns(testListe[0]);
             var userController = new EntreprisesController(mockRepository.Object);
             //Act
@@ -140,7 +140,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
-            var mockRepository = new Mock<IRepositoryEntreprise<Entreprise>>();
+            var mockRepository = new Mock<IRepository<Entreprise>>();
             mockRepository.Setup(x => x.GetById(7)).Returns(testListe[0]);
             var userController = new EntreprisesController(mockRepository.Object);
 
@@ -157,7 +157,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithValidId_ReturnsNoContent()
         {
-            var mockRepository = new Mock<IRepositoryEntreprise<Entreprise>>();
+            var mockRepository = new Mock<IRepository<Entreprise>>();
             mockRepository.Setup(x => x.GetById(7)).Returns(testListe[0]);
             var userController = new EntreprisesController(mockRepository.Object);
 
@@ -173,7 +173,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void DeleteEntrepriseTest()
         {
-            var mockRepository = new Mock<IRepositoryEntreprise<Entreprise>>();
+            var mockRepository = new Mock<IRepository<Entreprise>>();
             mockRepository.Setup(x => x.GetById(7)).Returns(testListe[0]);
             var userController = new EntreprisesController(mockRepository.Object);
 

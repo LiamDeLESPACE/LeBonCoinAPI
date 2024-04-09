@@ -21,7 +21,7 @@ namespace LeBonCoinAPI.Controllers.Tests
     {
         private TypeLogementsController _controller;
         private DataContext _context;
-        private IRepositoryTypeLogement<TypeLogement> _dataRepository;
+        private IRepository<TypeLogement> _dataRepository;
 
         //Arrange
         TypeLogement typeLogement;
@@ -52,7 +52,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
-            var mockRepository = new Mock<IRepositoryTypeLogement<TypeLogement>>();
+            var mockRepository = new Mock<IRepository<TypeLogement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new TypeLogementsController(mockRepository.Object);
 
@@ -74,7 +74,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void GetTypeLogement_UnknownIdPassed_ReturnsNotFoundResult()
         {
             //Act
-            var mockRepository = new Mock<IRepositoryTypeLogement<TypeLogement>>();
+            var mockRepository = new Mock<IRepository<TypeLogement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new TypeLogementsController(mockRepository.Object);
 
@@ -88,7 +88,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void GetTypeLogements_ReturnsRightItems()
         {
-            var mockRepository = new Mock<IRepositoryTypeLogement<TypeLogement>>();
+            var mockRepository = new Mock<IRepository<TypeLogement>>();
             mockRepository.Setup(x => x.GetAll()).Returns(testListe);
             var userController = new TypeLogementsController(mockRepository.Object);
             //Act
@@ -107,7 +107,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
-            var mockRepository = new Mock<IRepositoryTypeLogement<TypeLogement>>();
+            var mockRepository = new Mock<IRepository<TypeLogement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new TypeLogementsController(mockRepository.Object);
 
@@ -125,7 +125,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostTypeLogement_CreationFailed()
         {
-            var mockRepository = new Mock<IRepositoryTypeLogement<TypeLogement>>();
+            var mockRepository = new Mock<IRepository<TypeLogement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new TypeLogementsController(mockRepository.Object);
 
@@ -140,7 +140,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
-            var mockRepository = new Mock<IRepositoryTypeLogement<TypeLogement>>();
+            var mockRepository = new Mock<IRepository<TypeLogement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new TypeLogementsController(mockRepository.Object);
             // Arrange
@@ -156,7 +156,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithValidId_ReturnsNoContent()
         {
-            var mockRepository = new Mock<IRepositoryTypeLogement<TypeLogement>>();
+            var mockRepository = new Mock<IRepository<TypeLogement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new TypeLogementsController(mockRepository.Object);
 
@@ -172,7 +172,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void DeleteTypeLogementTest()
         {
-            var mockRepository = new Mock<IRepositoryTypeLogement<TypeLogement>>();
+            var mockRepository = new Mock<IRepository<TypeLogement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new TypeLogementsController(mockRepository.Object);
             

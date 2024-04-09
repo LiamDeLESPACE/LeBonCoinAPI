@@ -22,7 +22,7 @@ namespace LeBonCoinAPI.Controllers.Tests
     {
         private TypeEquipementsController _controller;
         private DataContext _context;
-        private IRepositoryTypeEquipement<TypeEquipement> _dataRepository;
+        private IRepository<TypeEquipement> _dataRepository;
 
         //Arrange
         TypeEquipement typeEquipement;
@@ -53,7 +53,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
-            var mockRepository = new Mock<IRepositoryTypeEquipement<TypeEquipement>>();
+            var mockRepository = new Mock<IRepository<TypeEquipement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new TypeEquipementsController(mockRepository.Object);
 
@@ -75,7 +75,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void GetTypeEquipement_UnknownIdPassed_ReturnsNotFoundResult()
         {
             //Act
-            var mockRepository = new Mock<IRepositoryTypeEquipement<TypeEquipement>>();
+            var mockRepository = new Mock<IRepository<TypeEquipement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new TypeEquipementsController(mockRepository.Object);
 
@@ -89,7 +89,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void GetTypeEquipements_ReturnsRightItems()
         {
-            var mockRepository = new Mock<IRepositoryTypeEquipement<TypeEquipement>>();
+            var mockRepository = new Mock<IRepository<TypeEquipement>>();
             mockRepository.Setup(x => x.GetAll()).Returns(testListe);
             var userController = new TypeEquipementsController(mockRepository.Object);
 
@@ -107,7 +107,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostTypeEquipement_ModelValidated_CreationOK()
         {
-            var mockRepository = new Mock<IRepositoryTypeEquipement<TypeEquipement>>();
+            var mockRepository = new Mock<IRepository<TypeEquipement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new TypeEquipementsController(mockRepository.Object);
 
@@ -126,7 +126,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostTypeEquipement_CreationFailed()
         {
-            var mockRepository = new Mock<IRepositoryTypeEquipement<TypeEquipement>>();
+            var mockRepository = new Mock<IRepository<TypeEquipement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new TypeEquipementsController(mockRepository.Object);
 
@@ -141,7 +141,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
-            var mockRepository = new Mock<IRepositoryTypeEquipement<TypeEquipement>>();
+            var mockRepository = new Mock<IRepository<TypeEquipement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new TypeEquipementsController(mockRepository.Object);
 
@@ -158,7 +158,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithValidId_ReturnsNoContent()
         {
-            var mockRepository = new Mock<IRepositoryTypeEquipement<TypeEquipement>>();
+            var mockRepository = new Mock<IRepository<TypeEquipement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new TypeEquipementsController(mockRepository.Object);
 
@@ -174,7 +174,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void DeleteTypeEquipementTest()
         {
-            var mockRepository = new Mock<IRepositoryTypeEquipement<TypeEquipement>>();
+            var mockRepository = new Mock<IRepository<TypeEquipement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new TypeEquipementsController(mockRepository.Object);
 

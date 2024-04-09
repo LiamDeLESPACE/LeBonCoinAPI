@@ -21,7 +21,7 @@ namespace LeBonCoinAPI.Controllers.Tests
     {
         private EquipementsController _controller;
         private Mock<DataContext> _context;
-        private IRepositoryEquipement<Equipement> _dataRepository;
+        private IRepository<Equipement> _dataRepository;
 
 
         //Arrange
@@ -53,7 +53,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
-            var mockRepository = new Mock<IRepositoryEquipement<Equipement>>();
+            var mockRepository = new Mock<IRepository<Equipement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new EquipementsController(mockRepository.Object);
 
@@ -75,7 +75,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void GetEquipement_UnknownIdPassed_ReturnsNotFoundResult()
         {
             //Act
-            var mockRepository = new Mock<IRepositoryEquipement<Equipement>>();
+            var mockRepository = new Mock<IRepository<Equipement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new EquipementsController(mockRepository.Object);
 
@@ -89,7 +89,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void GetEquipements_ReturnsRightItems()
         {
-            var mockRepository = new Mock<IRepositoryEquipement<Equipement>>();
+            var mockRepository = new Mock<IRepository<Equipement>>();
             mockRepository.Setup(x => x.GetAll()).Returns(testListe);
             var userController = new EquipementsController(mockRepository.Object);
 
@@ -107,7 +107,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostEquipement_ModelValidated_CreationOK()
         {
-            var mockRepository = new Mock<IRepositoryEquipement<Equipement>>();
+            var mockRepository = new Mock<IRepository<Equipement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new EquipementsController(mockRepository.Object);
 
@@ -126,7 +126,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostEquipement_CreationFailed()
         {
-            var mockRepository = new Mock<IRepositoryEquipement<Equipement>>();
+            var mockRepository = new Mock<IRepository<Equipement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new EquipementsController(mockRepository.Object);
 
@@ -141,7 +141,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
-            var mockRepository = new Mock<IRepositoryEquipement<Equipement>>();
+            var mockRepository = new Mock<IRepository<Equipement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new EquipementsController(mockRepository.Object);
 
@@ -158,7 +158,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithValidId_ReturnsNoContent()
         {
-            var mockRepository = new Mock<IRepositoryEquipement<Equipement>>();
+            var mockRepository = new Mock<IRepository<Equipement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new EquipementsController(mockRepository.Object);
 
@@ -174,7 +174,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void DeleteEquipementTest()
         {
-            var mockRepository = new Mock<IRepositoryEquipement<Equipement>>();
+            var mockRepository = new Mock<IRepository<Equipement>>();
             mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
             var userController = new EquipementsController(mockRepository.Object);
 
