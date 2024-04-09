@@ -63,7 +63,7 @@ namespace LeBonCoinAPI.Controllers
             }
 
             var adminToUpdate = await repositoryAdmin.GetById(id);
-            if (adminToUpdate == null)
+            if (adminToUpdate.Value == null)
             {
                 return NotFound();
             }
@@ -99,7 +99,7 @@ namespace LeBonCoinAPI.Controllers
                 return NotFound();
             }
             var admin = await repositoryAdmin.GetById(id);
-            if (admin == null)
+            if (admin.Value == null)
             {
                 return NotFound();
             }

@@ -25,6 +25,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Photos
         [HttpGet]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<Photo>>> GetPhotos()
         {
             var res = await repositoryPhoto.GetAll();
@@ -83,6 +84,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Photos/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> PutPhoto(int id, Photo photo)
         {
             if (id != photo.PhotoId)
@@ -106,6 +108,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/Photos
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Photo>> PostPhoto(Photo photo)
         {
             if (await repositoryPhoto.GetAll() == null)
@@ -120,6 +123,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/Photos/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> DeletePhoto(int id)
         {
             if (await repositoryPhoto.GetAll() == null)

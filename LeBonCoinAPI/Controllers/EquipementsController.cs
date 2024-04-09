@@ -53,6 +53,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Equipements/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> PutEquipement(int id, Equipement equipement)
         {
             if (id != equipement.EquipementId)
@@ -61,7 +62,7 @@ namespace LeBonCoinAPI.Controllers
             }
 
             var equipementToUpdate = await repositoryEquipement.GetById(id);
-            if (equipementToUpdate == null)
+            if (equipementToUpdate.Value == null)
             {
                 return NotFound();
             }
@@ -76,6 +77,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/Equipements
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<Equipement>> PostEquipement(Equipement equipement)
         {
             if (await repositoryEquipement.GetAll() == null)
@@ -90,6 +92,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/Equipements/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> DeleteEquipement(int id)
         {
             if (await repositoryEquipement.GetAll() == null)
@@ -97,7 +100,7 @@ namespace LeBonCoinAPI.Controllers
                 return NotFound();
             }
             var equipement = await repositoryEquipement.GetById(id);
-            if (equipement == null)
+            if (equipement.Value == null)
             {
                 return NotFound();
             }

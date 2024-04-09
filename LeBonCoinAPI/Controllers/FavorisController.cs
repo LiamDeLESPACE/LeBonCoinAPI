@@ -79,7 +79,7 @@ namespace LeBonCoinAPI.Controllers
 
             var favorisToUpdate = await repositoryFavoris.GetByIds(idProfil, idAnnonce);
 
-            if (favorisToUpdate == null)
+            if (favorisToUpdate.Value == null)
             {
                 return NotFound();
             }
@@ -117,7 +117,7 @@ namespace LeBonCoinAPI.Controllers
                 return NotFound();
             }
             var favoris = await repositoryFavoris.GetByIds(idProfil, idAnnonce);
-            if (favoris == null)
+            if (favoris.Value == null)
             {
                 return NotFound();
             }

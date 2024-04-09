@@ -37,8 +37,8 @@ namespace LeBonCoinAPI.Controllers
         }
 
         // GET: api/PossedeEquipements/5
-        [HttpGet("{idAnnonce}/{idProfil}")]
-        [Authorize(Policy = Policies.admin)]
+        [HttpGet("{idAnnonce}/{idEquipement}")]
+        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<PossedeEquipement>> GetPossedeEquipementByIds(int idAnnonce, int idEquipement)
         {
             if (_repositoryPossedeEquipement == null)
@@ -143,7 +143,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/PossedeEquipements/5
         [HttpDelete("{idAnnonce}/{idProfil}")]
-        [Authorize(Policy = Policies.admin)]
+        [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> DeletePossedeEquipement(int idAnnonce, int idProfil)
         {
             if (_repositoryPossedeEquipement == null)

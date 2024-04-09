@@ -14,7 +14,6 @@ namespace LeBonCoinAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Policy = Policies.admin)]
     public class SecteurActivitesController : ControllerBase
     {
         private readonly IRepository<SecteurActivite> repositorySecteurActivite;
@@ -54,6 +53,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/SecteurActivites/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> PutSecteurActivite(int id, SecteurActivite secteurActivite)
         {
             if (id != secteurActivite.SecteurId)
@@ -77,6 +77,7 @@ namespace LeBonCoinAPI.Controllers
         // POST: api/SecteurActivites
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<SecteurActivite>> PostSecteurActivite(SecteurActivite secteurActivite)
         {
             if (await repositorySecteurActivite.GetAll() == null)
@@ -91,6 +92,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/SecteurActivites/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> DeleteSecteurActivite(int id)
         {
             if (await repositorySecteurActivite.GetAll() == null)
