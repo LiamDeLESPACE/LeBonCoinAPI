@@ -80,7 +80,7 @@ namespace LeBonCoinAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Particulier>> PostParticulier(Particulier particulier)
         {
-            if (await repositoryParticulier.GetAll() == null)
+            if (repositoryParticulier == null)
             {
                 return Problem("Entity set 'DataContext.Particuliers'  is null.");
             }

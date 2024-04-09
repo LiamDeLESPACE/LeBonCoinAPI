@@ -98,7 +98,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Favoris>> PostFavoris(Favoris favoris)
         {
-            if (await repositoryFavoris.GetAll() == null)
+            if (repositoryFavoris == null)
             {
                 return Problem("Entity set 'DataContext.Favoris'  is null.");
             }

@@ -27,6 +27,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         //Arrange
         Photo photoProfil;
+        Photo photoProfilUpdated;
         List<Photo> testListe;
 
         public PhotosControllerTests()
@@ -42,6 +43,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
             // Rajouter les initialisations exécutées avant chaque test
             photoProfil = new Photo { PhotoId = 151, ProfilId=1, AnnonceId=null, URL= "photo (151)" };
+            photoProfilUpdated = new Photo { PhotoId = 151, ProfilId=1, AnnonceId=null, URL= "photo (152)" };
 
             testListe = new List<Photo>();
             testListe.Add(new Photo { PhotoId = 1, ProfilId = null, AnnonceId = 1, URL = "photo (1)" });
@@ -110,7 +112,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var mockRepository = new Mock<IRepositoryPhoto<Photo>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(1).Result).Returns(testListeAnnonce[0]);
             var userController = new PhotosController(mockRepository.Object);
 
             var result = userController.PostPhoto(photoProfil).Result;
@@ -130,7 +132,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var mockRepository = new Mock<IRepositoryPhoto<Photo>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(1).Result).Returns(testListeAnnonce[0]);
             var userController = new PhotosController(mockRepository.Object);
 
             var result = userController.PostPhoto(photoProfil).Result;
@@ -141,34 +143,34 @@ namespace LeBonCoinAPI.Controllers.Tests
         }
 
         [TestMethod()]
-        public async Task Put_WithInvalidId_ReturnsBadRequest()
+        public void Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepositoryPhoto<Photo>>();
-            mockRepository.Setup(x => x.GetById(151).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(151).Result).Returns(photoProfil);
             var userController = new PhotosController(mockRepository.Object);
             // Arrange
             int id = 2;//Mauvais ID
 
             // Act
-            var result = await userController.PutPhoto(id, photoProfil);
+            var result = userController.PutPhoto(id, photoProfilUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+            Assert.IsInstanceOfType(result.Result, typeof(BadRequestResult), "Pas un BadRequestResult");
         }
 
         [TestMethod()]
-        public async Task Put_WithValidId_ReturnsNoContent()
+        public void Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepositoryPhoto<Photo>>();
-            mockRepository.Setup(x => x.GetById(151).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(151).Result).Returns(photoProfil);
             var userController = new PhotosController(mockRepository.Object);
             int id = 151; //BonID
 
             // Act
-            var result = await userController.PutPhoto(id, photoProfil);
+            var result = userController.PutPhoto(id, photoProfilUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(NoContentResult));
+            Assert.IsInstanceOfType(result.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
 
         [TestMethod()]
