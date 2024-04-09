@@ -27,7 +27,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         //Arrange
         Photo photoProfil;
-        List<Photo> testListeAnnonce;
+        List<Photo> testListe;
 
         public PhotosControllerTests()
         {
@@ -43,9 +43,9 @@ namespace LeBonCoinAPI.Controllers.Tests
             // Rajouter les initialisations exécutées avant chaque test
             photoProfil = new Photo { PhotoId = 151, ProfilId=1, AnnonceId=null, URL= "photo (151)" };
 
-            testListeAnnonce = new List<Photo>();
-            testListeAnnonce.Add(new Photo { PhotoId = 1, ProfilId = null, AnnonceId = 1, URL = "photo (1)" });
-            testListeAnnonce.Add(new Photo { PhotoId = 2, ProfilId = null, AnnonceId = 1, URL = "photo (2)" });
+            testListe = new List<Photo>();
+            testListe.Add(new Photo { PhotoId = 1, ProfilId = null, AnnonceId = 1, URL = "photo (1)" });
+            testListe.Add(new Photo { PhotoId = 2, ProfilId = null, AnnonceId = 1, URL = "photo (2)" });
 
         }
 
@@ -55,7 +55,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var mockRepository = new Mock<IRepositoryPhoto<Photo>>();
-            mockRepository.Setup(x => x.GetByIdAnnonce(1).Result).Returns(testListeAnnonce);
+            mockRepository.Setup(x => x.GetByIdAnnonce(1).Result).Returns(testListe);
             var userController = new PhotosController(mockRepository.Object);
 
             var result = userController.GetPhotosAnnonce(1);
@@ -65,7 +65,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             ActionResult<IEnumerable<Photo>> actionResult = result.Result as ActionResult<IEnumerable<Photo>>;
             Assert.IsNotNull(actionResult, "ActionResult null");
             Assert.IsNotNull(actionResult.Value, "Valeur nulle");
-            CollectionAssert.AreEqual(testListeAnnonce, actionResult.Value.Where(s => s.AnnonceId == 1).ToList(), "Pas les mêmes Photos");
+            CollectionAssert.AreEqual(testListe, actionResult.Value.Where(s => s.AnnonceId == 1).ToList(), "Pas les mêmes Photos");
         }
         [TestMethod()]
         public void GetPhotoProfil_ExistingIdPassed_ReturnsRightItem()
@@ -73,10 +73,10 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var mockRepository = new Mock<IRepositoryPhoto<Photo>>();
-            mockRepository.Setup(x => x.GetById(151).Result).Returns(photoProfil);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new PhotosController(mockRepository.Object);
 
-            var result = userController.GetPhotoProfil(151);
+            var result = userController.GetPhotoProfil(1);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Photo>), "Pas un ActionResult");
@@ -87,14 +87,14 @@ namespace LeBonCoinAPI.Controllers.Tests
             Assert.IsNotNull(actionResult, "ActionResult null");
             Assert.IsNotNull(actionResult.Value, "Valeur nulle");
             Assert.IsInstanceOfType(actionResult.Value, typeof(Photo), "Pas une Photo");
-            Assert.AreEqual(photoProfil, (Photo)actionResult.Value, "Photo pas identiques");
+            Assert.AreEqual(testListe[0], (Photo)actionResult.Value, "Photo pas identiques");
         }
         [TestMethod()]
         public void GetPhoto_UnknownIdPassed_ReturnsNotFoundResult()
         {
             //Act
             var mockRepository = new Mock<IRepositoryPhoto<Photo>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListeAnnonce[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new PhotosController(mockRepository.Object);
 
             var result = userController.GetPhotoProfil(0);
@@ -110,7 +110,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var mockRepository = new Mock<IRepositoryPhoto<Photo>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListeAnnonce[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new PhotosController(mockRepository.Object);
 
             var result = userController.PostPhoto(photoProfil).Result;
@@ -130,7 +130,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var mockRepository = new Mock<IRepositoryPhoto<Photo>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListeAnnonce[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new PhotosController(mockRepository.Object);
 
             var result = userController.PostPhoto(photoProfil).Result;
@@ -144,7 +144,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepositoryPhoto<Photo>>();
-            mockRepository.Setup(x => x.GetById(151).Result).Returns(testListeAnnonce[0]);
+            mockRepository.Setup(x => x.GetById(151).Result).Returns(testListe[0]);
             var userController = new PhotosController(mockRepository.Object);
             // Arrange
             int id = 2;//Mauvais ID
@@ -160,7 +160,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public async Task Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepositoryPhoto<Photo>>();
-            mockRepository.Setup(x => x.GetById(151).Result).Returns(testListeAnnonce[0]);
+            mockRepository.Setup(x => x.GetById(151).Result).Returns(testListe[0]);
             var userController = new PhotosController(mockRepository.Object);
             int id = 151; //BonID
 
@@ -176,7 +176,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             var mockRepository = new Mock<IRepositoryPhoto<Photo>>();
-            mockRepository.Setup(x => x.GetById(151).Result).Returns(testListeAnnonce[0]);
+            mockRepository.Setup(x => x.GetById(151).Result).Returns(testListe[0]);
             var userController = new PhotosController(mockRepository.Object);
 
             //Act

@@ -35,5 +35,13 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [ForeignKey(nameof(ReservationId))]
         [InverseProperty(nameof(Reservation.CommentairesReservation))]
         public virtual Reservation ReservationCommentaire { get; set; } = null!;
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Commentaire commentaire &&
+                   ProfilId == commentaire.ProfilId &&
+                   ReservationId == commentaire.ReservationId &&
+                   Contenu == commentaire.Contenu;
+        }
     }
 }

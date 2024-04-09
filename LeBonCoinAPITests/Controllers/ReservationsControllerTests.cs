@@ -25,6 +25,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         //Arrange
         Reservation reservation;
+        Reservation reservationUpdated;
         List<Reservation> testListe;
 
         public ReservationsControllerTests()
@@ -40,6 +41,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
             // Rajouter les initialisations exécutées avant chaque test
             reservation = new Reservation { ReservationId=1, AnnonceId=46, ProfilId=75, DateArrivee=DateTime.Parse("2021-12-01"), DateDepart = DateTime.Parse("2021-12-11"), NombreVoyageur = 9, Nom="Fabre", Prenom="Dara", Telephone="0616708214" };
+            reservationUpdated = new Reservation { ReservationId=1, AnnonceId=46, ProfilId=75, DateArrivee=DateTime.Parse("2021-12-01"), DateDepart = DateTime.Parse("2021-12-11"), NombreVoyageur = 1, Nom="Fabre", Prenom="Dara", Telephone="0616708214" };
 
             testListe = new List<Reservation>();
             testListe.Add(reservation);
@@ -106,7 +108,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostReservation_ModelValidated_CreationOK()
         {
             var mockRepository = new Mock<IRepository<Reservation>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new ReservationsController(mockRepository.Object);
 
             //Act
@@ -125,7 +127,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostReservation_CreationFailed()
         {
             var mockRepository = new Mock<IRepository<Reservation>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new ReservationsController(mockRepository.Object);
 
             //Act
@@ -137,36 +139,36 @@ namespace LeBonCoinAPI.Controllers.Tests
         }
 
         [TestMethod()]
-        public async Task Put_WithInvalidId_ReturnsBadRequest()
+        public void Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepository<Reservation>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(reservation);
             var userController = new ReservationsController(mockRepository.Object);
 
             // Arrange
             int id = 37;//Mauvais ID
 
             // Act
-            var result = await userController.PutReservation(id, reservation);
+            var result = userController.PutReservation(id, reservationUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+            Assert.IsInstanceOfType(result.Result, typeof(BadRequestResult), "Pas un BadRequestResult");
         }
 
         [TestMethod()]
-        public async Task Put_WithValidId_ReturnsNoContent()
+        public void Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepository<Reservation>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(reservation);
             var userController = new ReservationsController(mockRepository.Object);
 
             int id = 1; //BonID
 
             // Act
-            var result = await userController.PutReservation(id, reservation);
+            var result = userController.PutReservation(id, reservationUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(NoContentResult));
+            Assert.IsInstanceOfType(result.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
 
         [TestMethod()]

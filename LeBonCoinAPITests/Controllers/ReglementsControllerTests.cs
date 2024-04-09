@@ -26,6 +26,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         //Arrange
         Reglement reglement;
+        Reglement reglementUpdated;
         List<Reglement> testListe;
 
         public ReglementsControllerTests()
@@ -41,6 +42,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
             // Rajouter les initialisations exécutées avant chaque test
             reglement = new Reglement { ReglementId= "RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051", ReservationId=1 };
+            reglementUpdated = new Reglement { ReglementId= "RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051", ReservationId=2 };
 
             testListe = new List<Reglement>();
             testListe.Add(reglement);
@@ -106,7 +108,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostReglement_ModelValidated_CreationOK()
         {
             var mockRepository = new Mock<IRepositoryReglement<Reglement>>();
-            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051").Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051").Result).Returns(testListe[0]);
             var userController = new ReglementsController(mockRepository.Object);
 
             //Act
@@ -125,7 +127,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostReglement_CreationFailed()
         {
             var mockRepository = new Mock<IRepositoryReglement<Reglement>>();
-            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051").Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051").Result).Returns(testListe[0]);
             var userController = new ReglementsController(mockRepository.Object);
             //Act
             var result = userController.PostReglement(reglement).Result;
@@ -136,36 +138,36 @@ namespace LeBonCoinAPI.Controllers.Tests
         }
 
         [TestMethod()]
-        public async Task Put_WithInvalidId_ReturnsBadRequest()
+        public void Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepositoryReglement<Reglement>>();
-            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051").Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051").Result).Returns(reglement);
             var userController = new ReglementsController(mockRepository.Object);
 
             // Arrange
             string id = "RG-ZOBFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LDBHG";//Mauvais ID
 
             // Act
-            var result = await userController.PutReglement(id, reglement);
+            var result = userController.PutReglement(id, reglementUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+            Assert.IsInstanceOfType(result.Result, typeof(BadRequestResult), "Pas un BadRequestResult");
         }
 
         [TestMethod()]
-        public async Task Put_WithValidId_ReturnsNoContent()
+        public void Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepositoryReglement<Reglement>>();
-            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051").Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051").Result).Returns(reglement);
             var userController = new ReglementsController(mockRepository.Object);
 
             string id = "RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051";//Bon ID
 
             // Act
-            var result = await userController.PutReglement(id, reglement);
+            var result = userController.PutReglement(id, reglementUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(NoContentResult));
+            Assert.IsInstanceOfType(result.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
 
         [TestMethod()]

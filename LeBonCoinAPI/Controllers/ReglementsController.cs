@@ -79,7 +79,7 @@ namespace LeBonCoinAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Reglement>> PostReglement(Reglement reglement)
         {
-            if (await repositoryReglement.GetAll() == null)
+            if (repositoryReglement == null)
             {
                 return Problem("Entity set 'DataContext.Reglements'  is null.");
             }

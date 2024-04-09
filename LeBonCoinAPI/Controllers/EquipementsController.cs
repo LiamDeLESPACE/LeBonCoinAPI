@@ -39,6 +39,10 @@ namespace LeBonCoinAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Equipement>> GetEquipement(int id)
         {
+            if (repositoryEquipement == null)
+            {
+                return NotFound();
+            }
 
             var equipement = await repositoryEquipement.GetById(id);
 

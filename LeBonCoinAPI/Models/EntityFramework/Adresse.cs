@@ -59,5 +59,13 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Ville.AdressesVille))]
         public virtual Ville VilleAdresse { get; set; } = null!;
 
+        public override bool Equals(object? obj)
+        {
+            return obj is Adresse adresse &&
+                   AdresseId == adresse.AdresseId &&
+                   CodeInsee == adresse.CodeInsee &&
+                   Rue == adresse.Rue &&
+                   Numero == adresse.Numero;
+        }
     }
 }
