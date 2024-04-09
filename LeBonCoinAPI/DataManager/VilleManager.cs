@@ -18,9 +18,13 @@ namespace LeBonCoinAPI.DataManager
             return await dataContext.Villes.ToListAsync();
         }
 
-        public async Task<ActionResult<Ville>> GetByString(string codeInsee)
+        public async Task<ActionResult<Ville>> GetByInsee(string codeInsee)
         {
             return await dataContext.Villes.FindAsync(codeInsee);
+        }
+        public async Task<ActionResult<Ville>> GetByNom(string nom)
+        {
+            return await dataContext.Villes.FirstOrDefaultAsync(v => v.Nom.ToUpper() == nom.ToUpper());
         }
         public async Task Add(Ville entity)
         {
