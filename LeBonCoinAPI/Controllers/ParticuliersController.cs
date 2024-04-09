@@ -25,6 +25,7 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Particuliers
         [HttpGet]
+        [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<IEnumerable<Particulier>>> GetParticuliers()
         {
             var res = await repositoryParticulier.GetAll();
@@ -53,6 +54,7 @@ namespace LeBonCoinAPI.Controllers
         // PUT: api/Particuliers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Policy = Policies.human)]
         public async Task<IActionResult> PutParticulier(int id, Particulier particulier)
         {
             if (id != particulier.ProfilId)
@@ -61,7 +63,7 @@ namespace LeBonCoinAPI.Controllers
             }
 
             var particulierToUpdate = await repositoryParticulier.GetById(id);
-            if (particulierToUpdate == null)
+            if (particulierToUpdate.Value == null)
             {
                 return NotFound();
             }
@@ -90,6 +92,7 @@ namespace LeBonCoinAPI.Controllers
 
         // DELETE: api/Particuliers/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = Policies.human)]
         public async Task<IActionResult> DeleteParticulier(int id)
         {
             if (await repositoryParticulier.GetAll() == null)
@@ -97,7 +100,7 @@ namespace LeBonCoinAPI.Controllers
                 return NotFound();
             }
             var particulier = await repositoryParticulier.GetById(id);
-            if (particulier == null)
+            if (particulier.Value == null)
             {
                 return NotFound();
             }

@@ -17,7 +17,6 @@ namespace LeBonCoinAPI.Controllers
     [Authorize(Policy = Policies.admin)]
     public class ProfilsController : ControllerBase
     {
-#warning touche pas à ça !!!!!
 
         private readonly IRepository<Profil> repositoryProfil;
 
