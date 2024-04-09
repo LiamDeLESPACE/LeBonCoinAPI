@@ -143,7 +143,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepositoryVille<Ville>>();
-            mockRepository.Setup(x => x.GetByString("01004").Result).Returns(ville);
+            mockRepository.Setup(x => x.GetByInsee("01004").Result).Returns(ville);
             var userController = new VillesController(mockRepository.Object);
 
       
@@ -160,7 +160,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepositoryVille<Ville>>();
-            mockRepository.Setup(x => x.GetByString("01004").Result).Returns(ville);
+            mockRepository.Setup(x => x.GetByInsee("01004").Result).Returns(ville);
             var userController = new VillesController(mockRepository.Object);
 
             
