@@ -111,7 +111,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var mockRepository = new Mock<IRepositoryFavoris<Favoris>>();
-            mockRepository.Setup(x => x.GetByIds(90, 31).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetByIds(90, 31).Result).Returns(testListe[0]);
             var userController = new FavorisController(mockRepository.Object);
 
             var result = userController.PostFavoris(favoris).Result;
@@ -131,7 +131,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var mockRepository = new Mock<IRepositoryFavoris<Favoris>>();
-            mockRepository.Setup(x => x.GetByIds(90, 31).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetByIds(90, 31).Result).Returns(testListe[0]);
             var userController = new FavorisController(mockRepository.Object);
 
             var result = userController.PostFavoris(favoris).Result;
