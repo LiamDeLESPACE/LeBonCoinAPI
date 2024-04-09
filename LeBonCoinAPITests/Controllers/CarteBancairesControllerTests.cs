@@ -104,7 +104,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             ActionResult<IEnumerable<CarteBancaire>> actionResult = result.Result as ActionResult<IEnumerable<CarteBancaire>>;
             Assert.IsNotNull(actionResult, "ActionResult null");
             Assert.IsNotNull(actionResult.Value, "Valeur nulle");
-            CollectionAssert.AreEqual(testListe, actionResult.Value.Where(s => s.ProfilId <=2).ToList(), "Pas les mêmes CarteBancaires");
+            CollectionAssert.AreEqual(testListe, actionResult.Value.Where(s => s.CarteId <=2).ToList(), "Pas les mêmes CarteBancaires");
         }
 
         [TestMethod()]

@@ -79,7 +79,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetByIds(90, 31).Result).Returns(testListe[0]);
             var userController = new FavorisController(mockRepository.Object);
 
-            var result = userController.GetFavoris(90,31);
+            var result = userController.GetFavoris(0,0);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Favoris>), "Pas un ActionResult");

@@ -101,7 +101,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             ActionResult<IEnumerable<Reservation>> actionResult = result.Result as ActionResult<IEnumerable<Reservation>>;
             Assert.IsNotNull(actionResult, "ActionResult null");
             Assert.IsNotNull(actionResult.Value, "Valeur nulle");
-            CollectionAssert.AreEqual(testListe, actionResult.Value.Where(s => s.AnnonceId <=2).ToList(), "Pas les mêmes Reservations");
+            CollectionAssert.AreEqual(testListe, actionResult.Value.Where(s => s.ReservationId <=2).ToList(), "Pas les mêmes Reservations");
         }
 
         [TestMethod()]

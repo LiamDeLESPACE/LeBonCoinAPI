@@ -78,7 +78,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new PhotosController(mockRepository.Object);
 
-            var result = userController.GetPhotoProfil(1);
+            var result = userController.GetPhoto(1);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Photo>), "Pas un ActionResult");

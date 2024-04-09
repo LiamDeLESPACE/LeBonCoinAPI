@@ -77,7 +77,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new SignalesController(mockRepository.Object);
 
             //Act
-            var result = userController.GetSignaleByIdProfil(0);
+            var result = userController.GetSignaleByIds(0, 0);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Signale>), "Pas un ActionResult");

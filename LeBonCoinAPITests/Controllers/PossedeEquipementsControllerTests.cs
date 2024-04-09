@@ -79,7 +79,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetByIds(43, 17).Result).Returns(testListe[0]);
             var userController = new PossedeEquipementsController(mockRepository.Object);
 
-            var result = userController.GetPossedeEquipementByIdAnnonce(0);
+            var result = userController.GetPossedeEquipementByIds(0,0);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<PossedeEquipement>), "Pas un ActionResult");
