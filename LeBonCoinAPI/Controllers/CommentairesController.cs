@@ -124,11 +124,11 @@ namespace LeBonCoinAPI.Controllers
         }
 
         // DELETE: api/Commentaires/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{idProfil}/{idReservation}")]
         [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> DeleteCommentaire(int idProfil, int idReservation)
         {
-            if (await repositoryCommentaire.GetAll() == null)
+            if (repositoryCommentaire == null)
             {
                 return NotFound();
             }

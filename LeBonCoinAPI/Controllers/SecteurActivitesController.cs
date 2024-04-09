@@ -62,7 +62,7 @@ namespace LeBonCoinAPI.Controllers
             }
 
             var secteurActiviteToUpdate = await repositorySecteurActivite.GetById(id);
-            if (secteurActiviteToUpdate == null)
+            if (secteurActiviteToUpdate.Value == null)
             {
                 return NotFound();
             }
@@ -95,7 +95,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> DeleteSecteurActivite(int id)
         {
-            if (await repositorySecteurActivite.GetAll() == null)
+            if (repositorySecteurActivite == null)
             {
                 return NotFound();
             }

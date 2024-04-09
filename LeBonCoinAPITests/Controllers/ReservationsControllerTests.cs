@@ -180,8 +180,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var resultDest = userController.DeleteReservation(1);
 
             //Assert
-            Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Reservation>), "Pas un ActionResult");
-            Assert.IsNull(resultDest.Result, "Reservation pas null");
+            Assert.IsInstanceOfType(resultDest.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
     }
 }

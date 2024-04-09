@@ -22,6 +22,10 @@ namespace LeBonCoinAPI.DataManager
         {
             return await dataContext.Departements.FirstOrDefaultAsync(u => u.Nom.ToUpper() == nom.ToUpper());
         }
+        public async Task<ActionResult<Departement>> GetByCode(string code)
+        {
+            return await dataContext.Departements.FirstOrDefaultAsync(u => u.DepartementCode == code);
+        }
         public async Task Add(Departement entity)
         {
             await dataContext.Departements.AddAsync(entity);

@@ -9,6 +9,7 @@ using LeBonCoinAPI.Models.EntityFramework;
 using LeBonCoinAPI.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
 using LeBonCoinAPI.Models.Repository;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace LeBonCoinAPI.Controllers
 {
@@ -35,12 +36,11 @@ namespace LeBonCoinAPI.Controllers
             return await _villeRepository.GetAll();
         }
 
-        // GET: api/Villes/5
-        [HttpGet("{id}")]
-        [Authorize(Policy = Policies.all)]
-        public async Task<ActionResult<Ville>> GetVille(string id)
+        // GET: api/Villes/i/74000
+        [HttpGet("i/{codeInsee}")]
+        public async Task<ActionResult<Ville>> GetVilleByInsee(string codeInsee)
         {
-            var ville = await _villeRepository.GetByString(id);
+            var ville = await _villeRepository.GetByInsee(codeInsee);
 
           if (_villeRepository == null)
           {
@@ -55,18 +55,37 @@ namespace LeBonCoinAPI.Controllers
             return ville;
         }
 
-        // PUT: api/Villes/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        [Authorize(Policy = Policies.admin)]
-        public async Task<IActionResult> PutVille(string id, Ville ville)
+        // GET: api/Villes/i/Annecy
+        [HttpGet("n/{nomVille}")]
+        public async Task<ActionResult<Ville>> GetVilleByName(string nomVille)
         {
-            if (id != ville.CodeInsee)
+            var ville = await _villeRepository.GetByNom(nomVille);
+
+            if (_villeRepository == null)
+            {
+                return NotFound();
+            }
+
+            if (ville == null)
+            {
+                return NotFound();
+            }
+
+            return ville;
+        }
+
+        // PUT: api/Villes/74000
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{insee}")]
+        [Authorize(Policy = Policies.all)]
+        public async Task<IActionResult> PutVille(string insee, Ville ville)
+        {
+            if (insee != ville.CodeInsee)
             {
                 return BadRequest();
             }
 
-            var res = await _villeRepository.GetByString(id);
+            var res = await _villeRepository.GetByInsee(insee);
 
             if(res.Value == null)
                 return NotFound();
@@ -91,16 +110,16 @@ namespace LeBonCoinAPI.Controllers
             return CreatedAtAction("GetVille", new { id = ville.CodeInsee }, ville);
         }
 
-        // DELETE: api/Villes/5
-        [HttpDelete("{id}")]
+        // DELETE: api/Villes/74000
+        [HttpDelete("{insee}")]
         [Authorize(Policy = Policies.admin)]
-        public async Task<IActionResult> DeleteVille(string id)
+        public async Task<IActionResult> DeleteVille(string insee)
         {
             if (_villeRepository == null)
             {
                 return NotFound();
             }
-            var ville = await _villeRepository.GetByString(id);
+            var ville = await _villeRepository.GetByInsee(insee);
             if (ville.Value == null)
             {
                 return NotFound();

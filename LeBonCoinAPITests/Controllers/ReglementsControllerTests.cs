@@ -179,8 +179,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var resultDest = userController.DeleteReglement("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051");
 
             //Assert
-            Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Reglement>), "Pas un ActionResult");
-            Assert.IsNull(resultDest.Result, "Reglement pas null");
+            Assert.IsInstanceOfType(resultDest.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
     }
 }

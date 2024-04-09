@@ -8,7 +8,7 @@ namespace LeBonCoinAPI.DataManager
     public class CarteBancaireManager : IRepository<CarteBancaire>
     {
         readonly DataContext? dataContext;
-        public CarteBancaireManager() { }
+
         public CarteBancaireManager(DataContext context)
         {
             dataContext = context;

@@ -62,7 +62,7 @@ namespace LeBonCoinAPI.Controllers
             }
 
             var reglementToUpdate = await repositoryReglement.GetByString(id);
-            if (reglementToUpdate == null)
+            if (reglementToUpdate.Value == null)
             {
                 return NotFound();
             }
@@ -93,12 +93,12 @@ namespace LeBonCoinAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReglement(string id)
         {
-            if (await repositoryReglement.GetAll() == null)
+            if (repositoryReglement == null)
             {
                 return NotFound();
             }
             var reglement = await repositoryReglement.GetByString(id);
-            if (reglement == null)
+            if (reglement.Value == null)
             {
                 return NotFound();
             }

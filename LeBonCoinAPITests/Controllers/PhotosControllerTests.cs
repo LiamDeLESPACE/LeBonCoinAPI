@@ -183,8 +183,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var resultDest = userController.DeletePhoto(151);
 
             //Assert
-            Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Photo>), "Pas un ActionResult");
-            Assert.IsNull(resultDest.Result, "Photo pas null");
+            Assert.IsInstanceOfType(resultDest.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
     }
 }

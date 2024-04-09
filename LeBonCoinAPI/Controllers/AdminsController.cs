@@ -94,9 +94,9 @@ namespace LeBonCoinAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAdmin(int id)
         {
-            if (await repositoryAdmin.GetAll() == null)
+            if (repositoryAdmin == null)
             {
-                return NotFound();
+                return Problem("Repository is null.");
             }
             var admin = await repositoryAdmin.GetById(id);
             if (admin.Value == null)

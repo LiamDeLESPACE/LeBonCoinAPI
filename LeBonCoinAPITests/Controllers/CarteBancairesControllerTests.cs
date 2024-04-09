@@ -184,8 +184,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var resultDest = userController.DeleteCarteBancaire(1);
 
             //Assert
-            Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<CarteBancaire>), "Pas un ActionResult");
-            Assert.IsNull(resultDest.Result, "CarteBancaire pas null");
+            Assert.IsInstanceOfType(resultDest.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
     }
 }

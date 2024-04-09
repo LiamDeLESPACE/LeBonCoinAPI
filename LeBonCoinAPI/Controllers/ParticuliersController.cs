@@ -95,7 +95,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.human)]
         public async Task<IActionResult> DeleteParticulier(int id)
         {
-            if (await repositoryParticulier.GetAll() == null)
+            if (repositoryParticulier == null)
             {
                 return NotFound();
             }

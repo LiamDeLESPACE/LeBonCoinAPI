@@ -95,7 +95,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> DeleteEquipement(int id)
         {
-            if (await repositoryEquipement.GetAll() == null)
+            if (repositoryEquipement == null)
             {
                 return NotFound();
             }

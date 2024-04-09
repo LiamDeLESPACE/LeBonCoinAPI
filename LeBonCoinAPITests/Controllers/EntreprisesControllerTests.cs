@@ -178,11 +178,10 @@ namespace LeBonCoinAPI.Controllers.Tests
             var userController = new EntreprisesController(mockRepository.Object);
 
             //Act
-            var resultDest = userController.DeleteEntreprise(1);
+            var resultDest = userController.DeleteEntreprise(7);
 
             //Assert
-            Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Entreprise>), "Pas un ActionResult");
-            Assert.IsNull(resultDest.Result, "Entreprise pas null");
+            Assert.IsInstanceOfType(resultDest.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
     }
 }

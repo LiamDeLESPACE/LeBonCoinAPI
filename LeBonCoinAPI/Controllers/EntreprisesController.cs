@@ -96,7 +96,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.director)]
         public async Task<IActionResult> DeleteEntreprise(int id)
         {
-            if (await repositoryEntreprise.GetAll() == null)
+            if (repositoryEntreprise == null)
             {
                 return NotFound();
             }

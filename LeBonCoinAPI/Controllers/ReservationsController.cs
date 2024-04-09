@@ -97,7 +97,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.admin)]
         public async Task<IActionResult> DeleteReservation(int id)
         {
-            if (await repositoryReservation.GetAll() == null)
+            if (repositoryReservation == null)
             {
                 return NotFound();
             }

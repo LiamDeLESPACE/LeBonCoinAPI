@@ -184,8 +184,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             var resultDest = userController.DeleteFavoris(90,31);
 
             //Assert
-            Assert.IsInstanceOfType(resultDest.Result, typeof(ActionResult<Favoris>), "Pas un ActionResult");
-            Assert.IsNull(resultDest.Result, "Favoris pas null");
+            Assert.IsInstanceOfType(resultDest.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
     }
 }
