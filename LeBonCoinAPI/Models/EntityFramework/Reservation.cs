@@ -85,5 +85,19 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [ForeignKey(nameof(AnnonceId))]
         [InverseProperty(nameof(Annonce.ReservationsAnnonce))]
         public virtual Annonce AnnonceReservation { get; set; } = null!;
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Reservation reservation &&
+                   ReservationId == reservation.ReservationId &&
+                   AnnonceId == reservation.AnnonceId &&
+                   ProfilId == reservation.ProfilId &&
+                   DateArrivee == reservation.DateArrivee &&
+                   DateDepart == reservation.DateDepart &&
+                   NombreVoyageur == reservation.NombreVoyageur &&
+                   Nom == reservation.Nom &&
+                   Prenom == reservation.Prenom &&
+                   Telephone == reservation.Telephone;
+        }
     }
 }

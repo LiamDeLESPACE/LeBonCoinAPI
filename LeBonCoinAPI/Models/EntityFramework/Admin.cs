@@ -32,5 +32,14 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [RegularExpression(@"^[^@\s]+@lebonendroit\.com$")]
         public string Email { get; set; }
 
+        public override bool Equals(object? obj)
+        {
+            return obj is Admin admin &&
+                   ProfilId == admin.ProfilId &&
+                   HashMotDePasse == admin.HashMotDePasse &&
+                   Telephone == admin.Telephone &&
+                   Service == admin.Service &&
+                   Email == admin.Email;
+        }
     }
 }

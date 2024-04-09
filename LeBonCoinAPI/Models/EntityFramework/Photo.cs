@@ -24,6 +24,15 @@ namespace LeBonCoinAPI.Models.EntityFramework
             URL = url;
         }
 
+        public override bool Equals(object? obj)
+        {
+            return obj is Photo photo &&
+                   PhotoId == photo.PhotoId &&
+                   ProfilId == photo.ProfilId &&
+                   AnnonceId == photo.AnnonceId &&
+                   URL == photo.URL;
+        }
+
         [Key]
         [Column("pho_id")]
         public int PhotoId { get; set; }

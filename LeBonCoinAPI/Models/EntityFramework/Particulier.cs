@@ -59,5 +59,18 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Adresse.ParticuliersAdresse))]
         public virtual Adresse? AdresseParticulier { get; set; }
 
+        public override bool Equals(object? obj)
+        {
+            return obj is Particulier particulier &&
+                   ProfilId == particulier.ProfilId &&
+                   HashMotDePasse == particulier.HashMotDePasse &&
+                   Telephone == particulier.Telephone &&
+                   Email == particulier.Email &&
+                   Civilite == particulier.Civilite &&
+                   Nom == particulier.Nom &&
+                   Prenom == particulier.Prenom &&
+                   DateNaissance == particulier.DateNaissance &&
+                   AdresseId == particulier.AdresseId;
+        }
     }
 }

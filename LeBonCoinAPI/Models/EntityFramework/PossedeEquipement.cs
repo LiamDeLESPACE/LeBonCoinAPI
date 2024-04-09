@@ -35,5 +35,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [ForeignKey(nameof(EquipementId))]
         [InverseProperty(nameof(Equipement.EquipementsPossedesDesEquipement))]
         public virtual Equipement EquipementPossede { get; set; } = null!;
+
+        public override bool Equals(object? obj)
+        {
+            return obj is PossedeEquipement equipement &&
+                   AnnonceId == equipement.AnnonceId &&
+                   EquipementId == equipement.EquipementId;
+        }
     }
 }

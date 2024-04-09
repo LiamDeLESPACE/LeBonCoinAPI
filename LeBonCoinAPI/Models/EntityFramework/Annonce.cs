@@ -135,5 +135,23 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.AnnoncesProfil))]
         public virtual Profil ProfilAnnonce { get; set; } = null!;
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Annonce annonce &&
+                   AnnonceId == annonce.AnnonceId &&
+                   AdresseId == annonce.AdresseId &&
+                   TypeLogementId == annonce.TypeLogementId &&
+                   ProfilId == annonce.ProfilId &&
+                   Titre == annonce.Titre &&
+                   DureeMinimumSejour == annonce.DureeMinimumSejour &&
+                   Active == annonce.Active &&
+                   DatePublication == annonce.DatePublication &&
+                   Description == annonce.Description &&
+                   Etoile == annonce.Etoile &&
+                   NombrePersonnesMax == annonce.NombrePersonnesMax &&
+                   PrixParNuit == annonce.PrixParNuit &&
+                   NombreChambres == annonce.NombreChambres;
+        }
     }
 }
