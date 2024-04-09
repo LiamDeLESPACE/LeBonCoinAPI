@@ -59,5 +59,17 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Adresse.EntreprisesAdresse))]
         public virtual Adresse? AdresseEntreprise { get; set; }
 
+        public override bool Equals(object? obj)
+        {
+            return obj is Entreprise entreprise &&
+                   ProfilId == entreprise.ProfilId &&
+                   HashMotDePasse == entreprise.HashMotDePasse &&
+                   Telephone == entreprise.Telephone &&
+                   SecteurId == entreprise.SecteurId &&
+                   Siret == entreprise.Siret &&
+                   AdresseId == entreprise.AdresseId &&
+                   Nom == entreprise.Nom &&
+                   EqualityComparer<SecteurActivite?>.Default.Equals(SecteurActiviteEntreprise, entreprise.SecteurActiviteEntreprise);
+        }
     }
 }

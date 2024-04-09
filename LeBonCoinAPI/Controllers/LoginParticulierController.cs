@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using LeBonCoinAPI.Models;
 using LeBonCoinAPI.Models.EntityFramework;
+using System.Security.Cryptography;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -53,10 +54,14 @@ namespace LeBonCoinAPI.Controllers
         //AuthenticateUser
         private Particulier AuthenticateParticulier(Particulier user)
         {
-            return appUsers.SingleOrDefault(x => x.Email.ToUpper() == user.Email.ToUpper() && x.HashMotDePasse == user.HashMotDePasse);
+            StringBuilder sb = new StringBuilder();
+            byte[] hashValue = SHA512.HashData(Encoding.UTF8.GetBytes(user.HashMotDePasse));
+            foreach (byte b in hashValue)
+            {
+                sb.Append($"{b:X2}");
+            }
+            return appUsers.SingleOrDefault(x => x.Email.ToUpper() == user.Email.ToUpper() && x.HashMotDePasse.ToUpper() == sb.ToString().ToUpper());
         }
-
-        //AuthenticateAdmin
        
 
 

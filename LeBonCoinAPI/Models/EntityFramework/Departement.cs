@@ -35,5 +35,11 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [InverseProperty(nameof(Ville.DepartementVille))]
         public virtual ICollection<Ville> VillesDepartement { get; set; }
 
+        public override bool Equals(object? obj)
+        {
+            return obj is Departement departement &&
+                   DepartementCode == departement.DepartementCode &&
+                   Nom == departement.Nom;
+        }
     }
 }

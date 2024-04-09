@@ -36,5 +36,12 @@ namespace LeBonCoinAPI.Models.EntityFramework
         [ForeignKey(nameof(ProfilId))]
         [InverseProperty(nameof(Profil.FavorisProfil))]
         public virtual Profil ProfilFavoris { get; set; } = null!;
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Favoris favoris &&
+                   AnnonceId == favoris.AnnonceId &&
+                   ProfilId == favoris.ProfilId;
+        }
     }
 }

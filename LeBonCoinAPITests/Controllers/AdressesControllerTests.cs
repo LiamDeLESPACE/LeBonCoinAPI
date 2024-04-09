@@ -39,7 +39,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void InitialisationDesTests()
         {
             // Rajouter les initialisations exécutées avant chaque test
-             adresse = new Adresse { AdresseId = 1, CodeInsee = "74002", Rue = "Rue de Cornier", Numero = 15 };
+             adresse = new Adresse { CodeInsee = "74002", Rue = "Chemin de Cret-Vial", Numero = 47 };
 
              testListe = new List<Adresse>();
              testListe.Add(new Adresse { CodeInsee = "74002", Rue = "Chemin de Cret-Vial", Numero = 47 });
