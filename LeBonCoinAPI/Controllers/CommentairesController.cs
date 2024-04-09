@@ -51,8 +51,8 @@ namespace LeBonCoinAPI.Controllers
             return commentaire;
         }
 
-        // GET: api/Commentaires/5
-        [HttpGet("{idProfil}")]
+        // GET: api/Commentaires/p/5
+        [HttpGet("p/{idProfil}")]
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<IEnumerable<Commentaire>>> GetCommentaireOfProfil(int idProfil)
         {
@@ -66,8 +66,8 @@ namespace LeBonCoinAPI.Controllers
             return commentaire;
         }
 
-        // GET: api/Commentaires/5
-        [HttpGet("{idReservation}")]
+        // GET: api/Commentaires/r/5
+        [HttpGet("r/{idReservation}")]
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<IEnumerable<Commentaire>>> GetCommentaireOfReservation(int idReservation)
         {
@@ -84,7 +84,7 @@ namespace LeBonCoinAPI.Controllers
 
         // PUT: api/Commentaires/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{idProfil}/idReservation")]
+        [HttpPut("{idProfil}/{idReservation}")]
         [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> PutCommentaire(int idProfil, int idReservation, Commentaire commentaire)
         {

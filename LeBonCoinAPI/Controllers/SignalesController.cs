@@ -55,8 +55,8 @@ namespace LeBonCoinAPI.Controllers
             return signale;
         }
 
-        // GET: api/Signales/5
-        [HttpGet("{idAnnonce}")]
+        // GET: api/Signales/a/5
+        [HttpGet("a/{idAnnonce}")]
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<IEnumerable<Signale>>> GetSignaleByIdAnnonce(int idAnnonce)
         {
@@ -74,8 +74,8 @@ namespace LeBonCoinAPI.Controllers
             return signale;
         }
 
-        // GET: api/Signales/5
-        [HttpGet("{idProfil}")]
+        // GET: api/Signales/p/5
+        [HttpGet("p/{idProfil}")]
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<IEnumerable<Signale>>> GetSignaleByIdProfil(int idProfil)
         {

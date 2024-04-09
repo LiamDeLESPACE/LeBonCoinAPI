@@ -55,8 +55,8 @@ namespace LeBonCoinAPI.Controllers
             return possedeEquipement;
         }
 
-        // GET: api/PossedeEquipements/5
-        [HttpGet("{idAnnonce}")]
+        // GET: api/PossedeEquipements/a/5
+        [HttpGet("a/{idAnnonce}")]
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<IEnumerable<PossedeEquipement>>> GetPossedeEquipementByIdAnnonce(int idAnnonce)
         {
@@ -74,8 +74,8 @@ namespace LeBonCoinAPI.Controllers
             return possedeEquipement;
         }
 
-        // GET: api/PossedeEquipements/5
-        [HttpGet("{idProfil}")]
+        // GET: api/PossedeEquipements/e/5
+        [HttpGet("e/{idEquipement}")]
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<IEnumerable<PossedeEquipement>>> GetPossedeEquipementByIdEquipement(int idEquipement)
         {
