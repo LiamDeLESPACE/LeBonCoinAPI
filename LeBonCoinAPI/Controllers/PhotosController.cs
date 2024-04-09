@@ -50,8 +50,8 @@ namespace LeBonCoinAPI.Controllers
             return photo;
         }
 
-        // GET: api/Photos/5
-        [HttpGet("{idProfil}")]
+        // GET: api/Photos/p/5
+        [HttpGet("p/{idProfil}")]
         public async Task<ActionResult<Photo>> GetPhotoProfil(int idProfil)
         {
 
@@ -65,8 +65,8 @@ namespace LeBonCoinAPI.Controllers
             return photo;
         }
 
-        // GET: api/Photos/5
-        [HttpGet("{idAnnonce}")]
+        // GET: api/Photos/a/5
+        [HttpGet("a/{idAnnonce}")]
         public async Task<ActionResult<IEnumerable<Photo>>> GetPhotosAnnonce(int idAnnonce)
         {
 
