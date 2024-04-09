@@ -45,8 +45,8 @@ namespace LeBonCoinAPI.Controllers.Tests
             commentaireUpdated = new Commentaire (94, 43, "Pas intéressé !");
 
             testListe = new List<Commentaire>();
-            testListe.Add(new Commentaire (43, 94, "Intéressé ! Pouvez-vous m\'envoyer plus de photos ?"));
-            testListe.Add(new Commentaire (43, 26, "Je suis intéressé, mais pouvez-vous fournir plus de détails sur l\'état de l\'article ?"));
+            testListe.Add(new Commentaire (94, 43, "Intéressé ! Pouvez-vous m\'envoyer plus de photos ?"));
+            testListe.Add(new Commentaire (94, 43, "Je suis intéressé, mais pouvez-vous fournir plus de détails sur l\'état de l\'article ?"));
 
         }
 
@@ -104,7 +104,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             ActionResult<IEnumerable<Commentaire>> actionResult = result.Result as ActionResult<IEnumerable<Commentaire>>;
             Assert.IsNotNull(actionResult, "ActionResult null");
             Assert.IsNotNull(actionResult.Value, "Valeur nulle");
-            CollectionAssert.AreEqual(testListe, actionResult.Value.Where(s => s.ProfilId == 43).ToList(), "Pas les mêmes Commentaires");
+            CollectionAssert.AreEqual(testListe, actionResult.Value.Where(s => s.ProfilId == 94).ToList(), "Pas les mêmes Commentaires");
         }
 
         [TestMethod()]

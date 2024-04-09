@@ -28,6 +28,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         //Arrange
         CarteBancaire carteBancaire;
+        CarteBancaire carteBancaireUpdated;
         List<CarteBancaire> testListe;
 
         public CarteBancairesControllerTests()
@@ -43,6 +44,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
             // Rajouter les initialisations exécutées avant chaque test
             carteBancaire = new CarteBancaire { CarteId=1, ProfilId=2, Numero= "4556173923578293" };
+            carteBancaireUpdated = new CarteBancaire { CarteId=1, ProfilId=2, Numero= "4556173923578294" };
 
             testListe = new List<CarteBancaire>();
             testListe.Add(carteBancaire);
@@ -111,7 +113,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostCarteBancaire_ModelValidated_CreationOK()
         {
             var mockRepository = new Mock<IRepository<CarteBancaire>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new CarteBancairesController(mockRepository.Object);
             //Act
             var result = userController.PostCarteBancaire(carteBancaire).Result;
@@ -129,7 +131,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostCarteBancaire_CreationFailed()
         {
             var mockRepository = new Mock<IRepository<CarteBancaire>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new CarteBancairesController(mockRepository.Object);
 
             //Act
@@ -141,36 +143,36 @@ namespace LeBonCoinAPI.Controllers.Tests
         }
 
         [TestMethod()]
-        public async Task Put_WithInvalidId_ReturnsBadRequest()
+        public void Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepository<CarteBancaire>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(carteBancaire);
             var userController = new CarteBancairesController(mockRepository.Object);
 
             // Arrange
             int id = 27;//Mauvais ID
 
             // Act
-            var result = await userController.PutCarteBancaire(id, carteBancaire);
+            var result = userController.PutCarteBancaire(id, carteBancaireUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+            Assert.IsInstanceOfType(result.Result, typeof(BadRequestResult), "Pas un BadRequestResult");
         }
 
         [TestMethod()]
-        public async Task Put_WithValidId_ReturnsNoContent()
+        public void Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepository<CarteBancaire>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(carteBancaire);
             var userController = new CarteBancairesController(mockRepository.Object);
 
             int id = 1; //BonID
 
             // Act
-            var result = await userController.PutCarteBancaire(id, carteBancaire);
+            var result = userController.PutCarteBancaire(id, carteBancaireUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(NoContentResult));
+            Assert.IsInstanceOfType(result.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
 
         [TestMethod()]

@@ -45,7 +45,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             entrepriseUpdated = new Entreprise { ProfilId = 7, AdresseId = 7, HashMotDePasse = "$2b$12$CyFB0qqJYEd8/JM5U3psTO2E4QbiPzRtNPhLZB2qX2ylfYr.mfnU2", Telephone = "0678755447", SecteurId = 9, Siret = "91622180700043", Nom = "AlphaTech Probleme" };
 
             testListe = new List<Entreprise>();
-            testListe.Add(new Entreprise { AdresseId = 7, HashMotDePasse = "$2b$12$CyFB0qqJYEd8/JM5U3psTO2E4QbiPzRtNPhLZB2qX2ylfYr.mfnU2", Telephone = "0678755447", SecteurId = 9, Siret = "91622180700043", Nom = "AlphaTech Solutions" });
+            testListe.Add(new Entreprise { ProfilId = 7, AdresseId = 7, HashMotDePasse = "$2b$12$CyFB0qqJYEd8/JM5U3psTO2E4QbiPzRtNPhLZB2qX2ylfYr.mfnU2", Telephone = "0678755447", SecteurId = 9, Siret = "91622180700043", Nom = "AlphaTech Solutions" });
             testListe.Add(new Entreprise { AdresseId = 8, HashMotDePasse = "$2b$12$0L6E.sIFXvp7hEimxJpDdOoT7qAK4jVSW2QX4hq/3k5y/zLZn.I9K", Telephone = "0728838233", SecteurId = 3, Siret = "66118748100061", Nom = "BrightVision Consulting" });
 
         }

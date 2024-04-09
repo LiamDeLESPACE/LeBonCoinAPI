@@ -60,7 +60,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetByCode("1").Result).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
             
-            var result = userController.GetDepartement("1");
+            var result = userController.GetDepartementByCode("1");
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Departement>), "Pas un ActionResult");
@@ -82,7 +82,7 @@ namespace LeBonCoinAPI.Controllers.Tests
             mockRepository.Setup(x => x.GetByCode("1").Result).Returns(testListe[0]);
             var userController = new DepartementsController(mockRepository.Object);
 
-            var result = userController.GetDepartement("0");
+            var result = userController.GetDepartementByCode("0");
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(ActionResult<Departement>), "Pas un ActionResult");

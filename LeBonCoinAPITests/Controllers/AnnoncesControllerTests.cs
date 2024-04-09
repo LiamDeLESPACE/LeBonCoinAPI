@@ -25,6 +25,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         //Arrange
         Annonce annonce;
+        Annonce annonceUpdated;
         List<Annonce> testListe;
 
         public AnnoncesControllerTests()
@@ -40,6 +41,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
             // Rajouter les initialisations exécutées avant chaque test
             annonce = new Annonce { AnnonceId = 1, AdresseId = 51, TypeLogementId = 9, ProfilId = 53, Titre = "Maison de vacances 10 pers piscine, spa", DureeMinimumSejour = 1, Active = true, DatePublication = DateTime.Parse("2021-10-03"), Description = "A Angles sur Anglin, en bordure des champs, ce gîte de 220 m2, situé dans un ancien corps de ferme, pour 6 à 10 pers a été réhabilité de manière contemporaine. Piscine extérieure, spa et sauna, terrain de boules, ping pong, baby foot, trampoline, vélos à partager avec nos 3 autres gîtes. Notre gîte est composé d\'une grande pièce de vie très lumineuse avec une cuisine américaine, un poêle, de 2 chambres lit de 1m60 avec salles de douches privées, wc et à l\'étage de 2 chambres avec chacune 2 lits de 0m90 une salle de bain et une chambre avec lit de 1m60 avec sa salle de douche privée. terrasse, barbecue et jardin privés. Ce gîte peut être associé à nos 3 autres gîtes, capacité totale 28 personnes Pour une location sur un week end vous pouvez profiter du gîte jusqu\'à 18h Piscine de 10m sur 4m50 extérieure à partager avec nos autres gîtes. Espace spa et sauna (10 euros/h pour 2 pers) sur réservation Envie d\'un massage, Joseph pratique le massage ayurvédique et se déplace dans votre gîte ou dans l\'espace détente. Prix à la semaine entre 900 et 1350 euros. Prix pour 2 nuits week end 600 euros forfait ménage possible 60 euros Site internet giteslaligne.fr", Etoile = 3 , NombrePersonnesMax = 11 , PrixParNuit = 185 , NombreChambres = 5 };
+            annonceUpdated = new Annonce { AnnonceId = 1, AdresseId = 51, TypeLogementId = 9, ProfilId = 53, Titre = "Maison de vacances 10 pers piscine, spa", DureeMinimumSejour = 1, Active = true, DatePublication = DateTime.Parse("2021-10-03"), Description = "A Angles sur Anglin, en bordure des champs, ce gîte de 220 m2, situé dans un ancien corps de ferme, pour 6 à 10 pers a été réhabilité de manière contemporaine. Piscine extérieure, spa et sauna, terrain de boules, ping pong, baby foot, trampoline, vélos à partager avec nos 3 autres gîtes. Notre gîte est composé d\'une grande pièce de vie très lumineuse avec une cuisine américaine, un poêle, de 2 chambres lit de 1m60 avec salles de douches privées, wc et à l\'étage de 2 chambres avec chacune 2 lits de 0m90 une salle de bain et une chambre avec lit de 1m60 avec sa salle de douche privée. terrasse, barbecue et jardin privés. Ce gîte peut être associé à nos 3 autres gîtes, capacité totale 28 personnes Pour une location sur un week end vous pouvez profiter du gîte jusqu\'à 18h Piscine de 10m sur 4m50 extérieure à partager avec nos autres gîtes. Espace spa et sauna (10 euros/h pour 2 pers) sur réservation Envie d\'un massage, Joseph pratique le massage ayurvédique et se déplace dans votre gîte ou dans l\'espace détente. Prix à la semaine entre 900 et 1350 euros. Prix pour 2 nuits week end 600 euros forfait ménage possible 60 euros Site internet giteslaligne.fr", Etoile = 3 , NombrePersonnesMax = 3 , PrixParNuit = 185 , NombreChambres = 5 };
 
             testListe = new List<Annonce>();
             testListe.Add(new Annonce { AnnonceId = 1, AdresseId = 51, TypeLogementId = 9, ProfilId = 53, Titre = "Maison de vacances 10 pers piscine, spa", DureeMinimumSejour = 1, Active = true, DatePublication = DateTime.Parse("2021-10-03"), Description = "A Angles sur Anglin, en bordure des champs, ce gîte de 220 m2, situé dans un ancien corps de ferme, pour 6 à 10 pers a été réhabilité de manière contemporaine. Piscine extérieure, spa et sauna, terrain de boules, ping pong, baby foot, trampoline, vélos à partager avec nos 3 autres gîtes. Notre gîte est composé d\'une grande pièce de vie très lumineuse avec une cuisine américaine, un poêle, de 2 chambres lit de 1m60 avec salles de douches privées, wc et à l\'étage de 2 chambres avec chacune 2 lits de 0m90 une salle de bain et une chambre avec lit de 1m60 avec sa salle de douche privée. terrasse, barbecue et jardin privés. Ce gîte peut être associé à nos 3 autres gîtes, capacité totale 28 personnes Pour une location sur un week end vous pouvez profiter du gîte jusqu\'à 18h Piscine de 10m sur 4m50 extérieure à partager avec nos autres gîtes. Espace spa et sauna (10 euros/h pour 2 pers) sur réservation Envie d\'un massage, Joseph pratique le massage ayurvédique et se déplace dans votre gîte ou dans l\'espace détente. Prix à la semaine entre 900 et 1350 euros. Prix pour 2 nuits week end 600 euros forfait ménage possible 60 euros Site internet giteslaligne.fr", Etoile = 3, NombrePersonnesMax = 11, PrixParNuit = 185, NombreChambres = 5 });
@@ -107,7 +109,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostAnnonce_ModelValidated_CreationOK()
         {
             var mockRepository = new Mock<IRepository<Annonce>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new AnnoncesController(mockRepository.Object);
 
             //Act
@@ -126,7 +128,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostAnnonce_CreationFailed()
         {
             var mockRepository = new Mock<IRepository<Annonce>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new AnnoncesController(mockRepository.Object);
 
             //Act
@@ -138,36 +140,36 @@ namespace LeBonCoinAPI.Controllers.Tests
         }
 
         [TestMethod()]
-        public async Task Put_WithInvalidId_ReturnsBadRequest()
+        public void Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepository<Annonce>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(annonce);
             var userController = new AnnoncesController(mockRepository.Object);
 
             // Arrange
             int id = 2;//Mauvais ID
 
             // Act
-            var result = await userController.PutAnnonce(id, annonce);
+            var result = userController.PutAnnonce(id, annonceUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+            Assert.IsInstanceOfType(result.Result, typeof(BadRequestResult), "Pas un BadRequestResult");
         }
 
         [TestMethod()]
-        public async Task Put_WithValidId_ReturnsNoContent()
+        public void Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepository<Annonce>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(annonce);
             var userController = new AnnoncesController(mockRepository.Object);
 
             int id = 1; //BonID
 
             // Act
-            var result = await userController.PutAnnonce(id, annonce);
+            var result = userController.PutAnnonce(id, annonceUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(NoContentResult));
+            Assert.IsInstanceOfType(result.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
 
         [TestMethod()]

@@ -25,6 +25,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         //Arrange
         Adresse adresse;
+        Adresse adresseUpdated;
         List<Adresse> testListe;
 
         public AdressesControllerTests()
@@ -39,10 +40,11 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void InitialisationDesTests()
         {
             // Rajouter les initialisations exécutées avant chaque test
-             adresse = new Adresse { CodeInsee = "74002", Rue = "Chemin de Cret-Vial", Numero = 47 };
+             adresse = new Adresse {AdresseId = 1, CodeInsee = "74002", Rue = "Chemin de Cret-Vial", Numero = 47 };
+             adresseUpdated = new Adresse { AdresseId = 1, CodeInsee = "74002", Rue = "Chemin de Cret", Numero = 50 };
 
-             testListe = new List<Adresse>();
-             testListe.Add(new Adresse { CodeInsee = "74002", Rue = "Chemin de Cret-Vial", Numero = 47 });
+            testListe = new List<Adresse>();
+             testListe.Add(new Adresse { AdresseId = 1, CodeInsee = "74002", Rue = "Chemin de Cret-Vial", Numero = 47 });
              testListe.Add(new Adresse { CodeInsee = "74002", Rue = "Rue de la capetaz", Numero = 1 });
              
              
@@ -110,7 +112,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             var mockRepository = new Mock<IRepository<Adresse>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new AdressesController(mockRepository.Object);
             //Act
             var result = userController.PostAdresse(adresse).Result;
@@ -129,7 +131,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             var mockRepository = new Mock<IRepository<Adresse>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new AdressesController(mockRepository.Object);
             //Act
             var result = userController.PostAdresse(adresse).Result;
@@ -140,36 +142,36 @@ namespace LeBonCoinAPI.Controllers.Tests
         }
 
         [TestMethod()]
-        public async Task Put_WithInvalidId_ReturnsBadRequest()
+        public void Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepository<Adresse>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(adresse);
             var userController = new AdressesController(mockRepository.Object);
 
             // Arrange
             int id = 2;//Mauvais ID
 
             // Act
-            var result = await userController.PutAdresse(id, adresse);
+            var result = userController.PutAdresse(id, adresseUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+            Assert.IsInstanceOfType(result.Result, typeof(BadRequestResult), "Pas un BadRequestResult");
         }
 
         [TestMethod()]
-        public async Task Put_WithValidId_ReturnsNoContent()
+        public void Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepository<Adresse>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(adresse);
             var userController = new AdressesController(mockRepository.Object);
 
             int id = 1; //BonID
 
             // Act
-            var result = await userController.PutAdresse(id, adresse);
+            var result = userController.PutAdresse(id, adresseUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result,typeof(NoContentResult));
+            Assert.IsInstanceOfType(result.Result,typeof(NoContentResult), "Pas un NoContentResult");
         }
 
         [TestMethod()]

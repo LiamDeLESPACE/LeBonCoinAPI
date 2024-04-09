@@ -80,7 +80,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Annonce>> PostAnnonce(Annonce annonce)
         {
-            if (await repositoryAnnonce.GetAll() == null)
+            if (repositoryAnnonce == null)
             {
                 return Problem("Entity set 'DataContext.Annonces'  is null.");
             }

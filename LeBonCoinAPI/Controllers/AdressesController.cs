@@ -81,7 +81,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Adresse>> PostAdresse(Adresse adresse)
         {
-            if (await repositoryAdresse.GetAll() == null)
+            if (repositoryAdresse == null)
             {
                 return Problem("Entity set 'DataContext.Adresses'  is null.");
             }

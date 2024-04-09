@@ -26,6 +26,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         //Arrange
         Admin admin;
+        Admin adminUpdated;
         List<Admin> testListe;
 
         public AdminsControllerTests()
@@ -41,6 +42,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
             // Rajouter les initialisations exécutées avant chaque test
             admin = new Admin { ProfilId = 1, HashMotDePasse = "$2b$12$6PLiq9Mf3CgnjA5Nh6S2xuJ/IV.2lLbQVzLRF0k68imVl5bq7rlWe", Telephone = "0710778326", Service = "PetiteAnnonce", Email = "Debisse.Paul@lebonendroit.com" };
+            adminUpdated = new Admin { ProfilId = 1, HashMotDePasse = "$2b$12$6PLiq9Mf3CgnjA5Nh6S2xuJ/IV.2lLbQVzLRF0k68imVl5bq7rlWe", Telephone = "0610778326", Service = "PetiteAnnonce", Email = "Debisse.Paul@lebonendroit.com" };
 
             testListe = new List<Admin>();
             testListe.Add(new Admin { ProfilId = 1, HashMotDePasse = "$2b$12$6PLiq9Mf3CgnjA5Nh6S2xuJ/IV.2lLbQVzLRF0k68imVl5bq7rlWe", Telephone = "0710778326", Service = "PetiteAnnonce", Email= "Debisse.Paul@lebonendroit.com" });
@@ -107,7 +109,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostAdmin_ModelValidated_CreationOK()
         {
             var mockRepository = new Mock<IRepository<Admin>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new AdminsController(mockRepository.Object);
 
             //Act
@@ -126,7 +128,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostAdmin_CreationFailed()
         {
             var mockRepository = new Mock<IRepository<Admin>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new AdminsController(mockRepository.Object);
 
             //Act
@@ -138,36 +140,36 @@ namespace LeBonCoinAPI.Controllers.Tests
         }
 
         [TestMethod()]
-        public async Task Put_WithInvalidId_ReturnsBadRequest()
+        public void Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepository<Admin>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(admin);
             var userController = new AdminsController(mockRepository.Object);
 
             // Arrange
             int id = 6;//Mauvais ID
 
             // Act
-            var result = await userController.PutAdmin(id, admin);
+            var result = userController.PutAdmin(id, adminUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+            Assert.IsInstanceOfType(result.Result, typeof(BadRequestResult), "Pas un BadRequestResult");
         }
 
         [TestMethod()]
-        public async Task Put_WithValidId_ReturnsNoContent()
+        public void Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepository<Admin>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(admin);
             var userController = new AdminsController(mockRepository.Object);
 
             int id = 1; //BonID
 
             // Act
-            var result = await userController.PutAdmin(id, admin);
+            var result = userController.PutAdmin(id, adminUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(NoContentResult));
+            Assert.IsInstanceOfType(result.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
 
         [TestMethod()]

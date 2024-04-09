@@ -82,7 +82,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.human)]
         public async Task<ActionResult<CarteBancaire>> PostCarteBancaire(CarteBancaire carteBancaire)
         {
-            if (await repositoryCarteBancaire.GetAll() == null)
+            if (repositoryCarteBancaire == null)
             {
                 return Problem("Entity set 'DataContext.CarteBancaires'  is null.");
             }

@@ -80,7 +80,7 @@ namespace LeBonCoinAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Admin>> PostAdmin(Admin admin)
         {
-          if (await repositoryAdmin.GetAll() == null)
+          if (repositoryAdmin == null)
           {
               return Problem("Entity set 'DataContext.Admins'  is null.");
           }
