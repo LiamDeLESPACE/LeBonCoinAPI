@@ -25,6 +25,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         //Arrange
         SecteurActivite secteurActivite;
+        SecteurActivite secteurActiviteUpdated;
         List<SecteurActivite> testListe;
 
         public SecteurActivitesControllerTests()
@@ -40,6 +41,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
             // Rajouter les initialisations exécutées avant chaque test
             secteurActivite = new SecteurActivite { SecteurId=1, NomSecteur="Technologie de l'information" };
+            secteurActiviteUpdated = new SecteurActivite { SecteurId=1, NomSecteur="Technologie" };
 
             testListe = new List<SecteurActivite>();
             testListe.Add(secteurActivite);
@@ -107,7 +109,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostSecteurActivite_ModelValidated_CreationOK()
         {
             var mockRepository = new Mock<IRepository<SecteurActivite>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new SecteurActivitesController(mockRepository.Object);
 
             //Act
@@ -138,36 +140,34 @@ namespace LeBonCoinAPI.Controllers.Tests
         }
 
         [TestMethod()]
-        public async Task Put_WithInvalidId_ReturnsBadRequest()
+        public void Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepository<SecteurActivite>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(secteurActivite);
             var userController = new SecteurActivitesController(mockRepository.Object);
 
-            // Arrange
-            int id = 4;//Mauvais ID
 
             // Act
-            var result = await userController.PutSecteurActivite(id, secteurActivite);
+            var result = userController.PutSecteurActivite(4, secteurActiviteUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+            Assert.IsInstanceOfType(result.Result, typeof(BadRequestResult));
         }
 
         [TestMethod()]
-        public async Task Put_WithValidId_ReturnsNoContent()
+        public void Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepository<SecteurActivite>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(secteurActivite);
             var userController = new SecteurActivitesController(mockRepository.Object);
 
-            int id = 1; //BonID
+
 
             // Act
-            var result = await userController.PutSecteurActivite(id, secteurActivite);
+            var result = userController.PutSecteurActivite(1, secteurActiviteUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(NoContentResult));
+            Assert.IsInstanceOfType(result.Result, typeof(NoContentResult));
         }
 
         [TestMethod()]

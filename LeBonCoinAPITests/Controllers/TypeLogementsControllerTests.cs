@@ -25,6 +25,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         //Arrange
         TypeLogement typeLogement;
+        TypeLogement typeLogementUpdated;
         List<TypeLogement> testListe;
 
         public TypeLogementsControllerTests()
@@ -40,6 +41,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
             // Rajouter les initialisations exécutées avant chaque test
             typeLogement = new TypeLogement { TypeLogementId = 1, Nom = "Appartement" };
+            typeLogementUpdated = new TypeLogement { TypeLogementId = 1, Nom = "Logement" };
 
             testListe = new List<TypeLogement>();
             testListe.Add(typeLogement);
@@ -138,35 +140,35 @@ namespace LeBonCoinAPI.Controllers.Tests
         }
 
         [TestMethod()]
-        public async Task Put_WithInvalidId_ReturnsBadRequest()
+        public void Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepository<TypeLogement>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(typeLogement);
             var userController = new TypeLogementsController(mockRepository.Object);
             // Arrange
             int id = 4;//Mauvais ID
 
             // Act
-            var result = await userController.PutTypeLogement(id, typeLogement);
+            var result = userController.PutTypeLogement(id, typeLogementUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+            Assert.IsInstanceOfType(result.Result, typeof(BadRequestResult), "Pas un NoContentResult");
         }
 
         [TestMethod()]
-        public async Task Put_WithValidId_ReturnsNoContent()
+        public void Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepository<TypeLogement>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(typeLogement);
             var userController = new TypeLogementsController(mockRepository.Object);
 
             int id = 1; //BonID
 
             // Act
-            var result = await userController.PutTypeLogement(id, typeLogement);
+            var result = userController.PutTypeLogement(id, typeLogementUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(NoContentResult));
+            Assert.IsInstanceOfType(result.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
 
         [TestMethod()]

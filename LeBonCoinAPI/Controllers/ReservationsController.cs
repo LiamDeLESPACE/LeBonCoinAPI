@@ -82,7 +82,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Reservation>> PostReservation(Reservation reservation)
         {
-            if (await repositoryReservation.GetAll() == null)
+            if (repositoryReservation == null)
             {
                 return Problem("Entity set 'DataContext.Reservations'  is null.");
             }

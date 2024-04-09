@@ -80,7 +80,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.admin)]
         public async Task<ActionResult<SecteurActivite>> PostSecteurActivite(SecteurActivite secteurActivite)
         {
-            if (await repositorySecteurActivite.GetAll() == null)
+            if (repositorySecteurActivite == null)
             {
                 return Problem("Entity set 'DataContext.SecteurActivites'  is null.");
             }

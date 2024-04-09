@@ -26,6 +26,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         //Arrange
         TypeEquipement typeEquipement;
+        TypeEquipement typeEquipementUpdated;
         List<TypeEquipement> testListe;
 
         public TypeEquipementsControllerTests()
@@ -41,6 +42,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
             // Rajouter les initialisations exécutées avant chaque test
             typeEquipement = new TypeEquipement { TypeEquipementId=1, Nom="Equipements" };
+            typeEquipementUpdated = new TypeEquipement { TypeEquipementId=1, Nom="Equipement" };
 
             testListe = new List<TypeEquipement>();
             testListe.Add(typeEquipement);
@@ -139,36 +141,35 @@ namespace LeBonCoinAPI.Controllers.Tests
         }
 
         [TestMethod()]
-        public async Task Put_WithInvalidId_ReturnsBadRequest()
+        public void Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepository<TypeEquipement>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(typeEquipement);
             var userController = new TypeEquipementsController(mockRepository.Object);
 
-            // Arrange
-            int id = 27;//Mauvais ID
+            
 
             // Act
-            var result = await userController.PutTypeEquipement(id, typeEquipement);
+            var result = userController.PutTypeEquipement(27, typeEquipementUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+            Assert.IsInstanceOfType(result.Result, typeof(BadRequestResult), "Pas un BadRequestResult");
         }
 
         [TestMethod()]
-        public async Task Put_WithValidId_ReturnsNoContent()
+        public void Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepository<TypeEquipement>>();
-            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(typeEquipement);
             var userController = new TypeEquipementsController(mockRepository.Object);
 
-            int id = 1; //BonID
+           
 
             // Act
-            var result = await userController.PutTypeEquipement(id, typeEquipement);
+            var result = userController.PutTypeEquipement(1, typeEquipementUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(NoContentResult));
+            Assert.IsInstanceOfType(result.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
 
         [TestMethod()]
