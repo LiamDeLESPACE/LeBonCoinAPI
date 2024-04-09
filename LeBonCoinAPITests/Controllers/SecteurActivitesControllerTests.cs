@@ -21,7 +21,7 @@ namespace LeBonCoinAPI.Controllers.Tests
     {
         private SecteurActivitesController _controller;
         private DataContext _context;
-        private IRepositoryDepartement<SecteurActivite> _dataRepository;
+        private IRepository<SecteurActivite> _dataRepository;
 
         //Arrange
         SecteurActivite secteurActivite;
@@ -53,7 +53,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var mockRepository = new Mock<IRepository<SecteurActivite>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new SecteurActivitesController(mockRepository.Object);
 
             var result = userController.GetSecteurActivite(1);
@@ -75,7 +75,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
             //Act
             var mockRepository = new Mock<IRepository<SecteurActivite>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new SecteurActivitesController(mockRepository.Object);
 
             var result = userController.GetSecteurActivite(0);
@@ -89,7 +89,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void GetSecteurActivites_ReturnsRightItems()
         {
             var mockRepository = new Mock<IRepository<SecteurActivite>>();
-            mockRepository.Setup(x => x.GetAll()).Returns(testListe);
+            mockRepository.Setup(x => x.GetAll().Result).Returns(testListe);
             var userController = new SecteurActivitesController(mockRepository.Object);
 
             //Act
@@ -107,7 +107,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostSecteurActivite_ModelValidated_CreationOK()
         {
             var mockRepository = new Mock<IRepository<SecteurActivite>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new SecteurActivitesController(mockRepository.Object);
 
             //Act
@@ -126,7 +126,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostSecteurActivite_CreationFailed()
         {
             var mockRepository = new Mock<IRepository<SecteurActivite>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new SecteurActivitesController(mockRepository.Object);
 
             //Act
@@ -141,7 +141,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepository<SecteurActivite>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new SecteurActivitesController(mockRepository.Object);
 
             // Arrange
@@ -158,7 +158,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public async Task Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepository<SecteurActivite>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new SecteurActivitesController(mockRepository.Object);
 
             int id = 1; //BonID
@@ -174,7 +174,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void DeleteSecteurActiviteTest()
         {
             var mockRepository = new Mock<IRepository<SecteurActivite>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new SecteurActivitesController(mockRepository.Object);
 
             //Act

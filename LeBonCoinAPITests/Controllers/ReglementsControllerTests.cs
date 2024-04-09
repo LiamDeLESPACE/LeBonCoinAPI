@@ -22,7 +22,7 @@ namespace LeBonCoinAPI.Controllers.Tests
     {
         private ReglementsController _controller;
         private DataContext _context;
-        private IRepository<Reglement> _dataRepository;
+        private IRepositoryReglement<Reglement> _dataRepository;
 
         //Arrange
         Reglement reglement;
@@ -51,8 +51,8 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void GetReglement_ExistingIdPassed_ReturnsRightItem()
         {
-            var mockRepository = new Mock<IRepository<Reglement>>();
-            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051")).Returns(testListe[0]);
+            var mockRepository = new Mock<IRepositoryReglement<Reglement>>();
+            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051").Result).Returns(testListe[0]);
             var userController = new ReglementsController(mockRepository.Object);
 
             //Act
@@ -73,8 +73,8 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void GetReglement_UnknownIdPassed_ReturnsNotFoundResult()
         {
-            var mockRepository = new Mock<IRepository<Reglement>>();
-            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051")).Returns(testListe[0]);
+            var mockRepository = new Mock<IRepositoryReglement<Reglement>>();
+            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051").Result).Returns(testListe[0]);
             var userController = new ReglementsController(mockRepository.Object);
 
             //Act
@@ -88,8 +88,8 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void GetReglements_ReturnsRightItems()
         {
-            var mockRepository = new Mock<IRepository<Reglement>>();
-            mockRepository.Setup(x => x.GetAll()).Returns(testListe);
+            var mockRepository = new Mock<IRepositoryReglement<Reglement>>();
+            mockRepository.Setup(x => x.GetAll().Result).Returns(testListe);
             var userController = new ReglementsController(mockRepository.Object);
             //Act
             var result = userController.GetReglements();
@@ -105,8 +105,8 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostReglement_ModelValidated_CreationOK()
         {
-            var mockRepository = new Mock<IRepository<Reglement>>();
-            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051")).Returns(testListe[0]);
+            var mockRepository = new Mock<IRepositoryReglement<Reglement>>();
+            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051").Result).Returns(testListe[0]);
             var userController = new ReglementsController(mockRepository.Object);
 
             //Act
@@ -124,8 +124,8 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostReglement_CreationFailed()
         {
-            var mockRepository = new Mock<IRepository<Reglement>>();
-            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051")).Returns(testListe[0]);
+            var mockRepository = new Mock<IRepositoryReglement<Reglement>>();
+            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051").Result).Returns(testListe[0]);
             var userController = new ReglementsController(mockRepository.Object);
             //Act
             var result = userController.PostReglement(reglement).Result;
@@ -138,8 +138,8 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
-            var mockRepository = new Mock<IRepository<Reglement>>();
-            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051")).Returns(testListe[0]);
+            var mockRepository = new Mock<IRepositoryReglement<Reglement>>();
+            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051").Result).Returns(testListe[0]);
             var userController = new ReglementsController(mockRepository.Object);
 
             // Arrange
@@ -155,8 +155,8 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithValidId_ReturnsNoContent()
         {
-            var mockRepository = new Mock<IRepository<Reglement>>();
-            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051")).Returns(testListe[0]);
+            var mockRepository = new Mock<IRepositoryReglement<Reglement>>();
+            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051").Result).Returns(testListe[0]);
             var userController = new ReglementsController(mockRepository.Object);
 
             string id = "RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051";//Bon ID
@@ -171,8 +171,8 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void DeleteReglementTest()
         {
-            var mockRepository = new Mock<IRepository<Reglement>>();
-            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051")).Returns(testListe[0]);
+            var mockRepository = new Mock<IRepositoryReglement<Reglement>>();
+            mockRepository.Setup(x => x.GetByString("RG-66DFB5YX5KT3WWXA582HIN-567UY976G32K16T0101LV051").Result).Returns(testListe[0]);
             var userController = new ReglementsController(mockRepository.Object);
 
             //Act
