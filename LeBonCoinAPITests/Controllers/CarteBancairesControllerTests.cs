@@ -24,7 +24,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         private CarteBancairesController _controller;
         private DataContext _context;
-        private IRepositoryCarteBancaire<Departement> _dataRepository;
+        private IRepository<CarteBancaire> _dataRepository;
 
         //Arrange
         CarteBancaire carteBancaire;
@@ -55,8 +55,8 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
-            var mockRepository = new Mock<IRepositoryCarteBancaire<CarteBancaire>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var mockRepository = new Mock<IRepository<CarteBancaire>>();
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new CarteBancairesController(mockRepository.Object);
 
             var result = userController.GetCarteBancaire(27);
@@ -77,8 +77,8 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void GetCarteBancaire_UnknownIdPassed_ReturnsNotFoundResult()
         {
             //Act
-            var mockRepository = new Mock<IRepositoryCarteBancaire<CarteBancaire>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var mockRepository = new Mock<IRepository<CarteBancaire>>();
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new CarteBancairesController(mockRepository.Object);
 
             var result = userController.GetCarteBancaire(0);
@@ -93,8 +93,8 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
 
             //Act
-            var mockRepository = new Mock<IRepositoryCarteBancaire<CarteBancaire>>();
-            mockRepository.Setup(x => x.GetAll()).Returns(testListe);
+            var mockRepository = new Mock<IRepository<CarteBancaire>>();
+            mockRepository.Setup(x => x.GetAll().Result).Returns(testListe);
             var userController = new CarteBancairesController(mockRepository.Object);
 
             var result = userController.GetCarteBancaires();
@@ -110,8 +110,8 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostCarteBancaire_ModelValidated_CreationOK()
         {
-            var mockRepository = new Mock<IRepositoryCarteBancaire<CarteBancaire>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var mockRepository = new Mock<IRepository<CarteBancaire>>();
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new CarteBancairesController(mockRepository.Object);
             //Act
             var result = userController.PostCarteBancaire(carteBancaire).Result;
@@ -128,8 +128,8 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void PostCarteBancaire_CreationFailed()
         {
-            var mockRepository = new Mock<IRepositoryCarteBancaire<CarteBancaire>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var mockRepository = new Mock<IRepository<CarteBancaire>>();
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new CarteBancairesController(mockRepository.Object);
 
             //Act
@@ -143,8 +143,8 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
-            var mockRepository = new Mock<IRepositoryCarteBancaire<CarteBancaire>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var mockRepository = new Mock<IRepository<CarteBancaire>>();
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new CarteBancairesController(mockRepository.Object);
 
             // Arrange
@@ -160,8 +160,8 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public async Task Put_WithValidId_ReturnsNoContent()
         {
-            var mockRepository = new Mock<IRepositoryCarteBancaire<CarteBancaire>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var mockRepository = new Mock<IRepository<CarteBancaire>>();
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new CarteBancairesController(mockRepository.Object);
 
             int id = 1; //BonID
@@ -176,8 +176,8 @@ namespace LeBonCoinAPI.Controllers.Tests
         [TestMethod()]
         public void DeleteCarteBancaireTest()
         {
-            var mockRepository = new Mock<IRepositoryCarteBancaire<CarteBancaire>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            var mockRepository = new Mock<IRepository<CarteBancaire>>();
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new CarteBancairesController(mockRepository.Object);
 
             //Act
