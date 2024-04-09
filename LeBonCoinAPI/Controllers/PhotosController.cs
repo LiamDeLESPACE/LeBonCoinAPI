@@ -111,7 +111,7 @@ namespace LeBonCoinAPI.Controllers
         [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Photo>> PostPhoto(Photo photo)
         {
-            if (await repositoryPhoto.GetAll() == null)
+            if (repositoryPhoto == null)
             {
                 return Problem("Entity set 'DataContext.Photos'  is null.");
             }

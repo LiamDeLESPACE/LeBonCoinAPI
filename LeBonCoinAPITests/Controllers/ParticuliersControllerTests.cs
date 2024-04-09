@@ -25,6 +25,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
         //Arrange
         Particulier particulier;
+        Particulier particulierUpdated;
         List<Particulier> testListe;
 
         public ParticuliersControllerTests()
@@ -40,6 +41,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
             // Rajouter les initialisations exécutées avant chaque test
             particulier = new Particulier { ProfilId = 27, AdresseId = 27, HashMotDePasse = "$2b$12$QSHB4I9zUzSN/VEKN.z2deBfzJfJadFFPmo2/DdA5TUTGxv6e1pye", Telephone = "0686133377", Email = "aarchambault@hotmail.com", Civilite = "H", Nom = "Archambault", Prenom = "Amela", DateNaissance = DateTime.Parse("1993-07-17") };
+            particulierUpdated = new Particulier { ProfilId = 27, AdresseId = 27, HashMotDePasse = "$2b$12$QSHB4I9zUzSN/VEKN.z2deBfzJfJadFFPmo2/DdA5TUTGxv6e1pye", Telephone = "0686133377", Email = "aarchambault@hotmail.com", Civilite = "H", Nom = "Archambault", Prenom = "Pauline", DateNaissance = DateTime.Parse("1993-07-17") };
 
             testListe = new List<Particulier>();
             testListe.Add(new Particulier { ProfilId = 27, HashMotDePasse = "$2b$12$QSHB4I9zUzSN/VEKN.z2deBfzJfJadFFPmo2/DdA5TUTGxv6e1pye", Telephone = "0686133377", Email = "aarchambault@hotmail.com", Civilite = "H", Nom = "Archambault", Prenom = "Amela", DateNaissance = DateTime.Parse("1993-07-17") });
@@ -109,7 +111,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var mockRepository = new Mock<IRepository<Particulier>>();
-            mockRepository.Setup(x => x.GetById(27).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(27).Result).Returns(testListe[0]);
             var userController = new ParticuliersController(mockRepository.Object);
 
             var result = userController.PostParticulier(particulier).Result;
@@ -127,7 +129,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostParticulier_CreationFailed()
         {
             var mockRepository = new Mock<IRepository<Particulier>>();
-            mockRepository.Setup(x => x.GetById(27).Result).Returns(testListe[0]);
+            //mockRepository.Setup(x => x.GetById(27).Result).Returns(testListe[0]);
             var userController = new ParticuliersController(mockRepository.Object);
 
             //Act
@@ -139,36 +141,36 @@ namespace LeBonCoinAPI.Controllers.Tests
         }
 
         [TestMethod()]
-        public async Task Put_WithInvalidId_ReturnsBadRequest()
+        public void Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepository<Particulier>>();
-            mockRepository.Setup(x => x.GetById(27).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(27).Result).Returns(particulier);
             var userController = new ParticuliersController(mockRepository.Object);
 
             // Arrange
             int id = 2;//Mauvais ID
 
             // Act
-            var result = await userController.PutParticulier(id, particulier);
+            var result = userController.PutParticulier(id, particulierUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+            Assert.IsInstanceOfType(result.Result, typeof(BadRequestResult), "Pas un BadRequestResult");
         }
 
         [TestMethod()]
-        public async Task Put_WithValidId_ReturnsNoContent()
+        public void Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepository<Particulier>>();
-            mockRepository.Setup(x => x.GetById(27).Result).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(27).Result).Returns(particulier);
             var userController = new ParticuliersController(mockRepository.Object);
 
             int id = 27; //BonID
 
             // Act
-            var result = await userController.PutParticulier(id, particulier);
+            var result = userController.PutParticulier(id, particulierUpdated);
 
             // Assert
-            Assert.IsInstanceOfType(result, typeof(NoContentResult));
+            Assert.IsInstanceOfType(result.Result, typeof(NoContentResult), "Pas un NoContentResult");
         }
 
         [TestMethod()]
