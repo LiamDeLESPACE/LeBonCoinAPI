@@ -53,7 +53,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var mockRepository = new Mock<IRepositoryVille<Ville>>();
-            mockRepository.Setup(x => x.GetByString("01004")).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByString("01004").Result).Returns(testListe[0]);
             var userController = new VillesController(mockRepository.Object);
 
             var result = userController.GetVille("01004");
@@ -74,7 +74,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void GetVille_UnknownIdPassed_ReturnsNotFoundResult()
         {
             var mockRepository = new Mock<IRepositoryVille<Ville>>();
-            mockRepository.Setup(x => x.GetByString("01004")).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByString("01004").Result).Returns(testListe[0]);
             var userController = new VillesController(mockRepository.Object);
 
             //Act
@@ -107,7 +107,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostVille_ModelValidated_CreationOK()
         {
             var mockRepository = new Mock<IRepositoryVille<Ville>>();
-            mockRepository.Setup(x => x.GetByString("01004")).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByString("01004").Result).Returns(testListe[0]);
             var userController = new VillesController(mockRepository.Object);
 
             //Act
@@ -126,7 +126,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostVille_CreationFailed()
         {
             var mockRepository = new Mock<IRepositoryVille<Ville>>();
-            mockRepository.Setup(x => x.GetByString("01004")).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByString("01004").Result).Returns(testListe[0]);
             var userController = new VillesController(mockRepository.Object);
 
             //Act
@@ -141,7 +141,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepositoryVille<Ville>>();
-            mockRepository.Setup(x => x.GetByString("01004")).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByString("01004").Result).Returns(testListe[0]);
             var userController = new VillesController(mockRepository.Object);
 
             // Arrange
@@ -158,7 +158,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public async Task Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepositoryVille<Ville>>();
-            mockRepository.Setup(x => x.GetByString("01500")).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByString("01500").Result).Returns(testListe[0]);
             var userController = new VillesController(mockRepository.Object);
 
             string id = "01500"; //BonID
@@ -174,7 +174,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void DeleteVilleTest()
         {
             var mockRepository = new Mock<IRepositoryVille<Ville>>();
-            mockRepository.Setup(x => x.GetByString("01004")).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByString("01004").Result).Returns(testListe[0]);
             var userController = new VillesController(mockRepository.Object);
 
             //Act

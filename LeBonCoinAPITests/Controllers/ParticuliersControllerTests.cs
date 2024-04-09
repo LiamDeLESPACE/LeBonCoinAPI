@@ -51,7 +51,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void GetParticulier_ExistingIdPassed_ReturnsRightItem()
         {
             var mockRepository = new Mock<IRepository<Particulier>>();
-            mockRepository.Setup(x => x.GetById(27)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(27).Result).Returns(testListe[0]);
             var userController = new ParticuliersController(mockRepository.Object);
 
             //Act
@@ -74,7 +74,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
             //Act
             var mockRepository = new Mock<IRepository<Particulier>>();
-            mockRepository.Setup(x => x.GetById(27)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(27).Result).Returns(testListe[0]);
             var userController = new ParticuliersController(mockRepository.Object);
 
             var result = userController.GetParticulier(0);
@@ -90,7 +90,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var mockRepository = new Mock<IRepository<Particulier>>();
-            mockRepository.Setup(x => x.GetAll()).Returns(testListe);
+            mockRepository.Setup(x => x.GetAll().Result).Returns(testListe);
             var userController = new ParticuliersController(mockRepository.Object);
 
             var result = userController.GetParticuliers();
@@ -109,7 +109,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var mockRepository = new Mock<IRepository<Particulier>>();
-            mockRepository.Setup(x => x.GetById(27)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(27).Result).Returns(testListe[0]);
             var userController = new ParticuliersController(mockRepository.Object);
 
             var result = userController.PostParticulier(particulier).Result;
@@ -127,7 +127,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostParticulier_CreationFailed()
         {
             var mockRepository = new Mock<IRepository<Particulier>>();
-            mockRepository.Setup(x => x.GetById(27)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(27).Result).Returns(testListe[0]);
             var userController = new ParticuliersController(mockRepository.Object);
 
             //Act
@@ -142,7 +142,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepository<Particulier>>();
-            mockRepository.Setup(x => x.GetById(27)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(27).Result).Returns(testListe[0]);
             var userController = new ParticuliersController(mockRepository.Object);
 
             // Arrange
@@ -159,7 +159,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public async Task Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepository<Particulier>>();
-            mockRepository.Setup(x => x.GetById(27)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(27).Result).Returns(testListe[0]);
             var userController = new ParticuliersController(mockRepository.Object);
 
             int id = 27; //BonID
@@ -175,7 +175,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void DeleteParticulierTest()
         {
             var mockRepository = new Mock<IRepository<Particulier>>();
-            mockRepository.Setup(x => x.GetById(27)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(27).Result).Returns(testListe[0]);
             var userController = new ParticuliersController(mockRepository.Object);
 
             //Act

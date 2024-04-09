@@ -53,7 +53,7 @@ namespace LeBonCoinAPI.Controllers.Tests
 
             //Act
             var mockRepository = new Mock<IRepository<Annonce>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new AnnoncesController(mockRepository.Object);
 
             var result = userController.GetAnnonce(1);
@@ -75,7 +75,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         {
             //Act
             var mockRepository = new Mock<IRepository<Annonce>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new AnnoncesController(mockRepository.Object);
 
             var result = userController.GetAnnonce(0);
@@ -89,7 +89,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void GetAnnonces_ReturnsRightItems()
         {
             var mockRepository = new Mock<IRepository<Annonce>>();
-            mockRepository.Setup(x => x.GetAll()).Returns(testListe);
+            mockRepository.Setup(x => x.GetAll().Result).Returns(testListe);
             var userController = new AnnoncesController(mockRepository.Object);
 
             //Act
@@ -107,7 +107,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostAnnonce_ModelValidated_CreationOK()
         {
             var mockRepository = new Mock<IRepository<Annonce>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new AnnoncesController(mockRepository.Object);
 
             //Act
@@ -126,7 +126,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void PostAnnonce_CreationFailed()
         {
             var mockRepository = new Mock<IRepository<Annonce>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new AnnoncesController(mockRepository.Object);
 
             //Act
@@ -141,7 +141,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public async Task Put_WithInvalidId_ReturnsBadRequest()
         {
             var mockRepository = new Mock<IRepository<Annonce>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new AnnoncesController(mockRepository.Object);
 
             // Arrange
@@ -158,7 +158,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public async Task Put_WithValidId_ReturnsNoContent()
         {
             var mockRepository = new Mock<IRepository<Annonce>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new AnnoncesController(mockRepository.Object);
 
             int id = 1; //BonID
@@ -174,7 +174,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void DeleteAnnonceTest()
         {
             var mockRepository = new Mock<IRepository<Annonce>>();
-            mockRepository.Setup(x => x.GetById(1)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetById(1).Result).Returns(testListe[0]);
             var userController = new AnnoncesController(mockRepository.Object);
 
             //Act

@@ -51,7 +51,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void GetSignale_ExistingIdPassed_ReturnsRightItem()
         {
             var mockRepository = new Mock<IRepositorySignale<Signale>>();
-            mockRepository.Setup(x => x.GetByIds(30,13)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByIds(30,13).Result).Returns(testListe[0]);
             var userController = new SignalesController(mockRepository.Object);
 
             //Act
@@ -73,7 +73,7 @@ namespace LeBonCoinAPI.Controllers.Tests
         public void GetSignale_UnknownIdPassed_ReturnsNotFoundResult()
         {
             var mockRepository = new Mock<IRepositorySignale<Signale>>();
-            mockRepository.Setup(x => x.GetByIds(30, 13)).Returns(testListe[0]);
+            mockRepository.Setup(x => x.GetByIds(30, 13).Result).Returns(testListe[0]);
             var userController = new SignalesController(mockRepository.Object);
 
             //Act
