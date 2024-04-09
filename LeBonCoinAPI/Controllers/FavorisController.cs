@@ -108,7 +108,7 @@ namespace LeBonCoinAPI.Controllers
         }
 
         // DELETE: api/Favoris/5/6
-        [HttpDelete("{idProfil/idAnnonce}")]
+        [HttpDelete("{idProfil}/{idAnnonce}")]
         [Authorize(Policy = Policies.all)]
         public async Task<IActionResult> DeleteFavoris(int idProfil, int idAnnonce)
         {
