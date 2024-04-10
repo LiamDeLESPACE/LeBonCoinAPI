@@ -15,7 +15,13 @@ namespace LeBonCoinAPI.DataManager
         }
         public async Task<ActionResult<IEnumerable<Ville>>> GetAll()
         {
-            return await dataContext.Villes.ToListAsync();
+            List<Ville> villes = await dataContext.Villes.ToListAsync();
+            List<Departement> deps = (await new DepartementManager(dataContext).GetAll()).Value.ToList();
+            foreach (Departement dep in deps)
+            {
+                dep.VillesDepartement = null;
+            }
+            return villes;
         }
 
         public async Task<ActionResult<Ville>> GetByInsee(string codeInsee)

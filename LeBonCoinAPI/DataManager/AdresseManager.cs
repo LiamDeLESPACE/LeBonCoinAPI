@@ -15,7 +15,13 @@ namespace LeBonCoinAPI.DataManager
         }
         public async Task<ActionResult<IEnumerable<Adresse>>> GetAll()
         {
-            return await dataContext.Adresses.ToListAsync();
+            List<Adresse> adresses = await dataContext.Adresses.ToListAsync();
+            List<Ville> villes = (await new VilleManager(dataContext).GetAll()).Value.ToList();
+            foreach (Ville v in villes)
+            {
+                v.AdressesVille = null;
+            }
+            return adresses;
         }
 
         public async Task<ActionResult<Adresse>> GetById(int id)

@@ -15,18 +15,53 @@ namespace LeBonCoinAPI.DataManager
         }
         public async Task<ActionResult<IEnumerable<Annonce>>> GetAll()
         {
-            var annonces = await dataContext.Annonces.ToListAsync();
-            var adresses= await dataContext.Adresses.ToListAsync();
-            foreach (var adresse in adresses)
+            List<Annonce> annonces = await dataContext.Annonces.ToListAsync();
+            List<Adresse> adresses = (await new AdresseManager(dataContext).GetAll()).Value.ToList();
+            List<PossedeEquipement> possedeEquipements = (await new PossedeEquipementManager(dataContext).GetAll()).Value.ToList();
+            List<TypeLogement> typeLogements = (await new TypeLogementManager(dataContext).GetAll()).Value.ToList();
+            List<Signale> signales = (await new SignaleManager(dataContext).GetAll()).Value.ToList();
+            List<Favoris> favoris = (await new FavorisManager(dataContext).GetAll()).Value.ToList();
+
+            foreach (Adresse adresse in adresses)
             {
                adresse.AnnoncesAdresse = null;
+            }
+            foreach (PossedeEquipement pe in possedeEquipements)
+            {
+                pe.AnnonceEquipementPossede = null;
+            }
+            foreach (TypeLogement tl in typeLogements)
+            {
+                tl.AnnoncesTypeLogement = null;
+            }
+            foreach (Signale s in signales)
+            {
+                s.AnnonceSignalement = null;
+            }
+            foreach (Favoris f in favoris)
+            {
+                f.AnnonceFavoris = null;
             }
             return annonces;
         }
 
         public async Task<ActionResult<Annonce>> GetById(int id)
         {
-            return await dataContext.Annonces.FindAsync(id);
+            Annonce annonce = await dataContext.Annonces.FindAsync(id);
+            if(annonce != null)
+            {
+                annonce.AdresseAnnonce = (await new AdresseManager(dataContext).GetById(annonce.AdresseId)).Value;
+                annonce.AdresseAnnonce.AnnoncesAdresse = null;
+                annonce.TypeLogementAnnonce = (await new TypeLogementManager(dataContext).GetById(annonce.TypeLogementId)).Value;
+                annonce.TypeLogementAnnonce.AnnoncesTypeLogement = null;
+                annonce.SignalementsAnnonce = (await new SignaleManager(dataContext).GetByIdAnnonce(annonce.AnnonceId)).Value.ToList();
+                foreach(Signale s in annonce.SignalementsAnnonce)
+                {
+                    s.AnnonceSignalement = null;
+                }
+
+            }
+            return annonce;
         }
         public async Task Add(Annonce entity)
         {
