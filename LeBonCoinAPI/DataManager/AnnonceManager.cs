@@ -15,14 +15,11 @@ namespace LeBonCoinAPI.DataManager
         }
         public async Task<ActionResult<IEnumerable<Annonce>>> GetAll()
         {
-            List<Annonce> annonces = await dataContext.Annonces.ToListAsync();
-            foreach (Annonce anonce in annonces)
+            var annonces = await dataContext.Annonces.ToListAsync();
+            var adresses= await dataContext.Adresses.ToListAsync();
+            foreach (var adresse in adresses)
             {
-                anonce.AdresseAnnonce = (await new AdresseManager().GetById(anonce.AdresseId)).Value;
-                if(anonce.AdresseAnnonce != null)
-                {
-                    anonce.AdresseAnnonce.VilleAdresse = (await new VilleManager().GetByInsee(anonce.AdresseAnnonce.CodeInsee)).Value;
-                }
+               adresse.AnnoncesAdresse = null;
             }
             return annonces;
         }
