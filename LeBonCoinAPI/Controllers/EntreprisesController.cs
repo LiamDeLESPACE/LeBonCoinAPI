@@ -38,7 +38,6 @@ namespace LeBonCoinAPI.Controllers
 
         // GET: api/Entreprises/5
         [HttpGet("{id}")]
-        [Authorize(Policy = Policies.all)]
         public async Task<ActionResult<Entreprise>> GetEntreprise(int id)
         {
 

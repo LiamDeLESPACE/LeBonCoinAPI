@@ -15,16 +15,37 @@ namespace LeBonCoinAPI.DataManager
         }
         public async Task<ActionResult<IEnumerable<Ville>>> GetAll()
         {
-            return await dataContext.Villes.ToListAsync();
+            List<Ville> villes = await dataContext.Villes.ToListAsync();
+            List<Departement> deps = (await new DepartementManager(dataContext).GetAll()).Value.ToList();
+            foreach (Departement dep in deps)
+            {
+                dep.VillesDepartement = null;
+            }
+            return villes;
         }
 
         public async Task<ActionResult<Ville>> GetByInsee(string codeInsee)
         {
-            return await dataContext.Villes.FindAsync(codeInsee);
+            Ville ville = await dataContext.Villes.FindAsync(codeInsee);
+            ville.DepartementVille = (await new DepartementManager(dataContext).GetByCode(ville.DepartementCode)).Value;
+            if(ville.DepartementVille != null)
+            {
+                ville.DepartementVille.VillesDepartement = null;
+            }
+            return ville;
         }
         public async Task<ActionResult<Ville>> GetByNom(string nom)
         {
-            return await dataContext.Villes.FirstOrDefaultAsync(v => v.Nom.ToUpper() == nom.ToUpper());
+            Ville ville = await dataContext.Villes.FirstOrDefaultAsync(v => v.Nom.ToUpper() == nom.ToUpper());
+            if(ville != null)
+            {
+                ville.DepartementVille = (await new DepartementManager(dataContext).GetByCode(ville.DepartementCode)).Value;
+                if (ville.DepartementVille != null)
+                {
+                    ville.DepartementVille.VillesDepartement = null;
+                }
+            }
+            return ville;
         }
         public async Task Add(Ville entity)
         {

@@ -26,6 +26,14 @@ namespace LeBonCoinAPI.DataManager
         }
         public async Task Add(Entreprise entity)
         {
+            StringBuilder sb = new StringBuilder();
+            byte[] hashValue = SHA512.HashData(Encoding.UTF8.GetBytes(entity.HashMotDePasse));
+            foreach (byte b in hashValue)
+            {
+                sb.Append($"{b:X2}");
+            }
+            entity.HashMotDePasse = sb.ToString().ToUpper();
+
             await dataContext.Entreprises.AddAsync(entity);
             await dataContext.SaveChangesAsync();
         }

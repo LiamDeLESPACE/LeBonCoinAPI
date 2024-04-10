@@ -15,7 +15,13 @@ namespace LeBonCoinAPI.DataManager
         }
         public async Task<ActionResult<IEnumerable<Equipement>>> GetAll()
         {
-            return await dataContext.Equipements.ToListAsync();
+            List<Equipement> equipements = await dataContext.Equipements.ToListAsync();
+            List<TypeEquipement> typeEquipements = (await new TypeEquipementManager(dataContext).GetAll()).Value.ToList();
+            foreach (TypeEquipement te in typeEquipements)
+            {
+                te.EquipementsTypeEquipement = null;
+            }
+            return equipements;
         }
 
         public async Task<ActionResult<Equipement>> GetById(int id)
