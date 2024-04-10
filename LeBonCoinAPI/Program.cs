@@ -90,7 +90,7 @@ namespace LeBonCoinAPI
 
             app.UseHttpsRedirection();
 
-
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
             app.MapControllers();
 
