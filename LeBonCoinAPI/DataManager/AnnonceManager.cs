@@ -51,15 +51,19 @@ namespace LeBonCoinAPI.DataManager
             if(annonce != null)
             {
                 annonce.AdresseAnnonce = (await new AdresseManager(dataContext).GetById(annonce.AdresseId)).Value;
-                annonce.AdresseAnnonce.AnnoncesAdresse = null;
+                if(annonce.AdresseAnnonce != null)
+                    annonce.AdresseAnnonce.AnnoncesAdresse = null;
                 annonce.TypeLogementAnnonce = (await new TypeLogementManager(dataContext).GetById(annonce.TypeLogementId)).Value;
-                annonce.TypeLogementAnnonce.AnnoncesTypeLogement = null;
+                if(annonce.TypeLogementAnnonce != null)
+                    annonce.TypeLogementAnnonce.AnnoncesTypeLogement = null;
                 annonce.SignalementsAnnonce = (await new SignaleManager(dataContext).GetByIdAnnonce(annonce.AnnonceId)).Value.ToList();
-                foreach(Signale s in annonce.SignalementsAnnonce)
+                if(annonce.SignalementsAnnonce != null)
                 {
-                    s.AnnonceSignalement = null;
+                    foreach (Signale s in annonce.SignalementsAnnonce)
+                    {
+                        s.AnnonceSignalement = null;
+                    }
                 }
-
             }
             return annonce;
         }

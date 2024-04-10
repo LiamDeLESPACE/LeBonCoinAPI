@@ -26,7 +26,14 @@ namespace LeBonCoinAPI.DataManager
 
         public async Task<ActionResult<Adresse>> GetById(int id)
         {
-            return await dataContext.Adresses.FindAsync(id);
+            Adresse adresse = await dataContext.Adresses.FindAsync(id);
+            if(adresse != null)
+            {
+                adresse.VilleAdresse = (await new VilleManager(dataContext).GetByInsee(adresse.CodeInsee)).Value;
+                if (adresse.VilleAdresse != null)
+                    adresse.VilleAdresse.AdressesVille = null;
+            }
+            return adresse;
         }
         public async Task Add(Adresse entity)
         {
