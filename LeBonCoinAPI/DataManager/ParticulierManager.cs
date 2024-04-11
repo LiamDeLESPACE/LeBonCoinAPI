@@ -7,7 +7,7 @@ using System.Text;
 
 namespace LeBonCoinAPI.DataManager
 {
-    public class ParticulierManager : IRepository<Particulier>
+    public class ParticulierManager : IRepositoryParticulier<Particulier>
     {
         readonly DataContext? dataContext;
         public ParticulierManager() { }
@@ -63,6 +63,18 @@ namespace LeBonCoinAPI.DataManager
         {
             dataContext.Particuliers.Remove(particulier);
             await dataContext.SaveChangesAsync();
+        }
+
+        public async Task<ActionResult<IEnumerable<Reservation>>> GetReservationFromParticulier(int id)
+        {
+            var res = await (from c in dataContext.Reservations where c.ProfilId == id select c).ToListAsync();
+            foreach (var reservation in res)
+            {
+                reservation.AnnonceReservation = (await new AnnonceManager(dataContext).GetById(reservation.AnnonceId)).Value;
+                if (reservation.AnnonceReservation != null)
+                    reservation.AnnonceReservation.ReservationsAnnonce = null;
+            }
+            return res;
         }
     }
 }

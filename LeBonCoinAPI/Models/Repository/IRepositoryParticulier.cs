@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LeBonCoinAPI.Models.EntityFramework;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LeBonCoinAPI.Models.Repository
 {
@@ -9,5 +10,6 @@ namespace LeBonCoinAPI.Models.Repository
         Task Add(TEntity entity);
         Task Update(TEntity entityToUpdate, TEntity entity);
         Task Delete(TEntity entity);
+        Task<ActionResult<IEnumerable<Reservation>>> GetReservationFromParticulier(int id);
     }
 }

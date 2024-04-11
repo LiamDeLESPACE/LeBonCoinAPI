@@ -33,7 +33,7 @@ namespace LeBonCoinAPI
             builder.Services.AddScoped<IRepository<Entreprise>, EntrepriseManager>();
             builder.Services.AddScoped<IRepository<Equipement>, EquipementManager>();
             builder.Services.AddScoped<IRepositoryFavoris<Favoris>, FavorisManager>();
-            builder.Services.AddScoped<IRepository<Particulier>, ParticulierManager>();
+            builder.Services.AddScoped<IRepositoryParticulier<Particulier>, ParticulierManager>();
             builder.Services.AddScoped<IRepositoryPhoto<Photo>, PhotoManager>();
             builder.Services.AddScoped<IRepositoryPossedeEquipement<PossedeEquipement>, PossedeEquipementManager>();
             builder.Services.AddScoped<IRepository<Profil>, ProfilManager>();

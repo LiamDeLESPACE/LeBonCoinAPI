@@ -16,9 +16,9 @@ namespace LeBonCoinAPI.Controllers
     [ApiController]
     public class ParticuliersController : ControllerBase
     {
-        private readonly IRepository<Particulier> repositoryParticulier;
+        private readonly IRepositoryParticulier<Particulier> repositoryParticulier;
 
-        public ParticuliersController(IRepository<Particulier> repoParticulier)
+        public ParticuliersController(IRepositoryParticulier<Particulier> repoParticulier)
         {
             repositoryParticulier = repoParticulier;
         }
@@ -42,6 +42,22 @@ namespace LeBonCoinAPI.Controllers
         {
 
             var particulier = await repositoryParticulier.GetById(id);
+
+            if (particulier == null)
+            {
+                return NotFound();
+            }
+
+            return particulier;
+        }
+
+        // GET: api/Particuliers/5
+        [HttpGet("r/{id}")]
+        [Authorize(Policy = Policies.all)]
+        public async Task<ActionResult<IEnumerable<Reservation>>> GetReservationFromParticulier(int id)
+        {
+
+            var particulier = await repositoryParticulier.GetReservationFromParticulier(id);
 
             if (particulier == null)
             {
